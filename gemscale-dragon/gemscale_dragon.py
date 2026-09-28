@@ -2169,9 +2169,9 @@ def _fit_camera(cam, objs, fill=0.86, iters=4):
         pts += [mw @ v.co for v in o.data.vertices]
     cd = cam.data
     cd.shift_x = cd.shift_y = 0.0
-    fwd = (cam.matrix_world.to_3x3() @ Vector((0, 0, -1))).normalized()
     for _ in range(iters):
-        bpy.context.view_layer.update()
+        bpy.context.view_layer.update()     # a new camera's matrix is stale until updated
+        fwd = (cam.matrix_world.to_3x3() @ Vector((0, 0, -1))).normalized()
         ndc = [world_to_camera_view(sc, cam, p) for p in pts]
         x0, x1 = min(v.x for v in ndc), max(v.x for v in ndc)
         y0, y1 = min(v.y for v in ndc), max(v.y for v in ndc)
