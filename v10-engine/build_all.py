@@ -18,7 +18,9 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 
 import config as C  # noqa: E402
 import assembly  # noqa: E402
+import base  # noqa: E402
 import block  # noqa: E402
+import drive  # noqa: E402
 import crank  # noqa: E402
 import rods_pistons as rp  # noqa: E402
 import tolerance_test  # noqa: E402
@@ -44,6 +46,11 @@ def parts():
         (f"06_crank_segment_{C.SEGMENT_TYPES[1]:.0f}", crank.print_segment(cr["segB"]), 2, "crank"),
         ("07_conrod", rp.print_rod(mp["rod"]), 10, "rod"),
         ("08_piston", rp.print_piston(mp["piston"]), 10, "piston"),
+        # Phase 2 - drive and display base
+        ("09_base_front", base.print_half(L["base"]["base_front"]), 1, "carbon"),
+        ("10_base_rear", base.print_half(L["base"]["base_rear"]), 1, "carbon"),
+        ("11_base_panel", base.print_panel(L["base"]["panel"]), 2, "case"),
+        ("12_front_drive_cover", drive.print_cover(L["cover"]), 1, "case"),
         # printable stand-ins so the mechanism can be tested before the CNC parts arrive
         ("P1_proto_split_crankpin", crank.print_pin(cr["pin"]), 5, "orange"),
         ("P2_proto_main_shaft", crank.print_shaft(cr["shaft"]), 2, "orange"),
@@ -51,6 +58,7 @@ def parts():
         ("M01_split_crankpin", cr["pin"], 5, "steel"),
         ("M02_main_shaft", cr["shaft"], 2, "steel"),
         ("M03_guide_rail", mp["rail"], 10, "steel"),
+        ("M04_pulley_spacer", drive.spacer(), 1, "steel"),
     ]
 
 
@@ -74,6 +82,18 @@ def main(check=False):
                   view="front", title="Phase 1 - front view (90 deg V)")
     render.render([(s, c) for _, s, c in eng], os.path.join(R, "22_engine_phase1_cutaway_side.png"),
                   view=((0.25, -1.0, 0.35), (0, 0, 1)), title="Phase 1 - cut-away windows (bank A side)")
+    full = [(s, c) for _, s, c in eng + assembly.drive_and_base()]
+    render.render(full, os.path.join(R, "40_engine_on_base_iso.png"), view="iso",
+                  title="Phase 2 - engine on display base")
+    render.render(full, os.path.join(R, "41_engine_on_base_rear.png"), view=((-1.0, 0.7, 0.35), (0, 0, 1)),
+                  title="Phase 2 - rear control panel")
+    drv = [(s, c) for n, s, c in eng + assembly.drive_and_base()
+           if not n.startswith(("base_", "panel_", "front_cover", "bank_"))]
+    render.render(drv, os.path.join(R, "42_drive_train.png"), view=((1.0, -0.8, 0.2), (0, 0, 1)), zoom=1.2,
+                  title="Phase 2 - belt drive (3:1, GT2 210 mm), base and cover hidden")
+    under = [(s, c) for n, s, c in assembly.drive_and_base() if not n.startswith("panel_")]
+    render.render(under, os.path.join(R, "43_base_inside.png"), view=((0.6, -0.8, -1.0), (0, 0, 1)),
+                  title="Phase 2 - base from below, panels removed")
     inner = assembly.engine(0.0, with_blocks=False)
     inner = [(s, c) for n, s, c in inner if not n.startswith(("crankcase", "end_plate"))]
     render.render(inner, os.path.join(R, "23_mechanism_iso.png"), view="iso",
@@ -94,6 +114,8 @@ def main(check=False):
     if check:
         hits = assembly.sweep(10.0, verbose=False)
         print("collision sweep:", "CLEAR" if not hits else f"{len(hits)} COLLISIONS")
+        bad = assembly.drive_check()
+        print("drive check:", "CLEAR" if not bad else bad)
         for h in hits[:20]:
             print("  ", h)
 

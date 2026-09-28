@@ -145,7 +145,7 @@ SHAFT_FLANGE_BOLT_ANGLES = (70.0, 180.0, 290.0)   # UNEVEN on purpose: shaft fit
 SHAFT_ACCESS_HOLE_D = 7.0      # lets the crankpin screw pass through the flange
 SHAFT_SHOULDER_D = 10.0
 SHAFT_D = BEARING_608["id"]
-SHAFT_OUTBOARD_L = 22.0        # Ø8 length beyond the bearing (pulley / flywheel)
+SHAFT_OUTBOARD_L = 18.5        # Ø8 length beyond the bearing (spacer + pulley, flush)
 SHAFT_FLAT_DEPTH = 0.5         # flat for the pulley grub screws
 
 # ---------------------------------------------------------------------------
@@ -201,7 +201,62 @@ BEARING_LIP_T = 1.5
 HALL_POCKET = dict(w=5.0, l=5.0, d=3.0)   # TO-92 style hall sensor pocket in floor
 
 # ---------------------------------------------------------------------------
-# 7. PRINT SETTINGS / MATERIALS (used by the BOM generator)
+# 7a. DRIVE (Phase 2) - NEMA17 in the base, GT2 belt up to the front main shaft
+# ---------------------------------------------------------------------------
+# 3:1 reduction: engine 20-120 RPM = motor 60-360 RPM, where a stepper in
+# StealthChop is smoothest and quietest, with 3x the torque at the crank.
+PULLEY_BIG = dict(teeth=60, bore=8.0, width=16.0, hub_len=7.0, od=37.6, hub_d=25.0)   # od = pitch dia - 0.6
+PULLEY_SMALL = dict(teeth=20, bore=5.0, width=16.0, hub_len=7.0, od=12.1, hub_d=16.0)
+GT2_PITCH = 2.0
+BELT_W = 6.0
+BELT_LEN = 210.0               # GT2-6mm closed loop, 210 mm (105 teeth)
+BELT_CENTER_FROM_HUB = 11.5    # belt centreline measured from the pulley hub face
+SPACER_T = 2.0                 # M04 machined spacer between 608 inner ring and pulley hub
+MOTOR = dict(size=42.3, length=40.0, boss_d=22.0, boss_h=2.0, shaft_d=5.0,
+             shaft_len=24.0, hole_pitch=31.0)
+MOTOR_TENSION_TRAVEL = 3.0     # +/- slot length for belt tensioning
+MOTOR_PLATE_T = 4.0            # bulkhead the motor bolts to (M3x8 into the motor)
+
+# ---------------------------------------------------------------------------
+# 7b. DISPLAY BASE (Phase 2) - two halves joined at X=0, removable bottom panels
+# ---------------------------------------------------------------------------
+BASE_X = (-200.0, 200.0)
+BASE_Y = (-125.0, 125.0)
+BASE_TOP_Z = CASE_FLOOR_Z      # crankcase sits directly on the base top
+BASE_H = 72.0
+BASE_WALL = 4.0
+BASE_SKIN = 5.0                # top skin thickness (carries the engine)
+BASE_TOP_CHAMFER = 8.0
+BASE_ENGINE_RECESS = 1.5       # crankcase sits in a shallow shadow-line pocket
+PANEL_T = 3.0                  # bottom panel thickness (sits in a rabbet)
+BASE_JOINT_SCREWS = [(-116.0, -48.0), (116.0, -48.0), (-116.0, -92.0), (116.0, -92.0), (-50.0, -42.0), (50.0, -42.0)]  # (y, z)
+BASE_JOINT_PEGS = [(-85.0, -42.0), (85.0, -42.0)]                                    # (y, z)
+PANEL_SCREW_INSET = 12.0       # panel screws, from the inner corners
+# Rear control panel (x = BASE_X[0]), from left to right seen from behind
+CONTROLS_Z = -70.0
+CONTROLS = [
+    # (name, y, hole shape, size) - panel cut-outs for the purchased parts
+    ("dc_jack",   75.0, "round", 11.0),     # 5.5x2.1 panel jack, 11 mm thread
+    ("power",     30.0, "round", 20.0),     # 20 mm round illuminated rocker
+    ("speed",    -20.0, "round", 7.2),      # 10k linear pot, M7 bushing
+    ("start",    -75.0, "round", 16.2),     # 16 mm stainless momentary, ring LED
+]
+POT_TAB = dict(dy=-7.8, d=3.2)  # anti-rotation tab hole for the pot
+# carrier PCB (Phase 4) hangs under the top skin in the rear half
+PCB = dict(w=70.0, h=60.0, inset=4.0, x_center=-155.0, y_center=45.0, standoff=10.0)
+HARNESS_HOLE = dict(x=-155.0, y=0.0, d=12.0)     # LED harness, hidden under the rear cover
+TIE_ANCHOR_Y = -60.0           # row of cable-tie anchors along the base
+TIE_ANCHOR_X = (-175.0, -115.0, -55.0, 5.0, 65.0)
+# front drive cover (magnetic, tool-free belt access); the rear cover in
+# Phase 3 uses the same outline and magnet pattern on the rear end plate
+COVER_R = 31.0
+COVER_WALL = 3.0
+COVER_MAGNETS = [(0.0, 27.0), (27.0, -18.0), (-27.0, -18.0)]   # (y, z) on the end plate face
+COVER_PILLAR_R = 4.0
+SHADOW_GROOVE = dict(w=1.2, d=1.0, offset=1.0)   # outline groove around the engine footprint
+
+# ---------------------------------------------------------------------------
+# 7c. PRINT SETTINGS / MATERIALS (used by the BOM generator)
 # ---------------------------------------------------------------------------
 LOAD_BEARING_WALLS = 4
 LOAD_BEARING_INFILL = "25% gyroid"
@@ -270,6 +325,29 @@ RAIL_TOP = DECK_DIST
 RAIL_BOTTOM = FACE_DIST - RAIL_HOLE_DEPTH_CASE
 RAIL_LEN = RAIL_TOP - RAIL_BOTTOM
 
+# --- drive geometry (derived) ---
+PITCH_D_BIG = PULLEY_BIG["teeth"] * GT2_PITCH / math.pi
+PITCH_D_SMALL = PULLEY_SMALL["teeth"] * GT2_PITCH / math.pi
+DRIVE_RATIO = PULLEY_BIG["teeth"] / PULLEY_SMALL["teeth"]
+
+
+def _belt_centre(L, d1, d2):
+    c = L / 4
+    for _ in range(60):
+        c = (L - math.pi * (d1 + d2) / 2 - (d1 - d2) ** 2 / (4 * c)) / 2
+    return c
+
+
+BELT_CENTRE = _belt_centre(BELT_LEN, PITCH_D_BIG, PITCH_D_SMALL)
+PULLEY_HUB_X = END_PLATE_OUTER_X + SPACER_T        # both pulleys: hub face towards the engine
+BELT_X = PULLEY_HUB_X + BELT_CENTER_FROM_HUB
+MOTOR_Z = -BELT_CENTRE                             # motor shaft axis (y = 0)
+MOTOR_PLATE_X1 = PULLEY_HUB_X - 1.0                # front face of the motor bulkhead
+MOTOR_FACE_X = MOTOR_PLATE_X1 - MOTOR_PLATE_T      # motor mounting face
+BASE_BOTTOM_Z = BASE_TOP_Z - BASE_H
+COVER_X0 = END_PLATE_OUTER_X
+COVER_X1 = max(PULLEY_HUB_X + PULLEY_BIG["width"], BEARING_INNER_X + SHAFT_JOURNAL_L) + 2.0 + COVER_WALL
+
 
 def hole(nominal, fit=None):
     """Printed hole diameter for a nominal size and a named fit."""
@@ -317,6 +395,17 @@ def self_check(verbose=True):
         problems.append("bore too big for pitch")
     if CASE_HALF_LEN * 2 > 290:
         problems.append("crankcase longer than 290 mm")
+    motor_top = MOTOR_Z + MOTOR["size"] / 2 + MOTOR_TENSION_TRAVEL
+    if motor_top > BASE_TOP_Z - BASE_SKIN - 1.5:
+        problems.append(f"motor ({motor_top:.1f}) too close to base top skin")
+    if MOTOR_Z - MOTOR["size"] / 2 - MOTOR_TENSION_TRAVEL < BASE_BOTTOM_Z + PANEL_T + 3:
+        problems.append("motor too close to bottom panel")
+    if MOTOR_FACE_X + MOTOR["shaft_len"] < PULLEY_HUB_X + PULLEY_SMALL["width"]:
+        problems.append("motor shaft too short for the small pulley")
+    if BEARING_INNER_X + SHAFT_JOURNAL_L < PULLEY_HUB_X + PULLEY_BIG["width"]:
+        problems.append("main shaft too short for the big pulley")
+    if BASE_X[1] - BASE_X[0] > 2 * 300 or (BASE_X[1] - BASE_X[0]) / 2 > 300:
+        problems.append("base half longer than 300 mm")
     if verbose:
         print("V10 config summary")
         print(f"  split crankpin angle ......... {SPLIT_ANGLE:+.1f} deg (offset {SPLIT_DIST:.2f} mm)")
@@ -330,6 +419,8 @@ def self_check(verbose=True):
         print(f"  guide rail length ............ {RAIL_LEN:.1f} mm")
         print(f"  deck height .................. {DECK_DIST:.1f} mm from crank axis")
         print(f"  fire angles .................. {FIRE_ANGLE}")
+        print(f"  drive ........................ {DRIVE_RATIO:.0f}:1, belt {BELT_LEN:.0f} mm, centres {BELT_CENTRE:.2f} mm, belt plane x={BELT_X:.1f}")
+        print(f"  motor ........................ axis z={MOTOR_Z:.1f}, face x={MOTOR_FACE_X:.1f}")
         print("  self-check:", "OK" if not problems else "PROBLEMS")
         for p in problems:
             print("   -", p)

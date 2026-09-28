@@ -158,6 +158,10 @@ def end_plate():
     for y, z in END_PLATE_SCREWS:
         plate = plate.cut(cyl_x(C.hole(C.M3_CLEAR) / 2, h - 1, x_out + 1, y, z))
         plate = plate.cut(cyl_x(C.hole(C.M3_CBORE) / 2, h + C.SCREW_FLOOR, x_out + 1, y, z))
+    # magnets for the drive cover (front) / rear cover (Phase 3) - same pattern both ends
+    md = C.hole(C.MAGNET["d"], "magnet_6")
+    for y, z in C.COVER_MAGNETS:
+        plate = plate.cut(cyl_x(md / 2, x_out - C.MAGNET["h"] - 0.2, x_out + 1, y, z))
     return plate.clean()
 
 

@@ -244,12 +244,40 @@ def rail(pdf):
     plt.close(fig)
 
 
+def pulley_spacer(pdf):
+    fig = plt.figure(figsize=(11.7, 5.0))
+    ax = fig.add_axes([0.05, 0.35, 0.4, 0.5])
+    ax2 = fig.add_axes([0.55, 0.35, 0.4, 0.5])
+    od, idd, t = 11.5, 8.2, C.SPACER_T
+    ax.add_patch(Rectangle((0, idd / 2), t, (od - idd) / 2, fc="#d9dde3", ec=INK))
+    ax.add_patch(Rectangle((0, -od / 2), t, (od - idd) / 2, fc="#d9dde3", ec=INK))
+    ax.plot([-2, t + 2], [0, 0], color=INK, lw=0.4, ls=(0, (6, 2, 1, 2)))
+    dim_h(ax, 0, t, od / 2 + 1.5, f"{t:g} ±0.02", ext_from=od / 2)
+    ax.set_xlim(-4, t + 6); ax.set_ylim(-9, 10); ax.set_aspect("equal"); ax.axis("off")
+    ax.set_title("SECTION", fontsize=9, loc="left")
+    ax2.add_patch(Circle((0, 0), od / 2, fc="#d9dde3", ec=INK))
+    ax2.add_patch(Circle((0, 0), idd / 2, fc="white", ec=INK))
+    ax2.text(0, -od / 2 - 1.5, f"OD {od:g} -0.1 (must stay inside the 608 inner ring)   ID {idd:g} +0.05", ha="center", fontsize=7, color=DIM)
+    ax2.set_xlim(-10, 10); ax2.set_ylim(-9, 8); ax2.set_aspect("equal"); ax2.axis("off")
+    fig.text(0.02, 0.93, "M04  Pulley spacer", fontsize=14, weight="bold", color=INK)
+    fig.text(0.02, 0.88, "Material: stainless 303    Qty: 1 per engine / 50 for 50 units", fontsize=8)
+    for i, n in enumerate([
+        "Sits on the front main shaft between the 608 inner ring and the 60T pulley hub; clamps the crank's axial position.",
+        "Faces flat and parallel within 0.02. Break edges 0.2. Can be parted off Ø12 bar in the same set-up as M02.",
+    ]):
+        fig.text(0.02, 0.2 - i * 0.06, "- " + n, fontsize=7.5)
+    fig.savefig(os.path.join(OUT, "M04_pulley_spacer.png"), dpi=160)
+    pdf.savefig(fig)
+    plt.close(fig)
+
+
 def build():
     os.makedirs(OUT, exist_ok=True)
     with PdfPages(os.path.join(OUT, "machined_parts.pdf")) as pdf:
         crankpin(pdf)
         main_shaft(pdf)
         rail(pdf)
+        pulley_spacer(pdf)
 
 
 if __name__ == "__main__":

@@ -8,8 +8,10 @@ import time
 
 import cadquery as cq
 
+import base
 import block
 import crank
+import drive
 import rods_pistons as rp
 from common import C, cyl_x, move, rot_z
 
@@ -21,6 +23,8 @@ def libs():
         _LIBS["crank"] = crank.build_all()
         _LIBS["rp"] = rp.build_all()
         _LIBS["block"] = block.build_all()
+        _LIBS["base"] = base.build_all()
+        _LIBS["cover"] = drive.front_cover()
         b = C.BEARING_608
         _LIBS["b608"] = cyl_x(b["od"] / 2, 0, b["w"]).cut(cyl_x(b["id"] / 2, -1, b["w"] + 1))
     return _LIBS
@@ -30,6 +34,14 @@ def main_bearings():
     b = libs()["b608"]
     front = move(b, C.BEARING_INNER_X)
     return [("bearing608_front", front, "steel"), ("bearing608_rear", rot_z(front, 180), "steel")]
+
+
+def drive_and_base(with_base=True):
+    L = libs()
+    out = drive.purchased_parts() + [("front_cover", L["cover"], "case")]
+    if with_base:
+        out += base.placed(L["base"])
+    return out
 
 
 def engine(phi=0.0, with_blocks=True, with_rails=True):
@@ -94,6 +106,23 @@ def sweep(step=15.0, verbose=True):
             print(f"  crank {angle:5.1f} deg: {len(hits)} collisions so far ({time.time()-t0:.0f}s)", flush=True)
         angle += step
     return hits
+
+
+def drive_check():
+    """Static interference check of the Phase 2 drive train against base, cover and engine."""
+    parts = dict((n, s) for n, s, _ in engine(0.0) + drive_and_base())
+    pairs = [("front_cover", "pulley_60T"), ("front_cover", "belt"), ("front_cover", "main_shaft_front"),
+             ("base_front", "belt"), ("base_front", "motor"), ("base_front", "pulley_20T"),
+             ("base_front", "crankcase"), ("base_rear", "crankcase"), ("end_plate_front", "pulley_60T"),
+             ("end_plate_front", "front_cover"), ("front_cover", "base_front"), ("motor", "panel_front"),
+             ("belt", "pulley_60T"), ("belt", "pulley_20T"), ("crankcase", "motor")]
+    bad = []
+    for a, b in pairs:
+        v = parts[a].intersect(parts[b]).Volume()
+        if v > 0.01:
+            bad.append((a, b, round(v, 2)))
+        print(f"  {a:>16} x {b:<16} {v:8.3f} mm3")
+    return bad
 
 
 if __name__ == "__main__":

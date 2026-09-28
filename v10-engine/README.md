@@ -17,8 +17,8 @@ there and rebuild. Never edit an STL by hand.
 
 | Phase | Content | Status |
 |---|---|---|
-| 1 | Tolerance test piece, crankcase, cylinder banks, crank, rods, pistons, bearings, pins | **ready for test prints** |
-| 2 | Motor drive (belt), display base | not started |
+| 1 | Tolerance test piece, crankcase, cylinder banks, crank, rods, pistons, bearings, pins | **ready for test prints** (decisions confirmed) |
+| 2 | Motor drive (belt), display base | **designed, awaiting review** |
 | 3 | Heads, cam covers, magnetic covers, intake trumpets, exhausts, styling | not started |
 | 4 | Electronics, wiring diagram, firmware | not started |
 | 5 | Production package: final BOM, assembly instructions, burn-in, QC, 50-unit print plan | not started |
@@ -34,6 +34,8 @@ v10-engine/
     common.py          shared helpers (placement, export)
     tolerance_test.py  00 tolerance test piece
     crank.py           end webs, crank segments, split crankpin, main shaft
+    drive.py           pulleys, belt, motor, M04 spacer, front drive cover
+    base.py            display base halves, bottom panel
     rods_pistons.py    con-rod, piston, rail, kinematics
     block.py           crankcase, cylinder bank, end plate
     assembly.py        full engine at any crank angle + collision/clearance sweep
@@ -45,7 +47,9 @@ v10-engine/
   drawings/            machined-part drawings (PNG + one PDF)
   docs/
     DESIGN_NOTES.md    why the engine is built this way (read this first)
-    PHASE1_PRINT_AND_TEST.md   what to print now, settings, fit checklist
+    PHASE1_PRINT_AND_TEST.md   Phase 1: what to print, settings, fit checklist
+    PHASE2_DRIVE_AND_BASE.md   Phase 2: drive, base, print list, build + test
+    CLEARANCE_REPORT.md        measured running gaps from CAD
 ```
 
 ## Part numbering
@@ -61,12 +65,17 @@ v10-engine/
 | 06 | crank segment "198" | 2 | print |
 | 07 | con-rod | 10 | print |
 | 08 | piston | 10 | print |
+| 09 | base, front half (motor bulkhead) | 1 | print |
+| 10 | base, rear half (control panel, PCB mounts) | 1 | print |
+| 11 | base bottom panel (both identical) | 2 | print |
+| 12 | front drive cover (magnetic) | 1 | print |
 | M01 | split crankpin | 5 | CNC, stainless |
 | M02 | main shaft | 2 | CNC, stainless |
 | M03 | guide rail, Ø3 × 54 | 10 | cut from ground rod |
+| M04 | pulley spacer | 1 | CNC, stainless |
 | P1/P2 | printable prototypes of M01/M02 for early fit tests | 5 / 2 | print (prototype only) |
 
-Unique printed parts so far: **6** of the 40 budget (plus pistons and rods).
+Unique printed parts so far: **10** of the 40 budget (plus pistons and rods).
 
 ## Regenerating the files
 
