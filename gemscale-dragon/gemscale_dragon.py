@@ -2164,10 +2164,9 @@ def _fit_camera(cam, objs, fill=0.86, iters=4):
     from bpy_extras.object_utils import world_to_camera_view
     sc = bpy.context.scene
     pts = []
-    for o in objs:
-        vs = o.data.vertices
-        step = max(1, len(vs) // 400)
-        pts += [o.matrix_world @ vs[i].co for i in range(0, len(vs), step)]
+    for o in objs:      # every vertex, so thin tips (snout, horns) are never cropped
+        mw = o.matrix_world
+        pts += [mw @ v.co for v in o.data.vertices]
     cd = cam.data
     cd.shift_x = cd.shift_y = 0.0
     fwd = (cam.matrix_world.to_3x3() @ Vector((0, 0, -1))).normalized()
