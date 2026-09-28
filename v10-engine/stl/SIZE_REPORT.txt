@@ -8,8 +8,13 @@ Bounding boxes (print orientation). Limit 300 x 300 x 300 mm.
 06_crank_segment_198: 48.1 x 45.3 x 37.5 mm OK   x2
 07_conrod: 75.5 x 18.0 x 5.0 mm OK   x10
 08_piston: 44.1 x 52.0 x 19.0 mm OK   x10
+09_base_front: 204.0 x 250.0 x 72.0 mm OK   x1
+10_base_rear: 200.0 x 250.0 x 72.0 mm OK   x1
+11_base_panel: 195.2 x 241.2 x 3.0 mm OK   x2
+12_front_drive_cover: 63.0 x 62.1 x 23.6 mm OK   x1
 P1_proto_split_crankpin: 8.1 x 11.5 x 30.5 mm OK   x5
-P2_proto_main_shaft: 27.6 x 28.0 x 44.8 mm OK   x2
+P2_proto_main_shaft: 27.6 x 28.0 x 41.3 mm OK   x2
 M01_split_crankpin: 30.5 x 11.5 x 8.1 mm OK   x5
-M02_main_shaft: 44.8 x 28.0 x 27.6 mm OK   x2
+M02_main_shaft: 41.3 x 28.0 x 27.6 mm OK   x2
 M03_guide_rail: 3.0 x 3.0 x 54.0 mm OK   x10
+M04_pulley_spacer: 2.0 x 11.5 x 11.5 mm OK   x1
