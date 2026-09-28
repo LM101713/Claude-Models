@@ -1,0 +1,97 @@
+V10 ENGINE - SHOPPING LIST (one prototype). Amazon SEARCH links: pick a listing that matches the item.
+
+=== ROUND 1 - order first ===
+
+1. 608ZZ bearings (2 per engine)  -  QTY 4
+https://www.amazon.com/s?k=608ZZ+bearing
+
+2. 686ZZ bearings 6x13x5  -  QTY 12
+https://www.amazon.com/s?k=686ZZ+bearing
+
+3. Sintered bronze bushings 3x5x5 mm  -  QTY 36
+https://www.amazon.com/s?k=3x5x5+oilite+sintered+bronze+bushing
+
+4. Stainless dowel pins 3x20 mm  -  QTY 12
+https://www.amazon.com/s?k=3x20+stainless+dowel+pin
+
+5. M3 brass heat-set inserts 5.7 mm long  -  QTY 60
+https://www.amazon.com/s?k=M3+heat+set+inserts+5.7mm
+
+6. M3x8 socket head screws stainless  -  QTY 60
+https://www.amazon.com/s?k=M3x8+socket+head+cap+screw+stainless
+
+7. 6x3 mm N52 neodymium magnets  -  QTY 20
+https://www.amazon.com/s?k=6x3mm+neodymium+disc+magnets+N52
+
+8. 3 mm ground stainless rod (about 600 mm total)  -  QTY 1
+https://www.amazon.com/s?k=3mm+stainless+steel+linear+shaft+rod
+
+9. Loctite 243 blue threadlocker  -  QTY 1
+https://www.amazon.com/s?k=Loctite+243
+
+10. Heat-set insert tip for soldering iron  -  QTY 1
+https://www.amazon.com/s?k=heat+set+insert+soldering+iron+tip+M3
+
+11. Light oil (sewing machine or clock oil)  -  QTY 1
+https://www.amazon.com/s?k=sewing+machine+oil
+
+=== PHASE 2 - motor and drive ===
+
+12. NEMA17 stepper 40 mm body 1.8 deg  -  QTY 1
+https://www.amazon.com/s?k=NEMA17+stepper+motor+40mm+1.7A
+
+13. GT2 pulley 20T 5 mm bore, 6 mm belt  -  QTY 1
+https://www.amazon.com/s?k=GT2+20T+pulley+5mm+bore+6mm+belt
+
+14. GT2 pulley 60T 8 mm bore, 6 mm belt  -  QTY 1
+https://www.amazon.com/s?k=GT2+60T+pulley+8mm+bore+6mm+belt
+
+15. GT2 6 mm closed-loop belt (buy 200 mm and 220 mm; tell me which)  -  QTY 3
+https://www.amazon.com/s?k=GT2+6mm+closed+loop+timing+belt
+
+16. Adhesive rubber feet about 20 mm  -  QTY 8
+https://www.amazon.com/s?k=adhesive+rubber+feet+20mm
+
+17. Cable ties small  -  QTY 1
+https://www.amazon.com/s?k=cable+ties+small+100mm
+
+=== PHASE 4 - electronics (preview, not urgent) ===
+
+18. Arduino Nano ATmega328P  -  QTY 1
+https://www.amazon.com/s?k=Arduino+Nano+ATmega328P
+
+19. TMC2209 stepper driver module  -  QTY 1
+https://www.amazon.com/s?k=TMC2209+stepper+driver+V1.3
+
+20. WS2812B LEDs 5V (strip or individual)  -  QTY 1
+https://www.amazon.com/s?k=WS2812B+LED+strip+5V+60+LED+per+meter
+
+21. A3144 hall effect sensor  -  QTY 3
+https://www.amazon.com/s?k=A3144+hall+effect+sensor
+
+22. 12V 2A power adapter 5.5x2.1 mm  -  QTY 1
+https://www.amazon.com/s?k=12V+2A+power+adapter+5.5x2.1mm
+
+23. Mini buck converter 12V to 5V 3A  -  QTY 1
+https://www.amazon.com/s?k=mini+buck+converter+12V+to+5V+3A
+
+24. 5.5x2.1 panel mount DC jack (11 mm thread)  -  QTY 1
+https://www.amazon.com/s?k=5.5x2.1mm+panel+mount+DC+power+jack
+
+25. 20 mm round illuminated rocker switch 12V  -  QTY 1
+https://www.amazon.com/s?k=20mm+round+rocker+switch+illuminated+12V
+
+26. 16 mm stainless momentary button with LED ring  -  QTY 1
+https://www.amazon.com/s?k=16mm+stainless+momentary+push+button+LED+12V
+
+27. 10k linear potentiometer with aluminium knob  -  QTY 1
+https://www.amazon.com/s?k=10k+linear+potentiometer+knob+kit
+
+28. JST-XH connector kit  -  QTY 1
+https://www.amazon.com/s?k=JST-XH+connector+kit+2.54mm
+
+29. 24 AWG silicone wire kit  -  QTY 1
+https://www.amazon.com/s?k=24AWG+silicone+wire+kit
+
+30. Perfboard / heat-shrink / 100uF capacitor / 330 ohm resistors  -  QTY 1
+https://www.amazon.com/s?k=perfboard+prototype+PCB+kit
