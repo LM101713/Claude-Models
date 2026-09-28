@@ -15,18 +15,18 @@ cheap round, so nothing big gets printed twice.
 
 | File (`stl/`) | Qty | Material | Layer | Walls | Infill | Orientation | Approx. time |
 |---|---|---|---|---|---|---|---|
-| `00_tolerance_test` | 1 **per material** (PLA, PETG-CF, ASA) | each | 0.20 (0.15 for the PLA one) | 3 | 15% gyroid | as exported (flat, labels up) | ~2 h each |
+| `00_tolerance_test` | 1 **per material** (PLA, PETG, ASA; ABS too if you will use it) | each | 0.20 (0.15 for the PLA one) | 3 | 15% gyroid | as exported (flat, labels up) | ~2 h each |
 | `07_conrod` | 2 | PLA | 0.15 | 4 | 40% gyroid | as exported (flat) | ~20 min each |
 | `08_piston` | 2 | PLA | 0.15 | 4 | 25% gyroid | as exported (crown on bed) | ~50 min each |
-| `05_crank_segment_54` | 1 | PETG-CF | 0.16 | 5 | 40% gyroid | as exported (engraved face up) | ~1.5 h |
-| `04_crank_end_web` | 1 | PETG-CF | 0.16 | 5 | 40% gyroid | as exported | ~40 min |
-| `P1_proto_split_crankpin` | 2 | PETG-CF or PLA | 0.12 | 4 | 100% | standing on end | ~25 min each |
+| `05_crank_segment_54` | 1 | ASA | 0.16 | 5 | 40% gyroid | as exported (engraved face up) | ~1.5 h |
+| `04_crank_end_web` | 1 | ASA | 0.16 | 5 | 40% gyroid | as exported | ~40 min |
+| `P1_proto_split_crankpin` | 2 | PETG | 0.12 | 4 | 100% | standing on end | ~25 min each |
 
 **Common settings:** textured PEI plate, no supports anywhere, seam aligned
 to rear, *"arc fitting"* on, *"precise wall"* on. Turn **off** elephant-foot
 compensation for the tolerance test so it shows your raw printer behaviour.
-Once tuned, the same setting must be used on every production print. PETG-CF
-and other CF materials need the hardened nozzle.
+Once tuned, the same setting must be used on every production print. ASA/ABS:
+chamber heating on, door closed, aux fan low, let parts cool in the printer.
 
 ### Tolerance test: how to read it
 
@@ -68,7 +68,7 @@ which end was closest and I'll shift the whole range.
       no rotation play. An M3×8 screw (it self-taps into the printed pin)
       pulls it home flat.
 - [ ] Rod with bearing slides onto the proto pin journal and spins freely.
-- [ ] **Heat soak** (this decides PLA vs PETG-CF for the production
+- [ ] **Heat soak** (this decides PLA vs ASA for the production
       rods/pistons): put one rod with its bearing and one piston with its
       bushings in an oven or filament dryer at **60°C for 2 hours**. After it
       cools, check: can the bearing outer ring be turned in the rod by hand? Can
@@ -88,19 +88,20 @@ you have re-run `python build_all.py` (or pulled the new STLs).
 | `01_crankcase` | 1 | ASA | 0.20 | 4 | 25% gyroid | floor on bed | ~13 h, ~320 g | 5 mm brim, chamber heating on, let it cool in the printer |
 | `02_cylinder_bank` | 2 | ASA | 0.20 | 4 | 25% gyroid | deck face on bed (as exported) | ~6.5 h, ~160 g each | window tops bridge 26 mm (fine on H2S/H2C) |
 | `03_end_plate` | 2 | ASA | 0.20 | 4 | 25% gyroid | outer face on bed | ~1.8 h each | |
-| `04_crank_end_web` | 2 | PETG-CF | 0.16 | 5 | 40% gyroid | as exported | ~40 min each | |
-| `05_crank_segment_54` | 2 | PETG-CF | 0.16 | 5 | 40% gyroid | engraved face up | ~1.5 h each | |
-| `06_crank_segment_198` | 2 | PETG-CF | 0.16 | 5 | 40% gyroid | engraved face up | ~1.5 h each | |
+| `04_crank_end_web` | 2 | ASA | 0.16 | 5 | 40% gyroid | as exported | ~40 min each | |
+| `05_crank_segment_54` | 2 | ASA | 0.16 | 5 | 40% gyroid | engraved face up | ~1.5 h each | |
+| `06_crank_segment_198` | 2 | ASA | 0.16 | 5 | 40% gyroid | engraved face up | ~1.5 h each | |
 | `07_conrod` | 10 (+2 spare) | PLA* | 0.15 | 4 | 40% gyroid | flat | ~20 min each | print as one plate |
 | `08_piston` | 10 (+2 spare) | PLA* | 0.15 | 4 | 25% gyroid | crown on bed | ~50 min each | one plate; crown finish = bed finish |
-| `P1_proto_split_crankpin` | 5 | PETG-CF | 0.12 | 4 | 100% | on end | | **only** if the machined M01 pins are not ready yet |
-| `P2_proto_main_shaft` | 2 | PETG-CF | 0.12 | 4 | 100% | flange down | | **only** if M02 is not ready yet |
+| `P1_proto_split_crankpin` | 5 | PETG | 0.12 | 4 | 100% | on end | | **only** if the machined M01 pins are not ready yet |
+| `P2_proto_main_shaft` | 2 | PETG | 0.12 | 4 | 100% | flange down | | **only** if M02 is not ready yet |
 
-\* The heat-soak result from Round 1 decides PLA or PETG-CF for production.
+\* The heat-soak result from Round 1 decides PLA or ASA for the production rods and pistons.
 
 **Why these materials:** see `DESIGN_NOTES.md` §7. In short: anything that
 holds a bearing, insert or clamp must survive a hot van or a sunny window
-without the fits relaxing, so it is ASA or PETG-CF, not PLA.
+without the fits relaxing, so it is ASA, not PLA. ABS works for hidden parts (crank, end plates) but
+yellows in sunlight, so all visible parts are ASA.
 
 **Load-bearing rule applied:** 4+ walls and ≥25% gyroid on every structural
 part. Each part is oriented so its loads run along the layers: con-rods lie

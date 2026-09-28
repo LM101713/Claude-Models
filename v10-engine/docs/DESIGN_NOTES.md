@@ -1,5 +1,9 @@
 # Design notes: why the engine is built the way it is
 
+> **Owner decisions (Phase 1 review):** split-pin even-firing crank CONFIRMED;
+> rail-guided floating pistons CONFIRMED ("premium look and feel");
+> materials on hand: ASA/ABS, PETG, PLA (no PETG-CF), so PETG-CF is replaced by ASA.
+
 This file records the engineering decisions behind the design, with the
 reasoning, so they can be revisited deliberately rather than by accident.
 Where quality and convenience pulled in different directions, quality won,
@@ -147,8 +151,8 @@ So the rule used throughout:
 | Part type | Material | Why |
 |---|---|---|
 | Anything holding a bearing, insert or clamp, and large structural parts (crankcase, banks, end plates) | **ASA** | Softens at ~95°C, stable dimensions, UV-proof, premium matte finish. The H2S/H2C enclosure handles its warping. |
-| Crank webs/segments | **PETG-CF** (or ASA) | Stiff, low creep, ~80°C heat resistance, holds D-holes accurately. |
-| Con-rods, pistons (moving, precise) | **PLA @ 0.15 mm for the prototype**; production choice made by the heat test in the Phase 1 checklist | PLA gives you the best fits today. If the 60°C soak test loosens the bearing or bushing fits, production switches to PETG-CF with re-tuned fits. |
+| Crank webs/segments | **ASA** (ABS is acceptable: hidden inside the crankcase) | Stiffer and lower-creep than PETG, ~95°C heat resistance, holds the D-holes accurately under screw clamping. PETG is deliberately not used here: it creeps under a constant screw clamp. |
+| Con-rods, pistons (moving, precise) | **PLA @ 0.15 mm for the prototype**; production choice made by the heat test in the Phase 1 checklist | PLA gives you the best fits today. If the 60°C soak test loosens the bearing or bushing fits, production switches to ASA (tune the fits with the ASA tolerance test). PETG is the fallback. |
 | Crank pins, main shafts, rails, wrist pins | **Steel** (stainless) | Wear surfaces and precision journals; see drawings M01–M03. |
 | Covers, cosmetic parts (Phase 3) | ASA or PETG | Heat and UV for a product that ships worldwide. |
 
