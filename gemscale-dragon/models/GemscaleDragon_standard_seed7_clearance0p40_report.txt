@@ -1,0 +1,23 @@
+GEMSCALE FLEXI DRAGON - build report
+preset=standard scale=1.0 seed=7 clearance=0.4 mm
+parts (segments incl. head & tail): 16   joints: 15
+footprint on bed: 161.0 x 160.6 mm, height 28.5 mm (bed 180x180)
+length when stretched out: ~314 mm
+layout: coil
+
+PRINT SETTINGS (Bambu Studio / Orca)
+  layer height 0.20 mm (first layer 0.20)   <- joint gaps are sized for this
+  supports OFF, brim OFF (or 3 mm outer brim only), 2 walls, 15% gyroid/grid infill
+  PLA or PLA silk; keep the default 'elephant foot compensation' (0.15)
+  two-tone trick: filament change at Z = 5.4 mm -> plates, fins & horns get the 2nd colour
+  wings: printed on the same plate - press the tabs into the two shoulder slots (drop of glue if loose)
+  after printing: flex every joint gently side to side to break it free
+
+AUTOMATED CHECKS
+  manifold/watertight parts: 18/18
+  intersecting neighbours: 0
+  smallest gap between neighbours: 0.40 mm
+  non-neighbour contacts: 0
+  joint sweep collisions (+-35 deg): 0
+  solid volume: 38.9 cm3 (~36 g PLA at 2 walls/15%)
+  RESULT: PASS
