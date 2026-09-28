@@ -65,7 +65,7 @@ Upload them in this order. The first image is your cover.
 >
 > **Why you'll like it**
 > - Print-in-place joints: no assembly, no glue, no supports
-> - 30 cm long, yet curls up to fit the **A1 mini (180 mm)** bed
+> - 31 cm long, yet curls up to fit the **A1 mini (180 mm)** bed
 > - Crystal dorsal fins, armoured scales, horns, four legs and a spade tail
 > - **Snap-in wings** that print on the same plate and press into the shoulders
 > - Joints swing ±35° and are stopped before any part can collide
@@ -73,9 +73,9 @@ Upload them in this order. The first image is your cover.
 >   a second colour (works without an AMS)
 >
 > **Versions (print profiles)**
-> - **Standard**: ~30 cm, A1 mini and bigger, about 1 h 50 min, ~36 g
-> - **Mini / keychain**: ~18 cm with a keyring loop, about 45 min, ~11 g
-> - **Long**: ~44 cm for 256 mm beds (A1 / P1S / X1C / P2S)
+> - **Standard**: ~31 cm, A1 mini and bigger, about 1 h 45 min, ~35 g
+> - **Mini / keychain**: ~18 cm with a keyring loop, about 42 min, ~11 g
+> - **Long**: ~45 cm for 256 mm beds (A1 / P1S / X1C / P2S), about 2 h 25 min, ~46 g
 >
 > **Print settings**
 > - 0.20 mm layer height (the joints are designed for it)

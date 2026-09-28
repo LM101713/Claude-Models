@@ -13,15 +13,14 @@ a spade tail and snap-in wings. Every random `seed` gives a slightly different d
 
 | | Mini (keychain) | Standard (hero) | Long |
 |---|---|---|---|
-| Stretched length | ~18 cm | ~30 cm | ~44 cm |
+| Stretched length | ~18 cm | ~31 cm | ~45 cm |
 | Bed | 180 × 180 (A1 mini) | 180 × 180 (A1 mini) | 256 × 256 (A1 / P1 / X1 / P2S) |
 | Joints | 13 | 15 | 24 |
-| Filament* | ~11 g | ~36 g | ~48 g |
-| Print time* | ~45 min | ~1 h 50 min | ~2 h 30 min |
+| Filament* | ~11 g | ~35 g | ~46 g |
+| Print time* | ~42 min | ~1 h 45 min | ~2 h 25 min |
 
-\*Mini and standard were sliced with PrusaSlicer 2.7 using a Bambu-class profile (0.2 mm layers,
-2 walls, 15 % infill); the long figures are an estimate from its volume. Bambu Studio's numbers
-will differ somewhat.
+\*Sliced with PrusaSlicer 2.7 using a Bambu-class profile (0.2 mm layers, 2 walls, 15 % infill,
+wings included). Bambu Studio's numbers will differ somewhat.
 
 ![On the plate](renders/standard_cover_plate.png)
 
@@ -141,7 +140,7 @@ random sweep (every preset, scale, bed, layout and feature toggle) passed every 
 Blender 5.0, and a 20-configuration sweep passed on Blender 4.2 LTS.
 
 These checks are geometric. **Do a real test print before publishing**; the mini takes
-about 45 minutes and is the quickest way to confirm the clearance on your printer.
+about 40 minutes and is the quickest way to confirm the clearance on your printer.
 
 ## Customising
 
