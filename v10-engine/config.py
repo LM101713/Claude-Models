@@ -1,0 +1,340 @@
+"""
+V10 display engine - single source of truth for every dimension.
+
+HOW TO USE THIS FILE
+--------------------
+* All units are millimetres and degrees.
+* Fit problems are fixed HERE, never by editing part geometry.
+  - Holes too tight everywhere?      raise HOLE_COMP
+  - One kind of fit wrong?           change that entry in FIT
+  - Pistons/rods too close to walls? raise CLEARANCE or PISTON_RADIAL_CLEARANCE
+* After changing anything run:  python build_all.py
+  It regenerates every STL/STEP, preview image and drawing, and re-runs
+  the self-checks at the bottom of this file.
+
+COORDINATE SYSTEM (whole engine)
+--------------------------------
+* X = crankshaft axis. +X is the FRONT (drive-pulley end).
+* Z = up.  Y = right when you stand at the front looking at the engine.
+* Crank angles are measured in the Y-Z plane from +Z towards +Y.
+  With that convention the crank turns CLOCKWISE seen from the front.
+* Bank A = cylinders 1-5, on the -Y side (left, seen from the front).
+  Bank B = cylinders 6-10, on the +Y side. Cylinder 1 is at the front.
+"""
+
+import math
+
+# ---------------------------------------------------------------------------
+# 1. GLOBAL PRINT TOLERANCES  (tune these from the tolerance test piece)
+# ---------------------------------------------------------------------------
+# Added to the diameter of EVERY printed round hole. Printers make holes
+# undersize; 0.10 is a typical start for a Bambu at 0.4 mm nozzle.
+HOLE_COMP = 0.10
+
+# Default gap between two printed parts that must slide together or just
+# touch (tabs, spigots, locating bosses). Applied per side.
+CLEARANCE = 0.20
+
+# Per-fit diameter offsets, added on top of nominal + HOLE_COMP.
+# Negative = tighter. The tolerance test piece prints each of these at
+# -0.10 / -0.05 / 0 / +0.05 / +0.10 around the current value, so after a
+# test you simply add the offset of the best hole to the entry below.
+FIT = {
+    "bearing_608":  -0.05,   # 608 main bearing (22 OD) press into end plate
+    "bearing_686":  -0.05,   # 686 rod bearing (13 OD) press into con-rod
+    "bushing_5":    -0.05,   # 3x5x5 bronze bushing (5 OD) press into rod/piston
+    "pin_3_press":  -0.05,   # 3 mm piston pin, light press into piston bosses
+    "rail_3_slip":  +0.05,   # 3 mm guide rail, sliding into deck / crankcase
+    "dpin_6":        0.00,   # 6 mm D-flat crankpin end into crank web
+    "shaft_8":      +0.05,   # 8 mm main shaft through printed parts (clearance)
+    "magnet_6":     -0.05,   # 6x3 magnet press pocket
+    "insert_m3":     0.00,   # heat-set insert pilot hole (see INSERT_HOLE_DIA)
+    "spigot":       +0.10,   # printed spigots / locating bosses into holes
+}
+
+# ---------------------------------------------------------------------------
+# 2. PURCHASED HARDWARE (nominal sizes - change only if you change supplier)
+# ---------------------------------------------------------------------------
+BEARING_608 = dict(id=8.0, od=22.0, w=7.0)     # main bearings (2 per engine)
+BEARING_686 = dict(id=6.0, od=13.0, w=5.0)     # big-end bearings (10 per engine)
+# inner-ring shoulder of a 686 - anything touching the bearing side must
+# stay inside this diameter so it only touches the inner ring
+BEARING_686_INNER_SHOULDER = 7.5
+BEARING_608_OUTER_LIP_ID = 18.5                # lip may only touch 608 outer ring
+
+BUSHING = dict(id=3.0, od=5.0, l=5.0)          # sintered bronze 3x5x5 (30 per engine)
+WRIST_PIN = dict(d=3.0, l=20.0)                # ISO 8734 / DIN 6325 3x20 steel dowel
+RAIL_DIA = 3.0                                  # ground stainless rod, cut to length
+MAGNET = dict(d=6.0, h=3.0)                    # N52 6x3 disc magnets
+
+M3_CLEAR = 3.4          # through hole for M3 screw shank
+M3_HEAD_D = 5.5         # socket head cap screw head
+M3_HEAD_H = 3.0
+M3_CBORE = 6.2          # counterbore for the head (plus HOLE_COMP)
+M3_TAP = 2.5            # tap drill / self-tap hole in printed prototypes
+INSERT_HOLE_DIA = 4.0   # pilot hole for M3 x 5.7 heat-set inserts (4.6 OD type)
+INSERT_DEPTH = 6.5      # pilot hole depth (insert length 5.7 + melt room)
+SCREW_LENGTHS = (8, 16) # the ONLY two screw lengths in the design (M3 SHCS)
+SCREW_FLOOR = 4.0       # plastic under a screw head when screwing into an insert
+                        # (4 + 4 engaged in insert = M3x8)
+
+# ---------------------------------------------------------------------------
+# 3. ENGINE LAYOUT
+# ---------------------------------------------------------------------------
+N_CYL = 10
+N_THROWS = 5
+BANK_ANGLE = 90.0                     # degrees between the banks
+BANK_A_ANGLE = -BANK_ANGLE / 2        # bank A axis angle (cyl 1-5, -Y side)
+BANK_B_ANGLE = +BANK_ANGLE / 2        # bank B axis angle (cyl 6-10, +Y side)
+
+# Firing order (cylinder numbers). 4-stroke: one cycle = 720 crank degrees.
+FIRING_ORDER = [1, 6, 5, 10, 2, 7, 3, 8, 4, 9]
+CYCLE_DEG = 720.0
+FIRING_INTERVAL = CYCLE_DEG / N_CYL   # 72 deg -> even firing
+
+STROKE = 26.0
+CRANK_R = STROKE / 2                  # crank throw radius
+ROD_LENGTH = 62.0                     # con-rod centre to centre
+CYL_PITCH = 52.0                      # cylinder spacing along one bank
+PISTON_DIA = 44.0                     # visual "bore" of the model
+PISTON_RADIAL_CLEARANCE = 0.8         # piston never touches the bore
+BORE_DIA = PISTON_DIA + 2 * PISTON_RADIAL_CLEARANCE
+
+# Throw centres along X (throw 1 at the front / +X)
+THROW_X = [(N_THROWS // 2 - k) * CYL_PITCH for k in range(N_THROWS)]
+
+# ---------------------------------------------------------------------------
+# 4. CRANKSHAFT
+# ---------------------------------------------------------------------------
+# Split crankpin (machined steel, one per throw). Along X from the front:
+# [end A in web][shoulder][journal A][shoulder][flying web][shoulder][journal B][shoulder][end B in web]
+PIN_DIA = 6.0                  # journal = 686 bore
+PIN_DFLAT = 0.5                # depth of the D-flat on each pin end
+PIN_END_LEN = 8.0              # length of each pin end inside a crank web
+PIN_SHOULDER_D = BEARING_686_INNER_SHOULDER
+PIN_SHOULDER_L = 0.75          # also the gap between rod body and web
+PIN_FLYWEB_T = 1.5             # flying web between the two journals
+PIN_TAP_DEPTH = 6.0            # M3 tapped depth in each pin end
+ROD_BODY_W = BEARING_686["w"]  # con-rod thickness = bearing width
+
+THROW_INNER = 2 * (PIN_SHOULDER_L + BEARING_686["w"] + PIN_SHOULDER_L) + PIN_FLYWEB_T
+ROD_X_OFFSET = PIN_FLYWEB_T / 2 + PIN_SHOULDER_L + BEARING_686["w"] / 2  # rod A at +, rod B at -
+BANK_OFFSET = 2 * ROD_X_OFFSET        # bank A sits this much forward of bank B
+PIN_LEN = 2 * PIN_END_LEN + THROW_INNER
+
+WEB_T = 10.0                   # crank web thickness
+WEB_HUB_R = 16.0               # web profile: circle around main axis
+WEB_PIN_BOSS_R = 9.5           # web profile: circle around crankpin
+WEB_CW_R = 24.0                # counterweight radius (max crank sweep)
+WEB_CW_SPAN = 140.0            # counterweight arc (degrees)
+JOURNAL_R = 17.0               # central "main journal" of each segment
+SEGMENT_LEN = CYL_PITCH - THROW_INNER        # web + journal + web
+END_WEB_T = 12.0               # the two end webs (carry the main shafts)
+SCREW_CHANNEL_D = M3_CBORE     # access channel for crankpin screws
+PIN_SCREW_FLOOR = 3.0          # web material under crankpin screw head (M3x8)
+HALL_MAGNET_IN_WEB = True      # 6x3 magnet in the front end web rim
+HALL_SENSOR_ANGLE = 180.0      # hall sensor sits straight below the crank (in the case floor)
+
+# Main shaft (machined, identical front and rear). Built from the web outwards.
+SHAFT_SPIGOT_D = 10.0
+SHAFT_SPIGOT_L = 2.0
+SHAFT_FLANGE_D = 28.0
+SHAFT_FLANGE_T = 4.0
+SHAFT_FLANGE_PCD = 20.0        # 3 x M3 bolt circle
+SHAFT_FLANGE_BOLT_ANGLES = (70.0, 180.0, 290.0)   # UNEVEN on purpose: shaft fits one way only
+SHAFT_ACCESS_HOLE_D = 7.0      # lets the crankpin screw pass through the flange
+SHAFT_SHOULDER_D = 10.0
+SHAFT_D = BEARING_608["id"]
+SHAFT_OUTBOARD_L = 22.0        # Ø8 length beyond the bearing (pulley / flywheel)
+SHAFT_FLAT_DEPTH = 0.5         # flat for the pulley grub screws
+
+# ---------------------------------------------------------------------------
+# 5. CON-ROD, PISTON, GUIDE RAIL
+# ---------------------------------------------------------------------------
+ROD_BIG_END_OD = BEARING_686["od"] + 2 * 2.5
+ROD_SMALL_END_OD = BUSHING["od"] + 2 * 2.0
+ROD_SHANK_W_SMALL = 7.0
+ROD_SHANK_W_BIG = 10.0
+ROD_FLUTE_DEPTH = 0.8
+
+PISTON_PIN_TO_CROWN = 12.0     # compression height
+PISTON_PIN_TO_SKIRT = 7.0
+PISTON_CROWN_T = 3.0
+PISTON_WALL_T = 2.0
+PISTON_BOSS_GAP = 0.5          # side float of the small end between bosses
+VALVE_RELIEF_D = 14.0
+VALVE_RELIEF_DEPTH = 0.8
+
+# The piston is guided by ONE steel rail per cylinder, on the valley side,
+# through two bronze bushings in a lug on the piston. The piston body never
+# touches the bore (see docs/DESIGN_NOTES.md).
+RAIL_OFFSET = 25.5             # rail distance from the cylinder axis (valley side)
+LUG_OD = BUSHING["od"] + 2 * 2.0
+LUG_TOP = PISTON_PIN_TO_CROWN - 2.0   # lug top 2 mm below crown (clears deck ring at TDC)
+LUG_BOTTOM = -2.0
+LUG_POCKET_CLEAR = PISTON_RADIAL_CLEARANCE
+
+# ---------------------------------------------------------------------------
+# 6. CRANKCASE, CYLINDER BANKS, END PLATES
+# ---------------------------------------------------------------------------
+FACE_DIST = 40.0               # crank axis -> bank mounting face (along bank axis)
+DECK_DIST = ROD_LENGTH + CRANK_R + PISTON_PIN_TO_CROWN + 1.0   # crown 1 mm below deck at TDC
+CASE_FLOOR_Z = -32.0           # underside of crankcase (sits on display base)
+CASE_FLOOR_T = 4.0
+CASE_INTERIOR_R = 28.0         # crank sweep 24 + 4 mm clearance
+CASE_SLOT_HALF = 15.0          # con-rod slot half-width in each face (rod swing + 2 mm)
+BLOCK_Y_OUT = -34.0            # bank block extent, outboard side (bank-local y)
+BLOCK_Y_VALLEY = 38.0          # bank block extent, valley side
+BLOCK_END_MARGIN = 26.0        # block material beyond the end cylinders (along X)
+DECK_RING_T = 2.0              # deck lip that holds the top of each guide rail
+WINDOW_BOTTOM = 46.0           # cut-away window in the outboard wall (bank-local z)
+WINDOW_TOP = DECK_DIST - 4.0
+WINDOW_HALF_W = 17.0
+BLOCK_SCREW_Y = (-28.0, 30.0)  # outboard / valley screw rows (bank-local y)
+LOCATOR_D = 6.0                # printed locating pegs under each bank block
+LOCATOR_H = 3.0
+LOCATOR_Y = 21.0
+RAIL_HOLE_DEPTH_CASE = 6.0     # rail bottom sits this deep in the crankcase
+END_PLATE_SPIGOT = 4.0
+END_PLATE_FLANGE_T = 10.0
+BEARING_LIP_T = 1.5
+HALL_POCKET = dict(w=5.0, l=5.0, d=3.0)   # TO-92 style hall sensor pocket in floor
+
+# ---------------------------------------------------------------------------
+# 7. PRINT SETTINGS / MATERIALS (used by the BOM generator)
+# ---------------------------------------------------------------------------
+LOAD_BEARING_WALLS = 4
+LOAD_BEARING_INFILL = "25% gyroid"
+
+
+# ===========================================================================
+# DERIVED VALUES - do not edit below this line
+# ===========================================================================
+def _wrap(a):
+    """Wrap an angle to (-180, 180]."""
+    a = (a + 180.0) % 360.0 - 180.0
+    return 180.0 if a == -180.0 else a
+
+
+def cyl_bank(c):
+    return "A" if c <= N_THROWS else "B"
+
+
+def cyl_throw(c):
+    """Throw index 0..4 for cylinder c (1..10). Cylinder c and c+5 share a throw."""
+    return (c - 1) % N_THROWS
+
+
+def bank_angle(bank):
+    return BANK_A_ANGLE if bank == "A" else BANK_B_ANGLE
+
+
+# Crank angle (0..720) at which each cylinder fires. Cylinder 1 fires at 0.
+FIRE_ANGLE = {c: i * FIRING_INTERVAL for i, c in enumerate(FIRING_ORDER)}
+
+# Crankpin angle for every cylinder: TDC happens when pin angle + crank angle
+# equals the bank angle, so pin = bank - fire (mod 360).
+PIN_ANGLE = {c: _wrap(bank_angle(cyl_bank(c)) - FIRE_ANGLE[c]) for c in range(1, N_CYL + 1)}
+
+# Per throw: journal A (bank A rod, front) and journal B (bank B rod, rear)
+THROW_PIN_A = [PIN_ANGLE[k + 1] for k in range(N_THROWS)]
+THROW_PIN_B = [PIN_ANGLE[k + 1 + N_THROWS] for k in range(N_THROWS)]
+SPLIT_ANGLE = _wrap(THROW_PIN_B[0] - THROW_PIN_A[0])     # 18 deg for 90 deg V / 72 deg firing
+SPLIT_DIST = 2 * CRANK_R * math.sin(math.radians(abs(SPLIT_ANGLE)) / 2)
+
+# Crank segment k joins throw k (pin B, front face) to throw k+1 (pin A, rear face)
+SEGMENT_DELTA = [_wrap(THROW_PIN_A[k + 1] - THROW_PIN_B[k]) % 360.0 for k in range(N_THROWS - 1)]
+SEGMENT_TYPES = sorted(set(round(d, 6) for d in SEGMENT_DELTA))
+
+# Axial positions (X) of crank features, front half (mirror for rear)
+WEB_FACE_X = THROW_X[0] + THROW_INNER / 2                 # front face of throw 1
+END_WEB_OUTER_X = WEB_FACE_X + END_WEB_T
+FLANGE_OUTER_X = END_WEB_OUTER_X + SHAFT_FLANGE_T
+
+# magnet position on the end web, relative to that web's crankpin, chosen so the
+# magnet passes the hall sensor exactly when cylinder 1 is at firing TDC
+HALL_MAGNET_WEB_ANGLE = (HALL_SENSOR_ANGLE - THROW_PIN_A[0]) % 360.0
+
+BANK_A_CYL_X = [x + ROD_X_OFFSET for x in THROW_X]
+BANK_B_CYL_X = [x - ROD_X_OFFSET for x in THROW_X]
+BLOCK_X_MIN = BANK_A_CYL_X[-1] - BLOCK_END_MARGIN        # bank A block, local X range
+BLOCK_X_MAX = BANK_A_CYL_X[0] + BLOCK_END_MARGIN
+CASE_HALF_LEN = max(abs(BLOCK_X_MIN), abs(BLOCK_X_MAX))  # crankcase is symmetric
+END_PLATE_INNER_X = CASE_HALF_LEN - END_PLATE_SPIGOT
+END_PLATE_OUTER_X = CASE_HALF_LEN + END_PLATE_FLANGE_T
+BEARING_INNER_X = END_PLATE_OUTER_X - BEARING_608["w"]   # bearing sits flush with outside
+SHAFT_SHOULDER_L = BEARING_INNER_X - FLANGE_OUTER_X
+SHAFT_JOURNAL_L = BEARING_608["w"] + SHAFT_OUTBOARD_L
+
+RAIL_TOP = DECK_DIST
+RAIL_BOTTOM = FACE_DIST - RAIL_HOLE_DEPTH_CASE
+RAIL_LEN = RAIL_TOP - RAIL_BOTTOM
+
+
+def hole(nominal, fit=None):
+    """Printed hole diameter for a nominal size and a named fit."""
+    return nominal + HOLE_COMP + (FIT[fit] if fit else 0.0)
+
+
+def piston_travel(crank_deg, c):
+    """Wrist-pin distance from the crank axis for cylinder c at a crank angle."""
+    beta = math.radians(PIN_ANGLE[c] + crank_deg - bank_angle(cyl_bank(c)))
+    r, L = CRANK_R, ROD_LENGTH
+    return r * math.cos(beta) + math.sqrt(L * L - (r * math.sin(beta)) ** 2)
+
+
+# ---------------------------------------------------------------------------
+# SELF CHECKS - run "python config.py" to see the summary
+# ---------------------------------------------------------------------------
+def self_check(verbose=True):
+    problems = []
+    # every throw must have the same split so all crankpins are identical
+    for k in range(N_THROWS):
+        s = _wrap(THROW_PIN_B[k] - THROW_PIN_A[k])
+        if abs(s - SPLIT_ANGLE) > 1e-6:
+            problems.append(f"throw {k+1} split {s} != {SPLIT_ANGLE}")
+    # even firing: TDC of consecutive cylinders in the firing order 72 deg apart
+    for i, c in enumerate(FIRING_ORDER):
+        nxt = FIRING_ORDER[(i + 1) % N_CYL]
+        tdc_c = _wrap(bank_angle(cyl_bank(c)) - PIN_ANGLE[c]) % 360
+        tdc_n = _wrap(bank_angle(cyl_bank(nxt)) - PIN_ANGLE[nxt]) % 360
+        gap = (tdc_n - tdc_c) % 360
+        if abs(gap - FIRING_INTERVAL % 360) > 1e-6 and abs(gap - (FIRING_INTERVAL + 360) % 360) > 1e-6:
+            problems.append(f"TDC gap {c}->{nxt} = {gap}")
+    # crank sweep must clear the piston skirt at BDC and the case interior
+    skirt_bdc = ROD_LENGTH - CRANK_R - PISTON_PIN_TO_SKIRT
+    if skirt_bdc - FACE_DIST < 1.0:
+        problems.append(f"piston skirt at BDC ({skirt_bdc}) too close to face ({FACE_DIST})")
+    if WEB_CW_R + 3 > CASE_INTERIOR_R:
+        problems.append("counterweight too close to crankcase interior")
+    if CRANK_R + ROD_BIG_END_OD / 2 + 3 > CASE_INTERIOR_R:
+        problems.append("big end sweep too close to crankcase interior")
+    if WEB_HUB_R < 0 or PIN_SHOULDER_D >= 8.0:
+        problems.append("pin shoulder would touch 686 shield")
+    if SHAFT_SHOULDER_L < 1.0:
+        problems.append(f"main shaft shoulder too short ({SHAFT_SHOULDER_L:.2f})")
+    if BORE_DIA + 2 * 2.5 > CYL_PITCH + 10:
+        problems.append("bore too big for pitch")
+    if CASE_HALF_LEN * 2 > 290:
+        problems.append("crankcase longer than 290 mm")
+    if verbose:
+        print("V10 config summary")
+        print(f"  split crankpin angle ......... {SPLIT_ANGLE:+.1f} deg (offset {SPLIT_DIST:.2f} mm)")
+        print(f"  bank offset (A ahead of B) ... {BANK_OFFSET:.2f} mm")
+        print(f"  throw pin A angles ........... {[round(a,1) for a in THROW_PIN_A]}")
+        print(f"  throw pin B angles ........... {[round(a,1) for a in THROW_PIN_B]}")
+        print(f"  segment types (deg) .......... {SEGMENT_TYPES}  per segment {[round(d,1) for d in SEGMENT_DELTA]}")
+        print(f"  crankcase length ............. {2*CASE_HALF_LEN:.1f} mm")
+        print(f"  crankpin length .............. {PIN_LEN:.2f} mm")
+        print(f"  main shaft shoulder length ... {SHAFT_SHOULDER_L:.2f} mm")
+        print(f"  guide rail length ............ {RAIL_LEN:.1f} mm")
+        print(f"  deck height .................. {DECK_DIST:.1f} mm from crank axis")
+        print(f"  fire angles .................. {FIRE_ANGLE}")
+        print("  self-check:", "OK" if not problems else "PROBLEMS")
+        for p in problems:
+            print("   -", p)
+    return problems
+
+
+if __name__ == "__main__":
+    self_check()

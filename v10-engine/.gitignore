@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+renders/_anim/
+renders/_*.png

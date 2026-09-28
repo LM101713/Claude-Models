@@ -1,0 +1,15 @@
+Bounding boxes (print orientation). Limit 300 x 300 x 300 mm.
+00_tolerance_test: 158.0 x 150.0 x 16.0 mm OK   x1
+01_crankcase: 268.0 x 104.7 x 88.6 mm OK   x1
+02_cylinder_bank: 260.0 x 72.0 x 51.0 mm OK   x2
+03_end_plate: 88.6 x 104.7 x 14.0 mm OK   x2
+04_crank_end_web: 46.5 x 45.1 x 12.0 mm OK   x2
+05_crank_segment_54: 46.7 x 46.7 x 37.5 mm OK   x2
+06_crank_segment_198: 48.2 x 46.7 x 37.5 mm OK   x2
+07_conrod: 75.5 x 18.0 x 5.0 mm OK   x10
+08_piston: 44.1 x 52.0 x 19.0 mm OK   x10
+P1_proto_split_crankpin: 8.1 x 11.5 x 30.5 mm OK   x5
+P2_proto_main_shaft: 27.6 x 28.0 x 44.8 mm OK   x2
+M01_split_crankpin: 30.5 x 11.5 x 8.1 mm OK   x5
+M02_main_shaft: 44.8 x 28.0 x 27.6 mm OK   x2
+M03_guide_rail: 3.0 x 3.0 x 54.0 mm OK   x10
