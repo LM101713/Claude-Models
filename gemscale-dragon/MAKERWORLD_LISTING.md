@@ -52,94 +52,111 @@ Upload them in this order. The first image is your cover.
    with the wings beside or inside it. This proves it prints in one piece.
 5. **Video (10-20 s)** of you wiggling the dragon, if you want one. Flexi models sell on motion,
    but it is optional.
-6. `promo_card.png` (or `promo_card_sunset.png`): a 4:3 card with the headline features.
-7. Renders from this repo, as extra images only (never the cover): `standard_cover_hero.png`,
-   `standard_cover_head.png`, `standard_cover_plate.png`. They are in black and gold to match the
-   real print.
-8. `joint_cutaway.png`, which explains the print-in-place joint (good for the description too).
-9. Colour ideas: `standard_emerald_cover_hero.png`, `standard_sunset_cover_hero.png`,
-   `mini_rainbow_cover_hero.png`.
+6. Renders and cards, as extra images only (never the cover). For the **long-dragon listing**:
+   `promo_card_long.png`, `long_cover_hero.png`, `long_cover_plate.png`. They are in black and gold
+   to match the real print. Do not use `promo_card.png` there: its "fits A1 mini" badge is true only
+   for the standard version.
+7. `joint_cutaway.png`, which explains the print-in-place joint (good for the description too).
+8. Colour ideas: `standard_emerald_cover_hero.png`, `standard_sunset_cover_hero.png`,
+   `mini_rainbow_cover_hero.png` (use these once the standard or mini profile is live).
 
 ---
 
-## 3. Description (ready to paste)
+## 3. Description (ready to paste, long-dragon launch listing)
 
-> 🐉 **Gemscale Flexi Dragon** – a faceted, low-poly dragon that prints **in one piece, fully
-> assembled, with no supports**, then wiggles straight off the plate.
->
-> **Why you'll like it**
-> - Print-in-place joints: no assembly, no glue, no supports
-> - 31 cm long, yet curls up to fit the **A1 mini (180 mm)** bed
-> - Crystal dorsal fins, armoured scales, horns, four legs and a spade tail
-> - **Snap-in wings** that print on the same plate and press into the shoulders
-> - Joints swing ±35° and are stopped before any part can collide
-> - **Two-colour trick:** one filament change at **5.2 mm** turns the scales, fins and horns
->   a second colour (works without an AMS)
->
-> **Versions (print profiles)**
-> - **Standard**: ~31 cm, A1 mini and bigger, about 1 h 45 min, ~35 g
-> - **Mini / keychain**: ~18 cm with a keyring loop, about 42 min, ~11 g
-> - **Long**: ~45 cm for 256 mm beds (A1 / P1S / X1C / P2S), about 2 h 25 min, ~46 g
->
-> **Print settings**
-> - 0.20 mm layer height (the joints are designed for it)
-> - **Supports OFF**, brim off
-> - 2 walls, 15 % infill, PLA or silk PLA
-> - Keep part cooling on so the small tongue bridges come out clean
->
-> **After printing**
-> 1. Flex every joint gently from side to side; the first bend frees it.
-> 2. Press the wing tabs into the two slots on the shoulders (a drop of glue if loose).
->
-> **Tips**
-> - Joints fused? Your printer runs tight. Use the included **clearance 0.40** file.
-> - The mini is a quick way to test your printer before the big one.
->
-> Made with a procedural Blender script, with every joint collision-checked through its full
-> range before release. Post your make – I'd love to see your colour combos! 💚
+```text
+🐉 Gemscale Flexi Dragon – a faceted, low-poly dragon that prints in ONE piece, already assembled, with NO supports. Pop it off the plate, flex the joints, and it moves.
 
-(If you share the generator script, add a line saying where to find it.)
+WHAT YOU GET
+• Fully articulated body: 24 joints, each swings ±35°
+• Crystal fins down the spine, armoured plates, horns, four legs and a spade tail
+• Snap-in wings: printed flat on the same plate, then pressed into the shoulder slots
+• About 45 cm long when stretched out. On the plate it is curled up to fit a 256 mm bed
+• Two-colour look with a single filament change (works without an AMS)
 
----
+HOW IT WORKS
+Every joint is a knob in a socket with a 0.35 mm gap. All the sliding faces are vertical or 45°, so nothing sags while printing and no supports are needed. The socket wraps all the way round the knob, so joints can't pop apart.
 
-## 4. Tags
+PRINT SETTINGS
+• 0.20 mm layer height (the joint gaps are designed for it)
+• Supports OFF, brim off
+• PLA or silk PLA, default walls and infill
+• Part cooling on, so the small bridges at each joint stay clean
+• Two-colour: add a colour change at 5.2 mm (I used black + gold)
+• About 2 h 24 min and 47 g of filament
+• Test printed on a Bambu Lab H2C
 
-`dragon` `flexi dragon` `articulated dragon` `articulated` `flexi` `print in place`
-`no supports` `fidget` `fidget toy` `desk toy` `toy` `wings` `low poly` `gem` `crystal`
-`A1 mini` `multicolor` `keychain` `gift` `fantasy`
+AFTER PRINTING
+1. Let the plate cool and pop the dragon off.
+2. Flex every joint gently from side to side to free it. The first bend can feel stiff.
+3. Press the two wing tabs into the slots on the shoulders (a drop of glue if they are loose).
 
-**Category:** Toys & Games (pick the figures or fidget-toy sub-category if one is offered).
+TROUBLESHOOTING
+• Joints stuck? Check the layer height is 0.20 mm, keep cooling on, and work each joint by hand. If your printer runs tight and it is still stiff, comment and I will post a looser-joint file.
+• Wings too tight? Lightly sand the tab.
+
+Designed with AI assistance (a procedural Blender script), then test printed. Post your make – I'd love to see your colour combos! 💚
+```
+
+When you add the smaller versions later (after printing them), add this block above "PRINT SETTINGS":
+
+```text
+VERSIONS
+• Long: about 45 cm, needs a 256 mm bed (this listing)
+• Standard: about 31 cm, fits an A1 mini (180 mm) bed, about 1 h 45 min, 35 g
+• Mini: about 18 cm with a keyring loop, about 42 min, 11 g
+```
 
 ---
 
-## 5. Print profiles (Bambu Studio)
+## 4. Tags, category, licence, AI label
 
-Every profile is another way for people to find and print the model, and "print" actions
-count toward your points. Aim for these three at launch:
+**Tags** (type each and press Enter):
 
-| Profile name | File | Printers | Notes |
-|---|---|---|---|
-| Standard dragon – A1 mini | `models/GemscaleDragon_standard_seed7.3mf` | A1 mini, A1, P1S, X1C, P2S, H2D | 0.20 mm Standard |
-| Mini keychain dragon | `models/GemscaleDragon_mini_seed7.3mf` | any | quick test print |
-| Long dragon – 256 mm | `models/GemscaleDragon_long_seed7.3mf` | A1, P1S, X1C, P2S, H2D | |
+```text
+flexi dragon, articulated dragon, print in place, no supports, dragon, wings, fidget, fidget toy, flexi, articulated, desk toy, low poly, multicolor, two color, fantasy, gift
+```
 
-Optional fourth profile: **"Two-colour (AMS)"**, the standard dragon with a filament change
-at Z = 5.2 mm. Multi-colour thumbnails get noticeably more clicks.
+Add `A1 mini` and `keychain` only when the standard and mini versions are live.
 
-Also attach `GemscaleDragon_standard_seed7_clearance0p40.3mf` as an extra file (looser joints
-for printers that run tight or for PETG), plus the `_wings_only` file for people who want the
-wings in a different colour.
+**Category:** Toys & Games (pick a figures, fidget or articulated sub-category if one is offered).
 
-How to make each profile:
-1. In Bambu Studio, choose **File > Import**, then load the `.3mf`.
-2. Pick the printer, the **0.20mm Standard** process and your filament.
-3. Make sure **Support** is off. Keep the defaults for everything else.
-4. Optional two-colour: move the layer slider to 5.2 mm (standard) or 3.8 mm (mini),
-   right-click and choose **Add color change**.
-5. **Slice.** In the preview, scroll through the layers around the joints and check that you
-   can see a thin gap around every knob.
-6. Print it, take photos, then use **Publish > Upload print profile** to add it to your
-   model with plate images and your own photos.
+**Licence:** your choice. Standard Digital File License keeps it personal-use only; a Creative
+Commons licence lets others share it (CC BY-NC = non-commercial, with credit).
+
+**AI-Generated Content:** the design came from an AI-written script, so select the AI option.
+MakerWorld asks creators to label models that are primarily AI-generated, and wrong labels can
+cost visibility or get a model removed. Keep the "Designed with AI assistance" line in the
+description.
+
+---
+
+## 5. Print profile
+
+**Every print profile needs at least one real photo of a print made with it** (blurry photos or
+photos that don't show everything in the profile are rejected). So launch with the one you have
+printed, and add the others after you print them.
+
+Launch profile:
+
+| Field | Value |
+|---|---|
+| Name | Long dragon - 0.20mm Standard - 2-colour PLA |
+| File | your sliced project `.3mf` from Bambu Studio (the one you printed) |
+| Printer | Bambu Lab H2C |
+| Layer height | 0.20 mm, supports off |
+| Time and filament | about 2 h 24 min, 46.88 g (from your slice) |
+| Photos | your real photos (cover, joint close-up, head close-up) |
+
+If you like, also attach `models/GemscaleDragon_long_seed7.stl` so people without Bambu
+printers can use the model.
+
+Later, after you print and photograph them, add the standard
+(`models/GemscaleDragon_standard_seed7.3mf`, 1 h 45 min, fits A1 mini and up) and the mini
+(`models/GemscaleDragon_mini_seed7.3mf`, 42 min) as extra profiles. The mini is the fastest.
+For each: import the `.3mf` in Bambu Studio, pick the printer and the 0.20mm Standard process,
+turn supports off, optionally add a colour change (5.2 mm standard, 3.8 mm mini), slice, print,
+then use **Publish** to upload the profile with your photos.
 
 ---
 
@@ -151,7 +168,7 @@ How to make each profile:
   genuinely different variant as its own model (for example a different skin or theme).
 - **Reply to every comment and "Make"** in the first week; early activity helps ranking.
 - Ask makers to post photos of their colour combos, since makes feed the algorithm.
-- Pin the video. Flexi toys are all about motion.
+- A short video of the dragon wiggling helps, but it is optional.
 
 ---
 
