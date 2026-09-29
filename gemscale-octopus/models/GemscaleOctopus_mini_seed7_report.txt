@@ -1,0 +1,12 @@
+Gemscale Flexi Octopus  preset=mini  seed=7  clearance=0.35
+size 64.6 x 64.6 x 20.1 mm, 25 parts, 24 joints
+solid volume 10.2 cm^3, estimated 11 g PLA (2 walls, 15 % infill)
+
+[PASS] solids: all parts are closed manifolds
+[PASS] separate parts: 25 shells for 25 parts
+[PASS] joint gaps: smallest gap inside a joint 0.35 mm (design 0.35)
+[PASS] part gaps: smallest gap between unlinked parts 1.38 mm (arm6_segment1 / arm6_tip3)
+[PASS] joint swing: every joint swings +-35 deg; smallest gap while swinging 0.35 mm (arm7_tip3 at +18 deg)
+[PASS] overhangs: 3.3 mm^2 of unsupported overhang (pupil tops); 176 mm^2 of short tongue bridges
+[PASS] bed: 64.6 x 64.6 mm on a 180 x 180 bed
+[PASS] socket walls: housing radius >= knob + clearance + 1.0 mm wall
