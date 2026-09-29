@@ -1939,14 +1939,21 @@ def summary_text(plan, report=None):
 
 COLOR_SCHEMES = {
     # two-tone schemes = what you get with ONE filament change at the reported Z
-    "emerald":  dict(base=(0.015, 0.28, 0.17), accent=(0.93, 0.66, 0.22), silk=0.30),
-    "obsidian": dict(base=(0.018, 0.018, 0.022), accent=(0.95, 0.70, 0.28), silk=0.35),
-    "ruby":     dict(base=(0.30, 0.012, 0.03), accent=(0.95, 0.80, 0.55), silk=0.30),
+    # backdrop = (colour under the dragon, colour far away) for the render studio
+    "obsidian": dict(base=(0.018, 0.018, 0.022), accent=(0.95, 0.70, 0.28), silk=0.35,
+                     backdrop=((0.36, 0.43, 0.55), (0.010, 0.014, 0.024))),
+    "emerald":  dict(base=(0.015, 0.28, 0.17), accent=(0.93, 0.66, 0.22), silk=0.30,
+                     backdrop=((0.30, 0.24, 0.20), (0.020, 0.014, 0.012))),
+    "ruby":     dict(base=(0.30, 0.012, 0.03), accent=(0.95, 0.80, 0.55), silk=0.30,
+                     backdrop=((0.22, 0.30, 0.36), (0.008, 0.014, 0.020))),
     # gradient schemes = what "silk dual / rainbow" filaments look like
-    "sunset":   dict(grad=[(0.0, (1.0, 0.50, 0.06)), (0.5, (0.92, 0.12, 0.20)), (1.0, (0.45, 0.06, 0.55))], silk=0.45),
-    "frost":    dict(grad=[(0.0, (0.80, 0.92, 1.0)), (0.6, (0.35, 0.62, 0.98)), (1.0, (0.20, 0.30, 0.85))], silk=0.45),
+    "sunset":   dict(grad=[(0.0, (1.0, 0.50, 0.06)), (0.5, (0.92, 0.12, 0.20)), (1.0, (0.45, 0.06, 0.55))], silk=0.45,
+                     backdrop=((0.20, 0.22, 0.40), (0.010, 0.010, 0.028))),
+    "frost":    dict(grad=[(0.0, (0.80, 0.92, 1.0)), (0.6, (0.35, 0.62, 0.98)), (1.0, (0.20, 0.30, 0.85))], silk=0.45,
+                     backdrop=((0.12, 0.16, 0.30), (0.006, 0.008, 0.020))),
     "rainbow":  dict(grad=[(0.0, (0.95, 0.10, 0.12)), (0.2, (1.0, 0.45, 0.02)), (0.4, (0.98, 0.85, 0.05)),
-                           (0.6, (0.10, 0.75, 0.25)), (0.8, (0.10, 0.35, 0.95)), (1.0, (0.50, 0.12, 0.85))], silk=0.5),
+                           (0.6, (0.10, 0.75, 0.25)), (0.8, (0.10, 0.35, 0.95)), (1.0, (0.50, 0.12, 0.85))], silk=0.5,
+                     backdrop=((0.24, 0.24, 0.27), (0.010, 0.010, 0.012))),
 }
 
 
@@ -1972,6 +1979,9 @@ def make_material(scheme_name, z_split, z_max):
     silk = sch.get("silk", 0.3)
     bsdf.inputs["Metallic"].default_value = silk * 0.7
     bsdf.inputs["Roughness"].default_value = 0.46 - silk * 0.35
+    for nm_, val in (("Coat Weight", 0.30), ("Coat Roughness", 0.12), ("Clearcoat", 0.30), ("Clearcoat Roughness", 0.12)):
+        if nm_ in bsdf.inputs:          # glossy sheen (names differ between Blender versions)
+            bsdf.inputs[nm_].default_value = val
     if "grad" in sch:
         oi = nodes.new("ShaderNodeObjectInfo")
         links.new(oi.outputs["Color"], bsdf.inputs["Base Color"])
@@ -2001,7 +2011,7 @@ def make_material(scheme_name, z_split, z_max):
         wave.inputs["Distortion"].default_value = 0.0
         tc = nodes.new("ShaderNodeTexCoord")
         bump = nodes.new("ShaderNodeBump")
-        bump.inputs["Strength"].default_value = 0.08
+        bump.inputs["Strength"].default_value = 0.05
         bump.inputs["Distance"].default_value = 0.02
         links.new(tc.outputs["Object"], wave.inputs["Vector"])
         links.new(wave.outputs["Color"], bump.inputs["Height"])
@@ -2080,7 +2090,97 @@ def _bbox_world(objs):
     return mn, mx
 
 
-def setup_studio(plan, samples=96):
+def _studio_floor_material():
+    """dark glossy floor with a soft pool of colour under the model"""
+    m = bpy.data.materials.get("GS_floor_studio") or bpy.data.materials.new("GS_floor_studio")
+    m.use_nodes = True
+    nt = m.node_tree
+    nt.nodes.clear()
+    out = nt.nodes.new("ShaderNodeOutputMaterial")
+    bsdf = nt.nodes.new("ShaderNodeBsdfPrincipled")
+    bsdf.inputs["Roughness"].default_value = 0.42
+    tc = nt.nodes.new("ShaderNodeTexCoord")
+    sep = nt.nodes.new("ShaderNodeSeparateXYZ")
+    comb = nt.nodes.new("ShaderNodeCombineXYZ")
+    ln = nt.nodes.new("ShaderNodeVectorMath")
+    ln.operation = "LENGTH"
+    mr = nt.nodes.new("ShaderNodeMapRange")
+    mr.name = "GS_pool"
+    mr.interpolation_type = "SMOOTHSTEP"
+    ramp = nt.nodes.new("ShaderNodeValToRGB")
+    ramp.name = "GS_ramp"
+    nt.links.new(tc.outputs["Object"], sep.inputs[0])
+    nt.links.new(sep.outputs["X"], comb.inputs["X"])
+    nt.links.new(sep.outputs["Y"], comb.inputs["Y"])
+    nt.links.new(comb.outputs[0], ln.inputs[0])
+    nt.links.new(ln.outputs["Value"], mr.inputs["Value"])
+    nt.links.new(mr.outputs["Result"], ramp.inputs["Fac"])
+    nt.links.new(ramp.outputs["Color"], bsdf.inputs["Base Color"])
+    nt.links.new(bsdf.outputs["BSDF"], out.inputs["Surface"])
+    return m
+
+
+def _pei_material():
+    """dark textured build plate, like a real PEI sheet"""
+    m = bpy.data.materials.get("GS_floor_plate") or bpy.data.materials.new("GS_floor_plate")
+    m.use_nodes = True
+    nt = m.node_tree
+    nt.nodes.clear()
+    out = nt.nodes.new("ShaderNodeOutputMaterial")
+    bsdf = nt.nodes.new("ShaderNodeBsdfPrincipled")
+    bsdf.inputs["Base Color"].default_value = (0.27, 0.245, 0.22, 1.0)
+    bsdf.inputs["Roughness"].default_value = 0.48
+    bsdf.inputs["Metallic"].default_value = 0.35
+    tc = nt.nodes.new("ShaderNodeTexCoord")
+    noise = nt.nodes.new("ShaderNodeTexNoise")
+    noise.inputs["Scale"].default_value = 3.2
+    noise.inputs["Detail"].default_value = 8.0
+    noise.inputs["Roughness"].default_value = 0.65
+    bump = nt.nodes.new("ShaderNodeBump")
+    bump.inputs["Strength"].default_value = 0.6
+    bump.inputs["Distance"].default_value = 0.4
+    nt.links.new(tc.outputs["Object"], noise.inputs["Vector"])
+    nt.links.new(noise.outputs["Fac"], bump.inputs["Height"])
+    nt.links.new(bump.outputs["Normal"], bsdf.inputs["Normal"])
+    nt.links.new(bsdf.outputs["BSDF"], out.inputs["Surface"])
+    return m
+
+
+def _backdrop(scheme, mode, ctr, R):
+    """mode 'studio': coloured pool of light on a dark floor; 'plate': PEI sheet"""
+    sc = bpy.context.scene
+    sch = COLOR_SCHEMES.get(scheme, COLOR_SCHEMES["emerald"])
+    near, far = sch.get("backdrop", ((0.13, 0.12, 0.12), (0.012, 0.012, 0.014)))
+    floor = bpy.data.objects["GS_studio_floor"]
+    floor.location = (ctr.x, ctr.y, -0.01)
+    wn = sc.world.node_tree.nodes
+    amb, cam = wn["GS_amb"], wn["GS_camrays"]
+    if mode == "plate":
+        floor.material_slots[0].material = _pei_material()
+        for n_ in (amb, cam):
+            n_.inputs["Color"].default_value = (0.06, 0.06, 0.065, 1.0)
+            n_.inputs["Strength"].default_value = 0.5
+        return
+    mat = _studio_floor_material()
+    floor.material_slots[0].material = mat
+    nt = mat.node_tree
+    mr = nt.nodes["GS_pool"]
+    mr.inputs["From Min"].default_value = 0.30 * R
+    mr.inputs["From Max"].default_value = 2.4 * R
+    mr.inputs["To Min"].default_value = 0.0
+    mr.inputs["To Max"].default_value = 1.0
+    el = nt.nodes["GS_ramp"].color_ramp.elements
+    el[0].position = 0.0
+    el[0].color = tuple(near) + (1.0,)
+    el[1].position = 1.0
+    el[1].color = tuple(far) + (1.0,)
+    amb.inputs["Color"].default_value = (0.10, 0.11, 0.14, 1.0)      # dim ambient fill
+    amb.inputs["Strength"].default_value = 1.0
+    cam.inputs["Color"].default_value = tuple(far) + (1.0,)          # seamless dark horizon
+    cam.inputs["Strength"].default_value = 1.0
+
+
+def setup_studio(plan, samples=96, scheme=None):
     sc = bpy.context.scene
     for o in list(bpy.data.objects):
         if o.name.startswith("GS_studio"):
@@ -2089,34 +2189,44 @@ def setup_studio(plan, samples=96):
     if coll is None:
         coll = bpy.data.collections.new("Gemscale Studio")
         sc.collection.children.link(coll)
-    # floor
     bm = bmesh.new()
-    size = 3000.0
-    vs = [bm.verts.new(v) for v in ((-size, -size, -0.01), (size, -size, -0.01), (size, size, -0.01), (-size, size, -0.01))]
+    size = 4000.0
+    vs = [bm.verts.new(v) for v in ((-size, -size, 0), (size, -size, 0), (size, size, 0), (-size, size, 0))]
     bm.faces.new(vs)
     floor = link_obj(bm, "GS_studio_floor", coll)
-    fm = bpy.data.materials.get("GS_floor") or bpy.data.materials.new("GS_floor")
-    fm.use_nodes = True
-    fb = fm.node_tree.nodes.get("Principled BSDF")
-    fb.inputs["Base Color"].default_value = (0.78, 0.76, 0.73, 1.0)
-    fb.inputs["Roughness"].default_value = 0.55
-    floor.data.materials.append(fm)
+    floor.data.materials.append(_studio_floor_material())
     world = bpy.data.worlds.get("GS_world") or bpy.data.worlds.new("GS_world")
     sc.world = world
     world.use_nodes = True
-    bg = world.node_tree.nodes.get("Background")
-    bg.inputs["Color"].default_value = (0.92, 0.93, 0.96, 1.0)
-    bg.inputs["Strength"].default_value = 0.55
+    wt = world.node_tree
+    wt.nodes.clear()
+    w_out = wt.nodes.new("ShaderNodeOutputWorld")
+    w_amb = wt.nodes.new("ShaderNodeBackground")
+    w_amb.name = "GS_amb"                       # what lights the scene
+    w_cam = wt.nodes.new("ShaderNodeBackground")
+    w_cam.name = "GS_camrays"                   # what the camera sees
+    w_lp = wt.nodes.new("ShaderNodeLightPath")
+    w_mix = wt.nodes.new("ShaderNodeMixShader")
+    wt.links.new(w_lp.outputs["Is Camera Ray"], w_mix.inputs["Fac"])
+    wt.links.new(w_amb.outputs["Background"], w_mix.inputs[1])
+    wt.links.new(w_cam.outputs["Background"], w_mix.inputs[2])
+    wt.links.new(w_mix.outputs["Shader"], w_out.inputs["Surface"])
     sc.render.engine = "CYCLES"
     sc.cycles.samples = samples
-    try:
-        sc.cycles.use_adaptive_sampling = True
-        sc.cycles.use_denoising = True
-    except Exception:
-        pass
+    for attr, val in (("use_adaptive_sampling", True), ("use_denoising", True), ("sample_clamp_indirect", 6.0),
+                      ("caustics_reflective", False), ("caustics_refractive", False)):
+        try:
+            setattr(sc.cycles, attr, val)
+        except Exception:
+            pass
     try:
         sc.view_settings.view_transform = "AgX"
-        sc.view_settings.look = "AgX - Medium High Contrast"
+        looks = [i.identifier for i in sc.view_settings.bl_rna.properties["look"].enum_items]
+        for want in ("Punchy", "Medium High Contrast", "High Contrast"):
+            hit = [i for i in looks if want in i]
+            if hit:
+                sc.view_settings.look = hit[0]
+                break
     except Exception:
         pass
     sc.render.resolution_x = 1600
@@ -2205,12 +2315,17 @@ def _clear_studio_rigs():
                     bpy.data.cameras.remove(data)
 
 
-def _lights_for(coll, ctr, R, key_from=(-1.0, -1.3)):
-    k = (R / 80.0) ** 2
+def _lights_for(coll, ctr, R, key_from=(-1.0, -1.3), mood="studio"):
+    """warm key, cool rim, orange kicker and a dim fill (studio); soft key + fill (plate)"""
+    k = (R / 80.0) ** 2 * (2.6 if mood == "plate" else 1.0)
     kx, ky = key_from
-    _light(coll, "GS_studio_key", ctr + Vector((kx * R * 1.4, ky * R * 1.4, R * 2.0)), ctr, 5200 * k, R * 1.2, (1.0, 0.96, 0.9))
-    _light(coll, "GS_studio_fill", ctr + Vector((-ky * R * 1.6, kx * R * 1.6, R * 0.9)), ctr, 1500 * k, R * 1.6, (0.9, 0.95, 1.0))
-    _light(coll, "GS_studio_rim", ctr + Vector((-kx * R * 1.2, -ky * R * 1.6, R * 1.3)), ctr, 4200 * k, R * 0.9)
+    warm, cool, orange = (1.0, 0.93, 0.82), (0.62, 0.78, 1.0), (1.0, 0.62, 0.32)
+    _light(coll, "GS_studio_key", ctr + Vector((kx * R * 1.4, ky * R * 1.4, R * 2.0)), ctr, 52000 * k, R * 1.5, warm)
+    _light(coll, "GS_studio_fill", ctr + Vector((-ky * R * 1.6, kx * R * 1.6, R * 1.0)), ctr, 9000 * k, R * 2.0, (1, 1, 1))
+    if mood == "plate":
+        return
+    _light(coll, "GS_studio_rim", ctr + Vector((-kx * R * 1.5, -ky * R * 1.7, R * 1.1)), ctr, 72000 * k, R * 0.6, cool)
+    _light(coll, "GS_studio_kick", ctr + Vector((ky * R * 1.6, -kx * R * 1.6, R * 0.5)), ctr, 30000 * k, R * 0.5, orange)
 
 
 def render_covers(plan, out_dir, scheme=None, samples=None, views=("hero", "plate", "head", "side"), prefix=""):
@@ -2220,7 +2335,7 @@ def render_covers(plan, out_dir, scheme=None, samples=None, views=("hero", "plat
     scheme = scheme or cfg["color_scheme"]
     samples = samples or cfg["render_samples"]
     sc = bpy.context.scene
-    coll = setup_studio(plan, samples)
+    coll = setup_studio(plan, samples, scheme)
     apply_colors(plan, scheme)
     files = []
     objs = all_objects(plan)
@@ -2231,7 +2346,8 @@ def render_covers(plan, out_dir, scheme=None, samples=None, views=("hero", "plat
             mn, mx = _bbox_world(objs)
             ctr = (mn + mx) / 2
             R = max(mx.x - mn.x, mx.y - mn.y) / 2
-            _lights_for(coll, ctr, R)
+            _backdrop(scheme, "plate", ctr, R)
+            _lights_for(coll, ctr, R, mood="plate")
             cam = _camera(coll, ctr + Vector((0, 0, 800)), ctr, ortho_scale=200.0)
             _fit_camera(cam, objs, fill=0.9)
         else:
@@ -2248,12 +2364,14 @@ def render_covers(plan, out_dir, scheme=None, samples=None, views=("hero", "plat
             u.normalize()
             v = Vector((-u.y, u.x, 0.0))
             if view == "hero":
+                _backdrop(scheme, "studio", ctr, R)
                 _lights_for(coll, ctr, R)
                 loc = ctr + (u * 0.9 - v * 0.75).normalized() * R * 2.0 + Vector((0, 0, R * 1.35))
                 cam = _camera(coll, loc, ctr.lerp(head_c, 0.2), lens=50, dof_target=head_c, fstop=11.0)
                 _fit_camera(cam, objs, fill=0.9)
                 cam.data.dof.focus_distance = (cam.location - head_c).length
             elif view == "head":
+                _backdrop(scheme, "studio", head_c, 90 * plan.s)
                 _lights_for(coll, head_c, 60 * plan.s)
                 hdir = (hm.to_3x3() @ Vector((1, 0, 0))).normalized()
                 az = math.atan2(hdir.y, hdir.x) - math.radians(32)
@@ -2262,6 +2380,7 @@ def render_covers(plan, out_dir, scheme=None, samples=None, views=("hero", "plat
                 _camera(coll, loc, head_c + Vector((-6 * plan.s * hdir.x, -6 * plan.s * hdir.y, -3 * plan.s)),
                         lens=70, dof_target=head_c, fstop=4.5)
             elif view == "side":
+                _backdrop(scheme, "studio", ctr, R)
                 _lights_for(coll, ctr, R, key_from=(0.4, -1.4))
                 loc = ctr - v * R * 2.4 + u * R * 0.35 + Vector((0, 0, R * 0.55))
                 cam = _camera(coll, loc, ctr, lens=60, dof_target=ctr, fstop=11.0)
