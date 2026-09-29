@@ -37,7 +37,7 @@ wings included). Bambu Studio's numbers will differ somewhat.
    The panel shows whether the printability checks passed.
 5. Press **Export STL + 3MF**. The files go to `gemscale_export/` next to your .blend file
    (you can change the folder in the panel).
-6. Optional: **Render Covers** makes four 1600 × 1200 images (hero, plate, head, side).
+6. Optional: **Render Covers** makes three 1600 × 1200 images (hero, head, plate) in a dark studio.
    This takes a few minutes with Cycles.
 
 ## Quick start (command line)

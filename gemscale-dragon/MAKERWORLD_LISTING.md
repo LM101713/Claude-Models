@@ -44,16 +44,20 @@ Put the words people search for ("flexi", "articulated", "print in place", "drag
 
 Upload them in this order. The first image is your cover.
 
-1. **Real photo (cover):** the printed dragon in an S-curve on a desk, wings in, soft daylight,
-   plain background. Two-tone prints stand out in the feed.
-2. **Real photo in a hand**, to show the size and invite people to touch it.
-3. **Build-plate photo** straight off the printer: the curled dragon with the wings inside
-   the curl. This proves it prints in one piece.
-4. **Video (10–20 s)** of you wiggling the dragon. Flexi models sell on motion.
-5. Renders from this repo: `standard_cover_hero.png`, `standard_cover_head.png`,
-   `standard_cover_side.png`, `standard_cover_plate.png`.
-6. `joint_cutaway.png`, which explains the print-in-place joint (good for the description too).
-7. Colour ideas: `standard_sunset_cover_hero.png`, `standard_obsidian_cover_head.png`,
+1. **Real photo (cover):** the whole printed dragon in your hands or on a desk, wings in, plain
+   background, daylight. Two-tone prints stand out in the feed.
+2. **Joint close-up photo**, to show the print-in-place joints and the two-tone spine.
+3. **Head close-up photo**, for the horns and face detail.
+4. **Build-plate photo** straight off the printer (in focus, plain surroundings): the dragon
+   with the wings beside or inside it. This proves it prints in one piece.
+5. **Video (10-20 s)** of you wiggling the dragon, if you want one. Flexi models sell on motion,
+   but it is optional.
+6. `promo_card.png` (or `promo_card_sunset.png`): a 4:3 card with the headline features.
+7. Renders from this repo, as extra images only (never the cover): `standard_cover_hero.png`,
+   `standard_cover_head.png`, `standard_cover_plate.png`. They are in black and gold to match the
+   real print.
+8. `joint_cutaway.png`, which explains the print-in-place joint (good for the description too).
+9. Colour ideas: `standard_emerald_cover_hero.png`, `standard_sunset_cover_hero.png`,
    `mini_rainbow_cover_hero.png`.
 
 ---

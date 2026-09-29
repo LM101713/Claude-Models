@@ -2328,7 +2328,7 @@ def _lights_for(coll, ctr, R, key_from=(-1.0, -1.3), mood="studio"):
     _light(coll, "GS_studio_kick", ctr + Vector((ky * R * 1.6, -kx * R * 1.6, R * 0.5)), ctr, 30000 * k, R * 0.5, orange)
 
 
-def render_covers(plan, out_dir, scheme=None, samples=None, views=("hero", "plate", "head", "side"), prefix=""):
+def render_covers(plan, out_dir, scheme=None, samples=None, views=("hero", "head", "plate"), prefix=""):
     """Render MakerWorld-ready 1600x1200 (4:3) images.  NOTE: MakerWorld needs at
     least one REAL photo of a printed model too - use these as extra images."""
     cfg = plan.cfg
