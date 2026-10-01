@@ -203,19 +203,24 @@ def hq():
     # entrance canopy
     B.box(g, "Olive", -8, 8, 10.2, 11, Z1, Z1 + 5)
     # roof kit: AC units + radio mast with beacon
-    B.box(g, "Metal", -32, -24, RF, RF + 3, -140, -132)
-    B.box(g, "Metal", -32, -24, RF, RF + 3, -152, -144)
-    B.box(g, "Metal", 18, 30, RF, RF + 2.5, -138, -130)
+    for (x0, x1, z0, z1, hh) in ((-32, -24, -140, -132, 3), (-32, -24, -152, -144, 3), (18, 30, -138, -130, 2.5)):
+        B.box(g, "Metal", x0, x1, RF, RF + hh, z0, z1)
+        B.cyl(g, "Black", (x0 + x1) / 2, (z0 + z1) / 2, RF + hh, RF + hh + 0.15, 2.8, segs=16)   # fan grille
     B.box(g, "Metal", -34.5, -33.5, RF, RF + 26, -162.5, -161.5)
     for d in (8, 16):
         B.beam(g, "Metal", (-34, RF + 0.5, -162), (-34 + (26 - d) * 0.25, RF + d, -162 + 3), 0.25)
     B.lamp(-34, RF + 26.6, -162, s=1.2, t=0.6, mat="Beacon")
     B.lamp(0, F2 - 1.1, -146)
     B.lamp(0, RF - 1.1, -146)
+    B.lamp(-27, F2 - 1.1, -146)                                      # west office
     # desks / map table (cover inside)
     B.box(g, "Wood", -30, -22, 0, 3, -140, -134)
     B.box(g, "Wood", -30, -22, 0, 3, -158, -152)
-    B.box(g, "DarkOlive", -6, 6, F2, F2 + 3, -142, -134)          # briefing table upstairs
+    B.coll(-6, 6, F2, F2 + 3, -142, -134, "HQ_Table")                 # briefing table upstairs
+    B.box(g, "DarkOlive", -6, 6, F2 + 2.4, F2 + 3, -142, -134, col=False)
+    B.box(g, "Marking", -4.5, 4.5, F2 + 3, F2 + 3.05, -140.5, -135.5, col=False)   # map sheet
+    for (x, z) in ((-5.5, -141.5), (5, -141.5), (-5.5, -135), (5, -135)):
+        B.box(g, "Metal", x, x + 0.5, F2, F2 + 2.4, z, z + 0.5, col=False)
     B.box(g, "Wood", 22, 34, 0, 3, -142, -138)
     B.box(g, "Metal", -36, -34, F2, F2 + 6, -166, -152)           # filing cabinets
 
@@ -316,8 +321,9 @@ def hangar():
     B.decal(g, "Hazard", X0 + 3, X1 - 3, -133.5, -132.5, y=0.1, t=0.04)
     B.box(g, "Wood", X1 - 12, X1 - 2, 0, 4, -130, -124)              # crate stack by the side door
     B.box(g, "Wood", X1 - 10, X1 - 4, 4, 7, -129, -125)
-    B.lamp(X0 + 24, H - 1, -152)
-    B.lamp(X0 + 58, H - 1, -152)
+    for lx in (X0 + 24, X0 + 58):                                   # lamps hang on rods to ~18 studs
+        B.box(g, "Metal", lx - 0.15, lx + 0.15, 18, H + 11.2, -152.15, -151.85, col=False)
+        B.lamp(lx, 18, -152, s=2.2, t=0.6)
 
 
 # ================================================================= garage

@@ -118,7 +118,7 @@ VIEWS = {
     "int_hq_roof": dict(pos=(-36, 34, -124), target=(10, 26, -160), lens=20),
     "int_barracks": dict(pos=(-135.5, 6.5, 25), target=(-178, 4, 25), lens=16),
     "int_hangar": dict(pos=(102, 9, -123), target=(172, 10, -178), lens=16),
-    "int_tower": dict(pos=(184, 28.5, 184), target=(120, 12, 120), lens=16),
+    "int_tower": dict(pos=(193.5, 29, 193.5), target=(176, 22, 180), lens=16),
     "int_garage": dict(pos=(189, 9, 130), target=(142, 5, 80), lens=16),
     "fit_gate": dict(pos=(44, 22, 150), target=(0, 6, 196), lens=24),
     "fit_garage": dict(pos=(112, 16, 64), target=(140, 5, 83), lens=24),
