@@ -29,7 +29,7 @@ cheap Box collision, so hollow buildings stay hollow without paying for convex d
 5. Paste `fit_base.lua` into the command bar. Re-run it any time; it replaces what it built before.
 
 ## Test plan (Play mode)
-1. **Output check** – `[FIT] template built: 88 meshes, 20 lights, ~780 collision parts, 4 ladders`,
+1. **Output check** – `[FIT] template built: 91 meshes, 21 lights, 753 collision parts, 4 ladders`,
    `placed on N plot(s)`, six `maker ...` lines, then `[FIT] done`. No `no style for suffix` warnings.
 2. **Walk every building** – in and out of: HQ (front door, west side door, both partition doorways
    on each floor), all three barracks (door at each end, climb an upper bunk), hangar (big door,
