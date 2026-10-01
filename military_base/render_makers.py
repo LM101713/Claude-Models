@@ -59,7 +59,13 @@ def shot(name, pos, target, lens, res):
     print("[RENDER]", name)
 
 
-shot("makers_lineup", (5, 70, 150), (5, 6, 0), 32, (1600, 700))
+import sys
+only = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else None
+if not only or "makers_lineup" in only:
+    shot("makers_lineup", (0, 75, 175), (0, 8, 0), 24, (1600, 700))
 for nm in ORDER:
+    if only and "maker_" + nm not in only:
+        continue
     ox, _, oz = ORIGINS[nm]
-    shot("maker_" + nm, (ox + 26, 22, oz + 34), (ox, 8, oz), 30, (800, 600))
+    far = 1.45 if nm == "MissileSilo" else 1.0
+    shot("maker_" + nm, (ox + 26 * far, 22 * far, oz + 34 * far), (ox, 8 if far == 1 else 13, oz), 30, (800, 600))
