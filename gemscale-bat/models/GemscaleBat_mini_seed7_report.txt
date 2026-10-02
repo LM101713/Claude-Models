@@ -1,6 +1,6 @@
 Gemscale Flexi Bat  preset=mini  seed=7  clearance=0.35
-size 110.1 x 39.6 x 15.0 mm, 8 parts, 7 joints
-solid volume 4.5 cm^3, estimated 6 g PLA (2 walls, 15 % infill)
+size 113.5 x 41.5 x 16.0 mm, 8 parts, 7 joints
+solid volume 5.2 cm^3, estimated 6 g PLA (2 walls, 15 % infill)
 two-tone: filament change at 4.7 mm colours the body (head, ears, eyes, chest and belly tops); the wings stay the first colour
 
 [PASS] solids: all parts are closed manifolds
@@ -8,8 +8,9 @@ two-tone: filament change at 4.7 mm colours the body (head, ears, eyes, chest an
 [PASS] one piece each: every part is a single connected piece
 [PASS] joint gaps: smallest gap inside a joint 0.35 mm (design 0.35)
 [PASS] part gaps: smallest gap between unlinked parts 1.50 mm (>= 1.5)
-[PASS] joint swing: wings fold 15 deg back / 30 deg forward, abdomen +-25 deg; smallest gap while swinging 0.35 mm (abdomen at -25 deg)
-[PASS] overhangs: 3.6 mm^2 of unsupported overhang (pupil and inner-ear tops); 48 mm^2 of short tongue bridges
-[PASS] bed: 110.1 x 39.6 mm on a 180 x 180 bed
+[PASS] joint swing: wings fold 14 deg back / 30 deg forward, abdomen +-25 deg; smallest gap while swinging 0.34 mm (wingR_2 at -14 deg)
+[PASS] overhangs: 0.9 mm^2 of unsupported overhang (pupil and inner-ear tops); 48 mm^2 of short tongue bridges
+[PASS] bed: 113.5 x 41.5 mm on a 180 x 180 bed
 [PASS] socket walls: housing radius >= knob + clearance + 1.0 mm wall
+[PASS] stl precision: no vertices merge when saved as float32 STL
 [PASS] membranes: wing membranes 1.4 mm thick (7 layers)

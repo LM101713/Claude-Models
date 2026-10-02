@@ -10,20 +10,24 @@ printability checks and exports slicer-ready STL and 3MF files. A small three.js
 It's the third model in the Gemscale series, after the
 [Flexi Dragon](../gemscale-dragon/) and [Flexi Octopus](../gemscale-octopus/), and uses the
 same proven print-in-place joint. The bat has:
-- a gem-faceted head with broad, cupped ears, big round eyes, a snout and two little fangs
-- two wings, each a chain of thin membrane panels with raised finger bones, a bony leading
-  edge with knuckle joints, a thumb claw, veins, and scalloped trailing edges
+- a gem-faceted head with broad cupped ears (each with a tragus inside), a crown tuft of
+  three spikes, big eyes with heavy brows and diamond slit pupils, a snout and two fangs
+- a broad faceted chest and belly
+- two real bat wings: arm, forearm and a **hand whose four fingers fan out from the wrist**,
+  with scalloped membranes between them. Bones are raised and ridged, every finger ends in
+  a needle claw, the wrist has a hooked thumb, the knuckles are faceted gems, and the
+  membranes have a layer-stepped bevel round their edges
 - a jointed abdomen with clawed feet and a tail membrane
 
 The wings fold back and forth in their own plane, and the abdomen wiggles side to side.
 
 | | Mini | Standard |
 |---|---|---|
-| Wingspan | 110 mm | 164 mm |
-| Size | 110 × 40 × 15 mm | 164 × 55 × 20 mm |
-| Joints | 7 (3 per wing + abdomen) | 9 (4 per wing + abdomen) |
-| Filament* | ~6 g | ~12 g |
-| Print time* | ~25–35 min | ~45 min – 1 h |
+| Wingspan | 114 mm | 167 mm |
+| Size | 114 × 42 × 16 mm | 167 × 59 × 22 mm |
+| Joints | 7 (shoulder, elbow, wrist per wing + abdomen) | 7 |
+| Filament* | ~6 g | ~14 g |
+| Print time* | ~25–35 min | ~50 min – 1 h |
 | Bed | any (A1 mini and up) | any (A1 mini and up) |
 
 \*These are estimates, not slicer output. Filament comes from the solid volume (2 walls,
@@ -68,8 +72,8 @@ STL copies are provided too.
 
 - **0.20 mm layers.** The joint heights are snapped to this grid.
 - **Supports off**, brim off, 2 walls, 15 % infill. Use PLA or silk PLA.
-- The wing membranes are 1.6 mm thick (1.4 mm on the mini), so make sure the first layer
-  sticks well. A clean textured PEI plate works best.
+- The wing membranes are 1.6 mm thick (1.4 mm on the mini), and their top two layers step in
+  to form a bevel. Make sure the first layer sticks well. A clean textured PEI plate works best.
 - Keep part cooling on so the short tongue bridges come out clean.
 - After printing, bend every joint gently. The first bend frees it.
 - **Two-tone without an AMS:** add a filament change at **5.2 mm** (standard) or **4.7 mm**
@@ -105,26 +109,33 @@ octopus:
 
 ### The wings
 
-Each wing is a chain of panels hinged along the leading-edge bone: shoulder, elbow, wrist,
-then knuckle. Panel *k* holds the membrane between its own finger bone and the next joint:
+Each wing is three panels hinged along the leading-edge bone at the shoulder, elbow and
+wrist, like a real bat's arm, forearm and hand. The arm and forearm each hold the membrane
+between their own finger and the next joint. The hand carries the wing tip and fans four
+fingers out from the wrist, with a scalloped membrane between each pair:
 
 - Each panel's finger bone sits on one edge of a narrow V-shaped slit that starts at the next
   joint. The panel stays entirely on its own side of that line.
-- The slit is 20° wide, which is the 15° back-fold plus a 5° margin. Folding forward (30°)
-  needs no slit, because nothing sits in front of the leading edge.
+- The slit is 18.5° wide, which is the 14° back-fold plus a 4.5° margin. Folding forward
+  (30°) needs no slit, because nothing sits in front of the leading edge.
 - Every panel is clipped to its own swing sector, and every inner part is cut back out of the
   next panel's swept zone. That rules out collisions by construction, and the checks confirm it.
-- The notch in each knuckle is the hard stop: wings fold 15° back and 30° forward per joint,
-  so a four-joint wing sweeps 60° back or 120° forward overall.
+- The notch in each knuckle is the hard stop: wings fold 14° back and 30° forward per joint,
+  so a wing sweeps up to 42° back or 90° forward overall.
+- Cutting boundaries are kept a hair (0.05–0.3 mm) off the geometry they trim. Coincident
+  faces can leave near-duplicate vertices, which merge when saved as float32 STL and open
+  the mesh. A check catches this.
 
 ### The body
 
 - **Head:** a leaning, faceted half-ellipsoid (the convex hull of jittered points; `--seed`
   changes the facets). It's widest at the base, so nothing overhangs.
-- **Ears:** faceted leaves with rounded tips and a cupped hollow on the front. Every inner
-  surface is steeper than 45°.
-- **Eyes:** spheres with a 45° "chin" underneath and round pupil dimples. The snout and fangs
-  are small faceted wedges with 45° undersides.
+- **Ears:** faceted leaves with rounded tips, a cupped hollow on the front and a tragus
+  spike inside. Every inner surface is steeper than 45°.
+- **Eyes:** spheres with a 45° "chin" underneath. A slanted cut on top makes a flat brow, low
+  toward the nose, which gives a mischievous look. A diamond slit pupil looks forward; its
+  pointed top means it prints without support. The crown tuft, snout and fangs are small
+  faceted wedges with 45° undersides.
 - **Abdomen:** wiggles ±25° on its own joint and carries the legs, three-toed feet, a tail bone
   and the tail membrane.
 
@@ -133,13 +144,14 @@ then knuckle. Panel *k* holds the membrane between its own finger bone and the n
 1. Every part is a closed, valid manifold, and each part is a single connected piece.
 2. The union of all parts still has one shell per part, so nothing is fused.
 3. Every gap inside a joint is at least the clearance. Unlinked parts are at least 0.45 mm apart.
-4. Every joint swings through its full range (−15°, −7.5°, +15°, +30° for wings; ±12.5° and
+4. Every joint swings through its full range (−14°, −7°, +15°, +30° for wings; ±12.5° and
    ±25° for the abdomen) without touching its neighbour.
 5. There are no unsupported overhangs steeper than 45°, apart from the small tops of the
    pupil dimples and ear cups (about 5 mm²). Tongue undersides are short bridges.
 6. The model fits the bed with a 5 mm margin.
-7. Every socket keeps at least a 1 mm wall.
-8. Membranes are at least 1.2 mm thick.
+7. Every socket keeps at least a 1 mm wall (measured to the flats of the faceted knuckles).
+8. No vertices merge when the mesh is saved as a float32 STL.
+9. Membranes are at least 1.2 mm thick.
 
 These are geometric checks. Test-print a model before you publish it.
 

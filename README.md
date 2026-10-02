@@ -33,9 +33,9 @@ printability and exports STL/3MF files. A three.js studio renders the cover imag
 
 [![Gemscale Flexi Bat](gemscale-bat/renders/standard_cover_hero.png)](gemscale-bat/)
 
-A faceted Halloween bat that **prints in one piece with no supports**. It has cupped ears,
-fangs and jointed wings with finger bones and scalloped membranes that fold back and forth,
-plus a wiggly abdomen. The keychain version hangs upside down by its tail. It uses the same
+A faceted Halloween bat that **prints in one piece with no supports**. It has slit-pupil
+eyes, cupped ears, fangs, a wiggly abdomen, and real bat wings: arm, forearm and a hand of
+four clawed fingers fanning out, all jointed so they fold back and forth. The keychain version hangs upside down by its tail. It uses the same
 joint and the same pure-Python toolchain as the octopus.
 
 - Script: [`gemscale-bat/gemscale_bat.py`](gemscale-bat/gemscale_bat.py)

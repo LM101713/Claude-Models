@@ -28,7 +28,7 @@ import random
 import sys
 
 import numpy as np
-from manifold3d import CrossSection, Manifold
+from manifold3d import CrossSection, JoinType, Manifold
 
 # =============================================================================
 # 1. SETTINGS
@@ -40,40 +40,41 @@ VGAP = 0.40     # air under each tongue bridge (= two 0.2 mm layers)
 SIDE = 0.40     # tongue side clearance inside its notch
 LAYER = 0.20    # heights are snapped to this layer grid (print at 0.2 mm layers)
 WALL = 1.00     # minimum socket wall
-MARGIN = 5.0    # extra angle (deg) kept free beyond each joint's swing
+MARGIN = 4.5    # extra angle (deg) kept free beyond each joint's swing
 
 # Wing joints fold the wing back (toward the tail) and forward, in the wing plane.
-WING_BACK = 15.0     # deg
+WING_BACK = 14.0     # deg
 WING_FWD = 30.0      # deg
 BODY_SWING = 25.0    # abdomen joint, either way
 
-# A wing is a chain of panels hinged along the leading edge.
-#   pivots: joint centres; pivot 0 is the shoulder on the chest
-#   tip:    the wing tip; beta: direction of each panel's finger bone (deg)
-#   finger: finger length; ell: depth of the membrane at the next joint's gap
-#   scallop: trailing-edge sag as a fraction of the edge length
+# A wing is arm -> forearm -> hand, hinged at the shoulder, elbow and wrist along the
+# leading edge (sizes in mm for the standard bat; the mini scales them).
+#   pivots: shoulder (on the chest), elbow, wrist
+#   beta:   direction of the finger bone on each panel's slit side (deg)
+#   finger: length of that finger; ell: depth of the membrane beside the next slit
+#   hand:   extra fingers fanning from the wrist inside the hand (angle, length)
+#   tip:    the wing-tip finger (angle, length), which carries the leading edge
+WING = dict(pivots=[(11.0, 2.0), (25.0, 12.0), (39.0, 19.0)],
+            beta=[-80.0, -58.0, -46.0], finger=[30.0, 40.0, 44.0], ell=[19.0, 21.0],
+            hand=[(-29.0, 44.0), (-10.0, 42.5)], tip=(11.0, 41.0),
+            scallop=0.17, thumb=85.0, claw=2.6)
+
 PRESETS = {
     "standard": dict(
-        r_n=1.5, r_e=2.35, band=0.7, hw_wing=4.4, hw_body=4.8,
-        tm=1.6, Hb=4.4, Hpk=5.0, Hf=2.4, Hfp=3.0, wb=3.6, wf=2.6,
-        pivots=[(11.0, 2.0), (25.0, 10.0), (39.0, 15.0), (53.0, 11.0)], tip=(82.0, 3.0),
-        beta=[-74.0, -63.0, -50.0, -37.0], finger=[30.0, 37.0, 37.0, 31.0],
-        ell=[29.0, 29.0, 18.0], scallop=0.14, thumb=80.0,
-        body=dict(chest=(0.0, 2.0, 9.4, 9.0, 9.0), head=(0.0, 13.2, 9.0, 7.8, 13.0),
-                  pivot=(0.0, -7.0), abdomen=(0.0, -15.5, 6.0, 7.5, 6.8),
-                  foot=(5.5, -24.0), tail=(0.0, -31.0), eye_r=3.3,
-                  ear=dict(c=(5.6, 11.4), rx=4.3, ry=2.3, zb=5.5, zt=20.0)),
+        r_n=1.5, r_e=2.35, band=0.7, hw_wing=4.4, hw_body=4.8, wing_scale=1.0,
+        tm=1.6, Hb=4.4, Hpk=5.0, Hf=2.4, Hfp=3.0, wb=3.6, wf=2.4,
+        body=dict(chest=(0.0, 1.6, 10.6, 8.6, 8.4), head=(0.0, 13.4, 9.4, 8.0, 13.4),
+                  pivot=(0.0, -7.0), abdomen=(0.0, -16.2, 6.4, 8.4, 6.6),
+                  foot=(5.3, -24.0), tail=(0.0, -31.0), eye_r=3.3,
+                  ear=dict(c=(5.8, 11.6), rx=4.7, ry=2.4, zb=5.5, zt=21.5)),
         bed=(180, 180)),
     "mini": dict(
-        r_n=1.3, r_e=2.05, band=0.6, hw_wing=3.6, hw_body=3.9,
-        tm=1.4, Hb=4.0, Hpk=4.5, Hf=2.0, Hfp=2.5, wb=3.0, wf=2.1,
-        pivots=[(8.0, 1.5), (19.5, 7.5), (31.0, 8.0)], tip=(55.0, 1.0),
-        beta=[-72.0, -58.0, -42.0], finger=[21.0, 26.0, 23.0],
-        ell=[20.0, 16.0], scallop=0.14, thumb=80.0,
-        body=dict(chest=(0.0, 1.5, 6.9, 6.6, 6.8), head=(0.0, 9.8, 6.8, 5.8, 9.8),
-                  pivot=(0.0, -5.2), abdomen=(0.0, -11.6, 4.4, 5.4, 5.2),
-                  foot=(4.2, -17.6), tail=(0.0, -22.5), eye_r=2.5,
-                  ear=dict(c=(4.1, 8.4), rx=3.2, ry=1.7, zb=4.2, zt=15.0)),
+        r_n=1.3, r_e=2.05, band=0.6, hw_wing=3.6, hw_body=3.9, wing_scale=0.68,
+        tm=1.4, Hb=4.0, Hpk=4.5, Hf=2.0, Hfp=2.5, wb=3.0, wf=2.0,
+        body=dict(chest=(0.0, 1.1, 7.4, 6.2, 6.4), head=(0.0, 9.6, 7.0, 5.9, 10.0),
+                  pivot=(0.0, -5.2), abdomen=(0.0, -12.0, 4.6, 6.0, 5.0),
+                  foot=(3.8, -17.6), tail=(0.0, -22.5), eye_r=2.5,
+                  ear=dict(c=(4.3, 8.5), rx=3.5, ry=1.8, zb=4.2, zt=16.0)),
         bed=(180, 180)),
 }
 
@@ -139,6 +140,12 @@ def cyl(c, r, z0=-5.0, z1=80.0, n=64):
     return Manifold.cylinder(z1 - z0, r, r, n).translate((c[0], c[1], z0))
 
 
+def clean(m, eps=1e-3):
+    """Drop zero-volume fragments that exact booleans can leave at coplanar seams."""
+    comps = [c for c in m.decompose() if abs(c.volume()) > eps]
+    return union(comps) if comps else m
+
+
 def wedge(c, a0, a1, R=400.0):
     """Tall solid covering directions a0 -> a1 (deg, CCW) seen from point c."""
     n = max(3, int(abs(a1 - a0) / 6) + 2)
@@ -162,15 +169,15 @@ def scallop(a, b, toward, sag):
     return bezier(a, (m[0] + 2 * sag * ln * nx, m[1] + 2 * sag * ln * ny), b)
 
 
-def ridge_bar(p, q, w0, w1, h0, h1, pk0, pk1, side=0):
+def ridge_bar(p, q, w0, w1, h0, h1, pk0, pk1, side=0, off=0.0):
     """Bone from p to q, width w0 -> w1, side height h0 -> h1, ridge peak pk0 -> pk1.
-    side=0: centred on the line; side=+1: lies entirely on the left (CCW) of p->q."""
+    side=0: centred on the line; side=+1: lies on the left (CCW) of p->q, `off` away."""
     ux, uy = q[0] - p[0], q[1] - p[1]
     ln = math.hypot(ux, uy)
     nx, ny = -uy / ln, ux / ln
     pts = []
     for (c, w, h, pk) in ((p, w0, h0, pk0), (q, w1, h1, pk1)):
-        lo, hi = (-w / 2, w / 2) if side == 0 else (0.0, w)
+        lo, hi = (-w / 2, w / 2) if side == 0 else (off, off + w)
         for o in (lo, hi):
             pts += [(c[0] + o * nx, c[1] + o * ny, 0.0), (c[0] + o * nx, c[1] + o * ny, h)]
         mid = (lo + hi) / 2
@@ -241,8 +248,8 @@ class Joint:
         self.t_side, self.t_top = t_side, t_top
         assert t_side - self.z_n >= 0.95, "tongue too thin"
 
-    def wall_ok(self):
-        return self.hw >= self.r_e + self.c + WALL
+    def wall_ok(self, sides=12):
+        return self.hw * math.cos(math.pi / sides) >= self.r_e + self.c + WALL
 
     def to_world(self, m):
         return m.rotate((0, 0, self.head)).translate((self.pivot[0], self.pivot[1], 0))
@@ -293,77 +300,105 @@ class Joint:
 # 4. WINGS
 # =============================================================================
 
+def membrane(poly, tm):
+    """Flat membrane with a two-step (layer-aligned) bevel round its top edges."""
+    cs = CrossSection([ccw(list(poly))])
+    parts = [cs.extrude(tm - 0.4)]
+    for i, inset in enumerate((0.22, 0.5)):
+        ring = cs.offset(-inset, JoinType.Miter, 2.0)
+        if not ring.is_empty():
+            parts.append(ring.extrude(0.2).translate((0, 0, tm - 0.4 + 0.2 * i)))
+    return union(parts)
+
+
+def gem_knuckle(c, hw, H, n=12):
+    """Faceted housing: an n-sided prism with a chamfered top."""
+    return hull([(x, y, z) for (x, y) in ngon(c[0], c[1], hw, n, math.pi / n) for z in (0, H - 0.6)]
+                + [(x, y, H) for (x, y) in ngon(c[0], c[1], hw - 0.6, n, math.pi / n)])
+
+
+def claw_bone(p, tip_dir, L, w0, h0, pk0, claw):
+    """Finger bone from p, `L` long, ending in a needle claw `claw` past the membrane."""
+    q = add(p, dirv(tip_dir), L)
+    q0 = add(p, dirv(tip_dir), L - 0.6)      # the claw overlaps the bone (no coplanar seam)
+    r = add(p, dirv(tip_dir), L + claw)
+    return union([ridge_bar(p, q, w0, 0.55 * w0, h0, 0.6 * h0 + 0.5, pk0, 0.6 * pk0 + 0.6),
+                  ridge_bar(q0, r, 0.5 * w0, 0.15, 0.6 * h0 + 0.3, 0.8, 0.6 * pk0 + 0.4, 0.9)])
+
+
 def build_right_wing(cfg):
-    """Returns (panels, joints). Panel k is R of joint k; joint 0 is the shoulder."""
-    P, T = cfg["pivots"], cfg["tip"]
+    """Returns (panels, joints, headings). Panel k is R of joint k; joint 0 is the shoulder."""
+    W = cfg["wing"]
+    P, beta, L, ell = W["pivots"], W["beta"], W["finger"], W["ell"]
     n = len(P)
-    beta, L, ell = cfg["beta"], cfg["finger"], cfg["ell"]
     hw, tm, Hb, Hpk = cfg["hw_wing"], cfg["tm"], cfg["Hb"], cfg["Hpk"]
+    T = add(P[-1], dirv(W["tip"][0]), W["tip"][1])
     ends = P[1:] + [T]
     d = [heading(P[k], ends[k]) for k in range(n)]
-    joints = [Joint(cfg, hw if k else cfg["hw_wing"], P[k], d[k], -WING_BACK, WING_FWD,
-                    Hb, Hpk) for k in range(n)]
+    joints = [Joint(cfg, hw, P[k], d[k], -WING_BACK, WING_FWD, Hb, Hpk) for k in range(n)]
+    slit = WING_BACK + MARGIN
+    claw = W["claw"]
 
     panels = []
     for k in range(n):
         Fk = add(P[k], dirv(beta[k]), L[k])
+        bones = []
         if k < n - 1:
-            Q = add(P[k + 1], dirv(beta[k + 1] - WING_BACK - MARGIN), ell[k])
-            edge = scallop(Q, Fk, P[k], cfg["scallop"])
-            poly = [P[k], P[k + 1]] + edge
+            # (cutting boundaries are kept a hair off the geometry they bound: coincident
+            # faces leave near-duplicate vertices that merge in float32 STL files)
+            Q = add(P[k + 1], dirv(beta[k + 1] - slit - 0.3), ell[k])
+            poly = [P[k], P[k + 1]] + scallop(Q, Fk, P[k], W["scallop"])
+            bones.append(ridge_bar(P[k], P[k + 1], cfg["wb"], cfg["wb"], Hb, Hb, Hpk, Hpk))
+            bones.append(gem_knuckle(P[k + 1], hw, Hb))
         else:
-            edge = scallop(T, Fk, P[k], cfg["scallop"])
-            poly = [P[k]] + edge
-        parts = [prism(poly, 0.0, tm)]
-        # two thin veins fanning across the membrane toward the trailing edge
-        mid = edge[len(edge) // 2]
-        for f in (0.35, 0.7):
-            a = add(add(P[k], dirv(beta[k]), f * L[k] * 0.55), dirv(beta[k] + 90), cfg["wf"] + 0.3)
-            b_ = (a[0] + 0.82 * (mid[0] - a[0]) + 0.12 * (f - 0.5) * (ends[k][0] - P[k][0]),
-                  a[1] + 0.82 * (mid[1] - a[1]))
-            parts.append(ridge_bar(a, b_, 1.0, 0.5, tm + 0.4, tm + 0.2, tm + 0.6, tm + 0.3))
-
-        # finger bone on the panel side of its ray, a pointed tip a little past the membrane
-        ftip = add(P[k], dirv(beta[k]), L[k] + 2.0)
-        parts.append(ridge_bar(P[k], ftip, cfg["wf"], 0.25, cfg["Hf"], 1.2, cfg["Hfp"], 1.4,
-                               side=+1))
-        # leading-edge bone
-        if k < n - 1:
-            parts.append(ridge_bar(P[k], P[k + 1], cfg["wb"], cfg["wb"], Hb, Hb, Hpk, Hpk))
-            # housing (knuckle) for the next joint, chamfered top
-            c = P[k + 1]
-            parts.append(hull([(x, y, z) for (x, y) in ngon(c[0], c[1], hw, 20) for z in (0, Hb - 0.6)]
-                              + [(x, y, Hb) for (x, y) in ngon(c[0], c[1], hw - 0.6, 20)]))
-        else:
-            parts.append(ridge_bar(P[k], T, cfg["wb"], 0.3, Hb, 1.6, Hpk, 1.8))
-        # thumb claw at the wrist (the second wing joint)
-        if k == 1:
-            c = P[2]
-            a = cfg["thumb"]
-            base = add(c, dirv(a), hw - 0.8)
-            tipp = add(add(c, dirv(a), hw + 5.0), dirv(a - 90), 1.2)
-            parts.append(hull([(x, y, z) for (x, y) in ngon(base[0], base[1], 1.5, 10)
-                               for z in (0, 3.0)] + [(tipp[0], tipp[1], 0), (tipp[0], tipp[1], 0.9)]))
+            # the hand: fingers fan from the wrist with a scalloped membrane between them
+            tips = [T] + [add(P[k], dirv(a), ln) for (a, ln) in sorted(W["hand"], reverse=True)] + [Fk]
+            edge = []
+            for a, b_ in zip(tips[:-1], tips[1:]):
+                edge += scallop(a, b_, P[k], W["scallop"])[:-1]
+            poly = [P[k]] + edge + [Fk]
+            bones.append(claw_bone(P[k], W["tip"][0], W["tip"][1], cfg["wb"], Hb, Hpk, claw))
+            for (a, ln) in W["hand"]:
+                bones.append(claw_bone(P[k], a, ln, cfg["wf"], cfg["Hf"], cfg["Hfp"], claw))
+        parts = [membrane(poly, tm)] + bones
+        # finger bone on the slit side, lying wholly on the panel's side of its ray
+        ftip = add(P[k], dirv(beta[k]), L[k])
+        fclaw = add(P[k], dirv(beta[k]), L[k] + claw)
+        parts.append(ridge_bar(P[k], ftip, cfg["wf"], 0.9, cfg["Hf"], 1.6, cfg["Hfp"], 1.9,
+                               side=+1, off=0.05))
+        parts.append(ridge_bar(add(P[k], dirv(beta[k]), L[k] - 0.6), fclaw, 0.85, 0.15, 1.5, 0.8, 1.8, 0.9,
+                               side=+1, off=0.05))
+        # hooked thumb claw at the wrist, curling in toward the head
+        if k == n - 2:
+            c, a, ts = P[k + 1], W["thumb"], max(0.75, cfg["wing_scale"])
+            base = add(c, dirv(a), hw - 0.6)
+            mid = add(base, dirv(a + 15), 3.2 * ts)
+            tipp = add(mid, dirv(a + 80), 2.4 * ts)
+            parts.append(hull([(x, y, z) for (x, y) in ngon(base[0], base[1], 1.5 * ts, 10) for z in (0, 3.2 * ts)]
+                              + [(x, y, z) for (x, y) in ngon(mid[0], mid[1], 0.9 * ts, 8) for z in (0, 2.2 * ts)]))
+            parts.append(hull([(x, y, z) for (x, y) in ngon(mid[0], mid[1], 0.9 * ts, 8) for z in (0, 2.2 * ts)]
+                              + [(tipp[0], tipp[1], 0.0), (tipp[0], tipp[1], 0.8)]))
         solid = union(parts)
 
         # R side of joint k: stay inside its own sector (finger ray to just past the
         # leading bone) and clear the cup around F's housing
-        solid = (solid ^ wedge(P[k], beta[k], d[k] + 60.0)) - joints[k].cup()
+        solid = (solid ^ wedge(P[k], beta[k] - 0.3, d[k] + 60.0)) - joints[k].cup()
         # F side of joint k+1: stay out of the next panel's swing, cut socket + notch
         if k < n - 1:
             jn = joints[k + 1]
-            keep_out = wedge(jn.pivot, beta[k + 1] - WING_BACK - MARGIN,
-                             d[k + 1] + 25.0 + WING_FWD + MARGIN) - cyl(jn.pivot, jn.hw)
+            keep_out = wedge(jn.pivot, beta[k + 1] - slit, d[k + 1] + 25.0 + WING_FWD + MARGIN) \
+                - cyl(jn.pivot, jn.hw + 0.05)
             solid = solid - keep_out - jn.f_cutters()
         solid = solid + joints[k].r_addons()
-        panels.append(solid)
+        panels.append(clean(solid))
     return panels, joints, d
 
 
 def shoulder_keep_out(cfg, d0, mirror=False):
-    j0 = cfg["pivots"][0]
-    w = wedge(j0, cfg["beta"][0] - WING_BACK - MARGIN, d0 + 25.0 + WING_FWD + MARGIN) \
-        - cyl(j0, cfg["hw_wing"])
+    W = cfg["wing"]
+    j0 = W["pivots"][0]
+    w = wedge(j0, W["beta"][0] - WING_BACK - MARGIN, d0 + 25.0 + WING_FWD + MARGIN) \
+        - cyl(j0, cfg["hw_wing"] + 0.05)
     return w.mirror((1, 0, 0)) if mirror else w
 
 
@@ -382,7 +417,7 @@ def build_head_and_chest(cfg, rng):
                           rings=[(0, 16), (20, 15), (38, 13), (55, 11), (70, 8), (82, 5)]))
 
     # shoulders: housing + a blob joining it to the chest (both sides)
-    S = cfg["pivots"][0]
+    S = cfg["wing"]["pivots"][0]
     for sgn in (1, -1):
         c = (sgn * S[0], S[1])
         parts.append(hull([(x, y, z) for (x, y) in ngon(c[0], c[1], hw, 20) for z in (0, Hb - 0.6)]
@@ -421,7 +456,8 @@ def build_head_and_chest(cfg, rng):
                              + [(sgn * (ex + 0.36 * rx), ey + 0.05 * ry, zt - 2.4)]))
     parts += ears
 
-    # eyes: spheres on the face with a 45 deg chin under each, round pupil dimples
+    # eyes: spheres with a 45 deg chin under each, cut by a slanted lid (low toward the
+    # nose for a mischievous look) and a diamond slit pupil with pointed ends
     er = b["eye_r"]
     eyes, pupils = [], []
     for sgn in (1, -1):
@@ -429,16 +465,30 @@ def build_head_and_chest(cfg, rng):
         c = surf + nrm * 0.36 * er
         ball = Manifold.sphere(er, 48).translate(tuple(c))
         chin = Manifold.sphere(er, 48).translate(tuple(c + np.array([-nrm[0], -nrm[1], -1.0]) * er * 0.9))
-        eyes.append(Manifold.batch_hull([ball, chin]))
-        dvec = np.array([nrm[0], nrm[1], 0.0])
-        dvec = dvec / np.linalg.norm(dvec) * math.cos(d2r(10)) + np.array([0, 0, math.sin(d2r(10))])
-        dvec /= np.linalg.norm(dvec)
-        pr = 0.5 * er
-        cut = Manifold.cylinder(6.0, pr, pr, 36)
-        yaw = math.degrees(math.atan2(dvec[1], dvec[0]))
-        pitch = math.degrees(math.acos(max(-1, min(1, dvec[2]))))
-        pupils.append(cut.rotate((0, pitch, 0)).rotate((0, 0, yaw)).translate(tuple(c + dvec * (er - 1.1))))
+        eye = Manifold.batch_hull([ball, chin])
+        lid = Manifold.cube((40.0, 40.0, 40.0)).translate((-20.0, -20.0, 0.0)) \
+            .rotate((0, -sgn * 17.0, 0)).translate((c[0], c[1], c[2] + 0.5 * er))
+        eyes.append(eye - lid)
+        f = np.array([nrm[0], nrm[1] + 0.9, 0.0])     # look toward the front
+        f /= np.linalg.norm(f)
+        r_ = np.cross(f, [0.0, 0.0, 1.0])
+        r_ /= np.linalg.norm(r_)
+        u_ = np.cross(r_, f)
+        w2, h2 = 0.27 * er, 0.55 * er
+        dia = CrossSection([[(w2, 0.0), (0.0, h2), (-w2, 0.0), (0.0, -h2)]]).extrude(6.0)
+        o = c + f * (er - 1.0) - np.array([0.0, 0.0, 0.08 * er])
+        m = np.array([[r_[0], u_[0], f[0], o[0]], [r_[1], u_[1], f[1], o[1]], [r_[2], u_[2], f[2], o[2]]])
+        pupils.append(dia.transform(m))
     parts += eyes
+
+    # a tuft of three faceted spikes on the crown, between the ears
+    top = (hx, hy - lean, haz)
+    tw = 0.13 * hax
+    for (dx, dy, dz) in ((0.0, -0.9, 3.0), (-1.9, -0.5, 1.8), (1.9, -0.5, 1.8)):
+        bx_ = top[0] + dx * tw / 1.2
+        parts.append(hull([(bx_ + tw * math.cos(t), top[1] + tw * math.sin(t), top[2] - 2.2)
+                           for t in np.linspace(0, TAU, 7)[:-1]]
+                          + [(bx_ + dx * 0.35, top[1] + dy * tw, top[2] + dz * tw / 1.2)]))
 
     # nose: a small faceted snout bump between the eyes (underside is a 45 deg slope)
     surf, nrm = ellipsoid_point((hx, hy), hax, hay, haz, 0.0, lean, 22, 90)
@@ -454,13 +504,19 @@ def build_head_and_chest(cfg, rng):
         surf, nrm = ellipsoid_point((hx, hy), hax, hay, haz, 0.0, lean, 8, 90 - sgn * 7)
         yf = surf[1] - 0.8
         zt = 0.33 * haz
-        fl = 0.24 * haz
-        fw = 0.09 * hax
-        parts.append(hull([(fx - fw, yf, zt), (fx + fw, yf, zt), (fx, yf + 1.9, zt - 0.3),
-                           (fx, yf + 0.9, zt - fl)]))
+        fl = 0.29 * haz
+        fw = 0.11 * hax
+        parts.append(hull([(fx - fw, yf, zt), (fx + fw, yf, zt), (fx, yf + 2.1, zt - 0.3),
+                           (fx, yf + 1.0, zt - fl)]))
 
+    tragi = []
+    for sgn in (1, -1):
+        bx_, by_ = sgn * (ex + 0.02 * rx), ey + 0.62 * ry
+        tragi.append(hull([(bx_ + 0.3 * rx * math.cos(t), by_ + 0.22 * ry * math.sin(t), zb + 0.6)
+                           for t in np.linspace(0, TAU, 9)[:-1]]
+                          + [(bx_ + sgn * 0.06 * rx, by_ + 0.18 * ry, zb + 0.35 * (zt - zb) + 1.0)]))
     solid = union(parts)
-    return solid, ear_cuts, pupils
+    return solid, ear_cuts, pupils, tragi
 
 
 def build_abdomen(cfg, rng):
@@ -519,7 +575,7 @@ def generate(cfg, verbose=True):
             raise ValueError(f"wing joint housing {j.hw} too small for the knob")
 
     # chest + head (F of both shoulders and of the abdomen joint)
-    body, ear_cuts, pupils = build_head_and_chest(cfg, rng)
+    body, ear_cuts, pupils, tragi = build_head_and_chest(cfg, rng)
     bj = Joint(cfg, cfg["hw_body"], b["pivot"], -90.0, -BODY_SWING, BODY_SWING,
                rup(cfg["Hb"] + 0.8), rup(cfg["Hb"] + 0.8) + 0.6)
     if not bj.wall_ok():
@@ -532,7 +588,7 @@ def generate(cfg, verbose=True):
     for sgn in (1, -1):
         jm = wjoints[0]
         cuts.append(jm.f_cutters() if sgn > 0 else jm.f_cutters().mirror((1, 0, 0)))
-    body = body - union(cuts) - union(ear_cuts + pupils)
+    body = (body - union(ear_cuts + pupils) + union(tragi)) - union(cuts)
 
     # abdomen (R of the body joint)
     abd = build_abdomen(cfg, rng)
@@ -541,7 +597,7 @@ def generate(cfg, verbose=True):
     abd = (abd ^ wedge(bj.pivot, -90.0 - alpha, -90.0 + alpha)) - bj.cup() - union(sko)
     abd = abd + bj.r_addons()
 
-    parts = [Part("body", body, "body", 0.0), Part("abdomen", abd, "abdomen", 0.1)]
+    parts = [Part("body", clean(body), "body", 0.0), Part("abdomen", clean(abd), "abdomen", 0.1)]
     links = [(0, 1, bj, 1)]
     n = len(panels)
     for side, sgn in (("R", 1), ("L", -1)):
@@ -659,6 +715,14 @@ def check(plan, cfg, verbose=True):
         f"{size[0]:.1f} x {size[1]:.1f} mm on a {bx} x {by} bed")
     rep("socket walls", all(j.wall_ok() for j in plan["joints"]),
         f"housing radius >= knob + clearance + {WALL} mm wall")
+    # STL stores float32: vertices closer than that merge and can open the mesh
+    merged = []
+    for p in parts:
+        v = to_trimesh(p.solid).vertices.astype(np.float32)
+        if len(np.unique(v, axis=0)) != len(v):
+            merged.append(p.name)
+    rep("stl precision", not merged, "no vertices merge when saved as float32 STL"
+        if not merged else f"near-duplicate vertices in {merged}")
     rep("membranes", cfg["tm"] >= 1.2, f"wing membranes {cfg['tm']:.1f} mm thick "
         f"({int(round(cfg['tm'] / LAYER))} layers)")
 
@@ -752,6 +816,13 @@ def export(plan, cfg, whole, results, out_dir):
 
 def resolve(args):
     cfg = dict(PRESETS[args.preset])
+    k = cfg["wing_scale"]
+    W = dict(WING)
+    W.update(pivots=[(k * x, k * y) for (x, y) in WING["pivots"]],
+             finger=[k * v for v in WING["finger"]], ell=[k * v for v in WING["ell"]],
+             hand=[(a, k * ln) for (a, ln) in WING["hand"]], tip=(WING["tip"][0], k * WING["tip"][1]),
+             claw=max(1.8, k * WING["claw"]))
+    cfg["wing"] = W
     cfg.update(preset=args.preset, seed=args.seed, clearance=args.clearance,
                keyring=args.keyring)
     if args.bed:

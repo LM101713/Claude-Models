@@ -54,13 +54,14 @@ Alternatives:
 > one go, fully assembled, with no supports. Pop him off the plate, bend the joints once,
 > and he's ready to flap.
 >
-> Both wings are jointed at the shoulder, elbow, wrist and knuckle, so they fold and spread
-> like a real bat's. His belly and tail wiggle too. He has big eyes, cupped ears, tiny fangs,
-> finger bones and little clawed feet.
+> His wings are built like a real bat's, with an arm, a forearm and a hand of four fanned
+> fingers, all jointed so they fold and spread. Every finger ends in a tiny claw. He has
+> mischievous slit-pupil eyes, big cupped ears, a spiky tuft, fangs and little clawed feet,
+> and his belly and tail wiggle too.
 >
 > **What you get**
-> - **Standard:** 16.4 cm wingspan
-> - **Mini:** 11 cm wingspan, super quick to print
+> - **Standard:** 16.7 cm wingspan
+> - **Mini:** 11.4 cm wingspan, super quick to print
 > - **Mini keychain:** the loop is on his tail, so he hangs upside down from your keys 🙃
 > - **Looser-joint version:** for printers that run a bit tight, or for PETG
 >
