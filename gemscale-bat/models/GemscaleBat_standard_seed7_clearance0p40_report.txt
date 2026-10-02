@@ -1,0 +1,15 @@
+Gemscale Flexi Bat  preset=standard  seed=7  clearance=0.40
+size 164.1 x 55.0 x 20.0 mm, 10 parts, 9 joints
+solid volume 10.4 cm^3, estimated 12 g PLA (2 walls, 15 % infill)
+two-tone: filament change at 5.2 mm colours the body (head, ears, eyes, chest and belly tops); the wings stay the first colour
+
+[PASS] solids: all parts are closed manifolds
+[PASS] separate parts: 10 shells for 10 parts
+[PASS] one piece each: every part is a single connected piece
+[PASS] joint gaps: smallest gap inside a joint 0.40 mm (design 0.40)
+[PASS] part gaps: smallest gap between unlinked parts 1.50 mm (>= 1.5)
+[PASS] joint swing: wings fold 15 deg back / 30 deg forward, abdomen +-25 deg; smallest gap while swinging 0.39 mm (abdomen at -25 deg)
+[PASS] overhangs: 5.2 mm^2 of unsupported overhang (pupil and inner-ear tops); 88 mm^2 of short tongue bridges
+[PASS] bed: 164.1 x 55.0 mm on a 180 x 180 bed
+[PASS] socket walls: housing radius >= knob + clearance + 1.0 mm wall
+[PASS] membranes: wing membranes 1.6 mm thick (8 layers)
