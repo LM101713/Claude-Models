@@ -55,26 +55,26 @@ BODY_SWING = 25.0    # abdomen joint, either way
 #   hand:   extra fingers fanning from the wrist inside the hand (angle, length)
 #   tip:    the wing-tip finger (angle, length), which carries the leading edge
 WING = dict(pivots=[(11.0, 2.0), (25.0, 12.0), (39.0, 19.0)],
-            beta=[-80.0, -58.0, -46.0], finger=[30.0, 40.0, 44.0], ell=[19.0, 21.0],
+            beta=[-72.0, -56.0, -45.0], finger=[33.0, 41.0, 44.0], ell=[19.0, 21.0],
             hand=[(-29.0, 44.0), (-10.0, 42.5)], tip=(11.0, 41.0),
             scallop=0.17, thumb=85.0, claw=2.6)
 
 PRESETS = {
     "standard": dict(
-        r_n=1.5, r_e=2.35, band=0.7, hw_wing=4.4, hw_body=4.8, wing_scale=1.0,
+        r_n=1.5, r_e=2.35, band=0.7, hw_wing=4.1, hw_body=4.8, wing_scale=1.0,
         tm=1.6, Hb=4.4, Hpk=5.0, Hf=2.4, Hfp=3.0, wb=3.6, wf=2.4,
-        body=dict(chest=(0.0, 1.6, 10.6, 8.6, 8.4), head=(0.0, 13.4, 9.4, 8.0, 13.4),
-                  pivot=(0.0, -7.0), abdomen=(0.0, -16.2, 6.4, 8.4, 6.6),
-                  foot=(5.3, -24.0), tail=(0.0, -31.0), eye_r=3.3,
-                  ear=dict(c=(5.8, 11.6), rx=4.7, ry=2.4, zb=5.5, zt=21.5)),
+        body=dict(chest=(0.0, 1.6, 10.6, 8.6, 8.4), head=(0.0, 13.4, 9.2, 8.0, 12.6),
+                  pivot=(0.0, -7.0), abdomen=(0.0, -15.6, 6.0, 7.6, 6.2),
+                  foot=(7.6, -25.5), tail=(0.0, -35.0), eye_r=3.0,
+                  ear=dict(c=(4.9, 12.4), rx=3.9, ry=4.0, zb=4.6, zt=20.5, lean=(0.62, 0.36))),
         bed=(180, 180)),
     "mini": dict(
         r_n=1.3, r_e=2.05, band=0.6, hw_wing=3.6, hw_body=3.9, wing_scale=0.68,
         tm=1.4, Hb=4.0, Hpk=4.5, Hf=2.0, Hfp=2.5, wb=3.0, wf=2.0,
-        body=dict(chest=(0.0, 1.1, 7.4, 6.2, 6.4), head=(0.0, 9.6, 7.0, 5.9, 10.0),
-                  pivot=(0.0, -5.2), abdomen=(0.0, -12.0, 4.6, 6.0, 5.0),
-                  foot=(3.8, -17.6), tail=(0.0, -22.5), eye_r=2.5,
-                  ear=dict(c=(4.3, 8.5), rx=3.5, ry=1.8, zb=4.2, zt=16.0)),
+        body=dict(chest=(0.0, 1.1, 7.4, 6.2, 6.4), head=(0.0, 9.4, 6.8, 5.9, 9.6),
+                  pivot=(0.0, -5.2), abdomen=(0.0, -11.6, 4.4, 5.6, 4.8),
+                  foot=(5.2, -18.2), tail=(0.0, -25.0), eye_r=2.3,
+                  ear=dict(c=(3.5, 9.2), rx=2.8, ry=2.9, zb=3.4, zt=15.0, lean=(0.62, 0.36))),
         bed=(180, 180)),
 }
 
@@ -185,7 +185,7 @@ def ridge_bar(p, q, w0, w1, h0, h1, pk0, pk1, side=0, off=0.0):
     return hull(pts)
 
 
-def gem_dome(cx, cy, ax, ay, az, rng, z0=0.0, lean=0.0, rings=None, jit=0.035):
+def gem_dome(cx, cy, ax, ay, az, rng, z0=0.0, lean=0.0, rings=None, jit=0.035, extra=()):
     """Faceted half-ellipsoid: convex hull of jittered points on rings of latitude."""
     rings = rings or [(0, 14), (22, 13), (42, 11), (60, 9), (76, 6)]
     pts = []
@@ -199,7 +199,7 @@ def gem_dome(cx, cy, ax, ay, az, rng, z0=0.0, lean=0.0, rings=None, jit=0.035):
                         cy + ay * math.cos(e) * math.sin(a) * j - lean * math.sin(e),
                         z0 + az * math.sin(e)))
     pts.append((cx, cy - lean, z0 + az))
-    return hull(pts)
+    return hull(pts + list(extra))
 
 
 def ellipsoid_point(c, ax, ay, az, z0, lean, el_deg, az_deg):
@@ -394,11 +394,20 @@ def build_right_wing(cfg):
     return panels, joints, d
 
 
-def shoulder_keep_out(cfg, d0, mirror=False):
+def below(m, z):
+    """The part of m under height z."""
+    return m ^ Manifold.cube((900.0, 900.0, z + 10.0)).translate((-450.0, -450.0, -10.0))
+
+
+def shoulder_keep_out(cfg, d0, mirror=False, ztop=None):
+    """Where the wing swings, seen from the shoulder. With ztop, only up to that height:
+    the wing is flat, so the ears may lean out over its path higher up."""
     W = cfg["wing"]
     j0 = W["pivots"][0]
     w = wedge(j0, W["beta"][0] - WING_BACK - MARGIN, d0 + 25.0 + WING_FWD + MARGIN) \
         - cyl(j0, cfg["hw_wing"] + 0.05)
+    if ztop is not None:
+        w = below(w, ztop)
     return w.mirror((1, 0, 0)) if mirror else w
 
 
@@ -407,78 +416,90 @@ def shoulder_keep_out(cfg, d0, mirror=False):
 # =============================================================================
 
 def build_head_and_chest(cfg, rng):
+    """Head, chest and shoulders (seen from above: a wedge face, V ears, broad shoulders)."""
     b = cfg["body"]
     Hb, hw = cfg["Hb"], cfg["hw_wing"]
-    cx, cy, cax, cay, caz = b["chest"]
-    parts = [gem_dome(cx, cy, cax, cay, caz, rng)]
-    hx, hy, hax, hay, haz = b["head"]
-    lean = 0.12 * hay
-    parts.append(gem_dome(hx, hy, hax, hay, haz, rng, lean=lean,
-                          rings=[(0, 16), (20, 15), (38, 13), (55, 11), (70, 8), (82, 5)]))
-
-    # shoulders: housing + a blob joining it to the chest (both sides)
     S = cfg["wing"]["pivots"][0]
-    for sgn in (1, -1):
-        c = (sgn * S[0], S[1])
-        parts.append(hull([(x, y, z) for (x, y) in ngon(c[0], c[1], hw, 20) for z in (0, Hb - 0.6)]
-                          + [(x, y, Hb) for (x, y) in ngon(c[0], c[1], hw - 0.6, 20)]))
-        inner = (sgn * (S[0] - 0.55 * hw - 2.5), S[1])
-        parts.append(hull([(x, y, z) for (x, y) in ngon(c[0], c[1], hw - 0.4, 16) for z in (0, Hb - 0.8)]
-                          + [(x, y, z) for (x, y) in ngon(inner[0], inner[1], 0.55 * hw + 0.8, 16)
-                             for z in (0, Hb + 0.8)]))
-
-    # abdomen joint housing at the back of the chest
     B = b["pivot"]
     hb = cfg["hw_body"]
     Ht = rup(cfg["Hb"] + 0.8)
-    parts.append(hull([(x, y, z) for (x, y) in ngon(B[0], B[1], hb, 24) for z in (0, Ht - 0.6)]
-                      + [(x, y, Ht) for (x, y) in ngon(B[0], B[1], hb - 0.6, 24)]))
 
-    # ears: broad faceted leaves, tips leaning out a little, cupped on the front
+    def disc(c, r, h, n=12, ch=0.6):
+        return [(x, y, z) for (x, y) in ngon(c[0], c[1], r, n, math.pi / n) for z in (0.0, h - ch)] + \
+            [(x, y, h) for (x, y) in ngon(c[0], c[1], r - ch, n, math.pi / n)]
+
+    # torso: one faceted hull over the chest, both shoulder housings and the waist housing,
+    # so the body reads as a single tapered shape (the joints are cut out of it later)
+    cx, cy, cax, cay, caz = b["chest"]
+    torso_pts = disc((S[0], S[1]), hw, Hb) + disc((-S[0], S[1]), hw, Hb) + disc(B, hb, Ht, 16)
+    parts = [gem_dome(cx, cy, cax, cay, caz, rng, extra=torso_pts)]
+
+    # head: faceted dome with a muzzle and nose pushed out in front (every front face
+    # leans back at least 45 deg, so nothing overhangs)
+    hx, hy, hax, hay, haz = b["head"]
+    lean = 0.12 * hay
+    y0 = hy + hay
+    muzzle = [(sx * 0.34 * hax, y0 + 0.6, 0.0) for sx in (-1, 1)] + \
+        [(sx * 0.26 * hax, y0 + 1.3, 0.2 * haz) for sx in (-1, 1)] + \
+        [(sx * 0.12 * hax, y0 + 1.8, 0.33 * haz) for sx in (-1, 1)] + \
+        [(0.0, y0 + 2.0, 0.37 * haz)] + \
+        [(sx * 0.2 * hax, y0 + 0.3, 0.5 * haz) for sx in (-1, 1)]
+    parts.append(gem_dome(hx, hy, hax, hay, haz, rng, lean=lean, extra=muzzle,
+                          rings=[(0, 16), (20, 15), (38, 13), (55, 11), (70, 8), (82, 5)]))
+
+    # ears: big faceted cones leaning outward and forward (about 35 deg from vertical, so
+    # they print without support), which makes the classic V seen from above. Every ring
+    # lies on the straight cone between the base and the tip, so no face is steeper.
     ear = b["ear"]
-    ears, ear_cuts = [], []
+    ears, ear_cuts, tragi = [], [], []
     (ex, ey), rx, ry, zb, zt = ear["c"], ear["rx"], ear["ry"], ear["zb"], ear["zt"]
-    zm = zb + 0.55 * (zt - zb)
+    h = zt - zb
+    tip = (ex + ear["lean"][0] * h, ey + ear["lean"][1] * h)
 
-    def ring(cx_, cy_, ax_, ay_, z, n=12):
-        return [(cx_ + ax_ * math.cos(TAU * i / n), cy_ + ay_ * math.sin(TAU * i / n), z)
-                for i in range(n)]
+    def ring(t, sgn, scale=1.0, dy=0.0, n=14, ph=0.0):
+        """Ring of the cone at fraction t (0 base, 1 tip), shrunk by `scale`, shifted forward."""
+        cx_ = ex + (tip[0] - ex) * t
+        cy_ = ey + (tip[1] - ey) * t + dy
+        k = (1.0 - t) * scale
+        return [(sgn * (cx_ + k * rx * math.cos(ph + TAU * i / n)), cy_ + k * ry * math.sin(ph + TAU * i / n),
+                 zb + t * h) for i in range(n)]
 
     for sgn in (1, -1):
-        # rounded tip: a small ring just under the top instead of a single point
-        e = hull(ring(sgn * ex, ey, rx, ry, 0.0) + ring(sgn * ex, ey, rx, ry, zb)
-                 + ring(sgn * (ex + 0.2 * rx), ey - 0.2 * ry, 0.78 * rx, 0.66 * ry, zm)
-                 + ring(sgn * (ex + 0.38 * rx), ey - 0.3 * ry, 0.24 * rx, 0.3 * ry, zt - 1.0, 8)
-                 + [(sgn * (ex + 0.4 * rx), ey - 0.3 * ry, zt)])
-        ears.append(e)
-        ear_cuts.append(hull(ring(sgn * (ex + 0.05 * rx), ey + 0.6 * ry, 0.6 * rx, 0.5 * ry, zb + 1.0)
-                             + ring(sgn * (ex + 0.22 * rx), ey + 0.3 * ry, 0.46 * rx, 0.34 * ry, zm)
-                             + [(sgn * (ex + 0.36 * rx), ey + 0.05 * ry, zt - 2.4)]))
+        base = ring(0.0, sgn)
+        ears.append(hull([(x, y, 0.0) for (x, y, _) in base] + base + ring(0.45, sgn, ph=0.2)
+                         + [(sgn * tip[0], tip[1], zt)]))
+        # cup: a smaller cone pushed toward the front, ending just under the tip
+        ear_cuts.append(hull(ring(0.08, sgn, 0.62, 0.55 * ry) + ring(0.5, sgn, 0.6, 0.38 * ry)
+                             + [(sgn * (ex + (tip[0] - ex) * 0.86), ey + (tip[1] - ey) * 0.86 + 0.12 * ry,
+                                 zb + 0.86 * h)]))
+        tragi.append(hull(ring(0.05, sgn, 0.24, 0.5 * ry, 8)
+                          + [(sgn * (ex + (tip[0] - ex) * 0.38), ey + (tip[1] - ey) * 0.38 + 0.42 * ry,
+                              zb + 0.38 * h)]))
     parts += ears
 
-    # eyes: spheres with a 45 deg chin under each, cut by a slanted lid (low toward the
-    # nose for a mischievous look) and a diamond slit pupil with pointed ends
+    # eyes: slanted almond gems set into the face (they barely rise above the head seen
+    # from above), with a 45 deg chin, a low brow cut and a diamond slit pupil
     er = b["eye_r"]
     eyes, pupils = [], []
     for sgn in (1, -1):
-        surf, nrm = ellipsoid_point((hx, hy), hax, hay, haz, 0.0, lean, 30, 90 - sgn * 30)
-        c = surf + nrm * 0.36 * er
-        ball = Manifold.sphere(er, 48).translate(tuple(c))
-        chin = Manifold.sphere(er, 48).translate(tuple(c + np.array([-nrm[0], -nrm[1], -1.0]) * er * 0.9))
-        eye = Manifold.batch_hull([ball, chin])
+        surf, nrm = ellipsoid_point((hx, hy), hax, hay, haz, 0.0, lean, 25, 90 - sgn * 33)
+        f = nrm / np.linalg.norm(nrm)
+        u_ = np.array([0.0, 0.0, 1.0]) - f * f[2]
+        u_ /= np.linalg.norm(u_)
+        r_ = np.cross(u_, f)
+        frame = np.array([[r_[0], u_[0], f[0], surf[0]], [r_[1], u_[1], f[1], surf[1]],
+                          [r_[2], u_[2], f[2], surf[2]]])
+        almond = Manifold.sphere(1.0, 40).scale((1.35 * er, 0.78 * er, 0.62 * er)) \
+            .rotate((0, 0, sgn * 20.0)).transform(frame)
+        chin = almond.translate((-0.5 * er * f[0], -0.5 * er * f[1], -0.75 * er))
         lid = Manifold.cube((40.0, 40.0, 40.0)).translate((-20.0, -20.0, 0.0)) \
-            .rotate((0, -sgn * 17.0, 0)).translate((c[0], c[1], c[2] + 0.5 * er))
-        eyes.append(eye - lid)
-        f = np.array([nrm[0], nrm[1] + 0.9, 0.0])     # look toward the front
-        f /= np.linalg.norm(f)
-        r_ = np.cross(f, [0.0, 0.0, 1.0])
-        r_ /= np.linalg.norm(r_)
-        u_ = np.cross(r_, f)
-        w2, h2 = 0.27 * er, 0.55 * er
+            .rotate((0, -sgn * 16.0, 0)).translate((surf[0], surf[1], surf[2] + 0.36 * er))
+        eyes.append(Manifold.batch_hull([almond, chin]) - lid)
+        w2, h2 = 0.2 * er, 0.5 * er
         dia = CrossSection([[(w2, 0.0), (0.0, h2), (-w2, 0.0), (0.0, -h2)]]).extrude(6.0)
-        o = c + f * (er - 1.0) - np.array([0.0, 0.0, 0.08 * er])
-        m = np.array([[r_[0], u_[0], f[0], o[0]], [r_[1], u_[1], f[1], o[1]], [r_[2], u_[2], f[2], o[2]]])
-        pupils.append(dia.transform(m))
+        fr = frame.copy()
+        fr[:, 3] = surf + f * (0.62 * er - 0.7) - np.array([0.0, 0.0, 0.08 * er])
+        pupils.append(dia.transform(fr))
     parts += eyes
 
     # a tuft of three faceted spikes on the crown, between the ears
@@ -490,57 +511,54 @@ def build_head_and_chest(cfg, rng):
                            for t in np.linspace(0, TAU, 7)[:-1]]
                           + [(bx_ + dx * 0.35, top[1] + dy * tw, top[2] + dz * tw / 1.2)]))
 
-    # nose: a small faceted snout bump between the eyes (underside is a 45 deg slope)
-    surf, nrm = ellipsoid_point((hx, hy), hax, hay, haz, 0.0, lean, 22, 90)
-    ns = 0.11 * haz
-    yb, zn = surf[1] - 0.8, surf[2]
-    parts.append(hull([(-1.6 * ns, yb, zn - ns), (1.6 * ns, yb, zn - ns), (-1.4 * ns, yb, zn + 1.2 * ns),
-                       (1.4 * ns, yb, zn + 1.2 * ns), (-0.7 * ns, yb + 1.8 * ns, zn + 0.6 * ns),
-                       (0.7 * ns, yb + 1.8 * ns, zn + 0.6 * ns), (0.0, yb + 1.6 * ns, zn - 0.1 * ns)]))
-
-    # fangs: two pointed teeth under the snout
+    # fangs: two pointed teeth hanging from the front of the muzzle
     for sgn in (1, -1):
         fx = sgn * 0.15 * hax
-        surf, nrm = ellipsoid_point((hx, hy), hax, hay, haz, 0.0, lean, 8, 90 - sgn * 7)
-        yf = surf[1] - 0.8
-        zt = 0.33 * haz
-        fl = 0.29 * haz
+        yf = y0 + 0.5
+        zt_ = 0.3 * haz
+        fl = 0.27 * haz
         fw = 0.11 * hax
-        parts.append(hull([(fx - fw, yf, zt), (fx + fw, yf, zt), (fx, yf + 2.1, zt - 0.3),
-                           (fx, yf + 1.0, zt - fl)]))
+        parts.append(hull([(fx - fw, yf, zt_), (fx + fw, yf, zt_), (fx, yf + 2.1, zt_ - 0.3),
+                           (fx, yf + 1.1, zt_ - fl)]))
 
-    tragi = []
-    for sgn in (1, -1):
-        bx_, by_ = sgn * (ex + 0.02 * rx), ey + 0.62 * ry
-        tragi.append(hull([(bx_ + 0.3 * rx * math.cos(t), by_ + 0.22 * ry * math.sin(t), zb + 0.6)
-                           for t in np.linspace(0, TAU, 9)[:-1]]
-                          + [(bx_ + sgn * 0.06 * rx, by_ + 0.18 * ry, zb + 0.35 * (zt - zb) + 1.0)]))
     solid = union(parts)
     return solid, ear_cuts, pupils, tragi
 
 
 def build_abdomen(cfg, rng):
+    """Tapered belly, splayed legs with clawed feet, and a wide scalloped tail membrane."""
     b = cfg["body"]
     cx, cy, ax, ay, az = b["abdomen"]
     tm = cfg["tm"]
-    parts = [gem_dome(cx, cy, ax, ay, az, rng, rings=[(0, 12), (25, 11), (48, 9), (68, 6)])]
     fx, fy = b["foot"]
     tail = b["tail"]
+    taper = [(sx * 0.18 * ax, cy - ay - 0.35 * ay, z) for sx in (-1, 1) for z in (0.0, 0.25 * az)]
+    parts = [gem_dome(cx, cy, ax, ay, az, rng, rings=[(0, 12), (25, 11), (48, 9), (68, 6)],
+                      extra=taper)]
     for sgn in (1, -1):
-        hip = (sgn * 0.55 * ax, cy - 0.35 * ay)
+        hip = (sgn * 0.6 * ax, cy - 0.3 * ay)
+        knee = (sgn * (0.6 * ax + 0.55 * (fx - 0.6 * ax) + 0.8), cy - 0.3 * ay + 0.5 * (fy - cy + 0.3 * ay))
         foot = (sgn * fx, fy)
-        parts.append(ridge_bar(hip, foot, 2.2, 1.6, 2.8, 2.2, 3.4, 2.6))
+        parts.append(ridge_bar(hip, knee, 2.4, 2.0, 2.8, 2.5, 3.4, 3.0))
+        parts.append(ridge_bar(knee, foot, 2.0, 1.6, 2.5, 2.2, 3.0, 2.6))
         # three toe claws fanning back from the foot
-        for a in (-60, -90, -120):
+        for a in (-55, -85, -115):
             a2 = a if sgn > 0 else 180 - a
             toe = add(foot, dirv(a2), 3.0)
             parts.append(ridge_bar(foot, toe, 1.4, 0.2, 2.0, 0.9, 2.4, 1.0))
-    # tail membrane between the legs, scalloped, with a tail bone down the middle
-    lft, rgt = (-fx - 0.4, fy + 0.8), (fx + 0.4, fy + 0.8)
+    # tail membrane from foot to foot, scalloped twice on each side, tail bone down the middle
+    lft, rgt = (-fx, fy + 0.6), (fx, fy + 0.6)
     top = (0.0, cy - 0.2 * ay)
-    poly = [rgt, top, lft] + scallop(lft, tail, top, 0.12)[1:-1] + [tail] + scallop(tail, rgt, top, 0.12)[1:-1]
-    parts.append(prism(poly, 0.0, tm))
+    mid_r = (0.5 * fx, 0.5 * (fy + tail[1]) - 0.8)
+    mid_l = (-mid_r[0], mid_r[1])
+    edge = scallop(lft, mid_l, top, 0.13)[1:] + scallop(mid_l, tail, top, 0.13)[1:-1] + [tail] + \
+        scallop(tail, mid_r, top, 0.13)[1:] + scallop(mid_r, rgt, top, 0.13)[1:-1]
+    parts.append(membrane([rgt, top, lft] + edge, tm))
     parts.append(ridge_bar((0.0, cy - 0.5 * ay), tail, 2.0, 0.3, 2.4, 1.2, 3.0, 1.4))
+    # little spurs where the membrane meets the mid scallops
+    for m_ in (mid_l, mid_r):
+        parts.append(ridge_bar(top, add(m_, (m_[0] * 0.06, -0.6)), 1.0, 0.3, tm + 0.4, tm + 0.2,
+                               tm + 0.6, tm + 0.3))
     return union(parts)
 
 
@@ -581,13 +599,15 @@ def generate(cfg, verbose=True):
     if not bj.wall_ok():
         raise ValueError("body joint housing too small")
     sko = [shoulder_keep_out(cfg, d[0]), shoulder_keep_out(cfg, d[0], mirror=True)]
+    zcap = cfg["Hpk"] + 0.8        # the wings (and their tongues) never rise above Hpk
+    sko_body = [shoulder_keep_out(cfg, d[0], ztop=zcap),
+                shoulder_keep_out(cfg, d[0], mirror=True, ztop=zcap)]
     alpha = 90.0 - BODY_SWING - MARGIN
     abd_ko = wedge(bj.pivot, -90.0 - alpha - BODY_SWING - MARGIN,
                    -90.0 + alpha + BODY_SWING + MARGIN) - cyl(bj.pivot, bj.hw)
-    cuts = sko + [abd_ko, bj.f_cutters()]
-    for sgn in (1, -1):
-        jm = wjoints[0]
-        cuts.append(jm.f_cutters() if sgn > 0 else jm.f_cutters().mirror((1, 0, 0)))
+    cuts = sko_body + [abd_ko, bj.f_cutters()]
+    jm = below(wjoints[0].f_cutters(), zcap)
+    cuts += [jm, jm.mirror((1, 0, 0))]
     body = (body - union(ear_cuts + pupils) + union(tragi)) - union(cuts)
 
     # abdomen (R of the body joint)

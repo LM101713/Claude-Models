@@ -56,8 +56,8 @@ Alternatives:
 >
 > His wings are built like a real bat's, with an arm, a forearm and a hand of four fanned
 > fingers, all jointed so they fold and spread. Every finger ends in a tiny claw. He has
-> mischievous slit-pupil eyes, big cupped ears, a spiky tuft, fangs and little clawed feet,
-> and his belly and tail wiggle too.
+> big pointed ears, mischievous slit-pupil eyes, a little snout with fangs, a spiky tuft and
+> clawed feet, and his belly and tail wiggle too.
 >
 > **What you get**
 > - **Standard:** 16.7 cm wingspan

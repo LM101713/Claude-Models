@@ -10,9 +10,11 @@ printability checks and exports slicer-ready STL and 3MF files. A small three.js
 It's the third model in the Gemscale series, after the
 [Flexi Dragon](../gemscale-dragon/) and [Flexi Octopus](../gemscale-octopus/), and uses the
 same proven print-in-place joint. The bat has:
-- a gem-faceted head with broad cupped ears (each with a tragus inside), a crown tuft of
-  three spikes, big eyes with heavy brows and diamond slit pupils, a snout and two fangs
-- a broad faceted chest and belly
+- a gem-faceted head with a pointed muzzle and nose, two fangs, a crown tuft of three
+  spikes, slanted almond eyes with heavy brows and diamond slit pupils, and big pointed
+  ears that lean outward and forward, so **from above the head is a wedge with a V of ears**
+- one tapered torso that runs from broad shoulders to a narrow waist, plus a tapered belly
+  with splayed, clawed legs and a wide, double-scalloped tail membrane
 - two real bat wings: arm, forearm and a **hand whose four fingers fan out from the wrist**,
   with scalloped membranes between them. Bones are raised and ridged, every finger ends in
   a needle claw, the wrist has a hooked thumb, the knuckles are faceted gems, and the
@@ -24,9 +26,9 @@ The wings fold back and forth in their own plane, and the abdomen wiggles side t
 | | Mini | Standard |
 |---|---|---|
 | Wingspan | 114 mm | 167 mm |
-| Size | 114 × 42 × 16 mm | 167 × 59 × 22 mm |
+| Size | 114 × 44 × 15 mm | 167 × 63 × 21 mm |
 | Joints | 7 (shoulder, elbow, wrist per wing + abdomen) | 7 |
-| Filament* | ~6 g | ~14 g |
+| Filament* | ~7 g | ~14 g |
 | Print time* | ~25–35 min | ~50 min – 1 h |
 | Bed | any (A1 mini and up) | any (A1 mini and up) |
 
@@ -128,16 +130,24 @@ fingers out from the wrist, with a scalloped membrane between each pair:
 
 ### The body
 
-- **Head:** a leaning, faceted half-ellipsoid (the convex hull of jittered points; `--seed`
-  changes the facets). It's widest at the base, so nothing overhangs.
-- **Ears:** faceted leaves with rounded tips, a cupped hollow on the front and a tragus
-  spike inside. Every inner surface is steeper than 45°.
-- **Eyes:** spheres with a 45° "chin" underneath. A slanted cut on top makes a flat brow, low
-  toward the nose, which gives a mischievous look. A diamond slit pupil looks forward; its
-  pointed top means it prints without support. The crown tuft, snout and fangs are small
-  faceted wedges with 45° undersides.
-- **Abdomen:** wiggles ±25° on its own joint and carries the legs, three-toed feet, a tail bone
-  and the tail membrane.
+- **Head:** a leaning, faceted half-ellipsoid with a muzzle pushed out in front (the convex
+  hull of jittered points; `--seed` changes the facets). Every front face leans back at
+  least 45°, so nothing overhangs.
+- **Torso:** one faceted hull over the chest, both shoulder housings and the waist housing,
+  so the body reads as a single tapered shape instead of a stack of balls. The joints are
+  then cut out of it.
+- **Ears:** faceted cones leaning about 35° outward and forward, with a cupped hollow on
+  the front and a tragus spike inside. Every ring of each cone lies on the straight line
+  from base to tip, so no face leans more than the cone itself. The ears lean out over the
+  wings' path, but only above the wings' top height (the shoulder cuts stop there), so they
+  never touch a wing and still grow up from their own base layer by layer.
+- **Eyes:** slanted almond gems set into the face (so they don't stick out as round balls
+  from above) with a 45° "chin" underneath. A slanted cut on top makes a flat brow, low
+  toward the nose, for a mischievous look. A diamond slit pupil's pointed top means it
+  prints without support. The crown tuft and fangs are small faceted wedges.
+- **Abdomen:** a tapered, faceted belly that wiggles ±25° on its own joint. It carries
+  two-segment legs splayed out to three-toed feet, a tail bone, and a wide tail membrane
+  with two scallops on each side.
 
 ### Checks (every run)
 
