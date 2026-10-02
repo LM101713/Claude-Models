@@ -42,3 +42,17 @@ joint and the same pure-Python toolchain as the octopus.
 - How to use it: [`gemscale-bat/README.md`](gemscale-bat/README.md)
 - Ready-to-print files: [`gemscale-bat/models/`](gemscale-bat/models/)
 - MakerWorld listing kit: [`gemscale-bat/MAKERWORLD_LISTING.md`](gemscale-bat/MAKERWORLD_LISTING.md)
+
+## Gemscale Flexi T-Rex
+
+[![Gemscale Flexi T-Rex](gemscale-trex/renders/standard_cover_hero.png)](gemscale-trex/)
+
+A chunky, faceted T. rex that **prints in one piece with no supports** and is very quick to print
+(the standard is about 35 minutes, the mini about 20). The jaw is its own hinged part, so it
+chomps; the head nods and the tail wiggles. It prints lying on its side as a flat profile, with
+the same joint and the same pure-Python toolchain as the other Gemscale models.
+
+- Script: [`gemscale-trex/gemscale_trex.py`](gemscale-trex/gemscale_trex.py)
+- How to use it: [`gemscale-trex/README.md`](gemscale-trex/README.md)
+- Ready-to-print files: [`gemscale-trex/models/`](gemscale-trex/models/)
+- MakerWorld listing kit: [`gemscale-trex/MAKERWORLD_LISTING.md`](gemscale-trex/MAKERWORLD_LISTING.md)
