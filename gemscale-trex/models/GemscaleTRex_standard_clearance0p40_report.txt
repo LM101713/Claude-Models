@@ -1,15 +1,14 @@
-Gemscale Flexi T-Rex  preset=standard  clearance=0.40
-size 129.0 x 63.3 x 11.7 mm, 7 parts, 6 joints
-solid volume 15.1 cm^3, estimated 11 g PLA (2 walls, 15 % infill), about 32 min
-two-tone: filament change at 4.4 mm gives the tops of the domes, spikes and eye a second colour
+Gemscale Flexi T-Rex  preset=standard  clearance=0.40  (Blender 5.0.1)
+size 139.5 x 60.4 x 10.9 mm, 6 parts, 5 joints
+solid volume 18.2 cm^3, estimated 13 g PLA (2 walls, 15 % infill)
 
 [PASS] solids: all parts are closed manifolds
-[PASS] separate parts: 7 shells for 7 parts
 [PASS] one piece each: every part is a single connected piece
-[PASS] joint gaps: smallest gap inside a joint 0.40 mm (design 0.40)
+[PASS] joint gaps: smallest gap inside a joint 0.40 mm (design 0.40) (tail2 / tip)
 [PASS] part gaps: smallest gap between unlinked parts 1.50 mm (>= 1.5)
-[PASS] joint swing: jaw opens 36 deg, head nods +-25, tail joints +-30; smallest gap while swinging 0.39 mm (jaw at +18 deg)
-[PASS] overhangs: 0.0 mm^2 of unsupported overhang (eye and nostril tops); 59 mm^2 of short tongue bridges
-[PASS] bed: 129.0 x 63.3 mm on a 180 x 180 bed
-[PASS] socket walls: housing radius >= knob + clearance + 1.0 mm wall (to the flats of the 12-sided housings)
+[PASS] joint swing: jaw opens 30 deg, head nods +-15, tail joints +-28; smallest gap while swinging 0.37 mm (tail2 vs tail1 at -28 deg)
+[PASS] overhangs: 0.0 mm^2 of unsupported overhang; 71 mm^2 of short tongue bridges
+[PASS] bed: 139.5 x 60.4 mm on a 180 x 180 bed
+[PASS] socket walls: every housing surrounds its socket
 [PASS] stl precision: no vertices merge when saved as float32 STL
+[PASS] watertight: every part is watertight as written to the STL/3MF

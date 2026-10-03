@@ -19,7 +19,7 @@ canvas{display:block}
 <body>
 <div id="promo"><div class="t1">FLEXI</div><div class="t2">T-REX</div>
 <div class="sub">Print-in-place &bull; Tiny arms &bull; Fast print</div>
-<div class="tags"><span>NO SUPPORTS</span><span>NO ASSEMBLY</span><span>~35 MIN</span></div></div>
+<div class="tags"><span>NO SUPPORTS</span><span>NO ASSEMBLY</span><span>FAST PRINT</span></div></div>
 <script type="module">
 // Render studio for the Gemscale Flexi T-Rex.
 // Query: ?glb=<file>&parts=<json>&view=hero|top|face|plate&scheme=<name>&w=1600&h=1200
@@ -128,9 +128,11 @@ async function main() {
     if (!o.isMesh) return;
     const i = +o.name.replace(/\D/g, "") || +o.parent.name.replace(/\D/g, "") || 0;
     const p = parts[i] || { t: 0 };
-    o.geometry = o.geometry.toNonIndexed(); o.geometry.computeVertexNormals();
+    // faceted models get flat shading; smooth (sculpted) ones keep their vertex normals
+    if (!p.smooth) { o.geometry = o.geometry.toNonIndexed(); o.geometry.computeVertexNormals(); }
+    else if (!o.geometry.attributes.normal) o.geometry.computeVertexNormals();
     o.material = new THREE.MeshPhysicalMaterial({
-      color: ramp(p.t), roughness: S.rough, metalness: S.metal, flatShading: true,
+      color: ramp(p.t), roughness: S.rough, metalness: S.metal, flatShading: !p.smooth,
       clearcoat: 0.35, clearcoatRoughness: 0.35, sheen: 0.3, sheenColor: ramp(Math.min(1, p.t + 0.2)),
     });
     o.castShadow = o.receiveShadow = true;
