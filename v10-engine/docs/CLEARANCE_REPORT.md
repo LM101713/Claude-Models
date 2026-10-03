@@ -27,4 +27,4 @@ Every pair of part kinds that comes within 4 mm. The smallest gaps are by design
 | rod / valley_beam | 2.92 | 285 deg | rod_4 vs valley_beam |
 | rod / rod | 3.00 | 0 deg | rod_1 vs rod_6 |
 
-Run time 3747 s.
+Run time 5592 s.
