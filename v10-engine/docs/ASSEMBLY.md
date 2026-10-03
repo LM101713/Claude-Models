@@ -202,13 +202,19 @@ crank a few degrees if it does not find the bushing). Put one drop of light oil
 - [ ] Turn the crank 2 full turns by hand: all 10 pistons run smooth and quiet,
       no piston touches its bore (look through the windows), no ticking.
 
-**D3 LED strips (E12).** Cut two 15-LED pieces on the cut marks. Solder the lead
-(W4/W5, 24 AWG silicone: red +5 V, black GND, green DIN) to the **DIN end** (the arrows point away
-from it). Heat-shrink. Peel the backing and press each strip into the groove in a
-head's **underside**, LEDs facing out of the groove, lead end at the end that will
-be at the **rear** of the engine (bank A head: the end nearest cylinder 5; bank B
-head: nearest cylinder 10). Lay the lead in the short side groove to the valley
-side.
+**D3 LED strips (E12).** Cut two 15-LED pieces on the cut marks. If the reel has
+factory solder joints (usually every 0.5 m = 30 LEDs), cut so that every joint falls
+at the end of a piece, never inside one. Solder the lead (W4/W5, 24 AWG silicone:
+red +5 V, black GND, green DIN) to the **DIN end** (the arrows point away from it),
+wires leaving straight off the end; one short (10 mm) piece of clear heat-shrink
+over the joints only - the lead has to turn within 3 mm of the strip end. Peel the
+backing and press each strip into the groove in a head's **underside**, LEDs facing
+out of the groove, lead end at the end that will be at the **rear** of the engine
+(bank A head: the end nearest cylinder 5; bank B head: nearest cylinder 10).
+**Centre it:** about 3.5 mm free at each end of the groove, and the middle LED of
+every group of three exactly between that cylinder's two pairs of valve recesses.
+Turn the lead into the deeper pocket at the groove end and lay it along the pocket
+to the valley side.
 
 **D4 Heads (10) x2.** Lower each head onto its bank: the 5 rail tops enter the
 pockets (it fits one way only - the rails are off-centre). 8 screws per head
@@ -280,3 +286,8 @@ check, rotation direction, speed range).
 Close: end covers (18) front and rear (magnets), bottom panels (21, 4 screws
 each), rubber feet (H11) in the 8 rings. Write the serial number inside the rear
 base half and on the QC record. Then the unit goes to burn-in (`docs/BURN_IN.md`).
+
+**Edition plate (H14)** - fitted last, after burn-in and final QC, so it is never
+scratched in handling: the plate whose number matches the serial number; clean
+the recess on the base front with isopropyl alcohol, peel the liner, press it in
+centred (0.3 mm gap all round), firm pressure for 30 s.

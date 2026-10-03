@@ -67,6 +67,7 @@ Serial no. ______    Build date ______    Builder ______    Firmware ______
 | Auto-sleep left at 15 min (`status`) | [ ] |
 | Adapter + correct mains cord for the customer's country, manual, packed in foam | [ ] |
 | Serial number inside the rear base half matches this sheet | [ ] |
+| Edition plate (H14) number = serial number, centred, no bubbles or scratches | [ ] |
 
 ```
 QC passed by ______________________   Date ________   Signature ______________

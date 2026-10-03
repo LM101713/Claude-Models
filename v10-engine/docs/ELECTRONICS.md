@@ -88,7 +88,10 @@ BOM with every part is in `docs/BOM.md`.
 | E14 | Connectors | JST XH 2.54 mm: headers 2/3/3/3/3/4/4 pin + housings + pre-crimped leads | 1 set | 3.00 | 2.00 |
 | E15 | Small parts | F1 RXEF200, D1 1N5822, D2 P6KE18A, D3 1N5817, C1 220 uF 35 V, C2 470 uF 16 V, C3/C5 100 nF, C4 10 nF, R1/R7 1 k, R3/R6 10 k, R4/R5 330, R8 100 k, Q1 2N3904, female headers | 1 set | 3.50 | 2.00 |
 | E16 | Wire + sleeving | silicone 20/22/24/26 AWG (LED leads 24 AWG), 6 mm black braided sleeve, heat-shrink, 4.8 mm insulated spade terminals | 1 set | 3.00 | 2.00 |
-| E17 | Hall magnets | 6 x 3 mm N52 disc (same as the cover magnets) | 2 | 0.20 | 0.10 |
+| E17 | Cable ties | 100 mm, small (harness strain relief) | 12 | 0.24 | 0.12 |
+
+The 2 hall magnets (one per crank end web) are the same 6 x 3 mm N52 discs as the
+cover magnets and are counted in BOM item H7.
 | | **Electronics total** | | | **~80** | **~63** |
 
 Buy the motor, driver, ESP32 boards and LED strip for all 50 units from one
@@ -145,11 +148,13 @@ Every harness, wire colour, gauge and cut length is listed in
   pocket under the crankcase floor; its leads bend down through the slot in the
   base top, which also traps the body. Fit it before the crankcase goes onto
   the base.
-* **LED strips (W4, W5):** cut 15 LEDs (on the cut marks). Solder the lead to
-  the **DIN** end (arrows on the strip point away from it). The lead end goes
-  to the **rear** of the engine in both heads. Stick the strip into the deck
-  groove LEDs facing out of the groove, lead in the short side groove at the
-  rear end towards the valley. Each lead runs down the rear of the V, into the
+* **LED strips (W4, W5):** cut 15 LEDs (on the cut marks; no factory solder
+  joint inside a piece). Solder the lead to the **DIN** end (arrows on the
+  strip point away from it), wires straight off the end, short heat-shrink
+  over the joints only. The lead end goes to the **rear** of the engine in both
+  heads. Stick the strip centred into the deck groove (about 3.5 mm free at each
+  end), LEDs facing out of the groove; the lead turns in the deeper pocket at
+  the groove's rear end and runs along it to the valley side. Each lead runs down the rear of the V, into the
   rear end cover through its notch, through the harness hole into the base.
   Sleeve both leads together in 6 mm braided sleeve from the V to the base.
 * **Strain relief:** every harness is tied to the cable-tie anchors in the base

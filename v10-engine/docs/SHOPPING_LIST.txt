@@ -53,6 +53,10 @@ H13. Light oil - clock / sewing-machine oil, 1 drop per rail
     qty: 0.01 per engine / 0 for 50
     https://www.amazon.com/s?k=clock+/+sewing-machine+oil
 
+H14. Edition plate - custom engraved metal nameplate 120 x 30 mm, 0.8 mm brushed aluminium (black anodised, laser-engraved) or brass, R3 corners, self-adhesive (3M 467MP), numbered 01-50 - drawings/H14_edition_plate.png
+    qty: 1 per engine / 52 for 50
+    https://www.amazon.com/s?k=custom+engraved+metal+nameplate+120+x+30+mm
+
 E1. ESP32 board - Espressif ESP32-DevKitC-32E (ESP32-WROOM-32E, 38 pin)
     qty: 1 per engine / 52 for 50
     https://www.amazon.com/s?k=Espressif+ESP32-DevKitC-32E+(ESP32-WROOM-32E

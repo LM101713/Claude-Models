@@ -73,7 +73,7 @@ def _cam_lobe(xc, yc, angle_deg, width=4.0):
 def cylinder_head():
     head = box(X0, X1, YO, YV, DECK, TOP)
     head = cq.Workplane().add(head).edges("|Z").chamfer(3.0).val()
-    # casting parting line on the long deck edges (not the ends: the LED lead grooves run there)
+    # casting parting line on the long deck edges (not the ends: thin walls close the LED groove there)
     head = cq.Workplane().add(head).faces("<Z").edges("|X").chamfer(1.5).val()
     # valley chamfer: an exactly horizontal face (in the engine) for the plenum
     big = 60.0
@@ -105,13 +105,15 @@ def cylinder_head():
             head = head.cut(cyl_z(C.hole(C.M3_CLEAR) / 2, DECK - 1, DECK + C.SCREW_FLOOR + 0.1, xc, yc))
     _chk(head, "screws")
     # --- firing-LED strip: groove along the deck face over all five bores,
-    # open at both ends; lead-wire grooves at both ends run to the valley side
-    # (bank A uses the X0 end, bank B - turned 180 deg - the X1 end: both rear)
-    gw, gd = C.LED_GROOVE["w"], C.LED_GROOVE["d"]
-    head = head.cut(box(X0 - 1, X1 + 1, -gw / 2, gw / 2, DECK - 1, DECK + gd))
+    # closed just short of both end faces (no notch, no light leak at the
+    # ends); a deeper lead pocket at each end runs across the strip end and
+    # on to the valley side (bank A uses the X0 end, bank B - turned 180 deg -
+    # the X1 end: both rear)
+    gw, gd, ew = C.LED_GROOVE["w"], C.LED_GROOVE["d"], C.LED_GROOVE["end_wall"]
+    head = head.cut(box(X0 + ew, X1 - ew, -gw / 2, gw / 2, DECK - 1, DECK + gd))
     ww, wd = C.LED_WIRE_GROOVE["w"], C.LED_WIRE_GROOVE["d"]
-    for xw in (X0 + ww / 2 + 2.5, X1 - ww / 2 - 2.5):          # 2.5 mm wall to the end face
-        head = head.cut(box(xw - ww / 2, xw + ww / 2, 0, YV + 1, DECK - 1, DECK + wd))
+    for xa in (X0 + ew, X1 - ew - ww):
+        head = head.cut(box(xa, xa + ww, -gw / 2, YV + 1, DECK - 1, DECK + wd))
     _chk(head, "led strip")
     # --- per cylinder: coil-pack socket, chamber details ------------
     for xc in CYL_X:

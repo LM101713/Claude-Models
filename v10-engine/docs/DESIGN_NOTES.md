@@ -95,6 +95,15 @@ three LEDs over every bore with no custom LED board and only 3 solder joints per
 bank. The strip lies LEDs-down in a groove in the head's deck face and lights
 the combustion chamber directly. The block end margin grew to 30 mm, so the
 engine's length and look are unchanged.
+The groove stops 1.6 mm short of each head end (no notch in the end faces, no
+light leaking out of the joint line); a deeper pocket at each end lets the soldered
+lead turn and run to the valley side.
+
+## 6b. Numbered edition plate
+
+Each of the 50 units carries an engraved metal plate (H14) with its number in a
+bevelled recess on the base front. The 45 deg bevel all round frames the plate and
+prints without any ledge on the vertical face. It is fitted last, after QC.
 
 ## 7. Fits that do not need a test print: crush ribs
 

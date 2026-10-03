@@ -145,6 +145,8 @@ On a headless Linux machine the renderer needs EGL or OSMesa
 * Pistons never touch the bores (0.8 mm gap): they slide on stainless rails.
 * Every press fit uses crush ribs: no tolerance tuning, no test print.
 * Speed 20-120 RPM, StealthChop: silent.
+* Limited edition: a numbered engraved plate (H14, "No. 07 / 50") sits in a bevelled recess
+  on the base front (`EDITION_PLATE` in config.py; `enabled=False` for a plain front).
 
 This design is original. It is not based on any team's engine or any existing
 model, and it contains no logos or trademarks.

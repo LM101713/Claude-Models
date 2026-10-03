@@ -9,6 +9,8 @@ removable bottom panel (both panels are the SAME part).
                   controller-board standoffs, LED-harness hole, hall-sensor lead slot
   21 base_panel : x2, vents over the motor and the electronics, 4 screws each
 
+The front face carries a bevelled recess for the numbered edition plate (H14).
+
 Printing: halves print TOP SKIN DOWN on a textured plate (the visible top gets
 the bed texture, and the inside needs no supports). The top edge chamfer is a
 45 deg overhang, which prints cleanly.
@@ -40,6 +42,34 @@ def _panel_screws(front=True):
 
 
 CASE_SCREWS = [(sx * 112.0, sy * 40.0) for sx in (-1, 1) for sy in (-1, 1)]   # = block.BASE_INSERTS
+EDITION_ZC = ZB + (C.BASE_H - C.BASE_TOP_CHAMFER) / 2          # centred on the flat of the front face
+
+
+def _rounded_rect(w, h, r):
+    return cq.Sketch().rect(w, h).vertices().fillet(r)
+
+
+def edition_recess():
+    """Recess for the edition plate (H14): floor = plate + clearance, then a
+    45 deg bevel out to the front face (no ledge, no overhang when printed)."""
+    e = C.EDITION_PLATE
+    sk = _rounded_rect(e["w"] + 2 * e["clear"], e["h"] + 2 * e["clear"], e["r"] + e["clear"])
+    return (cq.Workplane("YZ", origin=(X1 - e["depth"], 0, EDITION_ZC)).placeSketch(sk)
+            .extrude(e["depth"] + 0.5, taper=-45).val())
+
+
+def edition_plate(number=1):
+    """The purchased plate in its recess, engraved as specified on drawing H14
+    (used for the renders and the interference check)."""
+    e = C.EDITION_PLATE
+    x0 = X1 - e["depth"] + e["tape"]
+    plate = (cq.Workplane("YZ", origin=(x0, 0, EDITION_ZC)).placeSketch(_rounded_rect(e["w"], e["h"], e["r"]))
+             .extrude(e["t"]).val())
+    face = x0 + e["t"]
+    for text, size, dz in (("V10  -  72 DEG EVEN FIRE", 5.5, 5.5), (f"1-6-5-10-2-7-3-8-4-9      No. {number:02d} / 50", 3.6, -6.0)):
+        pl = cq.Plane(origin=(face - 0.12, 0, EDITION_ZC + dz), xDir=(0, 1, 0), normal=(1, 0, 0))
+        plate = plate.cut(cq.Workplane(pl).text(text, size, 0.5, halign="center", valign="center", kind="bold").val())
+    return plate
 
 
 def _shell():
@@ -140,6 +170,8 @@ def _front_features(s):
         s = s.cut(tri)
     # belt slot through the top skin (hidden by the drive cover)
     s = s.cut(box(C.BELT_X - 7, C.BELT_X + 7, -20, 20, ZS - 1, ZT + 1))
+    if C.EDITION_PLATE["enabled"]:
+        s = s.cut(edition_recess())
     return s
 
 
@@ -247,11 +279,16 @@ def electronics_envelopes():
 
 
 def placed(lib):
-    return [("base_front", lib["base_front"], "carbon"), ("base_rear", lib["base_rear"], "carbon"),
-            ("panel_front", lib["panel"], "case"), ("panel_rear", rot_z(lib["panel"], 180), "case")] + \
-        electronics_envelopes()
+    out = [("base_front", lib["base_front"], "carbon"), ("base_rear", lib["base_rear"], "carbon"),
+           ("panel_front", lib["panel"], "case"), ("panel_rear", rot_z(lib["panel"], 180), "case")]
+    if "edition_plate" in lib:
+        out.append(("edition_plate", lib["edition_plate"], "steel"))
+    return out + electronics_envelopes()
 
 
 def build_all():
     f, r = base_halves()
-    return {"base_front": f, "base_rear": r, "panel": bottom_panel()}
+    lib = {"base_front": f, "base_rear": r, "panel": bottom_panel()}
+    if C.EDITION_PLATE["enabled"]:
+        lib["edition_plate"] = edition_plate()
+    return lib

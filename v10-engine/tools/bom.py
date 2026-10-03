@@ -114,6 +114,9 @@ def purchased(screws, inserts, magnets):
         ("H11", "Rubber feet", "20 mm round self-adhesive, 3-5 mm thick", 8, 0.15, 0.08, 10),
         ("H12", "Threadlocker", "Vibra-TITE VC-3 (plastic-safe, removable), 1 drop per screw", 0.02, 12.00, 12.00, 0),
         ("H13", "Light oil", "clock / sewing-machine oil, 1 drop per rail", 0.01, 6.00, 6.00, 0),
+        ("H14", "Edition plate", "custom engraved metal nameplate 120 x 30 mm, 0.8 mm brushed aluminium (black "
+         "anodised, laser-engraved) or brass, R3 corners, self-adhesive (3M 467MP), numbered 01-50 - "
+         "drawings/H14_edition_plate.png", 1, 12.00, 5.00, 4),
         # electronics (see docs/ELECTRONICS.md)
         ("E1", "ESP32 board", "Espressif ESP32-DevKitC-32E (ESP32-WROOM-32E, 38 pin)", 1, 10.00, 9.00, 4),
         ("E2", "Stepper driver", "BIGTREETECH TMC2209 V1.3", 1, 6.00, 4.50, 4),

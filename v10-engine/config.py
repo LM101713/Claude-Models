@@ -238,9 +238,11 @@ CAM_END_GAP = 9.0              # cams stop short of the head ends (loom turns th
 # over every bore. It lies LEDs-down in a groove in the head's deck face and
 # lights the combustion chamber directly. Lead wires leave at the rear end.
 LED_STRIP = dict(pitch=1000.0 / 60.0, n=15, w=10.0, t=2.1)
-LED_GROOVE = dict(w=11.0, d=2.6)       # strip groove in the head deck face (LED face 0.5 mm above the deck)
-LED_WIRE_GROOVE = dict(w=3.5, d=3.8)   # lead-wire groove from the strip end to the valley side:
-                                       # 3 x 24 AWG silicone (1.4 mm) as 2 + 1, never pinched
+LED_GROOVE = dict(w=11.0, d=2.6,       # strip groove in the head deck face (LED face 0.5 mm above the deck)
+                  end_wall=1.6)        # closed 1.6 mm short of both end faces: clean ends, no light leak
+LED_WIRE_GROOVE = dict(w=4.4, d=3.8)   # lead pocket at each groove end, across the strip and on to the
+                                       # valley side: the strip end + heat-shrink turn here (3.4 mm room
+                                       # past the strip end); 3 x 24 AWG silicone (1.4 mm) as 2 + 1
 COIL = dict(shaft_d=10.0, w=11.0, l=15.0, h=24.0)  # coil pack: stands up through the cam cover
 COIL_SOCKET_D = 10.0                   # coil-pack socket depth in the head top
 CAM_COVER = dict(y0=-33.0, y1=19.5, h=18.0, wall=3.0, chamfer=5.0, end_inset=1.0)
@@ -298,6 +300,11 @@ BASE_SKIN = 5.0                # top skin thickness (carries the engine)
 BASE_TOP_CHAMFER = 8.0
 BASE_ENGINE_RECESS = 1.5       # crankcase sits in a shallow shadow-line pocket
 PANEL_T = 3.0                  # bottom panel thickness (sits in a rabbet)
+# Limited-edition plate (purchased H14, numbered 01-50) on the base front: an
+# engraved 0.8 mm metal plate on adhesive transfer tape in a 1 mm recess with a
+# 45 deg bevel all round (reads as a frame, prints cleanly on the vertical face).
+# enabled=False gives a plain front.
+EDITION_PLATE = dict(enabled=True, w=120.0, h=30.0, t=0.8, r=3.0, clear=0.3, depth=1.0, tape=0.13)
 BASE_JOINT_SCREWS = [(-131.0, -48.0), (131.0, -48.0), (-131.0, -92.0), (131.0, -92.0), (-50.0, -42.0), (50.0, -42.0)]  # (y, z)
 BASE_JOINT_PEGS = [(-95.0, -42.0), (95.0, -42.0)]                                    # (y, z)
 PANEL_SCREW_INSET = 12.0       # panel screws, from the inner corners
@@ -533,6 +540,14 @@ def self_check(verbose=True):
         problems.append("pulley spacer shorter than the bearing lip - pulley hub would rub the end plate")
     if BASE_X[1] - BASE_X[0] > 2 * 300 or (BASE_X[1] - BASE_X[0]) / 2 > 300:
         problems.append("base half longer than 300 mm")
+    ep = EDITION_PLATE
+    if ep["enabled"]:
+        if ep["h"] + 2 * (ep["clear"] + ep["depth"]) > BASE_H - BASE_TOP_CHAMFER - 2 * 12.0:
+            problems.append("edition plate too tall for the flat of the base front")
+        if ep["w"] + 2 * (ep["clear"] + ep["depth"]) > (BASE_Y[1] - BASE_Y[0]) - 2 * 40.0:
+            problems.append("edition plate too wide for the base front")
+        if ep["depth"] > BASE_WALL - 2.5 or ep["tape"] + ep["t"] > ep["depth"]:
+            problems.append("edition plate recess: wall too thin or plate stands proud")
     if verbose:
         print("V10 config summary")
         print(f"  split crankpin angle ......... {SPLIT_ANGLE:+.1f} deg (offset {SPLIT_DIST:.2f} mm)")

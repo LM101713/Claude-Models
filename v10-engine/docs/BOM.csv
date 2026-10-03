@@ -8,7 +8,7 @@ printed,06_crank_segment_54,ASA print,"0.16 mm, 5 walls, 40%",2,0.68,0.68,100
 printed,07_crank_segment_198,ASA print,"0.16 mm, 5 walls, 40%",2,0.68,0.68,100
 printed,08_conrod,ASA print,"0.12 mm, 4 walls, 40%",10,0.06,0.06,500
 printed,09_piston,ASA print,"0.16 mm, 4 walls, 25%",10,0.29,0.29,500
-printed,10_cylinder_head,ASA print,"0.2 mm, 4 walls, 25%",2,5.12,5.12,100
+printed,10_cylinder_head,ASA print,"0.2 mm, 4 walls, 25%",2,5.11,5.11,100
 printed,11_cam_cover,ASA print,"0.2 mm, 3 walls, 15%",2,1.34,1.34,100
 printed,12_side_panel,ASA print,"0.2 mm, 3 walls, 15%",2,0.74,0.74,100
 printed,13_intake_trumpet,ASA print,"0.12 mm, 3 walls, 25%",10,0.25,0.25,500
@@ -17,7 +17,7 @@ printed,15_exhaust_bank_B,ASA print,"0.16 mm, 3 walls, 20%",1,0.84,0.84,50
 printed,16_coil_pack,ASA print,"0.16 mm, 3 walls, 25%",10,0.07,0.07,500
 printed,17_throttle_frame,ASA print,"0.2 mm, 4 walls, 20%",1,1.70,1.70,50
 printed,18_end_cover,ASA print,"0.2 mm, 3 walls, 15%",2,0.71,0.71,100
-printed,19_base_front,ASA print,"0.2 mm, 4 walls, 25%",1,10.54,10.54,50
+printed,19_base_front,ASA print,"0.2 mm, 4 walls, 25%",1,10.47,10.47,50
 printed,20_base_rear,ASA print,"0.2 mm, 4 walls, 25%",1,8.96,8.96,50
 printed,21_base_panel,ASA print,"0.28 mm, 3 walls, 15%",2,2.85,2.85,100
 machined,M01,M01 split crankpin (drawing M01),"416 / 303 stainless, turned + offset journal, ground journals, tapped M3",5,45.0,9.0,250
@@ -39,6 +39,7 @@ purchased,H10,GT2 closed belt,"GT2-6 mm, 210 mm (105 teeth); 220 mm also fits th
 purchased,H11,Rubber feet,"20 mm round self-adhesive, 3-5 mm thick",8,0.15,0.08,440.0
 purchased,H12,Threadlocker,"Vibra-TITE VC-3 (plastic-safe, removable), 1 drop per screw",0.02,12.0,12.0,1.0
 purchased,H13,Light oil,"clock / sewing-machine oil, 1 drop per rail",0.01,6.0,6.0,0.5
+purchased,H14,Edition plate,"custom engraved metal nameplate 120 x 30 mm, 0.8 mm brushed aluminium (black anodised, laser-engraved) or brass, R3 corners, self-adhesive (3M 467MP), numbered 01-50 - drawings/H14_edition_plate.png",1,12.0,5.0,52.0
 purchased,E1,ESP32 board,"Espressif ESP32-DevKitC-32E (ESP32-WROOM-32E, 38 pin)",1,10.0,9.0,52.0
 purchased,E2,Stepper driver,BIGTREETECH TMC2209 V1.3,1,6.0,4.5,52.0
 purchased,E3,5 V regulator,Pololu D24V22F5 (5 V 2.5 A),1,11.0,9.5,52.0

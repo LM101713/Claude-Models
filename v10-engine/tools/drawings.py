@@ -342,6 +342,35 @@ def trumpet(pdf):
     plt.close(fig)
 
 
+def edition_plate(pdf):
+    """H14: engraved edition plate (purchased from an engraver), base front."""
+    from matplotlib.patches import FancyBboxPatch
+    e = C.EDITION_PLATE
+    w, h, r = e["w"], e["h"], e["r"]
+    fig = plt.figure(figsize=(11.7, 6.0))
+    ax = fig.add_axes([0.08, 0.30, 0.84, 0.52])
+    ax.add_patch(FancyBboxPatch((-w / 2 + r, -h / 2 + r), w - 2 * r, h - 2 * r,
+                                boxstyle=f"round,pad={r}", fc="#c9ccd1", ec=INK, lw=1.0))
+    ax.text(0, 5.5, "V10  -  72 DEG EVEN FIRE", ha="center", va="center", fontsize=17, weight="bold", color=INK)
+    ax.text(-22, -6.0, "1-6-5-10-2-7-3-8-4-9", ha="center", va="center", fontsize=11, weight="bold", color=INK)
+    ax.text(33, -6.0, "No. 07 / 50", ha="center", va="center", fontsize=11, weight="bold", color=INK)
+    dim_h(ax, -w / 2, w / 2, h / 2 + 5, f"{w:g}", ext_from=h / 2)
+    dim_v(ax, w / 2 + 5, -h / 2, h / 2, f"{h:g}", ext_from=w / 2)
+    ax.text(-w / 2 + 1, -h / 2 - 4, f"R{r:g} all corners    thickness {e['t']:g}", fontsize=8, color=DIM)
+    ax.set_xlim(-w / 2 - 6, w / 2 + 12); ax.set_ylim(-h / 2 - 7, h / 2 + 9); ax.set_aspect("equal"); ax.axis("off")
+    title_block(fig, "H14", "Edition plate (purchased from an engraver)",
+                f"{e['t']:g} mm aluminium, black anodised + laser-engraved (or brass, engraved + black fill)", 1, [
+        f"Outline {w:g} x {h:g} mm, R{r:g} corners, tolerance +0 / -0.2 (it sits in a {w + 2 * e['clear']:g} x "
+        f"{h + 2 * e['clear']:g} mm recess, 1 mm deep, with a 45 deg bevel).",
+        "Text as shown (clean sans serif, cap height 5.5 / 3.6 mm). Per unit only the number changes: 01 ... 50.",
+        "Back: adhesive transfer tape 3M 467MP (0.13 mm) pre-applied, liner on. No holes, no logos or trademarks.",
+        "Fitted last, after burn-in and QC: clean the recess with isopropyl alcohol, press firmly for 30 s.",
+    ])
+    fig.savefig(os.path.join(OUT, "H14_edition_plate.png"), dpi=160)
+    pdf.savefig(fig)
+    plt.close(fig)
+
+
 def build():
     os.makedirs(OUT, exist_ok=True)
     with PdfPages(os.path.join(OUT, "machined_parts.pdf")) as pdf:
@@ -351,6 +380,8 @@ def build():
         pulley_spacer(pdf)
         trumpet(pdf)
         spacer_ring(pdf)
+        if C.EDITION_PLATE["enabled"]:
+            edition_plate(pdf)
 
 
 if __name__ == "__main__":
