@@ -1,14 +1,17 @@
 """Crankcase, cylinder banks and end plates.
 
 Build order the geometry is designed for:
- 1. Crank module (crank + rods + pistons) slides into the crankcase from one
-    end - the con-rods run along the two long slots in the bank faces.
- 2. End plates (with the 608 main bearings) slide onto the main shafts and
-    bolt to the crankcase ends. Their spigots locate them.
- 3. Each cylinder bank lowers straight down its bore axis over its five
-    pistons. Two printed pegs make it fit only one way round.
- 4. Guide rails drop in through the deck holes, through the piston lug
-    bushings, into the crankcase.
+ 1. End plates (with the 608 main bearings) go onto the crank's main shafts.
+ 2. The crank module (crank + rods + pistons + end plates) is lowered into
+    the open-top crankcase from above; the end-plate spigots drop into the
+    crankcase ends.
+ 3. The valley beam drops in between the two rows of con-rods and bolts to
+    both end plates.
+ 4. Each cylinder bank lowers straight down its bore axis over its five
+    pistons onto the crankcase (outboard) and valley beam (valley side).
+    Two printed pegs make it fit only one way round.
+ 5. Guide rails drop in through the lug slots, through the piston lug
+    bushings, into the valley beam. The cylinder head caps them.
 
 Bank-local frame (used for the bank blocks and bank features): x along the
 crank, z' along the bore axis from the crank axis, y' towards the valley.
@@ -19,7 +22,7 @@ import math
 
 import cadquery as cq
 
-from common import C, box, cyl_x, cyl_z, move, polar, rot_x, rot_z
+from common import C, box, crush_x, cyl_x, cyl_z, move, polar, rot_x, rot_z, safe_clean
 
 S45 = math.sqrt(0.5)
 
@@ -56,10 +59,16 @@ def to_bank(shape, bank):
 
 
 # ---------------------------------------------------------------------------
-# 01 Crankcase
+# 01 Crankcase (open-top U) and 02 Valley beam
 # ---------------------------------------------------------------------------
-END_PLATE_SCREWS = [(-40.0, -22.0), (40.0, -22.0), (-42.0, -3.0), (42.0, -3.0), (0.0, 47.0)]
+# The two con-rod slots run the full length, so the ridge between them is a
+# separate part (the valley beam). That also lets the whole crank module
+# (crank + rods + pistons) be lowered into the crankcase from above.
+CASE_END_SCREWS = [(-40.0, -22.0), (40.0, -22.0), (-42.0, -3.0), (42.0, -3.0)]   # (y, z) U-body
+BEAM_END_SCREWS = [(-9.0, 39.0), (9.0, 39.0)]                                      # (y, z) valley beam
+END_PLATE_SCREWS = CASE_END_SCREWS + BEAM_END_SCREWS
 BASE_INSERTS = [(sx * 112.0, sy * 40.0) for sx in (-1, 1) for sy in (-1, 1)]
+SQ2 = math.sqrt(2.0)
 
 
 def bank_between_x():
@@ -68,75 +77,140 @@ def bank_between_x():
     return [(xs[i] + xs[i + 1]) / 2 for i in range(len(xs) - 1)]
 
 
+def block_end_screws_x():
+    xs = C.BANK_A_CYL_X
+    return [xs[0] + 18.0, xs[-1] - 19.0]
+
+
 def locator_xy():
     return [(C.BANK_A_CYL_X[0] + 18.0, C.LOCATOR_Y), (C.BANK_A_CYL_X[-1] - 18.0, C.LOCATOR_Y)]
+
+
+def beam_profile():
+    """Cross-section (y, z) of the valley beam = the ridge between the slots."""
+    p_slot = C.CASE_SLOT_HALF * SQ2          # slot valley edge, in y+z / z-y units
+    p_cav = C.CASE_INTERIOR_R * SQ2          # teardrop roof of the crank cavity
+    p_face = C.FACE_DIST * SQ2               # bank mounting faces
+    pq = [(p_face, p_face), (p_face, p_slot), (p_cav, p_slot), (p_cav, p_cav),
+          (p_slot, p_cav), (p_slot, p_face)]
+    return [((p - q) / 2, (p + q) / 2) for p, q in pq]
+
+
+def _bank_face_features(ins_d, which):
+    """Cutters on one bank's mounting face, bank-local. which: 'case' or 'beam'."""
+    h = C.CASE_HALF_LEN
+    f = []
+    if which == "case":
+        f.append(box(-h - 1, h + 1, -C.CASE_SLOT_HALF, C.CASE_SLOT_HALF, 0.0, C.FACE_DIST + 1))
+        for x in block_end_screws_x():
+            f.append(cyl_z(ins_d / 2, C.FACE_DIST - C.INSERT_DEPTH, C.FACE_DIST + 1, x, C.BLOCK_SCREW_END_Y))
+    else:
+        for x in bank_between_x():
+            f.append(cyl_z(ins_d / 2, C.FACE_DIST - C.INSERT_DEPTH, C.FACE_DIST + 1, x, C.BLOCK_SCREW_VALLEY_Y))
+        for x, y in locator_xy():
+            f.append(cyl_z(C.hole(C.LOCATOR_D, "spigot") / 2, C.FACE_DIST - C.LOCATOR_H - 0.5, C.FACE_DIST + 1, x, y))
+        for x in C.BANK_A_CYL_X:
+            f.append(cyl_z(C.hole(C.RAIL_DIA, "rail_3_slip") / 2, C.RAIL_BOTTOM, C.FACE_DIST + 1, x, C.RAIL_OFFSET))
+    out = f[0]
+    for g in f[1:]:
+        out = out.fuse(g)
+    return out
 
 
 def crankcase():
     h = C.CASE_HALF_LEN
     body = _prism(outer_profile(), -h, h)
     body = body.cut(teardrop(C.CASE_INTERIOR_R, -h - 1, h + 1))
+    body = body.cut(_prism(beam_profile(), -h - 1, h + 1))      # the beam's space
     ins_d = C.hole(C.INSERT_HOLE_DIA - C.HOLE_COMP, "insert_m3")
     for bank in ("A", "B"):
-        feats = box(-h - 1, h + 1, -C.CASE_SLOT_HALF, C.CASE_SLOT_HALF, 0.0, C.FACE_DIST + 1)
-        for x in bank_between_x():
-            for y in C.BLOCK_SCREW_Y:
-                feats = feats.fuse(cyl_z(ins_d / 2, C.FACE_DIST - C.INSERT_DEPTH, C.FACE_DIST + 1, x, y))
-        for x, y in locator_xy():
-            feats = feats.fuse(cyl_z(C.hole(C.LOCATOR_D, "spigot") / 2, C.FACE_DIST - C.LOCATOR_H - 0.5, C.FACE_DIST + 1, x, y))
-        for x in C.BANK_A_CYL_X:
-            feats = feats.fuse(cyl_z(C.hole(C.RAIL_DIA, "rail_3_slip") / 2, C.RAIL_BOTTOM, C.FACE_DIST + 1, x, C.RAIL_OFFSET))
-        body = body.cut(to_bank(feats, bank))
-    # end-plate inserts (both ends)
+        body = body.cut(to_bank(_bank_face_features(ins_d, "case"), bank))
     for sx in (-1, 1):
-        for y, z in END_PLATE_SCREWS:
+        for y, z in CASE_END_SCREWS:
             x0 = sx * h
             lo, hi = sorted((x0 - sx * C.INSERT_DEPTH, x0 + sx * 1))
             body = body.cut(cyl_x(ins_d / 2, lo, hi, y, z))
-    # base inserts in the underside
     for x, y in BASE_INSERTS:
         body = body.cut(cyl_z(ins_d / 2, C.CASE_FLOOR_Z - 1, C.CASE_FLOOR_Z + C.INSERT_DEPTH, x, y))
-    # hall-effect sensor pocket (from below) under the front end-web magnet,
-    # plus a wire slot running to the nearest base opening
+    # hall-effect sensor pocket (from below) under the front end-web magnet;
+    # its leads go straight down through a hole in the base top
     hx = C.WEB_FACE_X + C.END_WEB_T / 2
     hp = C.HALL_POCKET
     body = body.cut(box(hx - hp["l"] / 2, hx + hp["l"] / 2, -hp["w"] / 2, hp["w"] / 2,
                         C.CASE_FLOOR_Z - 1, C.CASE_FLOOR_Z + hp["d"]))
-    body = body.cut(box(hx - 1.5, h + 1, -1.5, 1.5, C.CASE_FLOOR_Z - 1, C.CASE_FLOOR_Z + 2.0))
-    return body.clean()
+    return safe_clean(body)
+
+
+def valley_beam():
+    h = C.CASE_HALF_LEN
+    beam = _prism(beam_profile(), -h, h)
+    ins_d = C.hole(C.INSERT_HOLE_DIA - C.HOLE_COMP, "insert_m3")
+    for bank in ("A", "B"):
+        beam = beam.cut(to_bank(_bank_face_features(ins_d, "beam"), bank))
+    for sx in (-1, 1):
+        for y, z in BEAM_END_SCREWS:
+            x0 = sx * h
+            lo, hi = sorted((x0 - sx * C.INSERT_DEPTH, x0 + sx * 1))
+            beam = beam.cut(cyl_x(ins_d / 2, lo, hi, y, z))
+    return safe_clean(beam)
+
+
+def print_beam(s):
+    """Lay the beam on bank A's land (that face becomes the flat bed face)."""
+    s = rot_x(s, -C.BANK_A_ANGLE)                       # bank A axis -> +Z
+    return s.rotate((0, 0, 0), (1, 0, 0), 180)           # land face down
 
 
 # ---------------------------------------------------------------------------
-# 02 Cylinder bank (x2, identical)
+# 03 Cylinder bank (x2, identical)
 # ---------------------------------------------------------------------------
+def _window(x):
+    """Cut-away window. Its lower edge (the sill) slopes 45 deg up towards the
+    bore, so when the block prints deck-down the sill is a 45 deg overhang
+    instead of a 34 mm bridge. It also reads as a bevelled cut-away."""
+    hw = C.WINDOW_HALF_W
+    yo = C.BLOCK_Y_OUT - 1
+    zb, zt = C.WINDOW_BOTTOM, C.WINDOW_TOP
+    rise = 0 - yo                                        # out to the bore centre plane
+    prof = [(yo, zb), (0.0, zb + rise), (0.0, zt), (yo, zt)]    # (y', z') in a section
+    w = (cq.Workplane("YZ").workplane(offset=x - hw).polyline(prof).close().extrude(2 * hw).val())
+    return w
+
+
 def cylinder_bank():
     z0, z1 = C.FACE_DIST, C.DECK_DIST
     blk = box(C.BLOCK_X_MIN, C.BLOCK_X_MAX, C.BLOCK_Y_OUT, C.BLOCK_Y_VALLEY, z0, z1)
-    # soften the long vertical edges (premium look, no sharp corners)
     blk = cq.Workplane().add(blk).edges("|Z").chamfer(3.0).val()
     pocket_r = C.LUG_OD / 2 + C.LUG_POCKET_CLEAR
+    ins_d = C.hole(C.INSERT_HOLE_DIA - C.HOLE_COMP, "insert_m3")
     for x in C.BANK_A_CYL_X:
         blk = blk.cut(cyl_z(C.BORE_DIA / 2, z0 - 1, z1 + 1, x, 0))
-        # guide-lug pocket, open at the bottom, closed by the deck ring
-        top = z1 - C.DECK_RING_T
-        pocket = cyl_z(pocket_r, z0 - 1, top, x, C.RAIL_OFFSET)
-        pocket = pocket.fuse(box(x - pocket_r, x + pocket_r, 0, C.RAIL_OFFSET, z0 - 1, top))
+        # guide-lug pocket: a through slot (the cylinder head caps the rail top)
+        pocket = cyl_z(pocket_r, z0 - 1, z1 + 1, x, C.RAIL_OFFSET)
+        pocket = pocket.fuse(box(x - pocket_r, x + pocket_r, 0, C.RAIL_OFFSET, z0 - 1, z1 + 1))
         blk = blk.cut(pocket)
-        blk = blk.cut(cyl_z(C.hole(C.RAIL_DIA, "rail_3_slip") / 2, top - 1, z1 + 1, x, C.RAIL_OFFSET))
-        # cut-away window in the outboard wall
-        win = box(x - C.WINDOW_HALF_W, x + C.WINDOW_HALF_W, C.BLOCK_Y_OUT - 1, 0,
-                  C.WINDOW_BOTTOM, C.WINDOW_TOP)
-        win = cq.Workplane().add(win).edges("|Y").fillet(4.0).val()
-        blk = blk.cut(win)
-    # screws: counterbored from the deck, M3x8 into crankcase inserts
+        blk = blk.cut(_window(x))
+    # block-to-crankcase screws, counterbored from the deck (M3x8 into inserts)
+    screws = [(x, C.BLOCK_SCREW_VALLEY_Y) for x in bank_between_x()]
+    screws += [(x, C.BLOCK_SCREW_END_Y) for x in block_end_screws_x()]
+    for x, y in screws:
+        blk = blk.cut(cyl_z(C.hole(C.M3_CBORE) / 2, z0 + C.SCREW_FLOOR, z1 + 1, x, y))
+        blk = blk.cut(cyl_z(C.hole(C.M3_CLEAR) / 2, z0 - 1, z0 + C.SCREW_FLOOR + 0.1, x, y))
+    # cylinder-head screw inserts in the deck, on the two cam lines
     for x in bank_between_x():
-        for y in C.BLOCK_SCREW_Y:
-            blk = blk.cut(cyl_z(C.hole(C.M3_CBORE) / 2, z0 + C.SCREW_FLOOR, z1 + 1, x, y))
-            blk = blk.cut(cyl_z(C.hole(C.M3_CLEAR) / 2, z0 - 1, z0 + C.SCREW_FLOOR + 0.1, x, y))
-    # locating pegs (make the block fit one way only)
+        for y in C.HEAD_SCREW_Y:
+            blk = blk.cut(cyl_z(ins_d / 2, z1 - C.INSERT_DEPTH, z1 + 1, x, y))
+    # side-panel magnets in the outboard face, between the windows
+    for x in bank_between_x():
+        blk = blk.cut(crush_x(C.MAGNET["d"], 0, C.MAGNET["h"] + 0.3, 0, 0, "magnet_6", entry="lo")
+                      .rotate((0, 0, 0), (0, 0, 1), 90)          # axis along +Y'
+                      .translate(cq.Vector(x, C.BLOCK_Y_OUT - 0.01, C.SIDE_PANEL_MAGNET_Z)))
+    # holes for the cylinder head's locating pegs
+    for x, y in C.HEAD_PEGS:
+        blk = blk.cut(cyl_z(C.hole(5.0, "spigot") / 2, z1 - 3.0, z1 + 1, x, y))
     for x, y in locator_xy():
         blk = blk.fuse(cyl_z(C.LOCATOR_D / 2, z0 - C.LOCATOR_H, z0 + 0.1, x, y))
-    return blk.clean()
+    return safe_clean(blk)
 
 
 # ---------------------------------------------------------------------------
@@ -152,21 +226,26 @@ def end_plate():
     plate = plate.fuse(sp)
     # hollow the spigot so it clears the crank flange and saves plastic
     plate = plate.cut(cyl_x(C.CASE_INTERIOR_R - 4.0, C.END_PLATE_INNER_X - 1, h - 3.0))
-    # bearing seat (from outside) and lip that only touches the outer ring
-    plate = plate.cut(cyl_x(C.hole(C.BEARING_608["od"], "bearing_608") / 2, C.BEARING_INNER_X, x_out + 1))
-    plate = plate.cut(cyl_x(C.BEARING_608_OUTER_LIP_ID / 2, C.END_PLATE_INNER_X - 1, x_out))
+    # 608 seat: pressed in from the INSIDE face until it stops on a lip on the
+    # outside (the lip only touches the outer ring). Plain lead-in bore, then
+    # a crush-rib seat exactly one bearing wide.
+    lead_d = C.BEARING_608["od"] + C.HOLE_COMP + C.CRUSH_RELIEF
+    plate = plate.cut(cyl_x(lead_d / 2, C.END_PLATE_INNER_X - 1, C.BEARING_INNER_X + 0.01))
+    plate = plate.cut(crush_x(C.BEARING_608["od"], C.BEARING_INNER_X, C.BEARING_OUTER_X,
+                              0, 0, "bearing_608", entry="lo"))
+    plate = plate.cut(cyl_x(C.BEARING_608_OUTER_LIP_ID / 2, C.BEARING_OUTER_X - 0.01, x_out + 1))
     for y, z in END_PLATE_SCREWS:
         plate = plate.cut(cyl_x(C.hole(C.M3_CLEAR) / 2, h - 1, x_out + 1, y, z))
         plate = plate.cut(cyl_x(C.hole(C.M3_CBORE) / 2, h + C.SCREW_FLOOR, x_out + 1, y, z))
     # magnets for the drive cover (front) / rear cover (Phase 3) - same pattern both ends
-    md = C.hole(C.MAGNET["d"], "magnet_6")
     for y, z in C.COVER_MAGNETS:
-        plate = plate.cut(cyl_x(md / 2, x_out - C.MAGNET["h"] - 0.2, x_out + 1, y, z))
-    return plate.clean()
+        plate = plate.cut(crush_x(C.MAGNET["d"], x_out - C.MAGNET["h"] - 0.3, x_out + 0.5, y, z,
+                                  "magnet_6", entry="hi"))
+    return safe_clean(plate)
 
 
 def placed_static(lib):
-    out = [("crankcase", lib["case"], "case")]
+    out = [("crankcase", lib["case"], "case"), ("valley_beam", lib["beam"], "case")]
     out.append(("bank_A", to_bank(lib["bank"], "A"), "block"))
     out.append(("bank_B", to_bank(lib["bank"], "B"), "block"))
     out.append(("end_plate_front", lib["plate"], "case"))
@@ -175,7 +254,7 @@ def placed_static(lib):
 
 
 def build_all():
-    return {"case": crankcase(), "bank": cylinder_bank(), "plate": end_plate()}
+    return {"case": crankcase(), "beam": valley_beam(), "bank": cylinder_bank(), "plate": end_plate()}
 
 
 def print_bank(s):

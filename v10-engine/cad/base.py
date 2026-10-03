@@ -16,7 +16,7 @@ the bed texture, and the inside needs no supports). The top edge chamfer is a
 
 import cadquery as cq
 
-from common import C, box, cyl_x, cyl_z, move, rot_z
+from common import C, box, cyl_x, cyl_z, move, rot_z, safe_clean
 
 X0, X1 = C.BASE_X
 Y0, Y1 = C.BASE_Y
@@ -77,7 +77,18 @@ def _joint_features(s):
     for y, z in C.BASE_JOINT_PEGS:
         s = s.fuse(box(-8, 8, y - 6, y + 6, z - 6, ZS + 0.1))
     for y, z in C.BASE_JOINT_SCREWS:
-        s = s.fuse(box(-8, 8, y - 6, y + 6, z - 6, min(z + 6, ZS + 0.1)))
+        top = min(z + 6, ZS + 0.1)
+        s = s.fuse(box(-8, 8, y - 6, y + 6, z - 6, top))
+        if top < ZS:
+            # 45 deg gusset from the boss up to the wall/skin: the base prints
+            # skin-down, so the boss's engine-top face would otherwise be a
+            # 12 mm overhang hanging off the wall
+            side = 1 if y > 0 else -1
+            wall = C.BASE_Y[1] - W if side > 0 else C.BASE_Y[0] + W
+            g = (cq.Workplane("YZ").workplane(offset=-8)
+                 .polyline([(y - side * 6, top), (wall, top + abs(wall - (y - side * 6))), (wall, top)]).close()
+                 .extrude(16).val())
+            s = s.fuse(g.intersect(box(-9, 9, C.BASE_Y[0], C.BASE_Y[1], ZB, ZS + 0.1)))
         s = s.cut(cyl_x(C.hole(C.M3_CLEAR) / 2, -4.1, 0.1, y, z))
         s = s.cut(cyl_x(C.hole(C.M3_CBORE) / 2, -9, -C.SCREW_FLOOR, y, z))
         s = s.cut(cyl_x(INS / 2, -0.1, C.INSERT_DEPTH, y, z))
@@ -109,8 +120,14 @@ def _front_features(s):
     for dy in (-hp, hp):
         for dz in (-hp, hp):
             s = s.cut(slot(C.hole(C.M3_CLEAR) / 2, dy, C.MOTOR_Z + dz))
-    for y in (-80.0, 80.0):      # cable pass-throughs
-        s = s.cut(box(x0 - 1, x1 + 1, y - 12, y + 12, ZP + 10, ZP + 22))
+    for y in (-80.0, 80.0):      # cable pass-throughs (teardrop: no flat bridge when printed skin-down)
+        r = 7.0
+        zc = ZP + 16
+        s = s.cut(cyl_x(r, x0 - 1, x1 + 1, y, zc))
+        tri = (cq.Workplane("YZ").workplane(offset=x0 - 1)
+               .polyline([(y - r * 0.7071, zc - r * 0.7071), (y, zc - r * 1.4142), (y + r * 0.7071, zc - r * 0.7071)])
+               .close().extrude(x1 - x0 + 2).val())
+        s = s.cut(tri)
     # belt slot through the top skin (hidden by the drive cover)
     s = s.cut(box(C.BELT_X - 7, C.BELT_X + 7, -20, 20, ZS - 1, ZT + 1))
     # hall sensor wires straight down from the crankcase floor pocket
@@ -119,11 +136,14 @@ def _front_features(s):
 
 
 def _rear_features(s):
+    # control panel: rear wall thinned from inside to CONTROL_PANEL_T so the
+    # jack / rocker / button nuts and clips can grip
+    ys = [c[1] for c in C.CONTROLS]
+    s = s.cut(box(X0 + C.CONTROL_PANEL_T, X0 + W + 1, min(ys) - 18, max(ys) + 18,
+                  C.CONTROLS_Z - 15, C.CONTROLS_Z + 15))
     # control cut-outs in the rear wall
     for name, y, shape, d in C.CONTROLS:
         s = s.cut(cyl_x(d / 2 + C.HOLE_COMP / 2, X0 - 1, X0 + W + 1, y, C.CONTROLS_Z))
-        if name == "power":      # snap-in rocker needs a 2 mm panel: thin the wall locally
-            s = s.cut(cyl_x(d / 2 + 5, X0 + 2.0, X0 + W + 1, y, C.CONTROLS_Z))
         if name == "speed":
             s = s.cut(cyl_x(C.POT_TAB["d"] / 2, X0 + 1.5, X0 + W + 1, y + C.POT_TAB["dy"], C.CONTROLS_Z))
         # engraved label under each control, reading correctly from behind
@@ -157,7 +177,7 @@ def base_halves():
         rear = rear.cut(hl)
     front = _front_features(front)
     rear = _rear_features(rear)
-    return front.clean(), rear.clean()
+    return safe_clean(front), safe_clean(rear)
 
 
 def bottom_panel():
@@ -176,7 +196,7 @@ def bottom_panel():
     for x in (30.0, 170.0):
         for y in (-95.0, 95.0):
             p = p.cut(cyl_z(10.5, ZB - 1, ZB + 0.4, x, y).cut(cyl_z(9.7, ZB - 2, ZB + 1, x, y)))
-    return p.clean()
+    return safe_clean(p)
 
 
 def print_half(s):

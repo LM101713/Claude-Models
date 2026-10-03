@@ -1,7 +1,9 @@
 """Regenerate everything from config.py.
 
-    python build_all.py            # parts + previews + drawings (~2 min)
-    python build_all.py --check    # also run the full collision sweep (~4 min)
+    python build_all.py              # parts + previews + drawings
+    python build_all.py --stl-only   # just regenerate STL/STEP (fast)
+    python build_all.py --only 07_   # only parts whose file name starts with 07_
+    python build_all.py --check      # also run the collision sweep + drive check
 
 Outputs
   stl/       numbered STL + STEP for every part, already in print orientation
@@ -23,6 +25,7 @@ import block  # noqa: E402
 import drive  # noqa: E402
 import crank  # noqa: E402
 import rods_pistons as rp  # noqa: E402
+import styling  # noqa: E402
 import tolerance_test  # noqa: E402
 from common import check_printable_size, export, rot_z  # noqa: E402
 
@@ -34,45 +37,73 @@ R = os.path.join(ROOT, "renders")
 
 def parts():
     L = assembly.libs()
-    cr, mp, bl = L["crank"], L["rp"], L["block"]
+    cr, mp, bl, st, bs = L["crank"], L["rp"], L["block"], L["style"], L["base"]
     # (file name, shape in print orientation, qty per engine, preview colour)
     return [
-        ("00_tolerance_test", tolerance_test.build(), 1, "white"),
+        ("00_fit_check_optional", tolerance_test.build(), 1, "white"),
+        # Phase 1 - core engine
         ("01_crankcase", bl["case"], 1, "case"),
-        ("02_cylinder_bank", block.print_bank(bl["bank"]), 2, "block"),
-        ("03_end_plate", block.print_plate(bl["plate"]), 2, "case"),
-        ("04_crank_end_web", crank.print_end_web(cr["end"]), 2, "crank"),
-        (f"05_crank_segment_{C.SEGMENT_TYPES[0]:.0f}", crank.print_segment(cr["segA"]), 2, "crank"),
-        (f"06_crank_segment_{C.SEGMENT_TYPES[1]:.0f}", crank.print_segment(cr["segB"]), 2, "crank"),
-        ("07_conrod", rp.print_rod(mp["rod"]), 10, "rod"),
-        ("08_piston", rp.print_piston(mp["piston"]), 10, "piston"),
-        # Phase 2 - drive and display base
-        ("09_base_front", base.print_half(L["base"]["base_front"]), 1, "carbon"),
-        ("10_base_rear", base.print_half(L["base"]["base_rear"]), 1, "carbon"),
-        ("11_base_panel", base.print_panel(L["base"]["panel"]), 2, "case"),
-        ("12_front_drive_cover", drive.print_cover(L["cover"]), 1, "case"),
+        ("02_valley_beam", block.print_beam(bl["beam"]), 1, "case"),
+        ("03_cylinder_bank", block.print_bank(bl["bank"]), 2, "block"),
+        ("04_end_plate", block.print_plate(bl["plate"]), 2, "case"),
+        ("05_crank_end_web", crank.print_end_web(cr["end"]), 2, "crank"),
+        (f"06_crank_segment_{C.SEGMENT_TYPES[0]:.0f}", crank.print_segment(cr["segA"]), 2, "crank"),
+        (f"07_crank_segment_{C.SEGMENT_TYPES[1]:.0f}", crank.print_segment(cr["segB"]), 2, "crank"),
+        ("08_conrod", rp.print_rod(mp["rod"]), 10, "rod"),
+        ("09_piston", rp.print_piston(mp["piston"]), 10, "piston"),
+        # Phase 3 - heads, covers, intake, exhaust
+        ("10_cylinder_head", block.print_bank(st["head"]), 2, "block"),
+        ("11_cam_cover", styling.print_cam_cover(st["cam_cover"]), 2, "carbon"),
+        ("12_side_panel", styling.print_side_panel(st["side_panel"]), 2, "carbon"),
+        ("13_intake_trumpet", styling.print_trumpet(st["trumpet"]), 10, "steel"),
+        ("14_exhaust_bank_A", styling.print_header(st["header_A"]), 1, "gold"),
+        ("15_exhaust_bank_B", styling.print_header(st["header_B"]), 1, "gold"),
+        ("16_coil_pack", styling.print_coil(st["coil"]), 10, "red"),
+        ("17_throttle_frame", styling.print_plenum(st["plenum"]), 1, "carbon"),
+        ("18_end_cover", styling.print_end_cover(st["end_cover"]), 2, "carbon"),
+        # Phase 2 - display base
+        ("19_base_front", base.print_half(bs["base_front"]), 1, "carbon"),
+        ("20_base_rear", base.print_half(bs["base_rear"]), 1, "carbon"),
+        ("21_base_panel", base.print_panel(bs["panel"]), 2, "case"),
         # printable stand-ins so the mechanism can be tested before the CNC parts arrive
         ("P1_proto_split_crankpin", crank.print_pin(cr["pin"]), 5, "orange"),
         ("P2_proto_main_shaft", crank.print_shaft(cr["shaft"]), 2, "orange"),
-        # machined / cut steel parts (STEP for the machine shop)
+        # machined / cut steel and aluminium parts (STEP for the machine shop)
         ("M01_split_crankpin", cr["pin"], 5, "steel"),
         ("M02_main_shaft", cr["shaft"], 2, "steel"),
         ("M03_guide_rail", mp["rail"], 10, "steel"),
         ("M04_pulley_spacer", drive.spacer(), 1, "steel"),
+        ("M05_intake_trumpet_machined", st["trumpet"], 10, "steel"),
     ]
 
 
-def main(check=False):
-    print(C.self_check(verbose=False) or "config self-check OK")
+def main(check=False, stl_only=False, only=None):
+    problems = C.self_check(verbose=False)
+    print(problems or "config self-check OK")
+    if problems:
+        raise SystemExit("config self-check failed - fix config.py first")
     os.makedirs(R, exist_ok=True)
     report = []
     for name, shape, qty, col in parts():
+        if only and not name.startswith(only):
+            continue
+        if not shape.isValid():
+            raise SystemExit(f"{name}: invalid solid - not exported")
+        n_solids = len(shape.Solids())
+        if n_solids != 1:
+            raise SystemExit(f"{name}: {n_solids} separate solids - a printed part must be one piece")
         export(shape, name)
         ok, line = check_printable_size(shape, name)
         report.append(f"{line}   x{qty}")
-        render.render([(shape, col)], os.path.join(R, f"part_{name}.png"), view="iso",
-                      size=(900, 700), title=f"{name}  (x{qty})")
-        print("  exported", name)
+        if not ok:
+            raise SystemExit(line)
+        if not stl_only:
+            render.render([(shape, col)], os.path.join(R, f"part_{name}.png"), view="iso",
+                          size=(900, 700), title=f"{name}  (x{qty})")
+        print("  exported", name, flush=True)
+    if stl_only or only:
+        print("\n".join(report))
+        return
 
     # assembly previews
     eng = assembly.engine(0.0)
@@ -121,4 +152,6 @@ def main(check=False):
 
 
 if __name__ == "__main__":
-    main(check="--check" in sys.argv)
+    a = sys.argv
+    main(check="--check" in a, stl_only="--stl-only" in a,
+         only=a[a.index("--only") + 1] if "--only" in a else None)

@@ -24,7 +24,7 @@ import cadquery as cq
 import numpy as np
 from scipy.spatial import ConvexHull
 
-from common import C, box, cyl_x, d_hole_x, move, polar, rot_x, rot_z
+from common import C, box, crush_d_x, crush_z, cyl_x, move, polar, rot_x, rot_z, safe_clean
 
 R = C.CRANK_R
 
@@ -63,7 +63,7 @@ def web_prism(pin_deg, x0, x1, extra_bosses=()):
     circles += [(a, R, 5.8) for a in extra_bosses]
     body = _hull_prism(circles, x0, x1)
     cw = _sector_prism(pin_deg + 180.0, C.WEB_CW_SPAN, C.WEB_CW_R, x0, x1)
-    web = body.fuse(cw).clean()
+    web = safe_clean(body.fuse(cw))
     # round every corner of the profile (R3) - machined-billet look, no sharp tips
     face = cq.Workplane().add(web).faces("<X").val()
     wire = face.outerWire().offset2D(-3.0, "arc")[0].offset2D(3.0, "arc")[0]
@@ -75,13 +75,14 @@ def _pin_socket(pin_deg, face_x, direction, channel_to_x):
     into the part, direction=-1 means the part lies at x < face_x), M3
     clearance through the floor, and a head channel out to channel_to_x."""
     y, z = polar(R, pin_deg)
-    d = C.hole(C.PIN_DIA, "dpin_6")
-    flat = d / 2 - C.PIN_DFLAT
     x_face = face_x
     x_bot = face_x + direction * C.PIN_END_LEN
     x_floor = x_bot + direction * C.PIN_SCREW_FLOOR
     lo, hi = sorted((x_face - direction * 0.2, x_bot))
-    cut = d_hole_x(d, flat, lo, hi, y, z, pin_deg)
+    # D-hole with crush ribs: the pin's flat (facing radially out, pin_deg)
+    # is pushed onto the hole's flat, so the joint has no rotational play
+    cut = crush_d_x(C.PIN_DIA, C.PIN_DFLAT, lo, hi, y, z, pin_deg,
+                    entry="hi" if direction < 0 else "lo")
     lo, hi = sorted((x_bot, x_floor))
     cut = cut.fuse(cyl_x(C.hole(C.M3_CLEAR) / 2, lo - 0.1, hi + 0.1, y, z))
     lo, hi = sorted((x_floor, channel_to_x + direction * 0.2))
@@ -128,7 +129,7 @@ def segment(delta_deg):
     label = (cq.Workplane("ZY").workplane(offset=L - 0.6)
              .text(f"{delta_deg:.0f}", 6.0, 0.7, halign="center", valign="center", kind="bold"))
     part = part.cut(label.val())
-    return part.clean()
+    return safe_clean(part)
 
 
 def end_web():
@@ -145,11 +146,10 @@ def end_web():
                               t - C.INSERT_DEPTH, t + 1, y, z))
     # hall-sensor magnet: radial pocket in the counterweight rim
     if C.HALL_MAGNET_IN_WEB:
-        md = C.hole(C.MAGNET["d"], "magnet_6")
-        pocket = cq.Solid.makeCylinder(md / 2, C.MAGNET["h"] + 0.3,
-                                       cq.Vector(t / 2, 0, C.WEB_CW_R + 0.1), cq.Vector(0, 0, -1))
+        pocket = crush_z(C.MAGNET["d"], C.WEB_CW_R - C.MAGNET["h"] - 0.3, C.WEB_CW_R + 0.5,
+                         t / 2, 0, "magnet_6", entry="hi")
         part = part.cut(rot_x(pocket, C.HALL_MAGNET_WEB_ANGLE))   # built at angle 0, turned into place
-    return part.clean()
+    return safe_clean(part)
 
 
 # ---------------------------------------------------------------------------
@@ -191,7 +191,7 @@ def split_crankpin():
     a_side = one_side(ya, za, +1, 0.0)
     b_side = one_side(yb, zb, -1, s)
     web = _hull_prism([(0.0, R, rs), (s, R, rs)], -half_web, half_web)
-    return a_side.fuse(b_side).fuse(web).clean()
+    return safe_clean(a_side.fuse(b_side).fuse(web))
 
 
 def main_shaft():
@@ -215,7 +215,7 @@ def main_shaft():
     y, z = polar(R, 0.0)
     part = part.cut(cyl_x(C.SHAFT_ACCESS_HOLE_D / 2, -1, C.SHAFT_FLANGE_T + 1, y, z))
     part = part.cut(box(-1, C.SHAFT_FLANGE_T + 1, -C.SHAFT_ACCESS_HOLE_D / 2, C.SHAFT_ACCESS_HOLE_D / 2, R, 30))
-    return part.clean()
+    return safe_clean(part)
 
 
 # ---------------------------------------------------------------------------

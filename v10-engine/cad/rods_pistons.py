@@ -12,7 +12,7 @@ import math
 
 import cadquery as cq
 
-from common import C, box, cyl_x, cyl_z, move, polar, rot_x, rot_z
+from common import C, box, crush_x, crush_z, cyl_x, cyl_z, move, polar, rot_x, rot_z, safe_clean
 
 L = C.ROD_LENGTH
 R = C.CRANK_R
@@ -32,20 +32,17 @@ def conrod():
     shank = (cq.Workplane("YZ").workplane(offset=-t / 2)
              .polyline([(-wb, 0), (wb, 0), (ws, L), (-ws, L)]).close().extrude(t).val())
     rod = big.fuse(small).fuse(shank)
-    # shallow flutes on both faces (H-beam look). The underside flute bridges
-    # only ROD_SHANK width - 2*1.8 mm, which prints cleanly.
+    # shallow flute on the top face only (H-beam look). The bed face stays
+    # flat: a flute there would print as a long unsupported bridge.
     z0, z1 = rb + 2.0, L - rs - 1.5
     fw = lambda z: (wb + (ws - wb) * z / L) - 1.8
     poly = [(-fw(z0), z0), (fw(z0), z0), (fw(z1), z1), (-fw(z1), z1)]
-    for sgn in (-1, 1):
-        x0 = sgn * t / 2 - (C.ROD_FLUTE_DEPTH if sgn > 0 else -C.ROD_FLUTE_DEPTH)
-        x_lo = min(x0, sgn * t / 2 + sgn * 0.1)
-        flute = (cq.Workplane("YZ").workplane(offset=x_lo).polyline(poly).close()
-                 .extrude(C.ROD_FLUTE_DEPTH + 0.1).val())
-        rod = rod.cut(flute)
-    rod = rod.cut(cyl_x(C.hole(C.BEARING_686["od"], "bearing_686") / 2, -t, t))
-    rod = rod.cut(cyl_x(C.hole(C.BUSHING["od"], "bushing_5") / 2, -t, t, 0, L))
-    return rod.clean()
+    flute = (cq.Workplane("YZ").workplane(offset=t / 2 - C.ROD_FLUTE_DEPTH).polyline(poly).close()
+             .extrude(C.ROD_FLUTE_DEPTH + 0.1).val())
+    rod = rod.cut(flute)
+    rod = rod.cut(crush_x(C.BEARING_686["od"], -t / 2 - 0.01, t / 2 + 0.01, 0, 0, "bearing_686", entry="both"))
+    rod = rod.cut(crush_x(C.BUSHING["od"], -t / 2 - 0.01, t / 2 + 0.01, 0, L, "bushing_5", entry="both"))
+    return safe_clean(rod)
 
 
 # ---------------------------------------------------------------------------
@@ -69,9 +66,14 @@ def piston():
     lug = cyl_z(ro, C.LUG_BOTTOM, C.LUG_TOP, 0, C.RAIL_OFFSET)
     lug = lug.fuse(box(-3.0, 3.0, rp - C.PISTON_WALL_T + 0.5, C.RAIL_OFFSET, C.LUG_BOTTOM, C.LUG_TOP))
     body = body.fuse(lug)
-    body = body.cut(cyl_z(C.hole(C.BUSHING["od"], "bushing_5") / 2, C.LUG_BOTTOM - 1, C.LUG_TOP + 1, 0, C.RAIL_OFFSET))
+    # two bushings, pressed in from each end of the lug
+    body = body.cut(crush_z(C.BUSHING["od"], C.LUG_BOTTOM - 0.01, C.LUG_TOP + 0.01, 0, C.RAIL_OFFSET,
+                            "bushing_5", entry="both", phase=45.0))
     # wrist-pin hole (light press in both bosses)
-    body = body.cut(cyl_x(C.hole(C.WRIST_PIN["d"], "pin_3_press") / 2, -rp - 1, rp + 1))
+    # wrist-pin hole: crush ribs in both bosses, plain clearance through the middle
+    for s_ in (-1, 1):
+        lo, hi = sorted((s_ * (C.ROD_BODY_W / 2 + C.PISTON_BOSS_GAP), s_ * (rp + 0.5)))
+        body = body.cut(crush_x(C.WRIST_PIN["d"], lo, hi, 0, 0, "pin_3", entry="both", phase=90.0))
     # crown: 45 deg top chamfer, 2 cosmetic ring grooves, 4 valve reliefs
     body = body.cut(cq.Solid.makeCone(rp + 1.0, rp - 0.6, 1.6, cq.Vector(0, 0, top - 0.6), cq.Vector(0, 0, 1))
                     .cut(cyl_z(rp - 0.6, top - 0.7, top + 1.1)))
@@ -82,7 +84,7 @@ def piston():
     for x in (-9.5, 9.5):
         for y, d in ((9.0, vr + 0.6), (-9.0, vr - 0.4)):     # intake (valley) side bigger
             body = body.cut(cyl_z(d, top - C.VALVE_RELIEF_DEPTH, top + 1, x, y))
-    return body.clean()
+    return safe_clean(body)
 
 
 def bushing():
@@ -169,7 +171,7 @@ def build_all():
 
 
 def print_rod(s):
-    return s.rotate((0, 0, 0), (0, 1, 0), 90)      # lying flat
+    return s.rotate((0, 0, 0), (0, 1, 0), -90)     # lying flat, fluted face up
 
 
 def print_piston(s):

@@ -17,6 +17,18 @@ RENDER_DIR = os.path.join(ROOT, "renders")
 DRAWING_DIR = os.path.join(ROOT, "drawings")
 
 
+def safe_clean(shape):
+    """shape.clean() merges coplanar faces, but on some complex booleans OCC
+    returns an invalid solid. Keep the cleaned result only if it is valid."""
+    try:
+        c = shape.clean()
+        if c.isValid():
+            return c
+    except Exception:
+        pass
+    return shape
+
+
 def polar(r, deg):
     """(y, z) of a point at radius r and crank angle deg (from +Z towards +Y)."""
     a = math.radians(deg)
@@ -59,6 +71,77 @@ def d_hole_x(d, flat_from_center, x0, x1, y, z, flat_dir_deg):
     cut = rot_x(cut, flat_dir_deg)  # box is built pointing at +Z (angle 0)
     cut = move(cut, 0, y, z)
     return c.cut(cut)
+
+
+# ---------------------------------------------------------------------------
+# Crush-rib press fits (see CRUSH in config.py)
+# ---------------------------------------------------------------------------
+def crush_params(d_nom, fit):
+    n, interf = C.CRUSH[fit]
+    bore = d_nom + C.HOLE_COMP + C.CRUSH_RELIEF
+    rr = min(C.CRUSH_RIB_R, d_nom * 0.12)          # small holes get smaller ribs
+    tip_r = (d_nom - interf) / 2
+    return n, bore, rr, tip_r + rr
+
+
+def _lead_cone(r, x_face, inward, axis):
+    """45 deg entry chamfer, 0.4 mm, at an entry face. axis 'x' or 'z'."""
+    h = 0.4
+    d = cq.Vector(inward, 0, 0) if axis == "x" else cq.Vector(0, 0, inward)
+    p = cq.Vector(x_face - inward * 0.01, 0, 0) if axis == "x" else cq.Vector(0, 0, x_face - inward * 0.01)
+    return cq.Solid.makeCone(r + h, r, h + 0.01, p, d)
+
+
+def crush_x(d_nom, x0, x1, y, z, fit, entry="both", phase=0.0):
+    """Crush-rib hole cutter along X from x0 to x1 at (y, z).
+    entry: which end(s) the part is pressed in from ('lo', 'hi', 'both')."""
+    n, bore, rr, cr = crush_params(d_nom, fit)
+    cut = cyl_x(bore / 2, x0, x1, y, z)
+    lead = C.CRUSH_LEAD
+    r0 = x0 + (lead if entry in ("lo", "both") else -0.1)
+    r1 = x1 - (lead if entry in ("hi", "both") else -0.1)
+    for i in range(n):
+        ry, rz = polar(cr, phase + i * 360.0 / n)
+        cut = cut.cut(cyl_x(rr, r0, r1, y + ry, z + rz))
+    if entry in ("lo", "both"):
+        cut = cut.fuse(move(_lead_cone(bore / 2, x0, 1, "x"), 0, y, z))
+    if entry in ("hi", "both"):
+        cut = cut.fuse(move(_lead_cone(bore / 2, x1, -1, "x"), 0, y, z))
+    return cut
+
+
+def crush_z(d_nom, z0, z1, x, y, fit, entry="both", phase=0.0):
+    """Crush-rib hole cutter along Z (see crush_x)."""
+    n, bore, rr, cr = crush_params(d_nom, fit)
+    cut = cyl_z(bore / 2, z0, z1, x, y)
+    lead = C.CRUSH_LEAD
+    r0 = z0 + (lead if entry in ("lo", "both") else -0.1)
+    r1 = z1 - (lead if entry in ("hi", "both") else -0.1)
+    for i in range(n):
+        a = math.radians(phase + i * 360.0 / n)
+        cut = cut.cut(cyl_z(rr, r0, r1, x + cr * math.cos(a), y + cr * math.sin(a)))
+    if entry in ("lo", "both"):
+        cut = cut.fuse(move(_lead_cone(bore / 2, z0, 1, "z"), x, y, 0))
+    if entry in ("hi", "both"):
+        cut = cut.fuse(move(_lead_cone(bore / 2, z1, -1, "z"), x, y, 0))
+    return cut
+
+
+def crush_d_x(d_nom, flat_depth, x0, x1, y, z, flat_dir_deg, entry="lo"):
+    """D-hole along X for a D-flat pin. The flat (facing flat_dir_deg) is the
+    angular reference; two crush ribs opposite it (at +/-55 deg) push the pin's
+    flat hard onto it, so the joint has no rotational play whatever the print
+    tolerance."""
+    n, bore, rr, cr = crush_params(d_nom, "dpin_6")
+    flat = d_nom / 2 - flat_depth + 0.05 + C.HOLE_COMP / 2
+    cut = d_hole_x(bore, flat, x0, x1, y, z, flat_dir_deg)
+    lead = C.CRUSH_LEAD
+    r0 = x0 + (lead if entry in ("lo", "both") else -0.1)
+    r1 = x1 - (lead if entry in ("hi", "both") else -0.1)
+    for a in (flat_dir_deg + 180.0 - 55.0, flat_dir_deg + 180.0 + 55.0):
+        ry, rz = polar(cr, a)
+        cut = cut.cut(cyl_x(rr, r0, r1, y + ry, z + rz))
+    return cut
 
 
 def export(shape, name):

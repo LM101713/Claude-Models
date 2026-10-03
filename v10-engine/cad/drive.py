@@ -12,7 +12,7 @@ import cadquery as cq
 import numpy as np
 from scipy.spatial import ConvexHull
 
-from common import C, box, cyl_x, move, polar
+from common import C, box, crush_x, cyl_x, move, polar, safe_clean
 
 GROOVE = 0.8   # visual tooth relief depth on pulley renders
 
@@ -21,7 +21,7 @@ def _pulley(p):
     """Purchased GT2 pulley, local frame: hub face at x=0, pointing +X, axis on X."""
     hub = cyl_x(p["hub_d"] / 2, 0, p["hub_len"])
     body = cyl_x(p["od"] / 2, p["hub_len"], p["width"] - 1.0)
-    fl = p["od"] / 2 + 1.5
+    fl = p["od"] / 2 + (2.7 if p["teeth"] >= 40 else 1.5)   # 60T flanges ~43 mm on real parts
     flanges = cyl_x(fl, p["hub_len"], p["hub_len"] + 1.0).fuse(cyl_x(fl, p["width"] - 1.0, p["width"]))
     s = hub.fuse(body).fuse(flanges)
     return s.cut(cyl_x(p["bore"] / 2, -1, p["width"] + 1))
@@ -37,7 +37,7 @@ def small_pulley():
 
 def spacer():
     """M04 - machined spacer ring, engine frame."""
-    return cyl_x(5.75, C.END_PLATE_OUTER_X, C.PULLEY_HUB_X).cut(cyl_x(4.1, C.END_PLATE_OUTER_X - 1, C.PULLEY_HUB_X + 1))
+    return cyl_x(5.75, C.BEARING_OUTER_X, C.PULLEY_HUB_X).cut(cyl_x(4.1, C.BEARING_OUTER_X - 1, C.PULLEY_HUB_X + 1))
 
 
 def belt():
@@ -87,7 +87,6 @@ def front_cover():
     inner = _cover_profile(w, x0 - 1, x1 - w)
     cover = outer.cut(inner)
     # magnet pillars: full depth, merged into the wall, clear of the pulley flange
-    md = C.hole(C.MAGNET["d"], "magnet_6")
     for y, z in C.COVER_MAGNETS:
         pil = cyl_x(C.COVER_PILLAR_R, x0, x1 - w + 0.1, y, z)
         # bridge pillar to the wall so it is one printed solid
@@ -95,8 +94,8 @@ def front_cover():
         pil = pil.fuse(cq.Workplane().add(box(x0, x1 - w + 0.1, -C.COVER_PILLAR_R, C.COVER_PILLAR_R, 0, 6)).val()
                        .rotate((0, 0, 0), (1, 0, 0), -ang).translate(cq.Vector(0, y, z)))
         cover = cover.fuse(pil.intersect(_cover_profile(0.0, x0, x1)))
-        cover = cover.cut(cyl_x(md / 2, x0 - 1, x0 + C.MAGNET["h"] + 0.2, y, z))
-    return cover.clean()
+        cover = cover.cut(crush_x(C.MAGNET["d"], x0 - 0.5, x0 + C.MAGNET["h"] + 0.3, y, z, "magnet_6", entry="lo"))
+    return safe_clean(cover)
 
 
 def print_cover(s):
