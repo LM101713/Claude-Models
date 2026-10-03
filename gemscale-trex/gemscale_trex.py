@@ -1,20 +1,13 @@
 """
-Gemscale Flexi T-Rex: Blender generator for a quick, print-in-place T. rex that chomps.
+Gemscale Flexi T-Rex: Blender generator for a classic print-in-place flexi T. rex.
 
-The T. rex is sculpted from metaball "muscle masses" (skull, cheeks, brow, neck, chest,
-belly, thighs, a striding pair of legs, tiny arms and a long tapering tail) that blend into
-one smooth organic body, plus a separate lower jaw. Teeth and claws are half-cones, the eye
-is a dome with a slit pupil.
+Seen from above it's a big toothy head followed by a chain of ridged segments: neck, chest
+(with tiny arms), belly, hips (with big legs), five tail segments and a pointed tip. The
+gaps between segments are V-shaped, the classic flexi look, and every joint is the captured
+knob-in-socket swivel used by the other Gemscale models, so it prints fully assembled, flat
+on its belly, with no supports, and wiggles side to side.
 
-Every metaball centre lies on the T. rex's mid-plane, and the model is that body cut in half
-along the mid-plane and laid flat on the bed. A sum of blobs centred on z = 0 falls off with
-|z|, so the top surface is a pure height field: the model CAN'T have an overhang, prints
-with no supports, and is low (12 mm), so it prints fast.
-
-It is jointed with the same captured knob-in-socket swivel as the other Gemscale models:
-the jaw opens (it chomps), the head nods and the four-part tail wiggles. Each part's
-clearance cut is the exact swept volume of everything beyond its joint, so cuts follow the
-shapes instead of being blunt wedges.
+Every part is lofted through flat-bottomed, pitched-roof sections, so nothing overhangs.
 
 Run it
     blender -b -P gemscale_trex.py -- --preset standard --out models
@@ -26,7 +19,7 @@ or open it in Blender's Scripting tab and press Run Script: a "Gemscale" tab app
 bl_info = {
     "name": "Gemscale Flexi T-Rex",
     "author": "Gemscale",
-    "version": (2, 0, 0),
+    "version": (3, 0, 0),
     "blender": (4, 2, 0),
     "location": "View3D > Sidebar > Gemscale",
     "description": "Print-in-place articulated T. rex generator",
@@ -42,7 +35,7 @@ import zipfile
 
 import bpy  # noqa: I001  (bpy must come first when it is used as a Python module)
 import bmesh
-from mathutils import Matrix, Quaternion, Vector
+from mathutils import Matrix, Vector
 from mathutils.bvhtree import BVHTree
 
 # =============================================================================
@@ -56,101 +49,68 @@ LAYER = 0.20    # joint heights are snapped to this layer grid (print at 0.2 mm 
 WALL = 1.00     # minimum socket wall
 MARGIN = 5.0    # extra angle (deg) kept free beyond each joint's swing
 TAU = 2.0 * math.pi
-MB0 = 0.5747    # an isolated metaball's semi-axis is MB0 * radius * size (threshold 0.6)
 
-NECK = (-15.0, 15.0)    # the head (with the neck) nods
-JAW = (0.0, 30.0)       # the jaw opens from its printed (slightly open) pose
-TAIL = (-28.0, 28.0)    # each tail joint wiggles
+THETA = 25.0    # every joint wiggles +-THETA degrees either side of its printed pose
 
 PRESETS = {
-    # s: design units -> mm; hz: extra height scale; res: metaball resolution (mm)
-    "standard": dict(s=0.80, hz=0.90, res=0.45, r_n=1.5, r_e=2.35, band=0.7,
-                     hw=dict(neck=4.6, jaw=4.4, hip=4.6, t1=4.3, t2=4.0), hw_max=8.0, bed=(180, 180)),
-    "mini": dict(s=0.60, hz=1.10, res=0.36, r_n=1.3, r_e=2.05, band=0.6,
-                 hw=dict(neck=3.9, jaw=3.8, hip=3.9, t1=3.7, t2=3.6), hw_max=6.0, bed=(180, 180)),
+    # s: scale of the whole design; hw_min: smallest joint housing the knob allows
+    "standard": dict(s=1.0, r_n=1.5, r_e=2.35, band=0.7, hw_min=3.9, bed=(180, 180)),
+    "mini": dict(s=0.72, r_n=1.3, r_e=2.05, band=0.6, hw_min=3.6, bed=(180, 180)),
 }
 
 SETTINGS = dict(preset="standard", clearance=0.35, keyring=False, out="//gemscale_export")
 
 
 # =============================================================================
-# 2. ANATOMY (design units: facing LEFT, ground at y = 0, z = half body thickness)
+# 2. THE DESIGN (mm, standard size; the mini scales it)
 # =============================================================================
+#
+# Seen from above, the T. rex is a big head followed by a chain of ridged segments: neck,
+# chest (tiny arms), belly, hips (big legs), five tail segments and a pointed tip. It lies
+# on its belly and wiggles side to side, the classic flexi-toy way.
+#
+# Every part is lofted through "stations" (x, half width, side height, ridge height):
+# flat-bottomed sections with vertical sides and a pitched roof, so it can't overhang. Each
+# part runs along its own +x axis from its front joint (x = 0) to its back joint (x = L).
 
-def _ang(p, q):
-    return math.degrees(math.atan2(q[1] - p[1], q[0] - p[0]))
+HEAD = dict(
+    # head runs along -x from the neck joint at x = 0: blunt snout, deep skull, wide cheeks
+    st=[(-34.5, 4.0, 5.6, 7.0), (-33.0, 6.4, 6.4, 8.4), (-28.5, 8.4, 7.6, 10.6), (-19.5, 10.6, 9.2, 13.2),
+        (-11.0, 13.8, 10.4, 15.4), (-4.5, 13.4, 10.2, 14.8), (-1.0, 9.6, 9.0, 11.6)],
+    eye=(-12.5, 9.9, 3.5),             # x, y, radius
+    nostril=(-30.0, 3.0, 1.1),
+    teeth=[-31.0, -27.2, -23.4, -19.6, -15.8],
+    crown=[(-6.5, 2.2), (-2.8, 1.7)],  # (x, height) of the little spikes on the skull
+)
 
+# name, length, stations (x, half width, side height, ridge height), spike height
+SEGS = [
+    ("neck", 9.5, [(0, 7.0, 7.0, 9.4), (4.75, 7.6, 7.4, 9.8), (9.5, 7.2, 7.2, 9.4)], 1.8),
+    ("chest", 13.0, [(0, 9.0, 7.6, 10.8), (6.5, 10.8, 8.4, 12.0), (13, 10.2, 8.0, 11.6)], 2.2),
+    ("hips", 14.0, [(0, 10.6, 8.2, 11.6), (7, 11.4, 8.6, 12.0), (14, 8.6, 7.2, 10.0)], 2.2),
+    ("tail1", 12.0, [(0, 8.0, 7.0, 9.6), (12, 7.0, 6.6, 8.6)], 2.0),
+    ("tail2", 12.0, [(0, 7.0, 6.6, 8.6), (12, 6.0, 6.0, 7.6)], 1.8),
+    ("tail3", 11.0, [(0, 6.0, 6.0, 7.6), (11, 5.2, 5.6, 6.8)], 1.6),
+    ("tail4", 11.0, [(0, 5.2, 5.6, 6.8), (11, 4.6, 5.3, 6.2)], 1.4),
+    ("tail5", 10.0, [(0, 4.6, 5.3, 6.2), (10, 4.2, 5.1, 5.7)], 1.2),
+    ("tip", 16.0, [(0, 4.2, 5.1, 5.7), (8, 2.8, 4.2, 4.8), (16, 0.6, 1.6, 2.0)], 0.0),
+]
+# housing radius of the joint at the back of each part (head first)
+HOUSING = [5.6, 5.8, 6.2, 6.0, 5.6, 5.0, 4.6, 4.2, 3.9]
+# printed bend at each joint (deg): an S-curve with the tail swinging round
+CURL = [8.0, -8.0, -6.0, 6.0, 9.0, 10.0, 10.0, 9.0, 8.0]
+HEAD_HEADING = 182.0    # the head points this way (deg); the chain runs off behind it
 
-def anatomy():
-    """Metaball ellipsoids (x, y, ax, ay, az, angle) for the body and the jaw, the details,
-    and the joint pivots."""
-    body, jaw = [], []
+# limbs, in the frame of their segment (+y side; mirrored for the other side)
+LEG = dict(thigh=(10.0, 15.6, 6.4, 4.6, 10.5, 50.0),      # x, y, rx, ry, height, angle
+           shin=((11.5, 18.5), (12.5, 23.5), 5.2, 4.6, 6.6, 5.8),
+           foot=((12.5, 23.5), (3.4, 24.4), 5.2, 4.2, 5.0, 4.2),
+           toes=(4.2, 2.0, 2.8))                           # length, base width, height
+ARM = dict(upper=((6.5, 9.6), (4.0, 12.6), 2.6, 2.3, 4.6, 4.2),
+           fore=((4.0, 12.6), (1.2, 13.4), 2.3, 2.0, 4.2, 3.8),
+           claws=(2.0, 1.2, 2.0))
 
-    def el(lst, x, y, ax, ay, az, ang=0.0):
-        lst.append((x, y, ax, ay, az, ang))
-
-    def limb(lst, p, q, r0, r1, z0, z1, n):
-        ln = math.hypot(q[0] - p[0], q[1] - p[1])
-        a = _ang(p, q)
-        for i in range(n):
-            t = i / (n - 1)
-            r = r0 + (r1 - r0) * t
-            el(lst, p[0] + (q[0] - p[0]) * t, p[1] + (q[1] - p[1]) * t,
-               max(r, 0.9 * ln / (n - 1)), r, z0 + (z1 - z0) * t, a)
-
-    # --- head: deep cranium, back of the skull, snout, cheek (jaw muscle), brow horn, nasal ridge
-    el(body, -40.0, 64.5, 13.5, 11.5, 12.0, -6)
-    el(body, -31.0, 62.5, 7.0, 9.5, 11.5, 0)
-    el(body, -55.0, 60.0, 12.0, 7.8, 9.8, -8)
-    el(body, -67.0, 57.8, 7.0, 5.8, 7.2, -10)
-    el(body, -34.0, 55.5, 8.0, 8.0, 10.5, 0)
-    el(body, -46.0, 70.6, 5.0, 2.5, 13.2, -25)
-    el(body, -42.5, 72.2, 2.2, 1.7, 12.8, 0)
-    el(body, -61.0, 62.8, 5.0, 2.0, 9.8, -10)
-    # --- neck: a dip behind the skull, then thick down to the chest
-    el(body, -25.0, 57.0, 7.0, 8.5, 9.8, 40)
-    el(body, -18.0, 51.0, 8.5, 9.5, 11.0, 45)
-    # --- body: chest, belly, hips
-    el(body, -11.0, 43.0, 13.0, 12.5, 12.5, 15)
-    el(body, 4.0, 40.5, 16.0, 13.0, 13.5, 5)
-    el(body, 19.0, 44.0, 12.0, 11.5, 12.5, 0)
-    # --- near leg: big drumstick thigh, shin, long foot
-    el(body, 13.0, 31.0, 14.0, 9.5, 13.5, -75)
-    limb(body, (7.0, 21.0), (12.0, 7.5), 5.0, 3.6, 8.5, 6.5, 6)
-    limb(body, (12.0, 5.2), (-6.0, 3.4), 3.6, 2.7, 6.0, 4.6, 8)
-    # --- far leg striding forward, in lower relief behind
-    el(body, -3.0, 31.0, 12.0, 8.0, 7.5, -110)
-    limb(body, (-9.0, 20.0), (-14.0, 7.5), 4.0, 3.0, 6.0, 4.6, 5)
-    limb(body, (-14.0, 5.0), (-30.0, 3.2), 3.0, 2.4, 4.6, 3.6, 7)
-    # --- tiny arms (of course)
-    limb(body, (-21.0, 34.0), (-27.0, 27.5), 2.7, 2.2, 5.2, 4.6, 4)
-    limb(body, (-27.0, 27.5), (-33.0, 30.0), 2.2, 1.9, 4.6, 4.0, 4)
-    # --- tail: thick at the hips, tapering to a point, held up
-    tp = [(28.0, 46.0), (43.0, 48.8), (57.0, 51.8), (71.0, 54.3), (85.0, 56.3), (98.0, 58.0)]
-    tr = [10.5, 8.6, 7.4, 6.4, 4.5, 2.0]
-    tz = [12.5, 10.5, 9.2, 8.0, 6.0, 3.6]
-    for k in range(len(tp) - 1):
-        limb(body, tp[k], tp[k + 1], tr[k], tr[k + 1], tz[k], tz[k + 1], 6)
-
-    # --- lower jaw (a separate part), printed slightly open so the teeth show
-    el(jaw, -37.5, 49.5, 6.0, 5.0, 8.0, 18)
-    el(jaw, -48.0, 44.6, 10.0, 3.6, 6.4, 20)
-    el(jaw, -60.0, 40.8, 5.8, 3.3, 5.6, 18)
-
-    det = dict(
-        # upper teeth hang from the skull, lower teeth stand on the jaw: (x, length, radius)
-        upper=[(-65.0, 3.0, 1.3), (-59.5, 3.6, 1.45), (-54.0, 3.3, 1.35), (-48.5, 3.0, 1.25), (-43.0, 2.5, 1.1)],
-        lower=[(-57.0, 2.5, 1.15), (-51.5, 2.8, 1.25), (-46.0, 2.5, 1.15)],
-        eye=(-47.5, 65.2, 3.7), nostril=(-68.0, 59.8, 1.0),
-        # claws: (x, y, direction deg, length, radius)
-        claws=[(-6.0, 3.6, 188, 4.2, 1.5), (-5.0, 5.3, 168, 3.4, 1.2),
-               (-30.0, 3.4, 190, 3.6, 1.3), (-29.0, 4.8, 170, 2.8, 1.0),
-               (-33.0, 30.6, 175, 2.8, 0.9), (-32.6, 28.6, 205, 2.6, 0.85)],
-        tail_tip=(98.0, 58.0),
-    )
-    pv = dict(neck=(-16.5, 51.0), jaw=(-35.0, 50.5), hip=(30.0, 46.4),
-              t1=(50.0, 50.2), t2=(68.0, 53.6))
-    return body, jaw, det, pv
+_HEAD0, _SEGS0, _LEG0, _ARM0 = HEAD, SEGS, LEG, ARM
 
 
 # =============================================================================
@@ -208,34 +168,6 @@ def bm_hull(points):
         bmesh.ops.delete(bm, geom=kill, context="VERTS")
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
     return bm
-
-
-def cut_below_zero(bm):
-    """Keep z >= 0 and close the cut with flat faces (the bed side)."""
-    bmesh.ops.bisect_plane(bm, geom=bm.verts[:] + bm.edges[:] + bm.faces[:], dist=1e-5,
-                           plane_co=(0, 0, 0), plane_no=(0, 0, 1), clear_inner=True)
-    bnd = [e for e in bm.edges if e.is_boundary]
-    if bnd:
-        bmesh.ops.holes_fill(bm, edges=bnd, sides=0)
-    for v in bm.verts:
-        if abs(v.co.z) < 1e-4:
-            v.co.z = 0.0
-    bmesh.ops.triangulate(bm, faces=bm.faces[:])
-    bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
-    return bm
-
-
-def half_cone(base, ang, length, rb, zs=2.2, embed=1.2, segs=24):
-    """Tooth / claw: the top half of a cone lying on the bed (a height field), pointing
-    along `ang` from `base`, sunk `embed` mm into whatever it grows from."""
-    bm = bm_lathe([(rb, 0.0), (0.62 * rb, 0.55 * (length + embed)), (0.08, length + embed)], segs)
-    bm.transform(Matrix.Diagonal((1.0, zs, 1.0, 1.0)))         # deeper than wide (taller on the bed)
-    bm.transform(Matrix.Rotation(math.radians(90.0), 4, "Y"))  # axis z -> x, local y -> world z
-    bm.transform(Matrix.Rotation(math.radians(-90.0), 4, "X"))
-    bm.transform(Matrix.Rotation(math.radians(ang), 4, "Z"))
-    bx, by = base[0] - embed * math.cos(math.radians(ang)), base[1] - embed * math.sin(math.radians(ang))
-    bm.transform(Matrix.Translation((bx, by, 0.0)))
-    return cut_below_zero(bm)
 
 
 def link_obj(bm, name, coll):
@@ -546,283 +478,315 @@ def get_collection(name="Gemscale T-Rex"):
     return coll
 
 
-def metaball_mesh(name, elems, res, coll, s, hz):
-    """Blend ellipsoids (design units) into one smooth mesh in mm, cut to z >= 0."""
-    mb = bpy.data.metaballs.new(name)
-    mb.resolution = mb.render_resolution = res
-    mb.threshold = 0.6
-    ob = bpy.data.objects.new(name, mb)       # unique name: metaballs merge by base name
-    coll.objects.link(ob)
-    for (x, y, ax, ay, az, ang) in elems:
-        ax, ay, az = ax * s, ay * s, az * s * hz
-        R = max(ax, ay, az) / MB0
-        e = mb.elements.new(type="ELLIPSOID")
-        e.co = (x * s, y * s, 0.0)
-        e.radius = R
-        e.size_x, e.size_y, e.size_z = ax / (MB0 * R), ay / (MB0 * R), az / (MB0 * R)
-        e.rotation = Quaternion((0.0, 0.0, 1.0), math.radians(ang))
-    dg = bpy.context.evaluated_depsgraph_get()
-    ev = ob.evaluated_get(dg)
+def section(x, w, hs, ht):
+    """Flat bottom, vertical sides, pitched roof with a ridge (a pentagon)."""
+    hm = hs + 0.75 * (ht - hs)
+    return [(x, -w, 0.0), (x, w, 0.0), (x, -w, hs), (x, w, hs), (x, -0.6 * w, hm), (x, 0.6 * w, hm), (x, 0.0, ht)]
+
+
+def loft(stations, coll, name="loft"):
+    """Hull consecutive sections (three at a time, so the pieces overlap) into one body."""
+    secs = [section(*s) for s in stations]
+    n = len(secs)
+    pieces = [link_obj(bm_hull(secs[i] + secs[i + 1] + secs[min(i + 2, n - 1)]), name, coll) for i in range(n - 1)]
+    body = pieces.pop(0)
+    return boolean(body, pieces, "UNION")
+
+
+def prof(stations, x, k):
+    """Station value k (1 half width, 2 side height, 3 ridge height) at x (linear)."""
+    xs = [s[0] for s in stations]
+    if x <= xs[0]:
+        return stations[0][k]
+    for a, b in zip(stations[:-1], stations[1:]):
+        if x <= b[0]:
+            t = (x - a[0]) / (b[0] - a[0])
+            return a[k] + (b[k] - a[k]) * t
+    return stations[-1][k]
+
+
+def roof_z(stations, x, y):
+    """Height of a loft's top surface at (x, y)."""
+    w, hs, ht = prof(stations, x, 1), prof(stations, x, 2), prof(stations, x, 3)
+    hm = hs + 0.75 * (ht - hs)
+    u = min(abs(y) / w, 1.0)
+    return ht - (ht - hm) * u / 0.6 if u <= 0.6 else hm - (hm - hs) * (u - 0.6) / 0.4
+
+
+def bar(p, q, w0, w1, h0, h1, coll, n=8, ch=0.5):
+    """A rounded bone from p to q: octagons at each end, chamfered on top."""
+    pts = []
+    for (c, w, h) in ((p, w0, h0), (q, w1, h1)):
+        r = w / 2
+        for i in range(n):
+            a = TAU * (i + 0.5) / n
+            pts += [(c[0] + r * math.cos(a), c[1] + r * math.sin(a), 0.0),
+                    (c[0] + r * math.cos(a), c[1] + r * math.sin(a), h - ch),
+                    (c[0] + (r - ch) * math.cos(a), c[1] + (r - ch) * math.sin(a), h)]
+    return link_obj(bm_hull(pts), "bar", coll)
+
+
+def claw(base, ang, length, wb, h, coll):
+    """A claw / tooth lying on the bed, pointing along `ang`."""
+    d, n = dirv(ang), dirv(ang + 90.0)
+    b = (base[0] - 0.8 * d[0], base[1] - 0.8 * d[1])
+    t = (base[0] + length * d[0], base[1] + length * d[1])
+    pts = [(b[0] + s * wb / 2 * n[0], b[1] + s * wb / 2 * n[1], z) for s in (-1, 1) for z in (0.0, h)]
+    pts += [(t[0], t[1], 0.0), (t[0], t[1], 0.35 * h)]
+    return link_obj(bm_hull(pts), "claw", coll)
+
+
+def spike(stations, x, size, coll):
+    """A little dorsal spike growing out of the ridge (its tip stays over its base)."""
+    zr = prof(stations, x, 3)
+    pts = [(x + dx, dy, zr - 1.2) for dx in (-1.4 * size, 1.0 * size) for dy in (-0.55, 0.55)]
+    pts += [(x + 0.4 * size, 0.0, zr + size)]
+    return link_obj(bm_hull(pts), "spike", coll)
+
+
+def housing(c, hw, H, coll, n=12, ch=0.6):
+    pts = [(x, y, z) for (x, y) in [(c[0] + hw * math.cos(math.pi / n + TAU * i / n),
+                                     c[1] + hw * math.sin(math.pi / n + TAU * i / n)) for i in range(n)]
+           for z in (0.0, H - ch)]
+    pts += [(c[0] + (hw - ch) * math.cos(math.pi / n + TAU * i / n),
+             c[1] + (hw - ch) * math.sin(math.pi / n + TAU * i / n), H) for i in range(n)]
+    return link_obj(bm_hull(pts), "housing", coll)
+
+
+def mirror_y(ob):
+    transform_obj(ob, Matrix.Diagonal((1.0, -1.0, 1.0, 1.0)))
     bm = bmesh.new()
-    bm.from_mesh(ev.to_mesh())
-    ev.to_mesh_clear()
-    bpy.data.objects.remove(ob)
-    bpy.data.metaballs.remove(mb)
-    bmesh.ops.remove_doubles(bm, verts=bm.verts[:], dist=1e-5)
-    return link_obj(cut_below_zero(bm), name, coll)
+    bm.from_mesh(ob.data)
+    bmesh.ops.reverse_faces(bm, faces=bm.faces[:])
+    bm.to_mesh(ob.data)
+    bm.free()
+    ob.data.update()
+    return ob
 
 
-def ray_y(ob, x, y0, dy, z=0.6):
-    """First hit of a ray in the print plane, from (x, y0) along +/-y."""
-    tree, _ = bvh_of(ob)
-    hit = tree.ray_cast(Vector((x, y0, z)), Vector((0.0, 1.0 if dy > 0 else -1.0, 0.0)))
-    return hit[0].y if hit[0] is not None else None
+def both_sides(make):
+    a = make()
+    b = mirror_y(make())
+    return [a, b]
 
 
-def height_at(ob, x, y):
-    tree, _ = bvh_of(ob)
-    hit = tree.ray_cast(Vector((x, y, 200.0)), Vector((0.0, 0.0, -1.0)))
-    return hit[0].z if hit[0] is not None else 0.0
+def leg(coll):
+    x, y, rx, ry, h, ang = LEG["thigh"]
+    ca, sa = math.cos(math.radians(ang)), math.sin(math.radians(ang))
+
+    def ring(sx, sy, z):
+        pts = [(sx * math.cos(TAU * i / 16), sy * math.sin(TAU * i / 16)) for i in range(16)]
+        return [(x + px * ca - py * sa, y + px * sa + py * ca, z) for (px, py) in pts]
+    parts = [link_obj(bm_hull(ring(rx, ry, 0.0) + ring(rx, ry, 0.45 * h) + ring(0.85 * rx, 0.85 * ry, 0.75 * h)
+                              + ring(0.45 * rx, 0.45 * ry, h)), "thigh", coll)]
+    for k in ("shin", "foot"):
+        p, q, w0, w1, h0, h1 = LEG[k]
+        parts.append(bar(p, q, w0, w1, h0, h1, coll))
+    ln, wb, th = LEG["toes"]
+    toe = LEG["foot"][1]
+    for a in (155.0, 180.0, 205.0):
+        parts.append(claw(toe, a, ln, wb, th, coll))
+    first = parts.pop(0)
+    return boolean(first, parts, "UNION")
+
+
+def arm(coll):
+    parts = []
+    for k in ("upper", "fore"):
+        p, q, w0, w1, h0, h1 = ARM[k]
+        parts.append(bar(p, q, w0, w1, h0, h1, coll))
+    ln, wb, th = ARM["claws"]
+    hand = ARM["fore"][1]
+    for a in (165.0, 205.0):
+        parts.append(claw(hand, a, ln, wb, th, coll))
+    first = parts.pop(0)
+    return boolean(first, parts, "UNION")
+
+
+def build_head(cfg, coll):
+    st = HEAD["st"] + [(0.0, cfg["hw"][0], HEAD["st"][-1][2], HEAD["st"][-1][3])]
+    head = loft(st, coll, "head")
+    adds, cuts = [housing((0.0, 0.0), cfg["hw"][0], st[-1][2], coll)], []
+    for (x, h) in HEAD["crown"]:
+        adds.append(spike(st, x, h, coll))
+    # teeth: a zig-zag along both lips
+    for x in HEAD["teeth"]:
+        w = prof(st, x, 1)
+        for s in (1, -1):
+            adds.append(link_obj(bm_prism([(x + 1.3, s * (w - 0.6)), (x - 1.3, s * (w - 0.6)), (x - 0.4, s * (w + 1.5))],
+                                          0.0, 2.6), "tooth", coll))
+    # eyes: domes set into the top of the head, under an angled brow; slit pupils
+    ex, ey, er = HEAD["eye"]
+    for s in (1, -1):
+        zc = roof_z(st, ex, ey) - 0.5 * er
+        prof_ = [(er, 0.0), (er, zc)] + [(er * math.cos(math.radians(a)), zc + er * math.sin(math.radians(a)))
+                                         for a in range(15, 90, 15)] + [(0.25, zc + er - 0.02)]
+        adds.append(link_obj(bm_lathe(prof_, 40, ex, s * ey), "eye", coll))
+        # brow boss: a raised bump over the inner-back of the eye (the T. rex "eyebrow")
+        bx, by = ex + 1.4, s * (ey - 1.9)
+        zb = roof_z(st, bx, by)
+        ring = lambda rx, ry, z: [(bx + rx * math.cos(TAU * i / 14 + 0.2), by + ry * math.sin(TAU * i / 14 + 0.2), z)
+                                  for i in range(14)]
+        adds.append(link_obj(bm_hull(ring(4.2, 2.9, 0.0) + ring(4.2, 2.9, zb - 0.6) + ring(2.6, 1.7, zb + 1.9)),
+                             "brow", coll))
+        w2, h2 = 0.28 * er, 0.62 * er
+        a = math.radians(-s * 15.0)
+        dia = [(ex + px * math.cos(a) - py * math.sin(a), s * ey + px * math.sin(a) + py * math.cos(a))
+               for (px, py) in ((h2, 0.0), (0.0, w2), (-h2, 0.0), (0.0, -w2))]
+        cuts.append(link_obj(bm_prism(dia, zc + er - 0.9, 80.0), "pupil", coll))
+    nx, ny, nr = HEAD["nostril"]
+    for s in (1, -1):
+        cuts.append(link_obj(bm_lathe([(nr, roof_z(st, nx, ny) - 1.0), (nr, 80.0)], 20, nx, s * ny), "nostril", coll))
+    boolean(head, adds, "UNION")
+    boolean(head, cuts, "DIFFERENCE")
+    return head
+
+
+def build_seg(k, cfg, coll):
+    """Segment k in its own frame (front joint at the origin, +x toward the tail), before
+    any joint cuts. Returns (body, limbs)."""
+    name, L, st, sp = SEGS[k]
+    hw_out = cfg["hw"][k + 1] if k + 1 < len(cfg["hw"]) else None
+    st = list(st)
+    if hw_out:
+        st[-1] = (L, max(st[-1][1], hw_out), st[-1][2], st[-1][3])
+    body = loft(st, coll, name)
+    adds = []
+    if hw_out:
+        adds.append(housing((L, 0.0), hw_out, st[-1][2], coll))
+    if sp:
+        adds.append(spike(st, 0.5 * L, sp, coll))
+    boolean(body, adds, "UNION")
+    limbs = []
+    if name == "hips":
+        limbs = both_sides(lambda: leg(coll))
+    elif name == "chest":
+        limbs = both_sides(lambda: arm(coll))
+    return body, limbs
 
 
 class Plan:
     pass
 
 
+def scale_design(s):
+    """Scale the design dictionaries by s (in place on copies)."""
+    def st(lst):
+        return [(a * s, b * s, c * s, d * s) for (a, b, c, d) in lst]
+    g = globals()
+    g["HEAD"] = dict(_HEAD0, st=st(_HEAD0["st"]), eye=tuple(v * s for v in _HEAD0["eye"]),
+                     nostril=tuple(v * s for v in _HEAD0["nostril"]), teeth=[x * s for x in _HEAD0["teeth"]],
+                     crown=[(x * s, h * s) for (x, h) in _HEAD0["crown"]])
+    g["SEGS"] = [(n, L * s, st(stt), sp * s) for (n, L, stt, sp) in _SEGS0]
+
+    def sc(v):
+        if isinstance(v, (int, float)):
+            return v * s
+        return type(v)(sc(x) for x in v)
+    g["LEG"] = {k: sc(v) for k, v in _LEG0.items()}
+    g["LEG"]["thigh"] = g["LEG"]["thigh"][:5] + (_LEG0["thigh"][5],)      # (the angle stays)
+    g["ARM"] = {k: sc(v) for k, v in _ARM0.items()}
+
+
 def generate(user=None, verbose=True):
     cfg = dict(SETTINGS)
     cfg.update(PRESETS[(user or {}).get("preset", SETTINGS["preset"])])
     cfg.update({k: v for k, v in (user or {}).items() if v is not None})
-    s, hz = cfg["s"], cfg["hz"]
+    scale_design(cfg["s"])
+    # housings scale too, but never below what the knob needs
+    cfg["hw"] = [max(h * cfg["s"], cfg["hw_min"]) for h in HOUSING]
+    # every segment must be long enough for the cup at its front and the housing at its back
+    segs = []
+    for k, (nm, L, st, sp) in enumerate(SEGS):
+        if k + 1 < len(SEGS):
+            need = cfg["hw"][k] + GAP + cfg["hw"][k + 1] + 1.6
+            if L < need:
+                f = need / L
+                L, st = need, [(x * f, w, hs, ht) for (x, w, hs, ht) in st]
+        segs.append((nm, L, st, sp))
+    globals()["SEGS"] = segs
     coll = get_collection()
-    body_e, jaw_e, det, pv = anatomy()
+    n = len(SEGS)
 
-    def P(p):
-        return (p[0] * s, p[1] * s)
+    # ---- layout: pivots and headings along the chain
+    heads, pivots = [HEAD_HEADING + 180.0], [(0.0, 0.0)]   # heads[i]: axis of part i (+x toward the tail)
+    for k in range(n):
+        heads.append(heads[-1] + CURL[k])
+        if k + 1 < n:
+            d = dirv(heads[-1])
+            pivots.append((pivots[-1][0] + SEGS[k][1] * d[0], pivots[-1][1] + SEGS[k][1] * d[1]))
+    names = ["head"] + [s[0] for s in SEGS]
+    J = []
+    for k in range(n):
+        J.append(Joint(SEGS[k][0], names[k], names[k + 1], pivots[k], heads[k + 1], (-THETA, THETA),
+                       cfg["hw"][k], cfg))
+    alpha = 90.0 - THETA - MARGIN
+
+    def place(ob, pivot, heading):
+        transform_obj(ob, Matrix.Translation((pivot[0], pivot[1], 0.0)) @ Matrix.Rotation(math.radians(heading), 4, "Z"))
+        return ob
 
     if verbose:
-        print("[gemscale] sculpting the body ...")
-    M = metaball_mesh("trexBody", body_e, cfg["res"], coll, s, hz)
-    Jb = metaball_mesh("trexJaw", jaw_e, cfg["res"], coll, s, hz)
+        print("[gemscale] building parts ...")
+    # ---- head (F of the first joint): stays behind the neck joint
+    head = place(build_head(cfg, coll), pivots[0], heads[0])
+    parts = [head]
+    # ---- segments
+    for k in range(n):
+        body, limbs = build_seg(k, cfg, coll)
+        for ob in [body] + limbs:
+            place(ob, pivots[k], heads[k + 1])
+        jin = J[k]
+        boolean(body, [jin.wedge(coll, -alpha, alpha)], "INTERSECT")    # the chevron front
+        if limbs:
+            boolean(body, limbs, "UNION")
+        boolean(body, [jin.disc(coll, jin.rho)], "DIFFERENCE")            # the cup
+        parts.append(body)
 
-    # ---- details: teeth, claws, eye, nostril, keyring
-    adds_m, adds_j, cuts_m = [], [], []
-    for (x, ln, rb) in det["upper"]:
-        y = ray_y(M, x * s, 46.5 * s, +1)            # underside of the skull at x
-        if y is not None:
-            adds_m.append(link_obj(half_cone((x * s, y), 268.0, ln * s, rb * s), "tooth", coll))
-    for (x, ln, rb) in det["lower"]:
-        y = ray_y(Jb, x * s, 52.0 * s, -1)           # top edge of the jaw at x
-        if y is not None:
-            adds_j.append(link_obj(half_cone((x * s, y), 92.0, ln * s, rb * s), "tooth", coll))
-    for (x, y, a, ln, rb) in det["claws"]:
-        adds_m.append(link_obj(half_cone((x * s, y * s), a, ln * s, rb * s, zs=1.8), "claw", coll))
-    ex, ey, er = det["eye"]
-    ex, ey, er = ex * s, ey * s, er * s
-    zc = height_at(M, ex, ey) - 0.45 * er
-    prof = [(er, 0.0), (er, zc)] + [(er * math.cos(math.radians(a)), zc + er * math.sin(math.radians(a)))
-                                    for a in range(15, 90, 15)] + [(0.25, zc + er - 0.02)]
-    adds_m.append(link_obj(bm_lathe(prof, 48, ex, ey), "eye", coll))
-    # slit pupil: a vertical diamond, slanted, cut 0.9 mm into the eye dome
-    w2, h2, a = 0.3 * er, 0.62 * er, math.radians(-20.0)
-    dia = [(ex + px * math.cos(a) - py * math.sin(a), ey + px * math.sin(a) + py * math.cos(a))
-           for (px, py) in ((w2, 0.0), (0.0, h2), (-w2, 0.0), (0.0, -h2))]
-    cuts_m.append(link_obj(bm_prism(dia, zc + er - 0.9, 80.0), "pupil", coll))
-    nx, ny, nr = det["nostril"]
-    zn = height_at(M, nx * s, ny * s)
-    cuts_m.append(link_obj(bm_lathe([(nr * s, zn - 1.0), (nr * s, 80.0)], 24, nx * s, ny * s), "nostril", coll))
+    # ---- joint cuts: F keeps out of R's swing, then socket + notch in F, knob + tongue on R
+    for k, j in enumerate(J):
+        F = parts[k]
+        keep = j.wedge(coll, -90.0, 90.0)
+        boolean(keep, [j.disc(coll, j.hw)], "DIFFERENCE", tidy=False)
+        boolean(F, [keep], "DIFFERENCE")
+        boolean(F, j.f_cutters(coll), "DIFFERENCE")
+    for k, j in enumerate(J):
+        boolean(parts[k + 1], j.r_addons(coll), "UNION")
     if cfg["keyring"]:
-        tx, ty = P(det["tail_tip"])
-        h = rup(3.0)
-        r_out = 4.0 * max(s / 0.8, 0.8)
-        c = (tx + r_out - 2.0, ty + 0.5)
-        tab = bm_lathe([(r_out, 0.0), (r_out, h - 0.4), (r_out - 0.4, h)], 48, c[0], c[1])
-        adds_m.append(link_obj(tab, "tab", coll))
-        cuts_m.append(link_obj(bm_lathe([(1.8, -1.0), (1.8, 80.0)], 32, c[0], c[1]), "hole", coll))
-    boolean(M, adds_m, "UNION")
-    boolean(M, cuts_m, "DIFFERENCE")
-    boolean(Jb, adds_j, "UNION")
+        tip = parts[-1]
+        L = SEGS[-1][1]
+        d = dirv(heads[-1])
+        r_out = 3.6 * max(cfg["s"], 0.8)
+        c = (pivots[-1][0] + (L + r_out - 1.6) * d[0], pivots[-1][1] + (L + r_out - 1.6) * d[1])
+        h = rup(2.8)
+        boolean(tip, [link_obj(bm_lathe([(r_out, 0.0), (r_out, h - 0.4), (r_out - 0.4, h)], 40, c[0], c[1]), "tab", coll),
+                      bar((pivots[-1][0] + (L - 4.0) * d[0], pivots[-1][1] + (L - 4.0) * d[1]), c, 2.4, 2.4, h, h, coll)],
+                "UNION")
+        boolean(tip, [link_obj(bm_lathe([(1.8, -1.0), (1.8, 80.0)], 32, c[0], c[1]), "hole", coll)], "DIFFERENCE")
 
-    if cfg.get("preview"):
-        # shape only (no joints), for working on the sculpt
-        plan = Plan()
-        plan.cfg, plan.joints, plan.coll = cfg, [], coll
-        plan.parts, plan.names, plan.tints = [M, Jb], ["body", "jaw"], [0.3, 0.0]
-        return plan
-
-    # ---- joints
-    hw = cfg["hw"]
-
-    def hd(a, b):
-        return _ang(P(pv[a]), P(pv[b]) if isinstance(b, str) else P(b))
-
-    jaw_head = _ang(P(pv["jaw"]), P((-60.0, 40.6)))
-    J = [Joint("neck", "body", "head", P(pv["neck"]), _ang(P(pv["neck"]), P((-42.0, 63.0))), NECK, hw["neck"], cfg,
-               split=(-90.0, 55.0)),
-         Joint("jaw", "head", "jaw", P(pv["jaw"]), jaw_head, JAW, hw["jaw"], cfg, source="jaw", split=(-90.0, 90.0)),
-         Joint("hip", "body", "tail1", P(pv["hip"]), hd("hip", "t1"), TAIL, hw["hip"], cfg),
-         Joint("t1", "tail1", "tail2", P(pv["t1"]), hd("t1", "t2"), TAIL, hw["t1"], cfg),
-         Joint("t2", "tail2", "tip", P(pv["t2"]), hd("t2", det["tail_tip"]), TAIL, hw["t2"], cfg)]
-
-    # big round knuckles: each housing fills the body's width at its pivot, so the next part
-    # wraps round it in a matching cup and the joint sweeps almost nothing away
-    tree, _ = bvh_of(M)
-    for j in J:
-        ds = []
-        for side in (90.0, -90.0):
-            d = dirv(j.heading + side)
-            hit = tree.ray_cast(Vector((j.pivot[0], j.pivot[1], 0.3)), Vector((d[0], d[1], 0.0)))
-            ds.append((hit[0].xy - Vector(j.pivot)).length if hit[0] is not None else j.hw)
-        j.hw = max(j.hw, min(min(ds) - 0.6, cfg["hw_max"]))
-    jn, jj = J[0], J[1]
-    room = (Vector(jn.pivot) - Vector(jj.pivot)).length - 1.6
-    if jn.hw + GAP + jj.hw > room:            # neck cup and jaw housing must not meet
-        jn.hw = max(cfg["hw"]["neck"], room - GAP - jj.hw)
-    chain = [j for j in J if j.name in ("hip", "t1", "t2")]
-    for a, b in zip(chain[:-1], chain[1:]):     # a's cup and b's housing must fit between them
-        room = (Vector(a.pivot) - Vector(b.pivot)).length - GAP - 1.8
-        over = a.hw + b.hw - room
-        if over > 0:
-            a.hw -= over * a.hw / (a.hw + b.hw)
-            b.hw -= over * b.hw / (a.hw + b.hw + over * b.hw / (a.hw + b.hw))
-            b.hw = min(b.hw, room - a.hw)
-    for j in J:
-        j.rho = j.hw + GAP
-    if verbose:
-        print("[gemscale] housings:", ", ".join(f"{j.name} {j.hw:.1f}" for j in J))
-
-    # ---- 1. split the body into parts along each joint's sector
-    if verbose:
-        print("[gemscale] splitting into parts ...")
-    regions = {"body": M}
-    for j in J:
-        s0, s1 = j.sector()
-        if j.source == "jaw":
-            Rr = Jb
-        else:
-            Rr = copy_obj(regions[j.F], j.R)
-            boolean(Rr, [j.wedge(coll, s0, s1)], "INTERSECT")
-            w = j.wedge(coll, s0, s1)
-            boolean(w, [j.disc(coll, j.hw)], "DIFFERENCE")
-            boolean(regions[j.F], [w], "DIFFERENCE")
-        boolean(Rr, [j.disc(coll, j.rho)], "DIFFERENCE")
-        Rr.name = j.R
-        regions[j.R] = Rr
-    for ob in regions.values():
-        keep_main_islands(ob)
-
-    # every F gets a round boss at its joint, so the socket always has a full wall
-    for j in J:
-        hb = j.z_nf + 1.6
-        boss = bm_lathe([(j.hw, 0.0), (j.hw, hb - 0.5), (j.hw - 0.5, hb)], 64, j.pivot[0], j.pivot[1])
-        boolean(regions[j.F], [link_obj(boss, "boss", coll)], "UNION")
-
-    # ---- 2. clear each joint's sweep: F loses the swept volume of everything beyond it
-    if verbose:
-        print("[gemscale] clearing joint sweeps ...")
-    children = {}
-    for j in J:
-        children.setdefault(j.F, []).append(j.R)
-
-    def subtree(name):
-        out = [name]
-        for c in children.get(name, []):
-            out += subtree(c)
-        return out
-
-    for j in J:
-        if os.environ.get("GEMSCALE_DEBUG"):
-            for n in subtree(j.R):
-                bm = bmesh.new()
-                bm.from_mesh(regions[n].data)
-                print("  ", j.name, n, len(bm.verts), "closed" if _is_closed(bm) else "OPEN", flush=True)
-                bm.free()
-        tool = sweep_tool(j, [regions[n] for n in subtree(j.R)], coll)
-        disc = j.disc(coll, j.hw)
-        boolean(tool, [disc], "DIFFERENCE", tidy=False)
-        boolean(regions[j.F], [tool], "DIFFERENCE")
-    for ob in regions.values():
-        keep_main_islands(ob)
-
-    # ---- 3. the joint hardware
-    for j in J:
-        boolean(regions[j.F], j.f_cutters(coll), "DIFFERENCE")
-    for j in J:
-        boolean(regions[j.R], j.r_addons(coll), "UNION")
-
-    order = ["head", "jaw", "body", "tail1", "tail2", "tip"]
-    tints = dict(head=0.0, jaw=0.08, body=0.25, tail1=0.5, tail2=0.75, tip=1.0)
     plan = Plan()
     plan.cfg, plan.joints, plan.coll = cfg, J, coll
-    plan.parts = [regions[n] for n in order]
-    plan.names = list(order)
-    for n in order:
-        regions[n].name = "trex_" + n
-    plan.tints = [tints[n] for n in order]
-    for ob in plan.parts:
+    plan.parts, plan.names = parts, names
+    plan.tints = [k / n for k in range(n + 1)]
+    for nm, ob in zip(names, parts):
+        ob.name = "trex_" + nm
         keep_main_islands(ob)
         weld(ob)
         triangulate(ob)
     # centre on the bed
-    xs = [(ob.matrix_world @ v.co) for ob in plan.parts for v in ob.data.vertices]
-    cx = (min(v.x for v in xs) + max(v.x for v in xs)) / 2
-    cy = (min(v.y for v in xs) + max(v.y for v in xs)) / 2
+    lo, hi = bounds(parts)
+    cx, cy = (lo.x + hi.x) / 2, (lo.y + hi.y) / 2
     T = Matrix.Translation((-cx, -cy, 0.0))
-    for ob in plan.parts:
+    for ob in parts:
         transform_obj(ob, T)
     for j in J:
         j.pivot = (j.pivot[0] - cx, j.pivot[1] - cy)
-    plan.subtree = {j.name: subtree(j.R) for j in J}
+    plan.subtree = {j.name: names[k + 1:] for k, j in enumerate(J)}
     if verbose:
-        lo, hi = bounds(plan.parts)
-        print(f"[gemscale] built {len(plan.parts)} parts, {len(J)} joints, "
+        lo, hi = bounds(parts)
+        print(f"[gemscale] built {len(parts)} parts, {len(J)} joints, "
               f"{hi.x - lo.x:.1f} x {hi.y - lo.y:.1f} x {hi.z:.1f} mm")
     return plan
-
-
-def sweep_tool(j, objs, coll, reach=22.0):
-    """Union of copies of `objs` (each grown by GAP) rotated about the joint over its swing.
-    Only what lies within `reach` of the pivot is swept (that is where F can be; the swing
-    check covers the rest). Every part stays its own boolean operand: joining them would make
-    one mesh with intersecting shells, which the Manifold solver can't take."""
-    piv = Vector((j.pivot[0], j.pivot[1], 0.0))
-    grow = GAP * 1.35
-    bases = []
-    for ob in objs:
-        bm = bmesh.new()
-        bm.from_mesh(ob.data)
-        if min((v.co - piv).xy.length for v in bm.verts) > reach:
-            bm.free()
-            continue
-        bm.normal_update()
-        for v in bm.verts:
-            v.co += v.normal * grow
-            # stretch it up: the part is a height field, so this keeps its footprint and
-            # makes the cut a vertical wall (nothing of F may hang over the swept zone)
-            v.co.z = v.co.z * 40.0 if v.co.z > 0.0 else v.co.z
-        base = link_obj(bm, "sweep_src", coll)
-        clip = link_obj(bm_lathe([(reach, -5.0), (reach, 500.0)], 96, piv.x, piv.y), "clip", coll)
-        boolean(base, [clip], "INTERSECT", tidy=False)
-        if len(base.data.vertices) < 4:
-            delete_obj(base)
-            continue
-        bases.append(base)
-    step = min(2.0, math.degrees(0.45 / reach))
-    n = max(2, int(math.ceil((j.hi - j.lo) / step)))
-    if os.environ.get("GEMSCALE_DEBUG"):
-        print(f"   sweep {j.name}: {len(bases)} parts x {n + 1} copies", flush=True)
-    copies = []
-    for base in bases:
-        for i in range(n + 1):
-            a = j.lo + (j.hi - j.lo) * i / n
-            c = copy_obj(base, "sweep")
-            Mr = Matrix.Translation(piv) @ Matrix.Rotation(math.radians(a), 4, "Z") @ Matrix.Translation(-piv)
-            transform_obj(c, Mr)
-            copies.append(c)
-        delete_obj(base)
-    tool = copies.pop(0)
-    boolean(tool, copies, "UNION", tidy=False)
-    return tool
 
 
 def bounds(objs):
@@ -901,7 +865,7 @@ def check(plan, verbose=True):
                     if g < worst_s:
                         worst_s, at = g, (j.name, names[m], names[st], a)
     rep("joint swing", worst_s >= 0.25,
-        f"jaw opens {JAW[1]:.0f} deg, head nods +-{NECK[1]:.0f}, tail joints +-{TAIL[1]:.0f}; smallest gap while "
+        f"every joint wiggles +-{THETA:.0f} deg; smallest gap while "
         f"swinging {min(worst_s, 0.6):.2f} mm" + (f" ({at[1]} vs {at[2]} at {at[3]:+.0f} deg)" if at else ""))
 
     # overhangs: faces pointing down steeper than 45 deg, not on the bed, not tongue bridges
@@ -1109,8 +1073,8 @@ def export(plan, results, out_dir=None, glb=True):
 # =============================================================================
 
 class GEMSCALE_PG_trex(bpy.types.PropertyGroup):
-    preset: bpy.props.EnumProperty(items=[("standard", "Standard", "14 cm long"),
-                                          ("mini", "Mini", "10.5 cm long")], default="standard")
+    preset: bpy.props.EnumProperty(items=[("standard", "Standard", "full size"),
+                                          ("mini", "Mini", "smaller and quicker")], default="standard")
     clearance: bpy.props.FloatProperty(name="Clearance", default=0.35, min=0.25, max=0.6, step=1)
     keyring: bpy.props.BoolProperty(name="Keyring loop", default=False)
     out: bpy.props.StringProperty(name="Export to", default="//gemscale_export", subtype="DIR_PATH")
@@ -1192,13 +1156,11 @@ def main(argv):
     ap.add_argument("--out", default="gemscale_export")
     ap.add_argument("--no-check", action="store_true")
     ap.add_argument("--save", help="also save a .blend file")
-    ap.add_argument("--preview", action="store_true", help="sculpt only (no joints), fast")
     a = ap.parse_args(argv)
     if bpy.data.objects.get("Cube"):
         delete_obj(bpy.data.objects["Cube"])
-    plan = generate(dict(preset=a.preset, clearance=a.clearance, keyring=a.keyring, out=a.out,
-                         preview=a.preview))
-    ok, res = (True, []) if (a.no_check or a.preview) else check(plan)
+    plan = generate(dict(preset=a.preset, clearance=a.clearance, keyring=a.keyring, out=a.out))
+    ok, res = (True, []) if a.no_check else check(plan)
     export(plan, res, a.out)
     if a.save:
         bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(a.save))

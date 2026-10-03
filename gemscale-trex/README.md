@@ -1,9 +1,9 @@
-# Gemscale Flexi T-Rex: Blender generator for a fast print-in-place T. rex that chomps
+# Gemscale Flexi T-Rex: Blender generator for a classic print-in-place flexi T. rex
 
 ![Gemscale Flexi T-Rex](renders/standard_cover_hero.png)
 
-`gemscale_trex.py` is a single **Blender** script that sculpts a **small, low, fast-printing
-T. rex that prints in one piece, fully assembled, with no supports**. It runs its own
+`gemscale_trex.py` is a single **Blender** script that builds a **classic flexi T. rex that
+prints in one piece, fully assembled, with no supports**. It runs its own
 printability checks and exports slicer-ready STL and 3MF files. A small three.js studio in
 `render/` makes MakerWorld-style 4:3 cover images.
 
@@ -11,41 +11,31 @@ It's the fourth model in the Gemscale series, after the [Flexi Dragon](../gemsca
 [Octopus](../gemscale-octopus/) and [Bat](../gemscale-bat/), and uses the same proven
 print-in-place joint.
 
-## How it's sculpted
+## The design
 
-The body is about 70 **metaball "muscle masses"** blended into one smooth organic surface:
-- a deep skull with a back plate, snout, cheek muscle, brow horn and nasal ridge
-- a thick S-curved neck, a chest, a belly and hips
-- a big drumstick thigh, a shin and a long foot, plus the far leg striding forward
-- tiny two-part arms
-- a tail that's thick at the hips, tapers to a point and is held up
+It's the classic flexi-toy layout, seen from above:
+- **Head:** big and boxy, with a blunt snout, wide cheeks, a zig-zag of teeth along both lips,
+  eyes on the sides under raised brow bumps, nostrils and two little crown spikes.
+- **Body segments:** a short thick neck, a chest with **tiny arms**, and hips with **big
+  drumstick legs** splayed out the sides and clawed feet.
+- **Tail:** five tail segments and a pointed tip, curving round.
 
-The lower jaw is a separate metaball part. The teeth and claws are half-cones, and the eye
-is a dome with a slit pupil.
-
-Every metaball centre lies on the T. rex's mid-plane, and the model is that body **cut in
-half along the mid-plane and laid flat on the bed**. A sum of blobs centred on z = 0 gets
-thinner as it rises, so the top surface is a pure height field. That means the model *can't*
-have an overhang, it prints with no supports, and it's only 11 mm tall, so it prints fast.
+Every segment has a pitched, ridged roof with a dorsal spike, and the V-shaped gaps between
+segments are the classic flexi look. It lies on its belly and every joint wiggles ±25° side to
+side. Every part is lofted through flat-bottomed sections with vertical sides and a pitched roof,
+so nothing overhangs and no supports are needed.
 
 | | Mini | Standard |
 |---|---|---|
-| Size | 105 × 45 × 10 mm | 140 × 60 × 11 mm |
-| Joints | 5 | 5 |
-| Filament* | ~7 g | ~13 g |
-| Print time* | ~25 min | ~40 min |
+| Size | 109 × 44 × 12 mm | 142 × 57 × 17 mm |
+| Joints | 9 | 9 |
+| Filament* | ~7 g | ~14 g |
 | Bed | any (A1 mini and up) | any (A1 mini and up) |
 
-\*These are estimates, not slicer output. Filament comes from the solid volume (2 walls, 15 %
-infill, PLA). Slice in Bambu Studio for real numbers before you publish them.
+\*Estimated from the solid volume (2 walls, 15 % infill, PLA). Slice in Bambu Studio for real
+numbers before you publish them.
 
 ![Top view](renders/standard_cover_top.png)
-
-## What it does
-
-- **The jaw chomps.** It's its own hinged part and opens 30°.
-- **The head and neck nod** ±15°.
-- **The three-part tail wiggles**, ±28° at each joint.
 
 ## Quick start
 
@@ -63,8 +53,9 @@ You can also open the script in Blender's **Scripting** tab and press **Run Scri
 **Gemscale** tab appears in the 3D-viewport sidebar (press N) with Generate and Export buttons.
 
 Options: `--preset mini|standard`, `--clearance 0.35`, `--keyring` (a loop on the tail tip),
-`--out DIR`, `--no-check`, `--save file.blend`, and `--preview` (sculpt only, no joints;
-useful while editing the anatomy). A full build takes about 30 seconds.
+`--out DIR`, `--no-check`, `--save file.blend`. A full build takes about 30 seconds. The whole
+design (head, segment sizes, limbs, joint sizes, the printed curve of the body) is in plain
+tables at the top of the script, so it's easy to tweak.
 
 Each run writes `GemscaleTRex_<preset>.stl` / `.3mf` (one object, every part a separate
 shell) and a `_report.txt` with the size, estimated filament and all the check results. It
@@ -86,10 +77,10 @@ STL copies are provided too.
 - **0.20 mm layers.** The joint heights are snapped to this grid.
 - **Supports off**, brim off, 2 walls, 15 % infill. Use PLA or silk PLA.
 - Keep part cooling on so the short tongue bridges come out clean.
-- After printing, work every joint gently. The first bend frees it. Open the jaw a few times.
-- **Two-tone without an AMS:** add a filament change at about **6 mm**. The raised middle of
-  the head, body, thigh and tail switches colour, while the jaw and all the thinner edges keep
-  the first colour. Dark green first, then lime or yellow, looks great.
+- After printing, work every joint gently. The first bend frees it.
+- **Two-tone without an AMS:** add a filament change at about **8 mm** (mini: **6 mm**). The
+  ridged tops of the head, body segments and thighs switch colour, and the lower sides, the tail
+  end, the arms and the feet keep the first colour.
 
 ---
 
@@ -118,15 +109,11 @@ Each joint is the Gemscale captured swivel, with the same clearances as the othe
 
 ### The parts and their joints
 
-The sculpted body is split into six parts: head, jaw, body, two tail parts, and the tail tip.
-At every joint:
-
-1. **Big round knuckles.** The housing fills the body's width at the pivot, so the next part
-   wraps round it in a matching cup and the joint keeps the body's outline.
-2. **Exact swept clearance.** The front part loses the swept volume of everything beyond the
-   joint (grown by 0.5 mm and rotated through the full swing), so cuts follow the real shapes
-   instead of being blunt wedges.
-3. **The knob-in-socket hardware** is cut and added last.
+Ten parts: head, neck, chest, hips, five tail segments and the tip. At every joint the rear
+part's front is cut to a 60° chevron round the pivot, so it clears the front part through the
+whole ±25° swing plus a 5° margin. The front part ends in a round knuckle housing at the
+pivot, and the knob-in-socket hardware is cut and added last. The legs and arms are checked
+separately through the whole swing.
 
 ### Checks (every run)
 
@@ -134,8 +121,8 @@ At every joint:
 2. Every gap inside a joint is at least the clearance. Unlinked parts are at least 0.4 mm apart.
 3. Every joint swings through its full range, carrying everything beyond it, without touching
    anything else.
-4. There are no unsupported overhangs steeper than 45° (the model is a height field, so this
-   comes out at 0 mm²). The only exceptions are the short tongue bridges of the joints.
+4. There are no unsupported overhangs steeper than 45° (0 mm²). The only exceptions are the
+   short tongue bridges of the joints.
 5. The model fits the bed with a 5 mm margin.
 6. Every housing surrounds its socket.
 7. No vertices merge when saved as float32, and every part is watertight as written to the

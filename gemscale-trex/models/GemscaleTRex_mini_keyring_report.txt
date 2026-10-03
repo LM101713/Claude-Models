@@ -1,14 +1,14 @@
 Gemscale Flexi T-Rex  preset=mini  clearance=0.35  (Blender 5.0.1)
-size 107.6 x 45.3 x 9.9 mm, 6 parts, 5 joints
-solid volume 9.3 cm^3, estimated 8 g PLA (2 walls, 15 % infill)
+size 111.9 x 47.2 x 12.4 mm, 10 parts, 9 joints
+solid volume 8.2 cm^3, estimated 7 g PLA (2 walls, 15 % infill)
 
 [PASS] solids: all parts are closed manifolds
 [PASS] one piece each: every part is a single connected piece
-[PASS] joint gaps: smallest gap inside a joint 0.35 mm (design 0.35) (tail2 / tip)
+[PASS] joint gaps: smallest gap inside a joint 0.35 mm (design 0.35) (tail5 / tip)
 [PASS] part gaps: smallest gap between unlinked parts 1.50 mm (>= 1.5)
-[PASS] joint swing: jaw opens 30 deg, head nods +-15, tail joints +-28; smallest gap while swinging 0.35 mm (jaw vs head at +3 deg)
-[PASS] overhangs: 0.0 mm^2 of unsupported overhang; 44 mm^2 of short tongue bridges
-[PASS] bed: 107.6 x 45.3 mm on a 180 x 180 bed
+[PASS] joint swing: every joint wiggles +-25 deg; smallest gap while swinging 0.35 mm (tail5 vs tail4 at -3 deg)
+[PASS] overhangs: 0.0 mm^2 of unsupported overhang; 68 mm^2 of short tongue bridges
+[PASS] bed: 111.9 x 47.2 mm on a 180 x 180 bed
 [PASS] socket walls: every housing surrounds its socket
 [PASS] stl precision: no vertices merge when saved as float32 STL
 [PASS] watertight: every part is watertight as written to the STL/3MF

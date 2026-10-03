@@ -18,8 +18,8 @@ canvas{display:block}
 </head>
 <body>
 <div id="promo"><div class="t1">FLEXI</div><div class="t2">T-REX</div>
-<div class="sub">Print-in-place &bull; Tiny arms &bull; Fast print</div>
-<div class="tags"><span>NO SUPPORTS</span><span>NO ASSEMBLY</span><span>FAST PRINT</span></div></div>
+<div class="sub">Print-in-place &bull; Tiny arms &bull; Wiggly tail</div>
+<div class="tags"><span>NO SUPPORTS</span><span>NO ASSEMBLY</span><span>FITS A1 MINI</span></div></div>
 <script type="module">
 // Render studio for the Gemscale Flexi T-Rex.
 // Query: ?glb=<file>&parts=<json>&view=hero|top|face|plate&scheme=<name>&w=1600&h=1200
@@ -180,15 +180,15 @@ async function main() {
   const cam = new THREE.PerspectiveCamera(30, W / H, 1, 5000);
   const look = ctr.clone();
   let dir, dist;
-  // the T. rex is long and low and faces -x (the head is on the left)
-  const head = new THREE.Vector3(box.min.x + size.x * 0.17, box.max.y - size.y * 0.3, size.z * 0.3);
-  if (view === "top") { dir = new THREE.Vector3(0, -0.12, 1); dist = size.x * 1.5; look.z = size.z * 0.2; }
+  // the flexi T. rex lies on its belly, head toward -x
+  const head = new THREE.Vector3(box.min.x + size.x * 0.15, ctr.y, size.z * 0.5);
+  if (view === "top") { dir = new THREE.Vector3(0, -0.12, 1); dist = size.x * 1.45; look.z = size.z * 0.2; }
   else if (view === "plate") { dir = new THREE.Vector3(0.3, -0.9, 1.35); dist = plateW * 1.75; look.z = 0; }
-  else if (view === "face") { dir = new THREE.Vector3(-0.28, -0.5, 1.0); dist = size.x * 0.46; look.copy(head); }
-  else { dir = new THREE.Vector3(-0.1, -0.3, 1.0); dist = size.x * 1.5; look.z = size.z * 0.15; }
-  if (view === "promo") { dir = new THREE.Vector3(-0.06, -0.25, 1.0); dist = size.x * 1.55; }
+  else if (view === "face") { dir = new THREE.Vector3(-1.0, -0.55, 0.75); dist = size.x * 0.5; look.copy(head); }
+  else { dir = new THREE.Vector3(-0.45, -0.9, 1.0); dist = size.x * 1.55; look.z = size.z * 0.15; look.x -= size.x * 0.06; }
+  if (view === "promo") { dir = new THREE.Vector3(-0.4, -0.9, 1.0); dist = size.x * 1.4; }
   if (view === "promo") {
-    look.x = ctr.x - size.x * 0.12; look.y = ctr.y - size.y * 0.42; look.z = 0;
+    look.x = ctr.x - size.x * 0.1; look.y = ctr.y - size.y * 0.72; look.z = 0;
     const accent = "#" + ramp(0.95).getHexString();
     const el = document.getElementById("promo");
     el.style.display = "block";
