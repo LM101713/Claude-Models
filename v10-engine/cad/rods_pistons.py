@@ -65,6 +65,9 @@ def piston():
     ro = C.LUG_OD / 2
     lug = cyl_z(ro, C.LUG_BOTTOM, C.LUG_TOP, 0, C.RAIL_OFFSET)
     lug = lug.fuse(box(-3.0, 3.0, rp - C.PISTON_WALL_T + 0.5, C.RAIL_OFFSET, C.LUG_BOTTOM, C.LUG_TOP))
+    # 0.6 mm lead-in chamfer on the lug top (it enters its pocket with the crown)
+    lug = lug.cut(cyl_z(ro + 1.0, C.LUG_TOP - 0.6, C.LUG_TOP + 1.0, 0, C.RAIL_OFFSET).cut(
+        cq.Solid.makeCone(ro, ro - 1.6, 1.6, cq.Vector(0, C.RAIL_OFFSET, C.LUG_TOP - 0.6), cq.Vector(0, 0, 1))))
     body = body.fuse(lug)
     # two bushings, pressed in from each end of the lug
     body = body.cut(crush_z(C.BUSHING["od"], C.LUG_BOTTOM - 0.01, C.LUG_TOP + 0.01, 0, C.RAIL_OFFSET,

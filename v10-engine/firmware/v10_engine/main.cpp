@@ -3,8 +3,9 @@
 //
 // Board:   ESP32-DevKitC-32E (ESP32-WROOM-32E)
 // Driver:  TMC2209 (UART, StealthChop) -> NEMA17 -> GT2 3:1 -> crankshaft
-// Sensors: DRV5033 hall switch under the front crank web (one magnet at
-//          cylinder 1 TDC), 10k speed knob, START button with ring LED
+// Sensors: DRV5033 hall switch under the rear crank web (one magnet, passing
+//          at a known crank angle - see engine_geometry.h), 10k speed knob,
+//          START button with ring LED
 // LEDs:    two WS2812B strips (one per bank, 3 LEDs over every bore)
 //
 // How the LEDs stay in time with the pistons
@@ -144,6 +145,7 @@ float lastInteractionRpm = -100.0f;
 uint32_t lastInteractionMs = 0;
 float targetRpm = 0.0f;
 
+bool bootDone = false;             // setup() finished
 uint32_t runAccumMs = 0;           // running time not yet added to settings.runMinutes
 uint32_t lastNvsSaveMs = 0;
 
@@ -348,12 +350,17 @@ void raiseFault(Fault f, const char* why) {
   fault = f;
   mode = Mode::Fault;
   synced = false;
-  settings.faults++;
-  saveSettings();
+  if (bootDone) {                  // a USB-only boot (no 12 V) is not a real fault
+    settings.faults++;
+    saveSettings();
+  }
   Serial.printf("FAULT %d: %s\n", (int)f, why);
   if (burnInDurationMs) {
     burnInDone = true;
     burnInPassed = false;
+    burnInDurationMs = 0;
+    Serial.printf("BURN-IN FAILED: fault %d after %lu min, %lu magnet passes\n", (int)f,
+                  (unsigned long)((millis() - burnInStartMs) / 60000UL), (unsigned long)magnetPasses);
   }
 }
 
@@ -818,6 +825,7 @@ void setup() {
 // loop
 // -----------------------------------------------------------------------------
 void loop() {
+  bootDone = true;
   esp_task_wdt_reset();
   uint32_t now = millis();
   readSerial();

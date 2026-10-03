@@ -109,21 +109,27 @@ static void testMagnetPass() {
 // 5. synchronisation: small errors corrected, both TDCs of cylinder 1 accepted, big error = fault
 static void testSync() {
   const uint32_t tdc = 5000;
-  SyncResult r = checkSync(tdc, tdc, 0);
+  const int32_t H = (int32_t)geo::HALL_PHASE_STEPS;           // magnet passes H steps after TDC
+  auto mag = [&](int32_t steps) { return wrapCycle((int32_t)tdc + H + steps); };
+  SyncResult r = checkSync(tdc, mag(0), 0);
   CHECK(r.verdict == SyncVerdict::Corrected && r.error == 0 && r.newTdc == tdc, "exact pass");
-  r = checkSync(tdc, wrapCycle(tdc + geo::STEPS_PER_REV), 0);  // overlap TDC one revolution later
+  r = checkSync(tdc, mag((int32_t)geo::STEPS_PER_REV), 0);     // the other TDC of cylinder 1
   CHECK(r.verdict == SyncVerdict::Corrected && r.error == 0 && r.newTdc == tdc, "second TDC of the cycle");
-  r = checkSync(tdc, tdc + 40, 0);
+  r = checkSync(tdc, mag(40), 0);
   CHECK(r.verdict == SyncVerdict::Corrected && r.error == 40 && r.newTdc == tdc + 40, "small lag corrected");
-  r = checkSync(tdc, tdc - 40, 0);
+  r = checkSync(tdc, mag(-40), 0);
   CHECK(r.verdict == SyncVerdict::Corrected && r.error == -40 && r.newTdc == tdc - 40, "small lead corrected");
-  r = checkSync(tdc, tdc + geo::SYNC_FAULT_STEPS + 1, 0);
+  r = checkSync(tdc, mag(geo::SYNC_FAULT_STEPS + 1), 0);
   CHECK(r.verdict == SyncVerdict::Fault, "lost steps must be a fault");
-  r = checkSync(10, wrapCycle(10 - 30), 0);                   // across the wrap
+  r = checkSync(10, wrapCycle(10 + H - 30), 0);               // across the wrap
   CHECK(r.verdict == SyncVerdict::Corrected && r.error == -30 && r.newTdc == wrapCycle(10 - 30), "wrap: err %d", r.error);
-  // trim shifts where TDC is assumed relative to the magnet
-  uint32_t t = tdcFromMagnet(1000, 27);
-  CHECK(t == 973 && checkSync(t, 1000, 27).error == 0, "trim round trip");
+  // magnet -> TDC -> expected magnet is a round trip, with and without trim
+  for (int32_t trim : {0, 27, -27}) {
+    uint32_t t = tdcFromMagnet(1000, trim);
+    CHECK(checkSync(t, 1000, trim).error == 0, "trim %d round trip", trim);
+    CHECK(cycleAhead(t, 1000) == wrapCycle(H + trim), "magnet sits HALL_PHASE_STEPS (+trim) after TDC");
+  }
+  CHECK(geo::HALL_PHASE_STEPS < geo::STEPS_PER_REV, "hall phase within one revolution");
 }
 
 // 6. a simulated run: the crank slowly slips behind the motor (belt stretch),

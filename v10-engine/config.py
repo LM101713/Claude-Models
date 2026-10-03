@@ -149,8 +149,9 @@ SEGMENT_LEN = CYL_PITCH - THROW_INNER        # web + journal + web
 END_WEB_T = 12.0               # the two end webs (carry the main shafts)
 SCREW_CHANNEL_D = M3_CBORE     # access channel for crankpin screws
 PIN_SCREW_FLOOR = 3.0          # web material under crankpin screw head (M3x8)
-HALL_MAGNET_IN_WEB = True      # 6x3 magnet in the front end web rim
-HALL_SENSOR_ANGLE = 180.0      # hall sensor sits straight below the crank (in the case floor)
+HALL_MAGNET_IN_WEB = True      # 6x3 magnet in the end-web rim (both webs are identical: fit one in each)
+HALL_SENSOR_ANGLE = 180.0      # hall sensor sits straight below the crank (in the case floor) ...
+HALL_SENSOR_END = "rear"       # ... under the REAR end web: its leads drop next to the controller, clear of the motor
 
 # Main shaft (machined, identical front and rear). Built from the web outwards.
 SHAFT_SPIGOT_D = 10.0
@@ -220,7 +221,8 @@ RAIL_HEAD_ENGAGE = 3.0         # rail top runs this far into a pocket in the cyl
 END_PLATE_SPIGOT = 4.0
 END_PLATE_FLANGE_T = 10.0
 BEARING_LIP_T = 1.5
-HALL_POCKET = dict(w=5.0, l=5.0, d=3.0)   # TO-92 style hall sensor pocket in floor
+HALL_POCKET = dict(w=5.0, l=7.0, d=1.7)   # TO-92 (4.0 x 3.15 x 1.52) lies face-up in a pocket under the case floor
+HALL_LEAD_SLOT = dict(w=4.0, l=2.0, dx=3.3)  # slot in the base top for the 3 bent leads (body cannot fall through)
 
 # ---------------------------------------------------------------------------
 # 6b. STYLING PARTS (Phase 3) - bank-local frame unless noted
@@ -237,7 +239,8 @@ CAM_END_GAP = 9.0              # cams stop short of the head ends (loom turns th
 # lights the combustion chamber directly. Lead wires leave at the rear end.
 LED_STRIP = dict(pitch=1000.0 / 60.0, n=15, w=10.0, t=2.1)
 LED_GROOVE = dict(w=11.0, d=2.6)       # strip groove in the head deck face (LED face 0.5 mm above the deck)
-LED_WIRE_GROOVE = dict(w=3.5, d=2.6)   # lead-wire groove from the strip end to the valley side
+LED_WIRE_GROOVE = dict(w=3.5, d=3.8)   # lead-wire groove from the strip end to the valley side:
+                                       # 3 x 24 AWG silicone (1.4 mm) as 2 + 1, never pinched
 COIL = dict(shaft_d=10.0, w=11.0, l=15.0, h=24.0)  # coil pack: stands up through the cam cover
 COIL_SOCKET_D = 10.0                   # coil-pack socket depth in the head top
 CAM_COVER = dict(y0=-33.0, y1=19.5, h=18.0, wall=3.0, chamfer=5.0, end_inset=1.0)
@@ -309,8 +312,10 @@ CONTROLS = [
 ]
 POT_TAB = dict(dy=-7.8, d=3.2)  # anti-rotation tab hole for the pot
 CONTROL_PANEL_T = 2.5          # rear wall thinned here: DC jacks/rockers clamp panels <= 3 mm
-# carrier PCB (Phase 4) hangs under the top skin in the rear half
-PCB = dict(w=70.0, h=60.0, inset=4.0, x_center=-155.0, y_center=45.0, standoff=10.0)
+# controller board (Phase 4): a 70 x 90 mm double-sided prototype board, hung
+# components-down from 4 standoffs under the top skin of the rear half, clear
+# of the backs of the rear-panel controls (w = along X, h = along Y)
+PCB = dict(w=90.0, h=70.0, inset=2.5, x_center=-105.0, y_center=52.0, standoff=10.0)
 HARNESS_HOLE = dict(x=-155.0, y=0.0, d=12.0)     # LED harness, hidden under the rear cover
 TIE_ANCHOR_Y = -60.0           # row of cable-tie anchors along the base
 TIE_ANCHOR_X = (-175.0, -115.0, -55.0, 5.0, 65.0)
@@ -350,8 +355,10 @@ LOAD_BEARING_WALLS = 4
 LOAD_BEARING_INFILL = "25% gyroid"
 # Production layer heights. The CAD uses them for the bridged hole steps
 # (common.bridge_step: 2 layers per stage); tools/printcheck.py slices with them.
-LAYER = dict(case=0.20, beam=0.20, bank=0.20, plate=0.20, crank=0.16, rod=0.12, piston=0.12,
-             head=0.16, cosmetic=0.20, trumpet=0.12, exhaust=0.16, coil=0.16, base=0.20)
+# Hidden parts (valley beam, end plates under their covers, base bottom panels)
+# use 0.28 mm layers: same strength, ~30 % less printer time.
+LAYER = dict(case=0.20, beam=0.28, bank=0.20, plate=0.28, crank=0.16, rod=0.12, piston=0.16,
+             head=0.20, cosmetic=0.20, trumpet=0.12, exhaust=0.16, coil=0.16, base=0.20, panel=0.28)
 
 
 # ===========================================================================
@@ -400,7 +407,7 @@ FLANGE_OUTER_X = END_WEB_OUTER_X + SHAFT_FLANGE_T
 
 # magnet position on the end web, relative to that web's crankpin, chosen so the
 # magnet passes the hall sensor exactly when cylinder 1 is at firing TDC
-HALL_MAGNET_WEB_ANGLE = (HALL_SENSOR_ANGLE - THROW_PIN_A[0]) % 360.0
+HALL_MAGNET_WEB_ANGLE = (HALL_SENSOR_ANGLE - THROW_PIN_A[0]) % 360.0   # front web magnet at the sensor angle at 0 deg
 
 BANK_A_CYL_X = [x + ROD_X_OFFSET for x in THROW_X]
 BANK_B_CYL_X = [x - ROD_X_OFFSET for x in THROW_X]
@@ -422,6 +429,12 @@ SHAFT_SHOULDER_L = BEARING_INNER_X - FLANGE_OUTER_X - AXIAL_FLOAT / 2
 # throw positions (the rods follow the crank, the pistons follow their rails;
 # PISTON_BOSS_GAP takes up the difference). The rear gap is then AXIAL_FLOAT.
 CRANK_DX = AXIAL_FLOAT / 2
+# Hall sensor under the rear end web. The rear web is the front web turned 180
+# deg about Z (crank angle psi -> -psi) and set to throw 5's pin B, so its
+# magnet passes the sensor at crank angle HALL_PHI (the firmware subtracts it).
+HALL_X = -(WEB_FACE_X + END_WEB_T / 2) + CRANK_DX if HALL_SENSOR_END == "rear" else WEB_FACE_X + END_WEB_T / 2 + CRANK_DX
+HALL_PHI = ((HALL_SENSOR_ANGLE - ((-HALL_MAGNET_WEB_ANGLE + THROW_PIN_B[-1]) % 360.0)) % 360.0
+            if HALL_SENSOR_END == "rear" else 0.0)
 PULLEY_HUB_X = END_PLATE_OUTER_X + PULLEY_GAP        # both pulleys: hub face towards the engine
 SPACER_T = PULLEY_HUB_X - BEARING_OUTER_X            # M04 spacer: inner ring -> pulley hub
 SHAFT_END_X = PULLEY_HUB_X + 16.0 + 0.5               # shaft ends just past a 16 mm pulley

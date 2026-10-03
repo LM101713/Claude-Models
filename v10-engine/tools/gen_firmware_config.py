@@ -24,6 +24,10 @@ def build():
     steps_cycle = 2 * steps_rev                       # 4-stroke cycle = 720 crank degrees
     per_deg = steps_cycle / 720.0
 
+    hall_steps = C.HALL_PHI * per_deg
+    assert abs(hall_steps - round(hall_steps)) < 1e-6, "hall angle is not a whole number of steps"
+    hall_steps = int(round(hall_steps)) % steps_rev
+
     fire_step = []
     for c in range(1, C.N_CYL + 1):
         s = C.FIRE_ANGLE[c] * per_deg
@@ -81,6 +85,9 @@ def build():
         f"constexpr uint32_t AUTO_SLEEP_MIN = {C.AUTO_SLEEP_MIN};",
         f"constexpr uint16_t MOTOR_RUN_MA = {C.MOTOR_RUN_MA};",
         f"constexpr float MOTOR_HOLD_FRACTION = {C.MOTOR_HOLD_FRACTION:.2f}f;",
+        "// the hall magnet passes the sensor this many steps after cylinder 1 firing TDC",
+        f"// (crank angle {C.HALL_PHI:.1f} deg: magnet in the {C.HALL_SENSOR_END} end web)",
+        f"constexpr uint32_t HALL_PHASE_STEPS = {hall_steps};",
         f"constexpr uint32_t HALL_MIN_WIDTH = {int(C.HALL_PULSE_DEG[0] * per_deg)};      // steps",
         f"constexpr uint32_t HALL_MAX_WIDTH = {int(C.HALL_PULSE_DEG[1] * per_deg)};",
         f"constexpr int32_t SYNC_CORRECT_STEPS = {int(C.SYNC_CORRECT_DEG * per_deg)};",

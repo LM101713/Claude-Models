@@ -33,6 +33,9 @@ constexpr uint32_t AUTO_IDLE_MIN = 5;
 constexpr uint32_t AUTO_SLEEP_MIN = 15;
 constexpr uint16_t MOTOR_RUN_MA = 600;
 constexpr float MOTOR_HOLD_FRACTION = 0.35f;
+// the hall magnet passes the sensor this many steps after cylinder 1 firing TDC
+// (crank angle 216.0 deg: magnet in the rear end web)
+constexpr uint32_t HALL_PHASE_STEPS = 5760;
 constexpr uint32_t HALL_MIN_WIDTH = 53;      // steps
 constexpr uint32_t HALL_MAX_WIDTH = 2400;
 constexpr int32_t SYNC_CORRECT_STEPS = 80;

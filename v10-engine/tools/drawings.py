@@ -48,10 +48,10 @@ def title_block(fig, part_no, name, material, qty, notes):
     fig.text(0.02, 0.965, f"{part_no}  {name}", fontsize=14, weight="bold", color=INK)
     fig.text(0.02, 0.935, f"Material: {material}    Qty: {qty} per engine / {qty*50} for 50 units    "
              f"Units: mm    V10 display engine (original design)", fontsize=8, color=INK)
-    y = 0.10
+    y = 0.03 + 0.024 * (len(notes) - 1)         # notes block always ends 3 % above the bottom edge
     for n in notes:
         fig.text(0.02, y, "- " + n, fontsize=7.5, color=INK)
-        y -= 0.022
+        y -= 0.024
 
 
 def _stepped_side(ax, segments, y0=0.0):
@@ -74,8 +74,8 @@ def crankpin(pdf):
     d, ds = C.PIN_DIA, C.PIN_SHOULDER_D
     off = C.SPLIT_DIST
     # side view: journal B side drawn offset downward by the split distance
-    segs_a = [(el, d), (sl, ds), (bw, d), (sl, ds)]
-    segs_b = [(sl, ds), (bw, d), (sl, ds), (el, d)]
+    segs_a = [(el, d), (sl, d), (bw, d), (sl, ds)]       # end, ring seat, journal, shoulder
+    segs_b = [(sl, ds), (bw, d), (sl, d), (el, d)]
     x = 0.0
     for L, D in segs_a:
         ax.add_patch(Rectangle((x, -D / 2), L, D, fc="#d9dde3", ec=INK, lw=0.9))
@@ -99,14 +99,15 @@ def crankpin(pdf):
                                C.PIN_TAP_DEPTH, C.M3_TAP, fc="white", ec=INK, lw=0.6, ls="--"))
     top = d / 2 + 2.5
     xs = [0, el, el + sl, el + sl + bw, el + 2 * sl + bw, el + 2 * sl + bw + fw]
-    labels = [f"{el:g}", f"{sl:g}", f"{bw:g} +0.10/+0.05", f"{sl:g}", f"{fw:g}"]
+    labels = [f"{el:g}", f"{sl:g}", f"{bw:g} +0.10/+0.05", f"{sl:g}", f"{fw:g}"]   # end | ring seat | journal | shoulder | web
     for i, lab in enumerate(labels):
         dim_h(ax, xs[i], xs[i + 1], top + (1.8 if i % 2 else 0), lab, ext_from=d / 2)
     dim_h(ax, 0, total, top + 5.5, f"{total:.2f} overall", ext_from=d / 2)
     dim_v(ax, -2.5, -d / 2, d / 2, f"Ø{d:g} g6")
     dim_v(ax, el + sl + 0.2 + bw / 2 - 1.5, -ds / 2, ds / 2, "")
     ax.text(el + sl + bw / 2, -d / 2 - 2.2, f"Ø{d:g} g6 journal\n(686 bearing seat)", ha="center", fontsize=7, color=DIM)
-    ax.text(el + sl / 2, -ds / 2 - 4.8, f"shoulders Ø{ds:g}", ha="center", fontsize=7, color=DIM)
+    ax.text(el + sl + bw + sl / 2, -ds / 2 - 4.8, f"shoulder Ø{ds:g}\n(inner side only)", ha="center", fontsize=7, color=DIM)
+    ax.text(el + sl / 2, d / 2 + 7.4, "M06 ring seat", ha="center", fontsize=6.5, color=DIM)
     dim_v(ax, total + 2.5, -off, 0, f"{off:.3f} ±0.01")
     ax.text(el / 2, d / 2 + 0.3, "D-flat", fontsize=6.5, ha="center", color=INK)
     ax.set_xlim(-6, total + 8)
@@ -148,10 +149,11 @@ def crankpin(pdf):
     ax2.axis("off")
     ax2.set_title("END VIEW from end A", fontsize=9, loc="left")
     title_block(fig, "M01", "Split crankpin", "Stainless 303 / 416 (or 1144 steel, black oxide)", 5, [
-        "Both journals Ø6 g6 (-0.004/-0.012), Ra 0.4 or better - they carry the 686 bearing inner rings.",
+        "Ø6 g6 (-0.004/-0.012) from each end up to its shoulder (journal, ring seat and end are ONE diameter), Ra 0.4 on the journals.",
+        "Shoulders Ø7.5 ONLY on the inner side of each journal: the 686 bearing and the M06 ring slide on over the end.",
         f"Journal centre offset {off:.3f} ±0.01 at {C.SPLIT_ANGLE:g}° about the crank axis (R{r:g}). All other dims ±0.05.",
         f"D-flats {C.PIN_DFLAT:g} deep, each facing radially AWAY from the crank axis (see end view). Flats key the pin into the printed webs.",
-        f"Both ends tapped M3 x {C.PIN_TAP_DEPTH:g} deep (tap drill Ø2.5). Break all edges 0.2. Shoulder faces square to axis within 0.02.",
+        f"Both ends tapped M3 x {C.PIN_TAP_DEPTH:g} deep (tap drill Ø2.5). Break all edges 0.2 (0.3 x 45° lead chamfer on both ends). Shoulder faces square within 0.02.",
         "Journal B side mirrors journal A (same lengths). The side view is drawn in the plane of the offset.",
         "The part is symmetric end-for-end: it cannot be fitted the wrong way round.",
         "Suggested process: turn Ø12 bar, journal A + shoulder; re-chuck on 4.07 offset (or mill-turn) for journal B; mill the stadium web and flats.",
@@ -271,6 +273,75 @@ def pulley_spacer(pdf):
     plt.close(fig)
 
 
+def spacer_ring(pdf):
+    fig = plt.figure(figsize=(11.7, 5.0))
+    ax = fig.add_axes([0.05, 0.30, 0.4, 0.48])
+    ax2 = fig.add_axes([0.55, 0.30, 0.4, 0.48])
+    od, idd, t = C.PIN_SHOULDER_D, C.PIN_DIA + 0.06, C.PIN_SHOULDER_L
+    k = 6.0                                    # drawn 6x for readability
+    ax.add_patch(Rectangle((0, idd / 2 * k), t * k, (od - idd) / 2 * k, fc="#d9dde3", ec=INK))
+    ax.add_patch(Rectangle((0, -od / 2 * k), t * k, (od - idd) / 2 * k, fc="#d9dde3", ec=INK))
+    ax.plot([-4, t * k + 4], [0, 0], color=INK, lw=0.4, ls=(0, (6, 2, 1, 2)))
+    dim_h(ax, 0, t * k, od / 2 * k + 3, f"{t:g} ±0.02", ext_from=od / 2 * k)
+    ax.set_xlim(-12, t * k + 14); ax.set_ylim(-od * k / 2 - 8, od * k / 2 + 12); ax.set_aspect("equal"); ax.axis("off")
+    ax.set_title("SECTION (scale 6:1)", fontsize=9, loc="left")
+    ax2.add_patch(Circle((0, 0), od / 2, fc="#d9dde3", ec=INK))
+    ax2.add_patch(Circle((0, 0), idd / 2, fc="white", ec=INK))
+    ax2.text(0, -od / 2 - 1.3, f"OD {od:g} -0.05/-0.10    ID {C.PIN_DIA:g} +0.03/+0.08", ha="center", fontsize=7, color=DIM)
+    ax2.set_xlim(-6, 6); ax2.set_ylim(-6, 5); ax2.set_aspect("equal"); ax2.axis("off")
+    ax2.set_title("FACE (scale 1:1 grid)", fontsize=9, loc="left")
+    fig.text(0.02, 0.93, "M06  Bearing spacer ring", fontsize=14, weight="bold", color=INK)
+    fig.text(0.02, 0.88, "Material: stainless 303 (or hardened steel shim stock)    Qty: 10 per engine / 500 for 50 units",
+             fontsize=8)
+    for i, n in enumerate([
+        "Slides onto each crankpin end after the 686 bearing; clamps the bearing inner ring against the pin's shoulder.",
+        f"OD must stay inside the 686 inner ring face (<= {od:g}) so it never touches the bearing's outer ring or shield.",
+        "Faces flat and parallel within 0.01, deburred both sides (a burr would tilt the bearing). Parted off Ø8 tube or bar.",
+    ]):
+        fig.text(0.02, 0.2 - i * 0.06, "- " + n, fontsize=7.5)
+    fig.savefig(os.path.join(OUT, "M06_bearing_spacer_ring.png"), dpi=160)
+    pdf.savefig(fig)
+    plt.close(fig)
+
+
+def trumpet(pdf):
+    """M05: optional machined aluminium intake trumpet (same shape as printed part 13)."""
+    import cadquery as cq
+    sys.path.insert(0, os.path.join(ROOT, "cad"))
+    import styling
+    t = C.TRUMPET
+    fig = plt.figure(figsize=(11.7, 8.3))
+    ax = fig.add_axes([0.06, 0.12, 0.55, 0.78])
+    solid = styling.trumpet()
+    # half section from the revolved profile: sample the outline in the XZ plane
+    sec = solid.intersect(cq.Solid.makeBox(60, 0.02, 200, cq.Vector(0, -0.01, -100)))
+    for e in sec.Edges():
+        pts = [e.positionAt(u) for u in [i / 20 for i in range(21)]]
+        ax.plot([p.x for p in pts], [p.z for p in pts], color=INK, lw=0.9)
+        ax.plot([-p.x for p in pts], [p.z for p in pts], color="#888", lw=0.5)
+    bb = solid.BoundingBox()
+    ax.plot([0, 0], [bb.zmin - 3, bb.zmax + 3], color=INK, lw=0.4, ls=(0, (6, 2, 1, 2)))
+    spl = C.THROTTLE["h"] + C.PLENUM_T + 7.5
+    dim_v(ax, t["bell_od"] / 2 + 6, bb.zmin, bb.zmax, f"{bb.zlen:.1f}")
+    dim_v(ax, -t["bell_od"] / 2 - 6, -spl, 0, f"{spl:.1f} spigot")
+    ax.text(t["spigot_d"] / 2 + 1.2, -spl / 2, f"Ø{t['spigot_d']:g} -0.02/-0.06\n(press fit into crush ribs)", fontsize=7,
+            color=DIM)
+    ax.text(t["bell_od"] / 2 + 1, bb.zmax - 2, f"bell Ø{t['bell_od']:g}", fontsize=7, color=DIM)
+    ax.text(t["flange_d"] / 2 + 1, 0.3, f"flange Ø{t['flange_d']:g}, 45° chamfer on top", fontsize=7, color=DIM)
+    ax.set_aspect("equal"); ax.axis("off")
+    ax.set_title("HALF SECTION (right) / outline (left), mm", fontsize=9, loc="left")
+    title_block(fig, "M05", "Intake trumpet (optional machined upgrade of printed part 13)",
+                "Aluminium 6061-T6, clear or black anodised", 10, [
+        "Turned from Ø35 bar. Profile exactly as the STEP file stl/M05_intake_trumpet_machined.step (this drawing is a guide).",
+        "Spigot Ø14 -0.02/-0.06: it goes through the throttle body and is held by the crush ribs in the head port.",
+        "Bore and bell inside: Ra 1.6 or better, polished. Outside: Ra 0.8, bead-blast + anodise for the premium finish.",
+        "Break all edges 0.2. No other tolerances are critical (general ±0.1).",
+    ])
+    fig.savefig(os.path.join(OUT, "M05_intake_trumpet.png"), dpi=160)
+    pdf.savefig(fig)
+    plt.close(fig)
+
+
 def build():
     os.makedirs(OUT, exist_ok=True)
     with PdfPages(os.path.join(OUT, "machined_parts.pdf")) as pdf:
@@ -278,6 +349,8 @@ def build():
         main_shaft(pdf)
         rail(pdf)
         pulley_spacer(pdf)
+        trumpet(pdf)
+        spacer_ring(pdf)
 
 
 if __name__ == "__main__":

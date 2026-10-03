@@ -174,7 +174,12 @@ def end_web():
 # ---------------------------------------------------------------------------
 def split_crankpin():
     """Split crankpin, local frame: centred on x=0, journal A (front, +X) axis
-    at crank angle 0 radius R, journal B (rear) at angle SPLIT_ANGLE."""
+    at crank angle 0 radius R, journal B (rear) at angle SPLIT_ANGLE.
+
+    Shoulders only on the INSIDE of each journal (next to the flying web): the
+    686 bearing slides on over the end, then an M06 spacer ring, then the end
+    goes into the web. The ring clamps the bearing inner ring against the
+    shoulder and keeps the rod 0.75 mm off the web face."""
     s = C.SPLIT_ANGLE
     ya, za = polar(R, 0.0)
     yb, zb = polar(R, s)
@@ -193,8 +198,7 @@ def split_crankpin():
             lo, hi = sorted((sign * a, sign * b))
             return cyl_x(r, lo, hi, y, z)
         p = seg(rs, half_web - 0.01, x_j0)
-        p = p.fuse(seg(rp, x_j0 - 0.01, x_j1 + 0.01))
-        p = p.fuse(seg(rs, x_j1, x_e0))
+        p = p.fuse(seg(rp, x_j0 - 0.01, x_e0 + 0.01))      # journal + spacer-ring seat, one diameter
         end = seg(rp, x_e0 - 0.01, x_e1)
         # D-flat, facing radially away from the crank axis
         lo, hi = sorted((sign * x_e0, sign * (x_e1 + 1)))
@@ -209,6 +213,21 @@ def split_crankpin():
     b_side = one_side(yb, zb, -1, s)
     web = _hull_prism([(0.0, R, rs), (s, R, rs)], -half_web, half_web)
     return safe_clean(a_side.fuse(b_side).fuse(web))
+
+
+def spacer_ring():
+    """M06 bearing spacer ring, local frame: axis X, x from 0 to PIN_SHOULDER_L."""
+    return cyl_x(C.PIN_SHOULDER_D / 2, 0, C.PIN_SHOULDER_L).cut(cyl_x(C.PIN_DIA / 2 + 0.03, -1, 1 + C.PIN_SHOULDER_L))
+
+
+def pin_rings():
+    """The two spacer rings of one crankpin, in the pin's local frame."""
+    sl, bw = C.PIN_SHOULDER_L, C.BEARING_686["w"]
+    x_j1 = C.PIN_FLYWEB_T / 2 + sl + bw
+    ya, za = polar(R, 0.0)
+    yb, zb = polar(R, C.SPLIT_ANGLE)
+    ring = spacer_ring()
+    return move(ring, x_j1, ya, za), move(ring, -x_j1 - sl, yb, zb)
 
 
 def main_shaft():
@@ -245,6 +264,8 @@ def placed_parts(parts, phi=0.0):
     for k in range(C.N_THROWS):
         pin = rot_x(parts["pin"], C.THROW_PIN_A[k] + phi)
         out.append((f"crankpin_{k+1}", move(pin, C.THROW_X[k])))
+        for tag, ring in zip("ab", parts["rings"]):
+            out.append((f"crankpin_ring_{k+1}{tag}", move(rot_x(ring, C.THROW_PIN_A[k] + phi), C.THROW_X[k])))
     for k in range(C.N_THROWS - 1):
         d = C.SEGMENT_DELTA[k]
         key = "segA" if abs(d - C.SEGMENT_TYPES[0]) < 1e-6 else "segB"
@@ -270,6 +291,8 @@ def build_all():
         "segB": segment(C.SEGMENT_TYPES[1]),
         "end": end_web(),
         "pin": split_crankpin(),
+        "rings": pin_rings(),
+        "ring": spacer_ring(),
         "shaft": main_shaft(),
     }
 

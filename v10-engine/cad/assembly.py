@@ -175,7 +175,7 @@ if __name__ == "__main__":
             seen.add(key)
 
 
-STATIC_ALL = ("crankcase", "valley_beam", "bank_", "end_plate", "rail_", "head_", "cam_cover", "side_panel",
+STATIC_ALL = ("crankcase", "valley_beam", "bank_", "end_plate", "rail_", "head_", "cam_cover", "side_panel", "elec_",
               "exhaust", "coil_", "plenum", "trumpet", "end_cover", "base_", "panel_", "motor", "belt", "pulley", "spacer")
 
 

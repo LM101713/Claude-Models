@@ -1,12 +1,13 @@
 """Crankcase, cylinder banks and end plates.
 
-Build order the geometry is designed for:
- 1. End plates (with the 608 main bearings) go onto the crank's main shafts.
- 2. The crank module (crank + rods + pistons + end plates) is lowered into
-    the open-top crankcase from above; the end-plate spigots drop into the
-    crankcase ends.
- 3. The valley beam drops in between the two rows of con-rods and bolts to
-    both end plates.
+Build order the geometry is designed for (verified by tools/verify_all.py,
+"assembly paths"; full instructions in docs/ASSEMBLY.md):
+ 1. The crank module (crank + rods + pistons) is lowered into the open-top
+    crankcase from above.
+ 2. The valley beam slides in from the front end, between the two rows of
+    con-rods (from above it would hit the piston lugs).
+ 3. The end plates (608 bearings pressed in) slide over the main shafts into
+    the crankcase ends and bolt to the crankcase and the beam.
  4. Each cylinder bank lowers straight down its bore axis over its five
     pistons onto the crankcase (outboard) and valley beam (valley side).
     Two printed pegs make it fit only one way round.
@@ -133,11 +134,13 @@ def crankcase():
             body = body.cut(cyl_x(ins_d / 2, lo, hi, y, z))
     for x, y in BASE_INSERTS:
         body = body.cut(cyl_z(ins_d / 2, C.CASE_FLOOR_Z - 1, C.CASE_FLOOR_Z + C.INSERT_DEPTH, x, y))
-    # hall-effect sensor pocket (from below) under the front end-web magnet;
-    # its leads go straight down through a hole in the base top
-    hx = C.WEB_FACE_X + C.END_WEB_T / 2
+    # hall-sensor pocket, open underneath, below the rear end-web magnet. The
+    # TO-92 lies face-up in it with its body centred under the magnet path;
+    # the leads run forward and bend down through a slot in the base top,
+    # which also traps the body (no glue, no clip).
+    hx = C.HALL_X
     hp = C.HALL_POCKET
-    body = body.cut(box(hx - hp["l"] / 2, hx + hp["l"] / 2, -hp["w"] / 2, hp["w"] / 2,
+    body = body.cut(box(hx - 2.2, hx - 2.2 + hp["l"], -hp["w"] / 2, hp["w"] / 2,
                         C.CASE_FLOOR_Z - 1, C.CASE_FLOOR_Z + hp["d"]))
     return safe_clean(body)
 
@@ -190,6 +193,12 @@ def cylinder_bank():
         pocket = cyl_z(pocket_r, z0 - 1, z1 + 1, x, C.RAIL_OFFSET)
         pocket = pocket.fuse(box(x - pocket_r, x + pocket_r, 0, C.RAIL_OFFSET, z0 - 1, z1 + 1))
         blk = blk.cut(pocket)
+        # 45 deg lead-ins at the bottom of the bore and the lug pocket: the bank
+        # is lowered over five pistons at once, these find them
+        blk = blk.cut(cq.Solid.makeCone(C.BORE_DIA / 2 + 1.5, C.BORE_DIA / 2, 1.5, cq.Vector(x, 0, z0 - 0.001),
+                                        cq.Vector(0, 0, 1)))
+        blk = blk.cut(cq.Solid.makeCone(pocket_r + 1.0, pocket_r, 1.0, cq.Vector(x, C.RAIL_OFFSET, z0 - 0.001),
+                                        cq.Vector(0, 0, 1)))
         blk = blk.cut(_window(x))
     # block-to-crankcase screws, counterbored from the deck (M3x8 into inserts)
     screws = [(x, C.BLOCK_SCREW_VALLEY_Y) for x in bank_between_x()]
@@ -222,8 +231,14 @@ def end_plate():
     h = C.CASE_HALF_LEN
     x_out = C.END_PLATE_OUTER_X
     plate = _prism(outer_profile(), h, x_out)
-    # spigot into the crankcase cavity (self-locating)
-    sp = teardrop(C.CASE_INTERIOR_R - C.CLEARANCE, C.END_PLATE_INNER_X, h + 0.01)
+    # spigot into the crankcase cavity (self-locating). Only the lower half: the
+    # crank module (with the end plates on its shafts) is lowered into the open
+    # top of the crankcase, and a full teardrop spigot would have to pass up
+    # through the narrowing top of the cavity. The lower half locates the plate
+    # sideways and downwards just as well.
+    r_sp = C.CASE_INTERIOR_R - C.CLEARANCE
+    sp = teardrop(r_sp, C.END_PLATE_INNER_X, h + 0.01).intersect(
+        box(C.END_PLATE_INNER_X - 1, h + 1, -r_sp - 1, r_sp + 1, -r_sp - 1, -3.0))
     plate = plate.fuse(sp)
     # hollow the spigot so it clears the crank flange and saves plastic
     plate = plate.cut(cyl_x(C.CASE_INTERIOR_R - 4.0, C.END_PLATE_INNER_X - 1, h - 3.0))

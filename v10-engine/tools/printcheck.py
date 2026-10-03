@@ -48,28 +48,31 @@ MATERIALS = {
 L = C.LAYER
 SETTINGS = [
     # prefix, material, layer, perimeters, infill %, top layers, bottom layers, brim mm
+    # LOAD-BEARING parts (spec: >= 4 walls and >= 25 % gyroid): crankcase, valley
+    # beam, banks, end plates, crank, rods, pistons, heads, base halves.
+    # Cosmetic parts: 3 walls, 15 %.
     ("00_", "PLA", 0.20, 3, 15, 4, 3, 0),
-    ("01_", "ASA", L["case"], 4, 15, 5, 4, 0),       # crankcase: mostly hidden, mass not needed
-    ("02_", "ASA", L["beam"], 4, 25, 5, 4, 0),       # valley beam: carries the banks' valley side
-    ("03_", "ASA", L["bank"], 4, 20, 5, 4, 0),       # cylinder bank
-    ("04_", "ASA", L["plate"], 4, 25, 5, 4, 0),      # end plate: bearing seat
+    ("01_", "ASA", L["case"], 4, 25, 5, 4, 0),       # crankcase: carries the crank and the engine weight
+    ("02_", "ASA", L["beam"], 4, 25, 5, 4, 0),       # valley beam: carries the banks' valley side + rails
+    ("03_", "ASA", L["bank"], 4, 25, 5, 4, 0),       # cylinder bank
+    ("04_", "ASA", L["plate"], 4, 25, 5, 4, 0),      # end plate: main bearing seat
     ("05_", "ASA", L["crank"], 5, 40, 6, 5, 0),      # crank parts: stiff + some flywheel mass
     ("06_", "ASA", L["crank"], 5, 40, 6, 5, 0),
     ("07_", "ASA", L["crank"], 5, 40, 6, 5, 0),
     ("08_", "ASA", L["rod"], 4, 40, 6, 5, 0),        # con-rod: fine layers for the bearing bore
-    ("09_", "ASA", L["piston"], 4, 25, 6, 5, 0),     # piston: fine layers, visible
-    ("10_", "ASA", L["head"], 4, 20, 6, 5, 0),       # head: visible detail
-    ("11_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),   # cam cover: cosmetic
-    ("12_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),   # side panel: cosmetic
+    ("09_", "ASA", L["piston"], 4, 25, 6, 5, 0),     # piston
+    ("10_", "ASA", L["head"], 4, 25, 5, 4, 0),       # head: clamps the rails; top detail is under the cover
+    ("11_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),   # cam cover
+    ("12_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),   # side panel
     ("13_", "ASA", L["trumpet"], 3, 25, 5, 4, 0),    # trumpet: fine surface
     ("14_", "ASA", L["exhaust"], 3, 20, 5, 4, 0),    # exhaust
     ("15_", "ASA", L["exhaust"], 3, 20, 5, 4, 0),
     ("16_", "ASA", L["coil"], 3, 25, 5, 4, 3),       # coil pack: tall + small footprint -> 3 mm brim
     ("17_", "ASA", L["cosmetic"], 4, 20, 5, 4, 0),   # throttle frame
-    ("18_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),   # end cover: cosmetic
-    ("19_", "ASA", L["base"], 4, 15, 5, 4, 0),       # base halves: big, mostly shell
-    ("20_", "ASA", L["base"], 4, 15, 5, 4, 0),
-    ("21_", "ASA", L["base"], 3, 15, 4, 3, 0),       # base panels
+    ("18_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),   # end cover
+    ("19_", "ASA", L["base"], 4, 25, 5, 4, 0),       # base halves: carry the engine
+    ("20_", "ASA", L["base"], 4, 25, 5, 4, 0),
+    ("21_", "ASA", L["panel"], 3, 15, 4, 3, 0),      # base panels (underneath, never seen)
     ("P1_", "PETG", 0.12, 4, 100, 5, 5, 3),
     ("P2_", "PETG", 0.16, 4, 100, 5, 5, 0),
     ("", "ASA", 0.20, 4, 25, 5, 4, 0),
@@ -287,6 +290,14 @@ def check(names=None, qty=None, write_report=True):
               f"{'| ' + s['slicer_warning'] if s['slicer_warning'] else ''}", flush=True)
     if write_report:
         _report(rows, qty or {})
+        import json
+        data = {name: dict(material=s["material"], layer=s["layer"], walls=s["perimeters"], infill=s["infill"],
+                           brim=s["brim"], hours=round(s["hours"] or 0, 3), grams=round(s["grams"] or 0, 1),
+                           cost=round(s["cost"] or 0, 2), long_bridges=len(lb), big_overhangs=len(bo),
+                           ring_ceilings=len(mres.get("rings", [])), slicer_warning=s["slicer_warning"])
+                for name, s, mres, lb, bo, flagged in rows}
+        with open(os.path.join(ROOT, "docs", "print_results.json"), "w") as f:
+            json.dump(data, f, indent=1)
     return rows
 
 

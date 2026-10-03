@@ -4,9 +4,9 @@
 2. CAD kinematics: for every cylinder, the crank angle where its piston is
    really at top dead centre (from the slider-crank model the CAD uses) must
    equal the firing angle the firmware lights the LEDs at.
-3. CAD solid: the hall magnet pocket in the front crank web must sit exactly
-   over the hall sensor when the crank is at 0 deg (cylinder 1 TDC) - the
-   firmware takes the magnet centre as cylinder 1 TDC.
+3. CAD solid: the hall magnet pocket in the end web over the sensor must sit
+   exactly over it at crank angle HALL_PHI - the firmware takes the magnet
+   centre as HALL_PHI after cylinder 1 TDC.
 4. Builds and runs firmware/test/test_engine_logic.cpp with the host compiler.
 
     python tools/check_firmware.py
@@ -52,8 +52,9 @@ def check_magnet():
     import crank
     from common import cyl_x
     lib = crank.build_all()
-    web = [s for n, s in crank.placed_parts(lib, 0.0) if n == "end_web_front"][0]
-    x = C.WEB_FACE_X + C.END_WEB_T / 2 + C.CRANK_DX
+    name = "end_web_rear" if C.HALL_SENSOR_END == "rear" else "end_web_front"
+    web = [s for n, s in crank.placed_parts(lib, C.HALL_PHI) if n == name][0]
+    x = C.HALL_X
     r_probe = C.WEB_CW_R - C.MAGNET["h"] / 2               # inside the magnet pocket
 
     def solid_at(angle_deg):
@@ -67,7 +68,7 @@ def check_magnet():
     # the web must be solid on both sides (pocket really is in the web)
     beside = min(solid_at(C.HALL_SENSOR_ANGLE + d) for d in (-12.0, 12.0))
     ok = at_sensor < 0.05 and beside > 0.9
-    print(f"  magnet pocket over the sensor at 0 deg: material fraction {at_sensor:.2f} "
+    print(f"  {name} magnet pocket over the sensor at {C.HALL_PHI:.0f} deg: material fraction {at_sensor:.2f} "
           f"(pocket), 12 deg either side {beside:.2f} (solid web) -> {'OK' if ok else 'WRONG'}")
     return ok
 

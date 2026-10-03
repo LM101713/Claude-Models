@@ -110,7 +110,7 @@ def cylinder_head():
     gw, gd = C.LED_GROOVE["w"], C.LED_GROOVE["d"]
     head = head.cut(box(X0 - 1, X1 + 1, -gw / 2, gw / 2, DECK - 1, DECK + gd))
     ww, wd = C.LED_WIRE_GROOVE["w"], C.LED_WIRE_GROOVE["d"]
-    for xw in (X0 + ww / 2 + 2.0, X1 - ww / 2 - 2.0):          # 2 mm wall to the end face
+    for xw in (X0 + ww / 2 + 2.5, X1 - ww / 2 - 2.5):          # 2.5 mm wall to the end face
         head = head.cut(box(xw - ww / 2, xw + ww / 2, 0, YV + 1, DECK - 1, DECK + wd))
     _chk(head, "led strip")
     # --- per cylinder: coil-pack socket, chamber details ------------

@@ -3,3 +3,6 @@ numpy
 scipy
 matplotlib
 vtk
+trimesh
+shapely>=2.0
+pyserial

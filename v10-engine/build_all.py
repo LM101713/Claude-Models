@@ -73,6 +73,7 @@ def parts():
         ("M02_main_shaft", cr["shaft"], 2, "steel"),
         ("M03_guide_rail", mp["rail"], 10, "steel"),
         ("M04_pulley_spacer", drive.spacer(), 1, "steel"),
+        ("M06_bearing_spacer_ring", cr["ring"], 10, "steel"),
         ("M05_intake_trumpet_machined", st["trumpet"], 10, "steel"),
     ]
 
@@ -105,36 +106,38 @@ def main(check=False, stl_only=False, only=None):
         print("\n".join(report))
         return
 
-    # assembly previews
-    eng = assembly.engine(0.0)
-    render.render([(s, c) for _, s, c in eng], os.path.join(R, "20_engine_phase1_iso.png"),
-                  view="iso", title="Phase 1 core engine - crank angle 0 (cyl 1 firing)")
-    render.render([(s, c) for _, s, c in eng], os.path.join(R, "21_engine_phase1_front.png"),
-                  view="front", title="Phase 1 - front view (90 deg V)")
-    render.render([(s, c) for _, s, c in eng], os.path.join(R, "22_engine_phase1_cutaway_side.png"),
-                  view=((0.25, -1.0, 0.35), (0, 0, 1)), title="Phase 1 - cut-away windows (bank A side)")
-    full = [(s, c) for _, s, c in eng + assembly.drive_and_base()]
-    render.render(full, os.path.join(R, "40_engine_on_base_iso.png"), view="iso",
-                  title="Phase 2 - engine on display base")
-    render.render(full, os.path.join(R, "41_engine_on_base_rear.png"), view=((-1.0, 0.7, 0.35), (0, 0, 1)),
-                  title="Phase 2 - rear control panel")
-    drv = [(s, c) for n, s, c in eng + assembly.drive_and_base()
-           if not n.startswith(("base_", "panel_", "front_cover", "bank_"))]
-    render.render(drv, os.path.join(R, "42_drive_train.png"), view=((1.0, -0.8, 0.2), (0, 0, 1)), zoom=1.2,
-                  title="Phase 2 - belt drive (3:1, GT2 210 mm), base and cover hidden")
-    under = [(s, c) for n, s, c in assembly.drive_and_base() if not n.startswith("panel_")]
-    render.render(under, os.path.join(R, "43_base_inside.png"), view=((0.6, -0.8, -1.0), (0, 0, 1)),
-                  title="Phase 2 - base from below, panels removed")
-    inner = assembly.engine(0.0, with_blocks=False)
-    inner = [(s, c) for n, s, c in inner if not n.startswith(("crankcase", "end_plate"))]
-    render.render(inner, os.path.join(R, "23_mechanism_iso.png"), view="iso",
-                  title="Mechanism only - crank, rods, pistons, rails")
-    render.render(inner, os.path.join(R, "24_mechanism_front.png"), view="front",
-                  title="Mechanism - front view")
+    # assembly previews of the finished engine
+    full = [(s, c) for _, s, c in assembly.full(0.0)]
+    render.render(full, os.path.join(R, "01_engine_iso.png"), view="iso", size=(1600, 1100),
+                  title="V10 display engine - covers on")
+    render.render(full, os.path.join(R, "02_engine_front.png"), view="front", size=(1400, 1000),
+                  title="front: 90 deg V, belt drive under the front cover")
+    render.render(full, os.path.join(R, "03_engine_rear.png"), view=((-1.0, 0.75, 0.45), (0, 0, 1)),
+                  size=(1400, 1000), title="rear: 12 V jack, power, speed knob, START")
+    render.render(full, os.path.join(R, "04_engine_top.png"), view="top", size=(1400, 1000),
+                  title="top: trumpets on the throttle frame, coil packs, exhausts")
+    open_ = [(s, c) for n, s, c in assembly.full(0.0, covers=False) if not n.startswith("end_cover")]
+    render.render(open_, os.path.join(R, "05_engine_covers_off.png"), view=((0.45, -1.0, 0.5), (0, 0, 1)),
+                  size=(1600, 1100), title="side panels, cam covers and end covers off (all magnetic)")
+    render.render(open_, os.path.join(R, "06_engine_windows.png"), view=((0.15, -1.0, 0.25), (0, 0, 1)),
+                  size=(1600, 1000), zoom=1.3, title="bank A windows: pistons on their rails, rods, crank")
+    inner = [(s, c) for n, s, c in assembly.engine(0.0, with_blocks=False)
+             if not n.startswith(("crankcase", "end_plate", "valley_beam"))]
+    render.render(inner, os.path.join(R, "07_mechanism_iso.png"), view="iso", size=(1400, 1000),
+                  title="mechanism: crank, rods, pistons, guide rails")
+    render.render(inner, os.path.join(R, "08_mechanism_front.png"), view="front", size=(1200, 1000),
+                  title="mechanism - front view")
     crank_only = [(s, c) for n, s, c in assembly.engine(0.0, with_blocks=False, with_rails=False)
                   if n.startswith(("crankpin", "segment", "end_web", "main_shaft"))]
-    render.render(crank_only, os.path.join(R, "10_crank_assembly.png"), view="iso", zoom=1.6,
-                  title="Built-up crankshaft (5 split pins, 72 deg even firing)")
+    render.render(crank_only, os.path.join(R, "09_crank_assembly.png"), view="iso", zoom=1.6, size=(1400, 900),
+                  title="built-up crankshaft: 5 split pins (18 deg), 72 deg even firing")
+    drv = [(s, c) for n, s, c in assembly.engine(0.0) + assembly.drive_and_base()
+           if not n.startswith(("base_", "panel_", "end_cover", "bank_", "elec_"))]
+    render.render(drv, os.path.join(R, "10_drive_train.png"), view=((1.0, -0.8, 0.2), (0, 0, 1)), zoom=1.2,
+                  size=(1400, 1000), title="3:1 GT2 belt drive (base and covers hidden)")
+    under = [(s, c) for n, s, c in assembly.drive_and_base() if not n.startswith(("panel_", "end_cover"))]
+    render.render(under, os.path.join(R, "11_base_inside.png"), view=((0.6, -0.8, -1.0), (0, 0, 1)),
+                  size=(1400, 1000), title="base from below, panels off: motor, controller board, panel parts")
     drawings.build()
 
     with open(os.path.join(ROOT, "stl", "SIZE_REPORT.txt"), "w") as f:

@@ -1,13 +1,13 @@
 """Phase 2 display base.
 
-The base is 400 x 250 x 72 mm, too long for one print, so it is two halves
+The base is 400 x 280 x 72 mm, too long for one print, so it is two halves
 joined at X=0 with 2 locating pegs and 6 M3x8 screws (all inside). Each half has a
 removable bottom panel (both panels are the SAME part).
 
-  09 base_front : motor bulkhead (slotted for belt tension), belt slot, hall wire hole
-  10 base_rear  : control panel (12 V jack, power rocker, speed knob, start button),
-                  carrier-PCB standoffs, LED-harness hole
-  11 base_panel : x2, vents over the motor and the electronics, 4 screws each
+  19 base_front : motor bulkhead (slotted for belt tension), belt slot
+  20 base_rear  : control panel (12 V jack, power rocker, speed knob, start button),
+                  controller-board standoffs, LED-harness hole, hall-sensor lead slot
+  21 base_panel : x2, vents over the motor and the electronics, 4 screws each
 
 Printing: halves print TOP SKIN DOWN on a textured plate (the visible top gets
 the bed texture, and the inside needs no supports). The top edge chamfer is a
@@ -140,8 +140,6 @@ def _front_features(s):
         s = s.cut(tri)
     # belt slot through the top skin (hidden by the drive cover)
     s = s.cut(box(C.BELT_X - 7, C.BELT_X + 7, -20, 20, ZS - 1, ZT + 1))
-    # hall sensor wires straight down from the crankcase floor pocket
-    s = s.cut(cyl_z(4.0, ZS - 1, ZT + 1, C.WEB_FACE_X + C.END_WEB_T / 2, 0))
     return s
 
 
@@ -168,7 +166,12 @@ def _rear_features(s):
             x = p["x_center"] + dx * (p["w"] / 2 - p["inset"])
             y = p["y_center"] + dy * (p["h"] / 2 - p["inset"])
             s = s.fuse(cyl_z(4.0, ZS - p["standoff"], ZS + 0.1, x, y))
-            s = s.cut(cyl_z(INS / 2, ZS - p["standoff"] - 1, ZS - p["standoff"] + C.INSERT_DEPTH, x, y))
+            # 8 mm deep: an M3x8 through the 1.6 mm board never bottoms out
+            s = s.cut(cyl_z(INS / 2, ZS - p["standoff"] - 1, ZS - p["standoff"] + 8.0, x, y))
+    # hall sensor lead slot (sensor body sits on the skin, in the crankcase pocket)
+    hs = C.HALL_LEAD_SLOT
+    hx = C.HALL_X + hs["dx"]
+    s = s.cut(box(hx - hs["l"] / 2, hx + hs["l"] / 2, -hs["w"] / 2, hs["w"] / 2, ZS - 1, ZT + 1))
     # LED harness hole (under the rear cover)
     h = C.HARNESS_HOLE
     s = s.cut(cyl_z(h["d"] / 2, ZS - 1, ZT + 1, h["x"], h["y"]))
@@ -217,9 +220,36 @@ def print_panel(s):
     return s
 
 
+# purchased rear-panel parts and the controller board, as simple envelopes
+# (body behind the panel incl. terminals and plugged connectors), so the
+# interference check proves they fit inside the base
+CONTROL_DEPTH = {"dc_jack": (14.0, 24.0), "power": (22.0, 42.0), "speed": (18.0, 22.0), "start": (19.0, 42.0)}
+BOARD_STACK = 22.0          # tallest part under the board (ESP32 on headers, driver heatsink)
+
+
+def electronics_envelopes():
+    out = []
+    x_in = X0 + C.CONTROL_PANEL_T                    # inside face of the thinned control panel
+    for name, y, _, _ in C.CONTROLS:
+        d, depth = CONTROL_DEPTH[name]
+        out.append((f"elec_{name}", cyl_x(d / 2, x_in, x_in + depth, y, C.CONTROLS_Z), "carbon"))
+    p = C.PCB
+    zb = ZS - p["standoff"]                          # board top rests on the standoffs
+    bx0, bx1 = p["x_center"] - p["w"] / 2, p["x_center"] + p["w"] / 2
+    by0, by1 = p["y_center"] - p["h"] / 2, p["y_center"] + p["h"] / 2
+    board = box(bx0, bx1, by0, by1, zb - 1.6, zb)
+    for x, y in ((bx0 + p["inset"], by0 + p["inset"]), (bx0 + p["inset"], by1 - p["inset"]),
+                 (bx1 - p["inset"], by0 + p["inset"]), (bx1 - p["inset"], by1 - p["inset"])):
+        board = board.cut(cyl_z(1.7, zb - 3, zb + 1, x, y))
+    parts = box(bx0 + 6, bx1 - 6, by0 + 6, by1 - 2, zb - 1.6 - BOARD_STACK, zb - 1.6)
+    out.append(("elec_board", board.fuse(parts), "green"))
+    return out
+
+
 def placed(lib):
     return [("base_front", lib["base_front"], "carbon"), ("base_rear", lib["base_rear"], "carbon"),
-            ("panel_front", lib["panel"], "case"), ("panel_rear", rot_z(lib["panel"], 180), "case")]
+            ("panel_front", lib["panel"], "case"), ("panel_rear", rot_z(lib["panel"], 180), "case")] + \
+        electronics_envelopes()
 
 
 def build_all():

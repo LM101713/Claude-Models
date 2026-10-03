@@ -37,8 +37,9 @@ inline float rpmToStepHz(float rpm) { return rpm * (float)geo::STEPS_PER_REV / 6
 inline float stepHzToRpm(float hz) { return hz * 60.0f / (float)geo::STEPS_PER_REV; }
 
 // --- hall sensor ---------------------------------------------------------------
-// The magnet in the front crank web passes the sensor once per crank
-// revolution, at cylinder 1 TDC by design. The sensor switches ON a little
+// The magnet in the crank web passes the sensor once per crank revolution,
+// geo::HALL_PHASE_STEPS after cylinder 1 TDC (taken from the CAD by the
+// generator). The sensor switches ON a little
 // before the magnet centre and OFF a little after it, so the middle of the
 // two edges is the magnet centre whatever the sensor's sensitivity or the air
 // gap - no per-unit calibration.
@@ -65,10 +66,10 @@ struct SyncResult {
   uint32_t newTdc;    // updated cylinder-1 firing TDC on the cycle counter
 };
 
-// tdc = cycle-counter value of cylinder 1 firing TDC. The magnet passes at
-// tdc and at tdc + one revolution (cylinder 1 overlap TDC); both are valid.
+// tdc = cycle-counter value of cylinder 1 firing TDC. The magnet passes once
+// per revolution, HALL_PHASE_STEPS after either TDC of cylinder 1; both are valid.
 inline SyncResult checkSync(uint32_t tdc, uint32_t magnetCenter, int32_t trimSteps) {
-  uint32_t expected = wrapCycle((int32_t)tdc + trimSteps);
+  uint32_t expected = wrapCycle((int32_t)tdc + (int32_t)geo::HALL_PHASE_STEPS + trimSteps);
   int32_t err = revDiff(magnetCenter, expected);
   SyncResult r{SyncVerdict::Corrected, err, tdc};
   if (err > geo::SYNC_FAULT_STEPS || err < -geo::SYNC_FAULT_STEPS) {
@@ -81,9 +82,11 @@ inline SyncResult checkSync(uint32_t tdc, uint32_t magnetCenter, int32_t trimSte
   return r;
 }
 
-// First magnet pass after homing defines cylinder 1 firing TDC.
+// First magnet pass after homing defines cylinder 1 firing TDC (which of
+// cylinder 1's two TDCs is called "firing" is arbitrary for a display; the
+// firmware then keeps it consistent for the rest of the run).
 inline uint32_t tdcFromMagnet(uint32_t magnetCenter, int32_t trimSteps) {
-  return wrapCycle((int32_t)magnetCenter - trimSteps);
+  return wrapCycle((int32_t)magnetCenter - (int32_t)geo::HALL_PHASE_STEPS - trimSteps);
 }
 
 // --- firing flash ----------------------------------------------------------------
