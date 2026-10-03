@@ -14,6 +14,8 @@ the bed texture, and the inside needs no supports). The top edge chamfer is a
 45 deg overhang, which prints cleanly.
 """
 
+import math
+
 import cadquery as cq
 
 from common import C, box, cyl_x, cyl_z, move, rot_z, safe_clean
@@ -26,6 +28,7 @@ W = C.BASE_WALL
 ZS = ZT - C.BASE_SKIN                       # underside of the top skin
 ZP = ZB + C.PANEL_T                         # top of the bottom panel
 INS = C.hole(C.INSERT_HOLE_DIA - C.HOLE_COMP, "insert_m3")
+S45 = math.sqrt(0.5)
 
 
 def _panel_screws(front=True):
@@ -106,20 +109,27 @@ def _pegs(front):
 
 
 def _front_features(s):
-    # motor bulkhead with tension slots
-    t = C.MOTOR_TENSION_TRAVEL
+    # motor bulkhead with vertical slots: belt tension for the nominal 210 mm
+    # loop and the 220 mm second-source loop (motor axis MOTOR_SLOT_TOP..BOTTOM)
+    za, zb = C.MOTOR_SLOT_BOTTOM, C.MOTOR_SLOT_TOP
     x0, x1 = C.MOTOR_FACE_X, C.MOTOR_PLATE_X1
     bh = box(x0, x1, Y0 + W - 0.1, Y1 - W + 0.1, ZP + 6, ZS + 0.1)
     s = s.fuse(bh)
 
-    def slot(r, y, z):
-        return cyl_x(r, x0 - 1, x1 + 1, y, z - t).fuse(cyl_x(r, x0 - 1, x1 + 1, y, z + t)).fuse(
-            box(x0 - 1, x1 + 1, y - r, y + r, z - t, z + t))
-    s = s.cut(slot(C.MOTOR["boss_d"] / 2 + 0.5, 0, C.MOTOR_Z))
+    def slot(r, y, dz):
+        return cyl_x(r, x0 - 1, x1 + 1, y, za + dz).fuse(cyl_x(r, x0 - 1, x1 + 1, y, zb + dz)).fuse(
+            box(x0 - 1, x1 + 1, y - r, y + r, za + dz, zb + dz))
+    rb = C.MOTOR["boss_d"] / 2 + 0.5
+    s = s.cut(slot(rb, 0, 0.0))
+    # the lower end of the boss slot is the top of the arch on the printer (base
+    # prints skin-down): pointed 45 deg end instead of a 23 mm round bridge
+    s = s.cut(cq.Workplane("YZ").workplane(offset=x0 - 1)
+              .polyline([(-rb * S45, za - rb * S45), (0.0, za - rb / S45), (rb * S45, za - rb * S45)])
+              .close().extrude(x1 - x0 + 2).val())
     hp = C.MOTOR["hole_pitch"] / 2
     for dy in (-hp, hp):
         for dz in (-hp, hp):
-            s = s.cut(slot(C.hole(C.M3_CLEAR) / 2, dy, C.MOTOR_Z + dz))
+            s = s.cut(slot(C.hole(C.M3_CLEAR) / 2, dy, dz))
     for y in (-80.0, 80.0):      # cable pass-throughs (teardrop: no flat bridge when printed skin-down)
         r = 7.0
         zc = ZP + 16

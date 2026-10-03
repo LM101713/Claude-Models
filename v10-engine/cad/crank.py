@@ -24,7 +24,7 @@ import cadquery as cq
 import numpy as np
 from scipy.spatial import ConvexHull
 
-from common import C, box, crush_d_x, crush_z, cyl_x, move, polar, rot_x, rot_z, safe_clean
+from common import C, box, bridge_step, crush_d_x, crush_z, cyl_x, move, polar, rot_x, rot_z, safe_clean
 
 R = C.CRANK_R
 
@@ -70,23 +70,40 @@ def web_prism(pin_deg, x0, x1, extra_bosses=()):
     return cq.Solid.extrudeLinear(cq.Face.makeFromWires(wire), cq.Vector(x1 - x0, 0, 0))
 
 
+# All crank parts print with -X up (segments front-face down, end webs
+# flange-face down), see print_segment / print_end_web.
+PRINT_UP = -1
+
+
 def _pin_socket(pin_deg, face_x, direction, channel_to_x):
-    """Cutter for one crankpin socket: D-hole (PIN_END_LEN deep from face_x
-    into the part, direction=-1 means the part lies at x < face_x), M3
-    clearance through the floor, and a head channel out to channel_to_x."""
+    """Cutter for one crankpin socket: D-hole (PIN_END_LEN + PIN_SOCKET_CLEAR
+    deep from face_x into the part, direction=-1 means the part lies at
+    x < face_x), M3 clearance through the floor, and a head channel out to
+    channel_to_x. The pin's machined shoulder seats on the web face; the pin
+    end never touches the socket floor."""
     y, z = polar(R, pin_deg)
     x_face = face_x
-    x_bot = face_x + direction * C.PIN_END_LEN
+    x_bot = face_x + direction * (C.PIN_END_LEN + C.PIN_SOCKET_CLEAR)
     x_floor = x_bot + direction * C.PIN_SCREW_FLOOR
     lo, hi = sorted((x_face - direction * 0.2, x_bot))
     # D-hole with crush ribs: the pin's flat (facing radially out, pin_deg)
     # is pushed onto the hole's flat, so the joint has no rotational play
-    cut = crush_d_x(C.PIN_DIA, C.PIN_DFLAT, lo, hi, y, z, pin_deg,
-                    entry="hi" if direction < 0 else "lo")
+    dhole = crush_d_x(C.PIN_DIA, C.PIN_DFLAT, lo, hi, y, z, pin_deg,
+                      entry="hi" if direction < 0 else "lo")
     lo, hi = sorted((x_bot, x_floor))
-    cut = cut.fuse(cyl_x(C.hole(C.M3_CLEAR) / 2, lo - 0.1, hi + 0.1, y, z))
+    r_clear = C.hole(C.M3_CLEAR) / 2
+    cut = dhole.fuse(cyl_x(r_clear, lo - 0.1, hi + 0.1, y, z))
     lo, hi = sorted((x_floor, channel_to_x + direction * 0.2))
-    cut = cut.fuse(cyl_x(C.hole(C.SCREW_CHANNEL_D) / 2, lo, hi, y, z))
+    channel = cyl_x(C.hole(C.SCREW_CHANNEL_D) / 2, lo, hi, y, z)
+    cut = cut.fuse(channel)
+    # whichever wide hole lies BELOW the floor on the printer gets a bridged
+    # ceiling (the other one opens upwards and needs nothing)
+    if direction == PRINT_UP:
+        cut = cut.fuse(bridge_step(dhole, r_clear, (x_bot, y, z), "x", PRINT_UP, C.LAYER["crank"],
+                                   slot_deg=pin_deg))
+    else:
+        cut = cut.fuse(bridge_step(channel, r_clear, (x_floor, y, z), "x", PRINT_UP, C.LAYER["crank"],
+                                   slot_deg=pin_deg))
     return cut
 
 
@@ -243,7 +260,8 @@ def placed_parts(parts, phi=0.0):
     out.append(("end_web_rear", move(ew_r, -C.WEB_FACE_X)))
     sh_r = rot_x(rot_z(parts["shaft"], 180), C.THROW_PIN_B[-1] + phi)
     out.append(("main_shaft_rear", move(sh_r, -C.END_WEB_OUTER_X)))
-    return out
+    # assembled position: the front clamp pulls the crank forward by CRANK_DX
+    return [(n, move(s, C.CRANK_DX)) for n, s in out]
 
 
 def build_all():
@@ -262,7 +280,7 @@ def print_segment(s):
 
 
 def print_end_web(s):
-    return s.rotate((0, 0, 0), (0, 1, 0), 90)      # throw face down
+    return s.rotate((0, 0, 0), (0, 1, 0), 90)      # flange face (x = END_WEB_T) down: flat shaft seat
 
 
 def print_pin(s):

@@ -52,7 +52,7 @@ def parts():
         ("08_conrod", rp.print_rod(mp["rod"]), 10, "rod"),
         ("09_piston", rp.print_piston(mp["piston"]), 10, "piston"),
         # Phase 3 - heads, covers, intake, exhaust
-        ("10_cylinder_head", block.print_bank(st["head"]), 2, "block"),
+        ("10_cylinder_head", styling.print_head(st["head"]), 2, "block"),
         ("11_cam_cover", styling.print_cam_cover(st["cam_cover"]), 2, "carbon"),
         ("12_side_panel", styling.print_side_panel(st["side_panel"]), 2, "carbon"),
         ("13_intake_trumpet", styling.print_trumpet(st["trumpet"]), 10, "steel"),

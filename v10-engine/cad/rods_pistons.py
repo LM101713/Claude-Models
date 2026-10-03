@@ -75,8 +75,8 @@ def piston():
         lo, hi = sorted((s_ * (C.ROD_BODY_W / 2 + C.PISTON_BOSS_GAP), s_ * (rp + 0.5)))
         body = body.cut(crush_x(C.WRIST_PIN["d"], lo, hi, 0, 0, "pin_3", entry="both", phase=90.0))
     # crown: 45 deg top chamfer, 2 cosmetic ring grooves, 4 valve reliefs
-    body = body.cut(cq.Solid.makeCone(rp + 1.0, rp - 0.6, 1.6, cq.Vector(0, 0, top - 0.6), cq.Vector(0, 0, 1))
-                    .cut(cyl_z(rp - 0.6, top - 0.7, top + 1.1)))
+    keep = cq.Solid.makeCone(rp, rp - 1.6, 1.6, cq.Vector(0, 0, top - 0.6), cq.Vector(0, 0, 1))
+    body = body.cut(cyl_z(rp + 1.0, top - 0.6, top + 1.0).cut(keep))
     for zg in (top - 2.5, top - 4.3):
         ring = cyl_z(rp + 1, zg - 0.4, zg + 0.4).cut(cyl_z(rp - 0.45, zg - 0.5, zg + 0.5))
         body = body.cut(ring)
@@ -137,13 +137,14 @@ def moving_parts(lib, phi):
         x = cyl_x_pos(c)
         pin, s, rod_ang = slider(c, phi)
         py, pz = polar(R, pin)
-        out.append((f"rod_{c}", move(rot_x(lib["rod"], rod_ang), x, py, pz), "rod"))
-        out.append((f"bearing686_{c}", move(lib["b686"], x, py, pz), "steel"))
+        xr = x + C.CRANK_DX            # rods ride on the crank (assembled position), pistons on their rails
+        out.append((f"rod_{c}", move(rot_x(lib["rod"], rod_ang), xr, py, pz), "rod"))
+        out.append((f"bearing686_{c}", move(lib["b686"], xr, py, pz), "steel"))
         psi_b = C.bank_angle(bank)
         wy, wz = polar(s, psi_b)
         out.append((f"piston_{c}", piston_frame(lib["piston"], bank, psi_b, x, wy, wz), "piston"))
         out.append((f"wristpin_{c}", piston_frame(lib["wpin"], bank, psi_b, x, wy, wz), "steel"))
-        out.append((f"bush_small_{c}", piston_frame(bush_x, bank, psi_b, x, wy, wz), "bronze"))
+        out.append((f"bush_small_{c}", piston_frame(bush_x, bank, psi_b, xr, wy, wz), "bronze"))
         for i, zb in enumerate((C.LUG_TOP - C.BUSHING["l"], C.LUG_BOTTOM)):
             b = move(lib["bush"], 0, C.RAIL_OFFSET, zb)
             out.append((f"bush_lug_{c}_{i}", piston_frame(b, bank, psi_b, x, wy, wz), "bronze"))

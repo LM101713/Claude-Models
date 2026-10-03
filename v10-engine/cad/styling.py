@@ -2,7 +2,7 @@
 
   10 cylinder head (x2)    11 cam cover (x2, magnetic)   12 side panel (x2, magnetic)
   13 intake trumpet (x10)  14/15 exhaust headers (A, B mirror)
-  16 coil pack (x10, holds each firing LED)   17 intake plenum floor
+  16 coil pack (x10, cosmetic)   17 throttle frame (intake ladder)
   18 end cover (x2, magnetic; front hides the belt, rear hides the LED harness)
 
 Everything is built in the bank-local frame of bank A (x along the crank,
@@ -53,9 +53,6 @@ def _chk(shape, label):
     return shape
 
 
-HEAD_PEGS = C.HEAD_PEGS    # asymmetric under 180 deg: the head fits one way only
-
-
 # ---------------------------------------------------------------------------
 # 10 Cylinder head
 # ---------------------------------------------------------------------------
@@ -76,7 +73,8 @@ def _cam_lobe(xc, yc, angle_deg, width=4.0):
 def cylinder_head():
     head = box(X0, X1, YO, YV, DECK, TOP)
     head = cq.Workplane().add(head).edges("|Z").chamfer(3.0).val()
-    head = cq.Workplane().add(head).faces("<Z").edges().chamfer(1.5).val()   # casting parting line
+    # casting parting line on the long deck edges (not the ends: the LED lead grooves run there)
+    head = cq.Workplane().add(head).faces("<Z").edges("|X").chamfer(1.5).val()
     # valley chamfer: an exactly horizontal face (in the engine) for the plenum
     big = 60.0
     head = head.cut(_yz_prism([(S_CHAMFER - TOP - big, TOP + big), (YV + big, TOP + big),
@@ -106,18 +104,31 @@ def cylinder_head():
             head = head.cut(cyl_z(C.hole(C.M3_CBORE) / 2, DECK + C.SCREW_FLOOR, cap_top + 1, xc, yc))
             head = head.cut(cyl_z(C.hole(C.M3_CLEAR) / 2, DECK - 1, DECK + C.SCREW_FLOOR + 0.1, xc, yc))
     _chk(head, "screws")
-    # --- per cylinder: LED well, coil-pack socket, chamber details ------------
-    led_top = DECK + C.LED_ROOF + C.LED["t"] + 0.3
+    # --- firing-LED strip: groove along the deck face over all five bores,
+    # open at both ends; lead-wire grooves at both ends run to the valley side
+    # (bank A uses the X0 end, bank B - turned 180 deg - the X1 end: both rear)
+    gw, gd = C.LED_GROOVE["w"], C.LED_GROOVE["d"]
+    head = head.cut(box(X0 - 1, X1 + 1, -gw / 2, gw / 2, DECK - 1, DECK + gd))
+    ww, wd = C.LED_WIRE_GROOVE["w"], C.LED_WIRE_GROOVE["d"]
+    for xw in (X0 + ww / 2 + 2.0, X1 - ww / 2 - 2.0):          # 2 mm wall to the end face
+        head = head.cut(box(xw - ww / 2, xw + ww / 2, 0, YV + 1, DECK - 1, DECK + wd))
+    _chk(head, "led strip")
+    # --- per cylinder: coil-pack socket, chamber details ------------
     for xc in CYL_X:
-        head = head.cut(cyl_z(C.LED_APERTURE / 2, DECK - 1, DECK + C.LED_ROOF + 0.01, xc, 0))
-        head = head.cut(cyl_z((C.LED["d"] + 0.6) / 2, DECK + C.LED_ROOF, led_top + 0.01, xc, 0))
-        head = head.cut(crush_z(C.COIL["shaft_d"], led_top, TOP + 0.01, xc, 0, "coil_10", entry="hi"))
-        # valve faces in the chamber roof (cosmetic, 0.4 mm deep - small bridges only)
+        head = head.cut(crush_z(C.COIL["shaft_d"], TOP - C.COIL_SOCKET_D, TOP + 0.01, xc, 0, "coil_10", entry="hi"))
+        # valve faces in the chamber roof (cosmetic, 0.4 mm deep - small bridges
+        # only), kept 1 mm clear of the LED groove so every bridge is anchored
         for dx in (-9.0, 9.0):
-            head = head.cut(cyl_z(6.5, DECK - 1, DECK + 0.4, xc + dx, 9.0))      # intake (valley side)
-            head = head.cut(cyl_z(5.5, DECK - 1, DECK + 0.4, xc + dx, -9.0))     # exhaust
-        # rail tops: snug pockets in the underside capture the guide rails
-        head = head.cut(cyl_z(C.hole(C.RAIL_DIA, "rail_3_slip") / 2, DECK - 1, DECK + 2.0, xc, C.RAIL_OFFSET))
+            head = head.cut(cyl_z(6.5, DECK - 1, DECK + 0.4, xc + dx, 13.0))     # intake (valley side)
+            head = head.cut(cyl_z(5.5, DECK - 1, DECK + 0.4, xc + dx, -12.0))    # exhaust
+        # rail tops: crush-rib pockets capture the 5 guide rails, which also
+        # locate the head on the deck (RAIL_OFFSET != 0: it fits one way only).
+        # 1 mm entry chamfer so the head finds all five rails at once.
+        rz1 = DECK + C.RAIL_HEAD_ENGAGE + 0.5
+        head = head.cut(crush_z(C.RAIL_DIA, DECK, rz1, xc, C.RAIL_OFFSET, "rail_3", entry="lo"))
+        r_in = C.hole(C.RAIL_DIA) / 2 + C.CRUSH_RELIEF / 2
+        head = head.cut(cq.Solid.makeCone(r_in + 1.0, r_in, 1.0, cq.Vector(xc, C.RAIL_OFFSET, DECK - 0.01),
+                                          cq.Vector(0, 0, 1)))
         # intake port on the valley chamfer (axis = engine vertical), crush fit for the trumpet
         py, pz = intake_port_centre()
         port = crush_z(C.TRUMPET["spigot_d"], -8.0, 0.01, 0, 0, "trumpet_14", entry="hi")
@@ -128,47 +139,34 @@ def cylinder_head():
         head = head.cut(cq.Solid.makeCylinder(INS_D / 2, C.INSERT_DEPTH + 1.0,
                                               cq.Vector(xc + C.EXH_SCREW_DX, YO - 1.0, C.EXH_SCREW_Z), cq.Vector(0, 1, 0)))
     _chk(head, "per-cylinder")
-    # --- wiring loom groove: along the coil-pack row, turning to the valley at both ends
-    lw, ld = C.LOOM["w"], C.LOOM["d"]
-    lx0, lx1 = X0 + C.CAM_END_GAP / 2, X1 - C.CAM_END_GAP / 2
-    head = head.cut(box(lx0 - lw / 2, lx1 + lw / 2, -lw / 2, lw / 2, TOP - ld, TOP + 1))
-    for lx in (lx0, lx1):
-        head = head.cut(box(lx - lw / 2, lx + lw / 2, -lw / 2, YV + 1, TOP - ld, TOP + 1))
-    _chk(head, "loom")
     # cam-cover magnets in the outboard strip
     for xc in (CYL_X[0], CYL_X[1], CYL_X[3], CYL_X[4]):
         head = head.cut(crush_z(C.MAGNET["d"], TOP - C.MAGNET["h"] - 0.3, TOP + 0.01, xc, -28.5, "magnet_6", entry="hi"))
     _chk(head, "magnets")
-    # locating pegs into the deck
-    for x, y in HEAD_PEGS:
-        head = head.fuse(cyl_z(2.5, DECK - 2.5, DECK + 0.1, x, y))
-    _chk(head, "pegs")
     return safe_clean(head)
 
 
-def head_peg_holes():
-    """Cutters for the deck (cylinder bank) that receive the head pegs."""
-    out = None
-    for x, y in HEAD_PEGS:
-        c = cyl_z(C.hole(5.0, "spigot") / 2, DECK - 3.0, DECK + 1, x, y)
-        out = c if out is None else out.fuse(c)
-    return out
+def print_head(s):
+    """Deck face down: flat, square joint face; cams, caps and ports all build upwards."""
+    return s
 
 
 # ---------------------------------------------------------------------------
-# 16 Coil pack (one per cylinder): holds the LED down, carries its wires
+# 16 Coil pack (one per cylinder, cosmetic): plugs into a crush-rib socket
 # ---------------------------------------------------------------------------
 def coil_pack():
-    """Local frame: shaft along -Z from z=0 (head top) down to the LED."""
-    shaft_len = TOP - (DECK + C.LED_ROOF + C.LED["t"] + 0.3)
+    """Local frame: shaft along -Z from z=0 (head top); the body sits on the head top."""
+    shaft_len = C.COIL_SOCKET_D - 0.5                  # never bottoms out: the body seats on the head
     c = C.COIL
     shaft = cyl_z(c["shaft_d"] / 2, -shaft_len, 0.01)
+    shaft = cq.Workplane().add(shaft).faces("<Z").edges().chamfer(0.6).val()   # lead-in
     body = (cq.Workplane("XY").ellipse(c["l"] / 2, c["w"] / 2).extrude(c["h"]).val())
     body = cq.Workplane().add(body).faces(">Z").edges().chamfer(1.5).val()
     part = shaft.fuse(body)
-    part = part.cut(cyl_z(c["bore"] / 2, -shaft_len - 1, 6.0))                    # wire bore
-    part = part.cut(cyl_z(4.6, -shaft_len - 1, -shaft_len + 1.5))                 # clears LED solder pads
-    part = part.cut(box(-c["l"] / 2 - 1, 0, -c["bore"] / 2 + 0.5, c["bore"] / 2 - 0.5, 0.0, 6.0))  # side exit into the loom
+    # boot detail: a groove round the body just above the head
+    part = part.cut(cq.Workplane("XY").ellipse(c["l"] / 2 + 1, c["w"] / 2 + 1).extrude(1.0).val()
+                    .cut(cq.Workplane("XY").ellipse(c["l"] / 2 - 0.6, c["w"] / 2 - 0.6).extrude(1.0).val())
+                    .translate(cq.Vector(0, 0, 3.0)))
     return safe_clean(part)
 
 
@@ -258,10 +256,13 @@ def trumpet():
     H, rb = t["height"], t["bell_od"] / 2
     zb = H - t["bell_h"]
     ro = t["spigot_d"] / 2
+    # flange: flat face down on the throttle body, 45 deg chamfer on top (an
+    # overhang <= 45 deg when the trumpet prints mouth-down)
+    fz = 0.6 + (t["flange_d"] - t["base_od"]) / 2
     prof = [(ro, -spl), (ro, 0.0), (t["flange_d"] / 2, 0.0), (t["flange_d"] / 2, 0.6),
-            (t["base_od"] / 2, t["flange_t"]), (t["top_od"] / 2, zb),
+            (t["base_od"] / 2, fz), (t["top_od"] / 2, zb),
             # outer bell: a smooth flare (a narrowing cone when printed mouth-down)
-            (t["top_od"] / 2 + 1.0, zb + 4.0), (rb - 2.5, zb + 8.0), (rb - 0.6, H - 1.2), (rb, H - 0.4), (rb - 0.6, H),
+            (t["top_od"] / 2 + 1.0, zb + 4.0), (rb - 2.5, zb + 8.0), (rb - 0.6, H - 1.2), (rb, H - 0.4), (rb - 0.4, H),
             # flat lip, then the inner flare: every step <= 45 deg so it prints mouth-down
             (rb - 3.0, H), (rb - 5.5, H - 2.5), (t["bore"] / 2 + 3.0, H - 6.0), (t["bore"] / 2, zb),
             (t["bore"] / 2, 2.0), (ro - 2.5, 0.0), (ro - 2.5, -spl)]
@@ -305,7 +306,8 @@ def plenum_floor():
             tb = cyl_z(C.THROTTLE["d"] / 2, z0 + t - 0.01, z0 + t + C.THROTTLE["h"], x, y)
             tb = cq.Workplane().add(tb).faces(">Z").edges().chamfer(1.0).val()
             frame = frame.fuse(tb)
-    for xb in (-95.0, -32.0, 32.0, 95.0):
+    for k in range(C.N_THROWS - 1):                   # braces midway between trumpet pairs
+        xb = (C.THROW_X[k] + C.THROW_X[k + 1]) / 2
         frame = frame.fuse(box(xb - 5.0, xb + 5.0, ya, yb, z0, z0 + t))
     for x, y in pos:
         frame = frame.cut(cyl_z((C.TRUMPET["spigot_d"] + 0.6) / 2, z0 - 1, z0 + t + C.THROTTLE["h"] + 1, x, y))
@@ -383,7 +385,7 @@ def exhaust_header():
     add(cyl_z(rt, zt + rb - 0.01, C.EXH_TAIL_Z, C.EXH_TAIL_X, yb))
     hdr = solid.Solids()[0] if len(solid.Solids()) == 1 else solid
     # tail-pipe opening
-    hdr = hdr.cut(cyl_z(rt - 2.2, C.EXH_TAIL_Z - 12, C.EXH_TAIL_Z + 1, C.EXH_TAIL_X, EXH_YC))
+    hdr = hdr.cut(cyl_z(rt - 2.2, C.EXH_TAIL_Z - 4, C.EXH_TAIL_Z + 1, C.EXH_TAIL_X, EXH_YC))   # shallow: small arch
     # port flanges with one bolt each (M3x8 into the head insert)
     f = C.EXH_FLANGE
     for xc in CYL_X:

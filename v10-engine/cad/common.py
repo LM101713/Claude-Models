@@ -144,6 +144,34 @@ def crush_d_x(d_nom, flat_depth, x0, x1, y, z, flat_dir_deg, entry="lo"):
     return cut
 
 
+def bridge_step(wide_cutter, r_small, at, axis, up, layer, slot_deg=0.0):
+    """Extra cutter for a hole that narrows while printing upwards (a screw
+    counterbore or pin socket whose floor is a ceiling on the printer).
+
+    A flat ring-shaped ceiling cannot be bridged cleanly: the bridge lines end
+    in mid-air at the narrow hole. This turns it into two stages of anchored
+    bridges, 2 layers each (the usual "bridged counterbore" technique):
+      stage 1: a slot as wide as the narrow hole across the whole wide hole
+               (the slicer bridges the two halves wall to wall);
+      stage 2: a square as wide as the narrow hole (bridged across the slot).
+    wide_cutter: cutter of the wide hole (its cross-section is reused)
+    at:  (x, y, z) of the step-plane centre;  axis 'x' or 'z';  up = +1 / -1
+    layer: the part's print layer height."""
+    h = 2.0 * layer
+    slot = rot_z(box(-60, 60, -r_small, r_small, -0.01, h), slot_deg)
+    square = box(-r_small, r_small, -r_small, r_small, -0.01, 2.0 * h)
+
+    def place(sh):
+        if axis == "z":
+            sh = sh if up > 0 else sh.rotate((0, 0, 0), (1, 0, 0), 180)
+        else:
+            sh = sh.rotate((0, 0, 0), (0, 1, 0), 90 if up > 0 else -90)
+        return move(sh, *at)
+    d = cq.Vector(up * 2.0 * h, 0, 0) if axis == "x" else cq.Vector(0, 0, up * 2.0 * h)
+    stage1 = place(slot).intersect(wide_cutter.translate(d))
+    return stage1.fuse(place(square))
+
+
 def export(shape, name):
     """Write <name>.stl and <name>.step into the stl folder."""
     os.makedirs(STL_DIR, exist_ok=True)

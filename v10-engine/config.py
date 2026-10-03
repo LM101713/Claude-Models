@@ -64,7 +64,8 @@ CRUSH = {
     "dpin_6":      (2, 0.30),   # D-flat crankpin end: 2 ribs push the flat home
     "magnet_6":    (4, 0.25),   # 6x3 magnet pockets
     "trumpet_14":  (6, 0.25),   # intake trumpet spigot into the head port
-    "coil_10":     (4, 0.25),   # coil-pack cap into its well (holds the LED down)
+    "coil_10":     (4, 0.25),   # coil-pack shaft into its socket in the head top
+    "rail_3":      (3, 0.05),   # guide-rail ends (valley beam + head): snug and centred, still slides in by hand
 }
 
 # ---------------------------------------------------------------------------
@@ -110,7 +111,7 @@ FIRING_INTERVAL = CYCLE_DEG / N_CYL   # 72 deg -> even firing
 STROKE = 26.0
 CRANK_R = STROKE / 2                  # crank throw radius
 ROD_LENGTH = 62.0                     # con-rod centre to centre
-CYL_PITCH = 52.0                      # cylinder spacing along one bank
+CYL_PITCH = 50.0                      # cylinder spacing along one bank (= 3 LEDs of a 60/m strip)
 PISTON_DIA = 44.0                     # visual "bore" of the model
 PISTON_RADIAL_CLEARANCE = 0.8         # piston never touches the bore
 BORE_DIA = PISTON_DIA + 2 * PISTON_RADIAL_CLEARANCE
@@ -130,6 +131,7 @@ PIN_SHOULDER_D = BEARING_686_INNER_SHOULDER
 PIN_SHOULDER_L = 0.75          # also the gap between rod body and web
 PIN_FLYWEB_T = 1.5             # flying web between the two journals
 PIN_TAP_DEPTH = 6.0            # M3 tapped depth in each pin end
+PIN_SOCKET_CLEAR = 0.3         # socket deeper than the pin end: the machined shoulder seats on the web face
 ROD_BODY_W = BEARING_686["w"]  # con-rod thickness = bearing width
 
 THROW_INNER = 2 * (PIN_SHOULDER_L + BEARING_686["w"] + PIN_SHOULDER_L) + PIN_FLYWEB_T
@@ -177,7 +179,8 @@ PISTON_PIN_TO_CROWN = 12.0     # compression height
 PISTON_PIN_TO_SKIRT = 7.0
 PISTON_CROWN_T = 3.0
 PISTON_WALL_T = 2.0
-PISTON_BOSS_GAP = 0.5          # side float of the small end between bosses
+PISTON_BOSS_GAP = 1.0          # side float (each side) of the small end between the bosses: absorbs the
+                               # crank's axial position (CRANK_DX) + print-length tolerance of the crank
 VALVE_RELIEF_D = 14.0
 VALVE_RELIEF_DEPTH = 0.8
 
@@ -201,19 +204,19 @@ CASE_INTERIOR_R = 28.0         # crank sweep 24 + 4 mm clearance
 CASE_SLOT_HALF = 15.0          # con-rod slot half-width in each face (rod swing + 2 mm)
 BLOCK_Y_OUT = -34.0            # bank block extent, outboard side (bank-local y)
 BLOCK_Y_VALLEY = 38.0          # bank block extent, valley side
-BLOCK_END_MARGIN = 26.0        # block material beyond the end cylinders (along X)
+BLOCK_END_MARGIN = 30.0        # block material beyond the end cylinders (along X)
 WINDOW_BOTTOM = 46.0           # cut-away window in the outboard wall (bank-local z)
 WINDOW_TOP = DECK_DIST - 2.5   # leaves a 2.5 mm deck lip; more of the lit chamber shows
-WINDOW_HALF_W = 17.0
+WINDOW_HALF_W = 17.0           # windows have a 45 deg V bottom (a gable roof on the printer)
 BLOCK_SCREW_VALLEY_Y = 30.0    # 4 screws between cylinders, valley side (into the valley beam)
 BLOCK_SCREW_END_Y = -20.0      # 2 screws at the block ends, outboard side (into the crankcase)
-WINDOW_SILL_SLOPE = True       # 45 deg window sill: prints without a 34 mm bridge
 HEAD_SCREW_Y = (-17.0, 10.0)   # head screws go down the two cam lines into deck inserts (= CAM_Y)
 SIDE_PANEL_MAGNET_Z = 65.0     # magnets between the windows hold the side panel
 LOCATOR_D = 6.0                # printed locating pegs under each bank block
 LOCATOR_H = 3.0
 LOCATOR_Y = 21.0
-RAIL_HOLE_DEPTH_CASE = 6.0     # rail bottom sits this deep in the crankcase
+RAIL_HOLE_DEPTH_CASE = 6.0     # rail bottom sits this deep in the valley beam
+RAIL_HEAD_ENGAGE = 3.0         # rail top runs this far into a pocket in the cylinder head
 END_PLATE_SPIGOT = 4.0
 END_PLATE_FLANGE_T = 10.0
 BEARING_LIP_T = 1.5
@@ -228,11 +231,15 @@ CAM_Y = (-17.0, 10.0)          # exhaust / intake camshaft lines on the head top
 CAM_R = 5.0
 CAM_LOBE_R = 6.5               # lobe nose radius from the cam axis (cosmetic, static)
 CAM_END_GAP = 9.0              # cams stop short of the head ends (loom turns there)
-LED = dict(d=10.0, t=3.4)      # WS2812B on a 10 mm round PCB (LED + board)
-LED_ROOF = 2.0                 # head material between LED and chamber
-LED_APERTURE = 6.0             # light hole into the combustion chamber
-COIL = dict(shaft_d=10.0, bore=6.0, w=11.0, l=15.0, h=24.0)  # coil pack: stands up through the cam cover
-LOOM = dict(w=6.0, d=4.0)      # wiring groove along the head top (under the cam cover)
+# Firing LEDs: a stock WS2812B strip, 60 LEDs/m (16.67 mm pitch), black PCB,
+# 10 mm wide, IP30. CYL_PITCH = 3 LED pitches, so a 15-LED piece puts 3 LEDs
+# over every bore. It lies LEDs-down in a groove in the head's deck face and
+# lights the combustion chamber directly. Lead wires leave at the rear end.
+LED_STRIP = dict(pitch=1000.0 / 60.0, n=15, w=10.0, t=2.1)
+LED_GROOVE = dict(w=11.0, d=2.6)       # strip groove in the head deck face (LED face 0.5 mm above the deck)
+LED_WIRE_GROOVE = dict(w=3.5, d=2.6)   # lead-wire groove from the strip end to the valley side
+COIL = dict(shaft_d=10.0, w=11.0, l=15.0, h=24.0)  # coil pack: stands up through the cam cover
+COIL_SOCKET_D = 10.0                   # coil-pack socket depth in the head top
 CAM_COVER = dict(y0=-33.0, y1=19.5, h=18.0, wall=3.0, chamfer=5.0, end_inset=1.0)
 CAM_CAP_HALF_W = 6.0           # bearing caps: +/- this across the cam
 SIDE_PANEL = dict(t=5.0, z0=44.0, z1=87.0, bulge=1.5)
@@ -267,12 +274,13 @@ PULLEY_BIG = dict(teeth=60, bore=8.0, width=16.0, hub_len=7.0, od=37.6, hub_d=25
 PULLEY_SMALL = dict(teeth=20, bore=5.0, width=16.0, hub_len=7.0, od=12.1, hub_d=16.0)
 GT2_PITCH = 2.0
 BELT_W = 6.0
-BELT_LEN = 210.0               # GT2-6mm closed loop, 210 mm (105 teeth)
+BELT_LEN = 210.0               # GT2-6mm closed loop, 210 mm (105 teeth) - nominal
+BELT_ALT_LEN = 220.0           # the motor slots also take a 220 mm loop (second source)
 BELT_CENTER_FROM_HUB = 11.5    # belt centreline measured from the pulley hub face
 PULLEY_GAP = 2.0               # pulley hub face to end-plate outer face
 MOTOR = dict(size=42.3, length=40.0, boss_d=22.0, boss_h=2.0, shaft_d=5.0,
              shaft_len=24.0, hole_pitch=31.0)
-MOTOR_TENSION_TRAVEL = 3.0     # +/- slot length for belt tensioning
+MOTOR_TENSION_TRAVEL = 3.0     # tensioning travel beyond each belt's nominal position
 MOTOR_PLATE_T = 4.0            # bulkhead the motor bolts to (M3x8 into the motor)
 
 # ---------------------------------------------------------------------------
@@ -315,10 +323,35 @@ COVER_PILLAR_R = 4.0
 SHADOW_GROOVE = dict(w=1.2, d=1.0, offset=1.0)   # outline groove around the engine footprint
 
 # ---------------------------------------------------------------------------
+# 7d. ELECTRONICS / FIRMWARE (Phase 4) - tools/gen_firmware_config.py turns
+#     these + the crank geometry into firmware/v10_engine/engine_geometry.h
+# ---------------------------------------------------------------------------
+MOTOR_FULL_STEPS = 200         # 1.8 deg NEMA17
+MICROSTEPS = 16                # TMC2209 interpolates each to 256 internally
+ENGINE_RPM = (20.0, 120.0)     # crank speed range on the knob
+IDLE_RPM = 20.0                # "idle mode" speed
+HOMING_RPM = 15.0              # first turn that finds the hall magnet and parks cylinder 1 at TDC
+CRANK_ACCEL_RPM_S = 15.0       # soft start / soft stop ramp (crank RPM per second)
+AUTO_IDLE_MIN = 5              # no interaction for this long -> drop to idle
+AUTO_SLEEP_MIN = 15            # ... and for this long -> soft stop and sleep
+MOTOR_RUN_MA = 600             # RMS run current (17HS4401 is rated 1700 mA): cool motor
+MOTOR_HOLD_FRACTION = 0.35     # holding current while stopped
+HALL_PULSE_DEG = (2.0, 90.0)   # plausible magnet pulse width; outside -> ignored
+SYNC_CORRECT_DEG = 3.0         # hall-vs-step-count error corrected silently below this
+SYNC_FAULT_DEG = 8.0           # ... and a lost-step (stall / belt skip) fault above this
+NO_HALL_REVS = 1.4             # crank revolutions without a magnet pass -> stall / jam fault
+FLASH_DEG = 110.0              # firing flash length in crank degrees (power stroke glow)
+LED_MAX_BRIGHTNESS = 170       # 0-255 cap (power + looks); 30 LEDs at this cap < 0.9 A
+
+# ---------------------------------------------------------------------------
 # 7c. PRINT SETTINGS / MATERIALS (used by the BOM generator)
 # ---------------------------------------------------------------------------
 LOAD_BEARING_WALLS = 4
 LOAD_BEARING_INFILL = "25% gyroid"
+# Production layer heights. The CAD uses them for the bridged hole steps
+# (common.bridge_step: 2 layers per stage); tools/printcheck.py slices with them.
+LAYER = dict(case=0.20, beam=0.20, bank=0.20, plate=0.20, crank=0.16, rod=0.12, piston=0.12,
+             head=0.16, cosmetic=0.20, trumpet=0.12, exhaust=0.16, coil=0.16, base=0.20)
 
 
 # ===========================================================================
@@ -384,13 +417,19 @@ END_PLATE_OUTER_X = CASE_HALF_LEN + END_PLATE_FLANGE_T
 BEARING_INNER_X = END_PLATE_OUTER_X - BEARING_LIP_T - BEARING_608["w"]
 BEARING_OUTER_X = BEARING_INNER_X + BEARING_608["w"]
 SHAFT_SHOULDER_L = BEARING_INNER_X - FLANGE_OUTER_X - AXIAL_FLOAT / 2
+# Clamping the front inner ring pulls the crank forward until the front shaft
+# shoulder touches it: the assembled crank sits CRANK_DX ahead of the nominal
+# throw positions (the rods follow the crank, the pistons follow their rails;
+# PISTON_BOSS_GAP takes up the difference). The rear gap is then AXIAL_FLOAT.
+CRANK_DX = AXIAL_FLOAT / 2
 PULLEY_HUB_X = END_PLATE_OUTER_X + PULLEY_GAP        # both pulleys: hub face towards the engine
 SPACER_T = PULLEY_HUB_X - BEARING_OUTER_X            # M04 spacer: inner ring -> pulley hub
 SHAFT_END_X = PULLEY_HUB_X + 16.0 + 0.5               # shaft ends just past a 16 mm pulley
 SHAFT_JOURNAL_L = SHAFT_END_X - (FLANGE_OUTER_X + SHAFT_SHOULDER_L)
 
-HEAD_PEGS = [(BLOCK_X_MAX - 6.0, 26.0), (BLOCK_X_MIN + 6.0, 26.0)]   # head -> deck pegs, fit one way only
-RAIL_TOP = DECK_DIST
+# The cylinder head is located on the deck by the 5 guide-rail tops. RAIL_OFFSET
+# is not 0, so the head only fits one way round.
+RAIL_TOP = DECK_DIST + RAIL_HEAD_ENGAGE
 RAIL_BOTTOM = FACE_DIST - RAIL_HOLE_DEPTH_CASE
 RAIL_LEN = RAIL_TOP - RAIL_BOTTOM
 
@@ -410,6 +449,9 @@ def _belt_centre(L, d1, d2):
 BELT_CENTRE = _belt_centre(BELT_LEN, PITCH_D_BIG, PITCH_D_SMALL)
 BELT_X = PULLEY_HUB_X + BELT_CENTER_FROM_HUB
 MOTOR_Z = -BELT_CENTRE                             # motor shaft axis (y = 0)
+MOTOR_Z_ALT = -_belt_centre(BELT_ALT_LEN, PITCH_D_BIG, PITCH_D_SMALL)
+MOTOR_SLOT_TOP = MOTOR_Z + MOTOR_TENSION_TRAVEL        # motor axis travel in the bulkhead slots
+MOTOR_SLOT_BOTTOM = MOTOR_Z_ALT - MOTOR_TENSION_TRAVEL
 MOTOR_PLATE_X1 = PULLEY_HUB_X - 1.0                # front face of the motor bulkhead
 MOTOR_FACE_X = MOTOR_PLATE_X1 - MOTOR_PLATE_T      # motor mounting face
 BASE_BOTTOM_Z = BASE_TOP_Z - BASE_H
@@ -463,15 +505,17 @@ def self_check(verbose=True):
         problems.append("bore too big for pitch")
     if CASE_HALF_LEN * 2 > 290:
         problems.append("crankcase longer than 290 mm")
-    motor_top = MOTOR_Z + MOTOR["size"] / 2 + MOTOR_TENSION_TRAVEL
+    motor_top = MOTOR_SLOT_TOP + MOTOR["size"] / 2
     if motor_top > BASE_TOP_Z - BASE_SKIN - 1.5:
         problems.append(f"motor ({motor_top:.1f}) too close to base top skin")
-    if MOTOR_Z - MOTOR["size"] / 2 - MOTOR_TENSION_TRAVEL < BASE_BOTTOM_Z + PANEL_T + 3:
+    if MOTOR_SLOT_BOTTOM - MOTOR["size"] / 2 < BASE_BOTTOM_Z + PANEL_T + 3:
         problems.append("motor too close to bottom panel")
     if MOTOR_FACE_X + MOTOR["shaft_len"] < PULLEY_HUB_X + PULLEY_SMALL["width"]:
         problems.append("motor shaft too short for the small pulley")
     if SHAFT_END_X < PULLEY_HUB_X + PULLEY_BIG["width"]:
         problems.append("main shaft too short for the big pulley")
+    if PISTON_BOSS_GAP < CRANK_DX + 0.5:
+        problems.append("piston boss gap too small for the crank's assembled position + print tolerance")
     if SPACER_T < BEARING_LIP_T + 0.5:
         problems.append("pulley spacer shorter than the bearing lip - pulley hub would rub the end plate")
     if BASE_X[1] - BASE_X[0] > 2 * 300 or (BASE_X[1] - BASE_X[0]) / 2 > 300:
@@ -490,7 +534,8 @@ def self_check(verbose=True):
         print(f"  deck height .................. {DECK_DIST:.1f} mm from crank axis")
         print(f"  fire angles .................. {FIRE_ANGLE}")
         print(f"  drive ........................ {DRIVE_RATIO:.0f}:1, belt {BELT_LEN:.0f} mm, centres {BELT_CENTRE:.2f} mm, belt plane x={BELT_X:.1f}")
-        print(f"  motor ........................ axis z={MOTOR_Z:.1f}, face x={MOTOR_FACE_X:.1f}")
+        print(f"  motor ........................ axis z={MOTOR_Z:.1f} ({BELT_ALT_LEN:.0f} mm belt: {MOTOR_Z_ALT:.1f}), "
+              f"slots {MOTOR_SLOT_TOP:.1f}..{MOTOR_SLOT_BOTTOM:.1f}, face x={MOTOR_FACE_X:.1f}")
         print("  self-check:", "OK" if not problems else "PROBLEMS")
         for p in problems:
             print("   -", p)

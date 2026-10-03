@@ -45,33 +45,34 @@ MATERIALS = {
 # ALL production parts are ASA: survives 90+ C (shipping, sunny windows),
 # low creep under screw clamps and press fits, dimensionally stable on an
 # enclosed printer, UV stable. One material = simpler production.
+L = C.LAYER
 SETTINGS = [
-    # prefix, material, layer, perimeters, infill %, top layers, bottom layers
-    ("00_", "PLA", 0.20, 3, 15, 4, 3),
-    ("01_", "ASA", 0.20, 4, 15, 5, 4),     # crankcase: mostly hidden, mass not needed
-    ("02_", "ASA", 0.20, 4, 25, 5, 4),     # valley beam: carries the banks' valley side
-    ("03_", "ASA", 0.20, 4, 20, 5, 4),     # cylinder bank
-    ("04_", "ASA", 0.20, 4, 25, 5, 4),     # end plate: bearing seat
-    ("05_", "ASA", 0.16, 5, 40, 6, 5),     # crank parts: stiff + some flywheel mass
-    ("06_", "ASA", 0.16, 5, 40, 6, 5),
-    ("07_", "ASA", 0.16, 5, 40, 6, 5),
-    ("08_", "ASA", 0.12, 4, 40, 6, 5),     # con-rod: fine layers for the bearing bore
-    ("09_", "ASA", 0.12, 4, 25, 6, 5),     # piston: fine layers, visible
-    ("10_", "ASA", 0.16, 4, 20, 6, 5),     # head: visible detail
-    ("11_", "ASA", 0.20, 3, 15, 5, 4),     # cam cover: cosmetic
-    ("12_", "ASA", 0.20, 3, 15, 5, 4),     # side panel: cosmetic
-    ("13_", "ASA", 0.12, 3, 25, 5, 4),     # trumpet: fine surface
-    ("14_", "ASA", 0.16, 3, 20, 5, 4),     # exhaust
-    ("15_", "ASA", 0.16, 3, 20, 5, 4),
-    ("16_", "ASA", 0.16, 3, 25, 5, 4),     # coil pack
-    ("17_", "ASA", 0.20, 4, 20, 5, 4),     # throttle frame
-    ("18_", "ASA", 0.20, 3, 15, 5, 4),     # end cover: cosmetic
-    ("19_", "ASA", 0.20, 4, 15, 5, 4),     # base halves: big, mostly shell
-    ("20_", "ASA", 0.20, 4, 15, 5, 4),
-    ("21_", "ASA", 0.20, 3, 15, 4, 3),     # base panels
-    ("P1_", "PETG", 0.12, 4, 100, 5, 5),
-    ("P2_", "PETG", 0.16, 4, 100, 5, 5),
-    ("", "ASA", 0.20, 4, 25, 5, 4),
+    # prefix, material, layer, perimeters, infill %, top layers, bottom layers, brim mm
+    ("00_", "PLA", 0.20, 3, 15, 4, 3, 0),
+    ("01_", "ASA", L["case"], 4, 15, 5, 4, 0),       # crankcase: mostly hidden, mass not needed
+    ("02_", "ASA", L["beam"], 4, 25, 5, 4, 0),       # valley beam: carries the banks' valley side
+    ("03_", "ASA", L["bank"], 4, 20, 5, 4, 0),       # cylinder bank
+    ("04_", "ASA", L["plate"], 4, 25, 5, 4, 0),      # end plate: bearing seat
+    ("05_", "ASA", L["crank"], 5, 40, 6, 5, 0),      # crank parts: stiff + some flywheel mass
+    ("06_", "ASA", L["crank"], 5, 40, 6, 5, 0),
+    ("07_", "ASA", L["crank"], 5, 40, 6, 5, 0),
+    ("08_", "ASA", L["rod"], 4, 40, 6, 5, 0),        # con-rod: fine layers for the bearing bore
+    ("09_", "ASA", L["piston"], 4, 25, 6, 5, 0),     # piston: fine layers, visible
+    ("10_", "ASA", L["head"], 4, 20, 6, 5, 0),       # head: visible detail
+    ("11_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),   # cam cover: cosmetic
+    ("12_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),   # side panel: cosmetic
+    ("13_", "ASA", L["trumpet"], 3, 25, 5, 4, 0),    # trumpet: fine surface
+    ("14_", "ASA", L["exhaust"], 3, 20, 5, 4, 0),    # exhaust
+    ("15_", "ASA", L["exhaust"], 3, 20, 5, 4, 0),
+    ("16_", "ASA", L["coil"], 3, 25, 5, 4, 3),       # coil pack: tall + small footprint -> 3 mm brim
+    ("17_", "ASA", L["cosmetic"], 4, 20, 5, 4, 0),   # throttle frame
+    ("18_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),   # end cover: cosmetic
+    ("19_", "ASA", L["base"], 4, 15, 5, 4, 0),       # base halves: big, mostly shell
+    ("20_", "ASA", L["base"], 4, 15, 5, 4, 0),
+    ("21_", "ASA", L["base"], 3, 15, 4, 3, 0),       # base panels
+    ("P1_", "PETG", 0.12, 4, 100, 5, 5, 3),
+    ("P2_", "PETG", 0.16, 4, 100, 5, 5, 0),
+    ("", "ASA", 0.20, 4, 25, 5, 4, 0),
 ]
 
 OVERHANG_NZ = -0.74      # normals pointing down more than ~42 deg from vertical walls
@@ -89,7 +90,7 @@ def settings_for(name):
 
 
 def slice_part(path, name):
-    mat, layer, per, infill, top, bot = settings_for(name)
+    mat, layer, per, infill, top, bot, brim = settings_for(name)
     dens, cost, mvs = MATERIALS[mat]
     with tempfile.TemporaryDirectory() as td:
         out = os.path.join(td, "o.gcode")
@@ -100,6 +101,7 @@ def slice_part(path, name):
                "--top-solid-layers", str(top), "--bottom-solid-layers", str(bot),
                "--filament-density", str(dens), "--filament-cost", str(cost),
                "--max-volumetric-speed", str(mvs),
+               "--brim-width", str(brim), "--brim-separation", "0.1",
                "--center", "160,160", "--output", out, path]
         p = subprocess.run(cmd, capture_output=True, text=True, timeout=1800)
         log = p.stdout + p.stderr
@@ -123,7 +125,7 @@ def slice_part(path, name):
                 g = float(mg.group(1))
             if mc:
                 c = float(mc.group(1))
-    return dict(material=mat, layer=layer, perimeters=per, infill=infill, hours=t, grams=g,
+    return dict(material=mat, layer=layer, perimeters=per, infill=infill, brim=brim, hours=t, grams=g,
                 cost=c, slicer_warning=warn)
 
 
@@ -167,7 +169,8 @@ def mesh_check(path):
             r = 0.0
         span = 2 * r
         res["bridge_regions"].append(dict(area=round(a, 1), span=round(span, 1),
-                                          z=round(float(comp.bounds[0][2] - zmin), 1)))
+                                          z=round(float(comp.bounds[0][2] - zmin), 1),
+                                          ring=_unanchored_ring(m, u, float(comp.bounds[0][2]))))
     for comp in regions(over):
         if comp.area < MIN_REGION_AREA:
             continue
@@ -178,6 +181,29 @@ def mesh_check(path):
     res["bridge_regions"].sort(key=lambda r: -r["span"])
     res["overhang_regions"].sort(key=lambda r: -r["area"])
     return res, m, over, bridge
+
+
+def _unanchored_ring(m, poly, z):
+    """True if a flat ceiling surrounds a hole whose edge has nothing under it
+    (e.g. a counterbore floor around the screw hole): the bridge lines would
+    end in mid-air there. An engraved ring or a piston ring groove has solid
+    material just inside its inner edge, so it is fine."""
+    for g in getattr(poly, "geoms", [poly]):
+        if g.geom_type != "Polygon" or not g.interiors:
+            continue
+        width = 2 * g.area / (g.exterior.length + sum(r.length for r in g.interiors))
+        if width < 0.8:                      # a ledge of ~1 extrusion width just prints as an overhang
+            continue
+        for ring in g.interiors:
+            inner = Polygon(ring).buffer(-0.3)
+            if inner.is_empty or inner.area < 0.5:
+                continue
+            ext = inner.exterior if inner.geom_type == "Polygon" else max(inner.geoms, key=lambda q: q.area).exterior
+            pts = [ext.interpolate(i / 16.0, normalized=True) for i in range(16)]
+            q = np.array([[p.x, p.y, z - 0.15] for p in pts])
+            if m.contains(q).mean() < 0.5:
+                return True
+    return False
 
 
 def heatmap(m, over, bridge, out_png, title):
@@ -249,13 +275,15 @@ def check(names=None, qty=None, write_report=True):
         mres, m, over, bridge = mesh_check(path)
         long_bridges = [b for b in mres["bridge_regions"] if b["span"] > MAX_BRIDGE]
         big_over = [o for o in mres["overhang_regions"] if o["area"] > 25.0]
-        flagged = bool(long_bridges or big_over or s["slicer_warning"])
+        rings = [b for b in mres["bridge_regions"] if b.get("ring")]
+        mres["rings"] = rings
+        flagged = bool(long_bridges or big_over or rings or s["slicer_warning"])
         if flagged:
             os.makedirs(os.path.join(ROOT, "renders", "printcheck"), exist_ok=True)
             heatmap(m, over, bridge, os.path.join(ROOT, "renders", "printcheck", f"{name}.png"), name)
         rows.append((name, s, mres, long_bridges, big_over, flagged))
         print(f"{name:32s} {s['material']:4s} {s['hours'] or 0:6.2f} h {s['grams'] or 0:7.1f} g "
-              f"bridges>{MAX_BRIDGE:.0f}mm:{len(long_bridges)} overhangs>25mm2:{len(big_over)} "
+              f"bridges>{MAX_BRIDGE:.0f}mm:{len(long_bridges)} overhangs>25mm2:{len(big_over)} ring-ceilings:{len(rings)} "
               f"{'| ' + s['slicer_warning'] if s['slicer_warning'] else ''}", flush=True)
     if write_report:
         _report(rows, qty or {})
@@ -267,13 +295,14 @@ def _report(rows, qty):
              "Generated by `tools/printcheck.py` from the exported STLs (print orientation).",
              "Times and grams are PrusaSlicer estimates with an H2S-like motion profile "
              "(`tools/slicer/h2s_like.ini`); Bambu Studio is usually within +/-20 %.", "",
-             "| Part | Material | Layer | Walls | Infill | Time (h) | Filament (g) | Cost ($) | Long bridges | Big overhangs | Slicer warnings |",
-             "|---|---|---|---|---|---|---|---|---|---|---|"]
+             "| Part | Material | Layer | Walls | Infill | Brim | Time (h) | Filament (g) | Cost ($) | Long bridges | Big overhangs | Ring ceilings | Slicer warnings |",
+             "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for name, s, mres, lb, bo, flagged in rows:
         lines.append(f"| {name} | {s['material']} | {s['layer']} | {s['perimeters']} | {s['infill']}% | "
-                     f"{(s['hours'] or 0):.2f} | {(s['grams'] or 0):.0f} | {(s['cost'] or 0):.2f} | "
+                     f"{s['brim'] or '-'} | {(s['hours'] or 0):.2f} | {(s['grams'] or 0):.0f} | {(s['cost'] or 0):.2f} | "
                      f"{', '.join(str(b['span']) + 'mm' for b in lb) or '-'} | "
-                     f"{', '.join(str(o['area']) + 'mm2' for o in bo) or '-'} | {s['slicer_warning'] or '-'} |")
+                     f"{', '.join(str(o['area']) + 'mm2' for o in bo) or '-'} | "
+                     f"{len(mres.get('rings', [])) or '-'} | {s['slicer_warning'] or '-'} |")
     lines += ["", "Parts with findings get an image in `renders/printcheck/` (view from below; red = "
               "overhang steeper than 45 deg, orange = flat bridge)."]
     with open(os.path.join(ROOT, "docs", "PRINT_REPORT.md"), "w") as f:

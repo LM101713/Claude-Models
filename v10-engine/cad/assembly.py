@@ -143,6 +143,23 @@ def drive_check():
         if v > 0.01:
             bad.append((a, b, round(v, 2)))
         print(f"  {a:>16} x {b:<16} {v:8.3f} mm3")
+    # the same motor/belt/pulley checks with the second-source belt and the
+    # motor at both ends of its slots
+    nominal = C.MOTOR_Z
+    try:
+        for z, tag in ((C.MOTOR_Z_ALT, f"{C.BELT_ALT_LEN:.0f}mm belt"), (C.MOTOR_SLOT_TOP, "slot top"),
+                       (C.MOTOR_SLOT_BOTTOM, "slot bottom")):
+            C.MOTOR_Z = z
+            moved = dict((n, s) for n, s, _ in drive.purchased_parts())
+            for a, b in pairs:
+                if a in moved or b in moved:
+                    sa, sb = moved.get(a, parts[a]), moved.get(b, parts[b])
+                    v = sa.intersect(sb).Volume()
+                    if v > 0.01 and not ({a, b} <= {"belt", "pulley_60T", "pulley_20T"} and tag != f"{C.BELT_ALT_LEN:.0f}mm belt"):
+                        bad.append((tag, a, b, round(v, 2)))
+            print(f"  motor at z={z:.1f} ({tag}) checked", flush=True)
+    finally:
+        C.MOTOR_Z = nominal
     return bad
 
 
@@ -163,7 +180,7 @@ STATIC_ALL = ("crankcase", "valley_beam", "bank_", "end_plate", "rail_", "head_"
 
 
 # press fits: the crush ribs are meant to overlap the part slightly
-PRESS_FIT_PAIRS = {("coil", "head"): 15.0, ("head", "trumpet"): 10.0}
+PRESS_FIT_PAIRS = {("coil", "head"): 15.0, ("head", "trumpet"): 10.0, ("head", "rail"): 1.0, ("rail", "valley"): 1.0}
 
 
 def static_check():
