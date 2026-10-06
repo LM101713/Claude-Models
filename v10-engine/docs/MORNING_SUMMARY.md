@@ -53,7 +53,22 @@ for it.)
 
 ## 4. Verification results on the final geometry
 
-(filled in when `verify_all.py` finished - see below)
+`tools/verify_all.py` on the committed geometry (rod wall 3.0, captive lips,
+all labels), full report in `docs/CLEARANCE_REPORT.md`:
+
+* config self-check: OK
+* static check (every pair of non-moving parts, incl. the edition plate and the electronics envelopes): **CLEAR**
+* drive check (210 mm and 220 mm belt, motor at both slot ends): **CLEAR**
+* assembly paths (every part slides to its place in the build order, crank at 0 / 24 / 48 deg): **CLEAR**
+* motion sweep (60 crank angles, 6 deg steps, every moving part against every other part): **CLEAR - no collisions**
+* smallest running gaps, unchanged by the rod change: rod to crank web 0.75 mm (by design: pin shoulder),
+  piston to bore 0.80 mm (never touches), piston to rail 0.87, piston to head 1.00, rod to crankcase 1.95 mm
+* printability: every part 0 long bridges, 0 big overhangs, 0 unsupported ring ceilings (`docs/PRINT_REPORT.md`)
+* firmware vs CAD timing: PASS
+
+**These are code checks.** They prove the geometry is consistent; they cannot
+see print tolerance, material behaviour or feel. The coupons and the motion
+test are the first real evidence.
 
 ## 5. Anything that failed or needs your approval
 
@@ -80,11 +95,12 @@ production values. Then plates M1-M6 (motion test, PLA/PETG).
 
 ## 7. Commits (newest first)
 
+* (latest) DFM Phase 1: final verification report, morning summary
+* `8c8d35a` DFM Phase 1: part numbers on every part, test plates, coupon print guide
 * `0a8d287` DFM Phase 1: fits.py, lint, coupons, checklist, proto BOM, risks
 * `f0d1200` DFM Phase 0 report (no design changes)
 * `bad6b2f` **dfm-baseline** - the design before this pass (`git checkout bad6b2f`)
 
-(the final verification/labels commit hash is in section 4)
 
 ## 8. What I need from you next
 
