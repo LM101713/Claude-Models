@@ -13,27 +13,27 @@ import cadquery as cq
 
 DEPTH = 0.5
 FACES = {        # name: (outward normal, text x direction)
-    "+z": ((0, 0, 1), (1, 0, 0)), "-z": ((0, 0, -1), (1, 0, 0)),
+    "+z": ((0, 0, 1), (1, 0, 0)), "-z": ((0, 0, -1), (1, 0, 0)),   # not used: bed face
     "+x": ((1, 0, 0), (0, 1, 0)), "-x": ((-1, 0, 0), (0, -1, 0)),
     "+y": ((0, 1, 0), (-1, 0, 0)), "-y": ((0, -1, 0), (1, 0, 0)),
 }
 # part file prefix: (label, faces to try in order, text sizes to try, max scan depth from the bbox face)
 SPEC = {
-    "01_": ("01", ("+x", "-x", "-z"), (5.0, 3.5), 1.0),  # crankcase: end face (under an end plate); bed face as fallback
-    "02_": ("02", ("-z", "+z"), (4.0, 3.0, 2.2), 4.0),  # valley beam: bank land / underside
+    "01_": ("01", ("+x", "-x"), (5.0, 3.5), 1.0),     # crankcase: end face (under an end plate)
+    "02_": ("02", ("+z",), (4.0, 3.0, 2.2), 4.0),        # valley beam: bank B land (top when printed)
     "03_": ("03", ("+z",), (5.0, 3.5, 2.5), 8.0),      # bank: mounting face (deck-down print)
     "04_": ("04", ("+z",), (4.0, 3.0), 8.0),           # end plate: inner face
-    "05_": ("05", ("+z", "-z"), (3.5, 2.5), 6.0),      # end web: faces against segment / flange
+    "05_": ("05", ("+z",), (3.5, 2.5), 6.0),           # end web: face against the segment
     "08_": ("08", ("+z",), (2.2, 1.8), 2.0),           # con-rod: flute floor
     "09_": ("09", ("+z",), (2.5, 1.8), 20.0),          # piston: crown underside, inside the skirt
-    "10_": ("10", ("-z",), (5.0, 3.5, 2.5), 1.0),      # head: deck face (on the bed)
+    "10_": ("10", ("+z",), (4.0, 3.0, 2.5), 40.0),     # head: under the cam cover (cap top or head top)
     "11_": ("11", ("+z",), (4.0, 3.0, 2.2), 18.0),     # cam cover: rim or inside of the top
-    "12_": ("12", ("-z",), (4.0, 3.0), 1.0),           # side panel: back face
+    "12_": ("12", ("+y", "-y"), (3.0, 2.5, 2.0), 1.0), # side panel: long edge face (under the exhaust / facing the base)
     "13_": ("13", ("+z",), (2.2, 1.8), 40.0),          # trumpet: flange underside
-    "14_": ("14A", ("-z",), (4.0, 3.0, 2.2), 1.0),     # exhaust A: flat back
-    "15_": ("15B", ("-z",), (4.0, 3.0, 2.2), 1.0),     # exhaust B: flat back
+    "14_": ("14A", ("+x", "-x", "+y", "-y"), (3.0, 2.2, 1.8), 40.0),  # exhaust A: inside the tail-pipe mouth
+    "15_": ("15B", ("+x", "-x", "+y", "-y"), (3.0, 2.2, 1.8), 40.0),  # exhaust B: inside the tail-pipe mouth
     "16_": ("16", ("+z",), (3.0, 2.2), 1.0),           # coil pack: free end of the shaft (inside its socket)
-    "17_": ("17", ("-z",), (4.0, 3.0), 1.0),           # throttle frame: underside
+    "17_": ("17", ("+y", "-y"), (3.0, 2.5), 60.0),     # throttle frame: a rail side face (down in the valley)
     "18_": ("18", ("+z",), (4.0, 3.0, 2.2), 25.0),     # end cover: rim or inside of the end wall
     "19_": ("19", ("+z",), (5.0, 3.5), 70.0),          # base halves: wall top rim or skin underside
     "20_": ("20", ("+z",), (5.0, 3.5), 70.0),
@@ -79,7 +79,10 @@ def _planar_faces(shape, n, scan):
 
 
 def engrave(shape, label, faces, sizes, scan, grid=3.0):
+    """Never on the bed face ("-z" at the bbox minimum): recessed text there
+    makes small first-layer islands and the slicer flags low bed adhesion."""
     for face in faces:
+        assert face != "-z", "bed face is not allowed for part numbers"
         n, xd = FACES[face]
         nv, xv = cq.Vector(*n), cq.Vector(*xd)
         yv = nv.cross(xv)

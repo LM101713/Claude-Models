@@ -14,12 +14,12 @@ Times and grams are PrusaSlicer estimates with an H2S-like motion profile (`tool
 | 07_crank_segment_198 | ASA | 0.16 | 5 | 40% | - | 1.70 | 27 | 0.68 | - | - | - | - |
 | 08_conrod | ASA | 0.12 | 4 | 40% | - | 0.17 | 3 | 0.07 | - | - | - | - |
 | 09_piston | ASA | 0.16 | 4 | 25% | - | 0.50 | 12 | 0.29 | - | - | - | Floating bridge anchors, Long bridging extrusions |
-| 10_cylinder_head | ASA | 0.2 | 4 | 25% | - | 10.05 | 204 | 5.11 | - | - | - | Floating bridge anchors, Low bed adhesion, Long bridging extrusions |
+| 10_cylinder_head | ASA | 0.2 | 4 | 25% | - | 10.05 | 204 | 5.11 | - | - | - | Floating bridge anchors, Long bridging extrusions |
 | 11_cam_cover | ASA | 0.2 | 3 | 15% | - | 1.68 | 54 | 1.34 | - | - | - | Long bridging extrusions |
-| 12_side_panel | ASA | 0.2 | 3 | 15% | - | 1.11 | 30 | 0.74 | - | - | - | - |
+| 12_side_panel | ASA | 0.2 | 3 | 15% | - | 1.10 | 30 | 0.74 | - | - | - | - |
 | 13_intake_trumpet | ASA | 0.12 | 3 | 25% | - | 0.84 | 10 | 0.25 | - | - | - | - |
-| 14_exhaust_bank_A | ASA | 0.16 | 3 | 20% | - | 1.65 | 34 | 0.84 | - | - | - | - |
-| 15_exhaust_bank_B | ASA | 0.16 | 3 | 20% | - | 1.64 | 34 | 0.84 | - | - | - | Low bed adhesion |
+| 14_exhaust_bank_A | ASA | 0.16 | 3 | 20% | - | 1.64 | 34 | 0.84 | - | - | - | - |
+| 15_exhaust_bank_B | ASA | 0.16 | 3 | 20% | - | 1.64 | 34 | 0.84 | - | - | - | - |
 | 16_coil_pack | ASA | 0.16 | 3 | 25% | 3 | 0.31 | 3 | 0.07 | - | - | - | - |
 | 17_throttle_frame | ASA | 0.2 | 4 | 20% | - | 2.46 | 68 | 1.69 | - | - | - | - |
 | 18_end_cover | ASA | 0.2 | 3 | 15% | - | 0.91 | 28 | 0.71 | - | - | - | Long bridging extrusions |
