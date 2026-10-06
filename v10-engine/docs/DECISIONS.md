@@ -45,6 +45,8 @@ before/after and the commit made just before them.
 
 | D24 | **No part number on any bed face** (rule enforced in `cad/partnum.py`). Moved: 02 valley beam -> bank B land (top face as printed); 10 head -> top of an end cam cap (under the cam cover); 12 side panel -> its upper edge face (under the exhaust header); 14/15 exhausts -> the floor of the tail-pipe outlet recess (4 mm inside the pipe mouth); 17 throttle frame -> outer side face of a rail (faces the cam cover, down in the valley); 01 crankcase -> an end face (under the end plate). Others were already off the bed. | Recessed text in the first layer makes small islands and the slicer flagged "low bed adhesion" (exhaust B, crankcase). Your task 1. The side panel and throttle frame spots are low-visibility rather than fully hidden: the only fully hidden faces of those two parts are their bed faces. |
 
+| D25 | Look-and-feel review done from 9 render angles (`docs/LOOK_AND_FEEL_REVIEW.md`). **No exterior change applied**; the 13 ranked items (block/bank detailing, base plinth/reveal, end-cover faces, coil colour, cam-cover lines, trumpet height, exhaust finish, window chamfers, ballast plate ...) are listed for your decision. | Your task 3 rule: list only. |
+
 ## Exterior changes
 
 None so far. (Any exterior change gets: a commit before it, a before/after
