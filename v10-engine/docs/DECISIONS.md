@@ -47,7 +47,23 @@ before/after and the commit made just before them.
 
 | D25 | Look-and-feel review done from 9 render angles (`docs/LOOK_AND_FEEL_REVIEW.md`). **No exterior change applied**; the 13 ranked items (block/bank detailing, base plinth/reveal, end-cover faces, coil colour, cam-cover lines, trumpet height, exhaust finish, window chamfers, ballast plate ...) are listed for your decision. | Your task 3 rule: list only. |
 
+## V8 redesign (stock-car V8 replaces the F1 V10 - your decision)
+
+| # | Decision | Why / source |
+|---|---|---|
+| D26 | **Engine variant switch.** `config.py` and `cad/assembly.py` select `v8` (default, `ENGINE` file) or `v10`; every tool is unchanged and still runs on the frozen V10 (`ENGINE=v10`). The V10 stays at commit `7c6cc96`. | Your STEP 0 (keep the V10 recoverable) without duplicating the tooling. |
+| D27 | **Crank:** cross-plane, throws 0/90/270/180 deg, odd cylinders on the +Y bank, straight crankpins with two 686 bearings each (the V10 split pin with its flying web is not needed on a V8), bank B 6.5 mm ahead of bank A (rods side by side on one pin). | Same purchased parts as the V10 (686ZZ, 3x20 pins, 608ZZ mains); the 6 deg sweep is clear. |
+| D28 | **Firing order is one line** (`FIRING_ORDER` in `config_v8.py`, default 1-8-7-3-6-5-4-2 = the 4/7 swap you chose). `self_check` proves each cylinder fires at one of its own TDCs, and the firmware will be generated from the same list (`tools/gen_firmware_config.py`, next phase). | Your decision 3; one source for CAD and firmware. |
+| D29 | **Windows AND lit plug boots** (your option c). `WINDOWS = True/False` switches the block windows. Strength check (numbers, not a guess): windows 34 mm wide on a 50 mm pitch leave 16 mm ligaments between them and 13 mm at the block ends, the wall they pierce is 11.2 mm thick, and 2.5 mm of deck lip stays above each window; the head-screw inserts sit 6 mm from the nearest window edge. The bank stays one solid and its print orientation (deck down) is unchanged. | Your decision 1. These are the same window sizes as the verified V10 bank. |
+| D30 | **Header primaries drop BETWEEN the windows**: each pipe leaves its port straight (16 mm), bends 47 deg and drops half a cylinder pitch rearward (17 deg from vertical) into a log collector. One printable shape for all 8 (bank B is its mirror), standing on the collector spigot, nothing steeper than 45 deg. | Keeps every window visible between the pipes (option c) and reads as swept-back primaries. A real 4-into-1 merge would need supports or a CAD artist (`docs/V8_PLAN.md` 1c). |
+| D31 | **Plug boots ahead of and below each port** (+15 mm, 8 mm above the deck), pressed through the flange plate into a 9 mm crush socket over a hidden LED strip (11 LEDs, every third one under a boot). Boots in the translucent slot of the palette. | Rearward of the port they would sit under the swept pipe; the 4.3 mm wall between the boot hole and the pipe hole in the flange plate is the limiting dimension. |
+| D32 | **One flange plate per bank** (4 mm, 198 x 32 mm) screwed to the head with two M3x8 into horizontal heat-set inserts; the plate hides the LED strip groove and locates the 4 pipes and 4 boots. | Separate flat part = no supports; the pipes stay identical. |
+| D33 | **Collector** is a straight 36 mm log along the engine with a 60 mm open tail to the rear, flat on its inboard side (85 % round) so it prints lying down; pipe tubes sit in 3 mm saddle counterbores so there is no crescent gap at the round surface. | Honest simplification you accepted in the plan. |
+| D34 | **Intake is provisional**: a tall single-plane plenum (186 x 126 x 68 mm) filling the valley, 8 runner humps climbing its sides and curling over the top, throttle body on the front, two fuel rails with angled injector bosses printed with it. It is shown with bank A for proportion feedback only. Printing it (orientation / two-piece split) is open. | Your mockup feedback: "intake too small and tubular" - this one spans the valley like STYLE_ai_04/05. |
+| D35 | Head is 36 mm tall (real ~3.6 in at 1:2.42), valve cover 29 mm + 7 mm oil cap, magnetic like the V10 cam cover (same 4 magnets), head screws under the cover into deck inserts. | Proportions table in `docs/V8_PLAN.md` 1b. |
+
 ## Exterior changes
 
-None so far. (Any exterior change gets: a commit before it, a before/after
-description here, and the reason.)
+V8: the whole exterior is new by your request (the F1 exterior is frozen with
+the V10 at commit `7c6cc96`). Bank A exterior built first for approval - see
+`docs/V8_BANK_A_REVIEW.md`.

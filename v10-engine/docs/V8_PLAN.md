@@ -5,6 +5,14 @@
 list. A rough proportion mockup (masses only) is in `renders/v8_mockup/`,
 rendered from the same angles as the five reference images.
 
+## Status (updated)
+
+* Moving core rebuilt and verified (6 deg full-rotation sweep clear) - commit
+  `503802e`.
+* Exterior of bank A built and rendered next to the references:
+  `docs/V8_BANK_A_REVIEW.md`, `renders/v8_bankA/`. **Waiting for approval.**
+* Decisions from your answers and mine: `docs/DECISIONS.md` D26-D35.
+
 ## 0. The reference images
 
 `references/STYLE_ai_01..05.png` - all five are **AI-generated** (your note).

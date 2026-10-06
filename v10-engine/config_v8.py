@@ -363,30 +363,37 @@ LAYER = dict(case=0.20, beam=0.28, bank=0.20, plate=0.28, crank=0.16, rod=0.12, 
 HEAD_H = 36.0                   # pushrod head height above the deck (real ~3.6 in)
 HEAD_VALVE_Y = (10.0, -10.0)    # intake / exhaust valve recess centres in the chamber roof
 HEAD_VALVE_R = 7.5
-EXH_PORT_Z = 17.0               # exhaust port centre above the deck (z' = DECK_DIST + this)
+EXH_PORT_Z = 20.0               # exhaust port centre above the deck (z' = DECK_DIST + this)
 EXH_PORT_D = 20.0               # visible port counterbore (= primary pipe OD)
 EXH_PORT_DEPTH = 2.0            # counterbore depth; the 14 mm spigot socket is behind it
 EXH_SPIGOT_D = 14.0             # pipe spigot into the head (crush fit "trumpet_14", as the V10 trumpets)
 EXH_SPIGOT_L = 9.0
 EXH_PRIMARY_D = 20.0            # primary pipe OD (real 1 7/8 in)
-EXH_STUB_L = 22.0               # straight run out of the head before the bend
 EXH_BEND_R = 24.0               # bend centreline radius (pipe OD 20 -> prints without support)
+EXH_X_JOG = -CYL_PITCH / 2      # each primary drops half a cylinder pitch behind its port, so the
+                                # drops sit BETWEEN the block windows (and the pipes lean rearward)
+EXH_STUB_MIN = 14.0             # straight run out of the head before the bend starts (>= plate + lip)
 EXH_COLLECTOR_D = 36.0          # collector OD (real 3.5 in)
 EXH_COLLECTOR_Y = 118.0         # engine |y| of the collector axis (outboard of the pan)
 EXH_COLLECTOR_Z = -62.0         # engine z of the collector axis
+EXH_COLLECTOR_SADDLE = 3.0      # primary tube ends this far below the collector's top line
 EXH_TAIL_L = 60.0               # tail pipe beyond the last primary (towards the rear)
-EXH_FLANGE_PLATE = dict(t=4.0, z0=2.5, z1=30.0, end_inset=10.0)   # one flange bar per bank over the ports
-PLUG_BOOT = dict(d=10.0, l=14.0, shaft_d=9.0, shaft_l=8.0, dx=-50.0 / 3.0, z=7.0)  # boot per cylinder,
-                                # one LED pitch behind the bore centre, lit by a strip behind the flange plate
-BOOT_STRIP = dict(w=11.0, d=2.6, n=12)     # strip groove in the outboard face under the flange plate
+EXH_FLANGE_PLATE = dict(t=4.0, z0=0.5, z1=33.0, end_inset=6.0)   # one flange bar per bank over the ports
+PLUG_BOOT = dict(d=10.0, l=14.0, shaft_d=9.0, shaft_l=8.0, dx=15.0, z=8.0)  # boot per cylinder, below and
+                                # ahead of its port, lit by a strip in the outboard face behind the flange plate
+BOOT_STRIP = dict(w=11.0, d=2.6, n=11)     # strip groove in the outboard face under the flange plate
 VC = dict(x_inset=8.0, y0=-31.0, y1=17.0, h=29.0, wall=3.0, r=6.0, chamfer=3.5, rim_h=4.0, rim_t=1.5,
           boss_d=5.0, boss_h=1.5, cap_d=27.0, cap_h=7.0, cap_x=-40.0, cap_y=-14.0)   # valve cover
 VC_MAGNET_Y = -7.0              # cover magnets: 4 along this line in the head top
-INTAKE = dict(z0=108.0, z1=160.0, w0=56.0, w1=72.0, l0=150.0, l1=164.0, r=12.0, top_fillet=8.0,
-              runner_w=20.0, runner_h=14.0, runner_r=4.0, port_depth=3.0, port_z=20.0,
-              tb_d=42.0, tb_l=30.0, tb_z=138.0, tb_tilt=12.0, tb_bore=36.0,
-              rail_d=8.0, rail_y=40.0, rail_z=130.0, inj_d=9.0)   # ENGINE frame, provisional
-HEADER_SCREW_X_INSET = 16.0     # flange-plate screws from the plate ends (M3x8 into head inserts)
+INTAKE = dict(                  # ENGINE frame, provisional - a tall single-plane plenum filling the valley
+    sections=[(100.0, 84.0, 168.0), (116.0, 106.0, 178.0), (168.0, 126.0, 186.0)],   # (z, width y, length x)
+    r=16.0, top_fillet=10.0,
+    runner_w=22.0, runner_h=16.0, runner_r=5.0, port_depth=3.0, port_z=20.0,
+    runner_side_y=62.0, runner_side_z=158.0, runner_top_y=40.0, runner_top_z=172.0,   # hump path: up the
+    runner_r1=12.0, runner_r2=18.0,                                                   # side, curl over the top
+    tb_d=44.0, tb_l=34.0, tb_z=146.0, tb_tilt=10.0, tb_bore=38.0,
+    rail_d=8.0, rail_y=68.0, rail_z=116.0, inj_d=9.0)
+HEADER_SCREW_X_INSET = 8.0      # flange-plate screws from the plate ends (M3x8 into head inserts)
 
 # ===========================================================================
 # DERIVED VALUES - do not edit below this line

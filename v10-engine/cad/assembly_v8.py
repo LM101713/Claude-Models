@@ -109,7 +109,8 @@ def _same_joint(n1, n2):
 
 # press fits: the crush ribs are meant to overlap the part slightly
 PRESS_FIT_PAIRS = {("head", "rail"): 1.0, ("rail", "valley"): 1.0, ("boot", "head"): 6.0,
-                   ("head", "header"): 2.0, ("collector", "header"): 8.0}
+                   ("head", "header"): 4.0, ("collector", "header"): 4.0,
+                   ("bearing608", "end"): 5.0}
 
 
 def static_check():
