@@ -61,6 +61,7 @@ CRUSH = {
     "trumpet_14":  (6, 0.25),   # intake trumpet spigot into the head port
     "coil_10":     (4, 0.25),   # coil-pack shaft into its socket in the head top
     "rail_3":      (3, 0.05),   # guide-rail ends (valley beam + head): snug and centred
+    "boot_9":      (3, 0.25),   # V8 spark-plug boot shaft into its head socket (printed in printed)
 }
 MAGNET_DEPTH_CLEAR = 0.3       # magnet pocket deeper than the magnet (pocket bottoms never hold it proud)
 
@@ -94,6 +95,7 @@ MOTOR_BOSS_SLOT_CLEAR = 0.5    # bulkhead slot around the NEMA17 pilot boss, per
 PANEL_EDGE_CLEAR = 0.4         # bottom panel edge to its rabbet, per side
 LOCATOR_DEPTH_CLEAR = 0.5      # bank locator hole deeper than the crankcase locator boss
 PLATE_CLEAR = 0.3              # edition plate to its recess, per side
+RUNNER_POCKET_CLEAR = 0.5      # V8 intake runner end inside its head pocket, per side
 MOTOR_TENSION_TRAVEL = 3.0     # motor slot travel beyond each belt's nominal position (belt tension)
 
 # ---------------------------------------------------------------------------

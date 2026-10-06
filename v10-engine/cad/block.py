@@ -199,7 +199,8 @@ def cylinder_bank():
                                         cq.Vector(0, 0, 1)))
         blk = blk.cut(cq.Solid.makeCone(pocket_r + 1.0, pocket_r, 1.0, cq.Vector(x, C.RAIL_OFFSET, z0 - 0.001),
                                         cq.Vector(0, 0, 1)))
-        blk = blk.cut(_window(x))
+        if getattr(C, "WINDOWS", True):          # cut-away windows (V8: switchable)
+            blk = blk.cut(_window(x))
     # block-to-crankcase screws, counterbored from the deck (M3x8 into inserts)
     screws = [(x, C.BLOCK_SCREW_VALLEY_Y) for x in bank_between_x()]
     screws += [(x, C.BLOCK_SCREW_END_Y) for x in block_end_screws_x()]

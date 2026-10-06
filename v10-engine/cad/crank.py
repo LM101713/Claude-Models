@@ -143,7 +143,8 @@ def segment(delta_deg):
     part = part.cut(_pin_socket(delta_deg, -L, +1, 0.0))
     # engraved type number on the rear face (top face when printing) so the
     # two segment types cannot be mixed up at assembly
-    partno = "06" if abs(delta_deg - C.SEGMENT_TYPES[0]) < 1e-6 else "07"
+    idx = min(range(len(C.SEGMENT_TYPES)), key=lambda i: abs(C.SEGMENT_TYPES[i] - delta_deg))
+    partno = f"{6 + idx:02d}"
     label = (cq.Workplane("ZY").workplane(offset=L - 0.6)
              .text(f"{partno}-{delta_deg:.0f}", 4.5, 0.7, halign="center", valign="center", kind="bold"))
     part = part.cut(label.val())
@@ -212,6 +213,8 @@ def split_crankpin():
 
     a_side = one_side(ya, za, +1, 0.0)
     b_side = one_side(yb, zb, -1, s)
+    if half_web < 1e-6:                     # straight pin (V8): the two inner shoulders meet
+        return safe_clean(a_side.fuse(b_side))
     web = _hull_prism([(0.0, R, rs), (s, R, rs)], -half_web, half_web)
     return safe_clean(a_side.fuse(b_side).fuse(web))
 
@@ -269,7 +272,8 @@ def placed_parts(parts, phi=0.0):
             out.append((f"crankpin_ring_{k+1}{tag}", move(rot_x(ring, C.THROW_PIN_A[k] + phi), C.THROW_X[k])))
     for k in range(C.N_THROWS - 1):
         d = C.SEGMENT_DELTA[k]
-        key = "segA" if abs(d - C.SEGMENT_TYPES[0]) < 1e-6 else "segB"
+        idx = min(range(len(C.SEGMENT_TYPES)), key=lambda i: abs(C.SEGMENT_TYPES[i] - d))
+        key = "segA" if idx == 0 else ("segB" if idx == 1 else f"seg{idx}")
         s = rot_x(parts[key], C.THROW_PIN_B[k] + phi)
         out.append((f"segment_{k+1}{k+2}", move(s, C.THROW_X[k] - C.THROW_INNER / 2)))
     # front end web + shaft
@@ -287,9 +291,9 @@ def placed_parts(parts, phi=0.0):
 
 
 def build_all():
+    segs = {("segA" if i == 0 else ("segB" if i == 1 else f"seg{i}")): segment(t) for i, t in enumerate(C.SEGMENT_TYPES)}
     return {
-        "segA": segment(C.SEGMENT_TYPES[0]),
-        "segB": segment(C.SEGMENT_TYPES[1]),
+        **segs,
         "end": end_web(),
         "pin": split_crankpin(),
         "rings": pin_rings(),
