@@ -55,7 +55,7 @@ time to the other 49** (see `docs/PRODUCTION_PLAN.md`, gate 1).
 **Nothing has been printed yet.** The DFM pass turned every guessed fit into a
 tested one *before* any engine part is printed:
 
-1. [`docs/MORNING_SUMMARY.md`](docs/MORNING_SUMMARY.md) - what was done overnight, decisions, what is needed next
+1. [`docs/AFTER_SCHOOL_SUMMARY.md`](docs/AFTER_SCHOOL_SUMMARY.md) - latest status: what was done, decisions, what is needed next
 2. [`fits.py`](fits.py) - **the one file** holding every tolerance / clearance / fit
 3. [`docs/COUPON_PRINT_GUIDE.md`](docs/COUPON_PRINT_GUIDE.md) - print the 15 coupons first (each < 25 min)
 4. [`docs/TEST_CHECKLIST.md`](docs/TEST_CHECKLIST.md) - what to measure, which number to change
