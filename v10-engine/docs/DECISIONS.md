@@ -21,8 +21,8 @@ before/after and the commit made just before them.
 
 | # | Open item | What I did | Why |
 |---|---|---|---|
-| D9 | **Sound: "[yes/no, check with Scott]"** | Left sound OUT of the design. Reserved space in the rear base half for a 28 mm speaker + small audio module (noted in `ELECTRONICS.md`); nothing cut into any part. | Adding a speaker grille would be an exterior change; the interior has room, so it can be added later without reprinting anything but the rear base half. Safest reversible option. |
-| D10 | **Colours: all "[x]"** | 4-slot palette: slot 1 = block + crankcase + end plates + beam (light grey in renders), slot 2 = heads, cam covers, side panels, end covers, base (black), slot 3 = coil packs (red), slot 4 = exhausts + trumpets (metallic grey/gold). Filament totals are reported per slot. | Keeps to <= 4 filaments as you asked; matches the renders you have seen. Rename the slots in `config.py PALETTE` when you choose colours; nothing else changes. |
+| D9 | Sound: "[yes/no, check with Scott]" | **Final answer: NO** (your decision, day 2). Sound removed from the open questions; no speaker, amplifier or audio module is designed for; the earlier "reserved space" note was deleted from ELECTRONICS.md. | Your decision. |
+| D10 | Colours: all "[x]" | 4-slot palette (`config.py PALETTE`): slot 1 = block, crankcase, end plates, beam; slot 2 = heads, cam covers, side panels, end covers, base; slot 3 = coil packs; slot 4 = exhausts + trumpets. Filament is reported per slot. **Approved by you (day 2)** - slots stay until the colours are chosen. | <= 4 filaments; rename the slots, nothing else changes. |
 
 ## Design decisions during Phase 1
 
@@ -37,11 +37,13 @@ before/after and the commit made just before them.
 | D17 | No gear-mesh coupon. | There are no gears: the drive is a GT2 belt with purchased pulleys. |
 | D18 | Printer bed for all plate work = **H2C single-nozzle mode, 325 x 320 mm** (`config.PRINTER`). | The exhausts (293.5 mm) do not fit the 300 mm dual-nozzle bed. Only the coupon plate and motion-test plates are exported (rule 7: no final plates). |
 
-| D19 | **Con-rod big-end wall 2.5 -> 3.0 mm** (`ROD_BIG_END_WALL` in config.py; rod eye 19 -> 20 mm). | DFM risk A2: a steel bearing pressed into 2.5 mm of plastic may split the eye. The rod is inside the crankcase (visible only through the windows, 1 mm bigger eye is not noticeable). The full-rotation clearance scan re-ran with it - see MORNING_SUMMARY for the smallest gaps. Reversible: one number. |
+| D19 | **Con-rod big-end wall 2.5 -> 3.0 mm** (`ROD_BIG_END_WALL`). **PROVISIONAL - not approved yet.** Plain-words explanation, risk and how to switch back: `docs/D19_EXPLAINED.md`. No further change depends on it. | DFM risk A2 (bearing pressed into 2.5 mm of plastic may split the eye). One number to revert. |
 | D20 | Piston label on the crown underside (inside the skirt), coil-pack label on the free end of its shaft. | The skirt bottom ring (2 mm) and the elliptical coil body have no flat patch big enough; both chosen spots are hidden once assembled and are not fit surfaces. |
 | D21 | Coupons print with the slicer's hole compensation OFF. | The design compensates holes itself (`HOLE_COMP`); a slicer offset on top would corrupt the ladders. Stated in COUPON_PRINT_GUIDE.md. |
 | D22 | Prototype BOM covers 2 engines + 25 % spares, alternative insert/screw/belt sizes, measuring tools; no steel parts (printed PETG stand-ins first), nothing x50. | Your rules 6b and 7. |
 | D23 | Verification still uses the un-engraved part shapes. | Engraving only removes 0.5 mm of material on hidden faces, so it cannot create an interference; keeping the check models label-free keeps the 95-minute check unchanged. |
+
+| D24 | **No part number on any bed face** (rule enforced in `cad/partnum.py`). Moved: 02 valley beam -> bank B land (top face as printed); 10 head -> top of an end cam cap (under the cam cover); 12 side panel -> its upper edge face (under the exhaust header); 14/15 exhausts -> the floor of the tail-pipe outlet recess (4 mm inside the pipe mouth); 17 throttle frame -> outer side face of a rail (faces the cam cover, down in the valley); 01 crankcase -> an end face (under the end plate). Others were already off the bed. | Recessed text in the first layer makes small islands and the slicer flagged "low bed adhesion" (exhaust B, crankcase). Your task 1. The side panel and throttle frame spots are low-visibility rather than fully hidden: the only fully hidden faces of those two parts are their bed faces. |
 
 ## Exterior changes
 

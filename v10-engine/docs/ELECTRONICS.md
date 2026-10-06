@@ -162,16 +162,10 @@ Every harness, wire colour, gauge and cut length is listed in
   Panel parts use insulated 4.8 mm spade terminals (rocker) or soldered joints
   with heat-shrink (jack, button, pot).
 
-## 5b. Sound (decision pending) and the custom PCB (later)
+## 5b. The custom PCB (later)
 
-* **Sound is not in the design.** If it is wanted, the rear base half has room
-  under the top skin, beside the controller board, for a 28 mm 8 ohm speaker
-  (about 30 x 30 x 5 mm) and a small audio module (DFPlayer Mini class, 21 x 21
-  mm) powered from the 5 V rail (budget 0.5 A more: the Pololu regulator has
-  it). A speaker needs sound holes: a grille in the bottom panel (hidden,
-  no exterior change) is the plan. Nothing has been cut yet; adding it later
-  means reprinting the bottom panel only, plus 2 more GPIOs (UART to the
-  module) which the ESP32 has spare.
+(Sound: not part of the design - final decision.)
+
 * **Custom PCB:** engines 1-2 use the hand-built perfboard described above.
   The board outline, standoff pattern (`PCB` in config.py) and the 7 connector
   positions are the specification for the later PCB, so the base does not
