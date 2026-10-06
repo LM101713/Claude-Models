@@ -19,7 +19,7 @@ FACES = {        # name: (outward normal, text x direction)
 }
 # part file prefix: (label, faces to try in order, text sizes to try, max scan depth from the bbox face)
 SPEC = {
-    "01_": ("01", ("-z",), (5.0, 3.5), 2.0),          # crankcase: underside (on the base)
+    "01_": ("01", ("+x", "-x", "-z"), (5.0, 3.5), 1.0),  # crankcase: end face (under an end plate); bed face as fallback
     "02_": ("02", ("-z", "+z"), (4.0, 3.0, 2.2), 4.0),  # valley beam: bank land / underside
     "03_": ("03", ("+z",), (5.0, 3.5, 2.5), 8.0),      # bank: mounting face (deck-down print)
     "04_": ("04", ("+z",), (4.0, 3.0), 8.0),           # end plate: inner face

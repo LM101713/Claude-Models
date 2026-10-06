@@ -37,6 +37,12 @@ before/after and the commit made just before them.
 | D17 | No gear-mesh coupon. | There are no gears: the drive is a GT2 belt with purchased pulleys. |
 | D18 | Printer bed for all plate work = **H2C single-nozzle mode, 325 x 320 mm** (`config.PRINTER`). | The exhausts (293.5 mm) do not fit the 300 mm dual-nozzle bed. Only the coupon plate and motion-test plates are exported (rule 7: no final plates). |
 
+| D19 | **Con-rod big-end wall 2.5 -> 3.0 mm** (`ROD_BIG_END_WALL` in config.py; rod eye 19 -> 20 mm). | DFM risk A2: a steel bearing pressed into 2.5 mm of plastic may split the eye. The rod is inside the crankcase (visible only through the windows, 1 mm bigger eye is not noticeable). The full-rotation clearance scan re-ran with it - see MORNING_SUMMARY for the smallest gaps. Reversible: one number. |
+| D20 | Piston label on the crown underside (inside the skirt), coil-pack label on the free end of its shaft. | The skirt bottom ring (2 mm) and the elliptical coil body have no flat patch big enough; both chosen spots are hidden once assembled and are not fit surfaces. |
+| D21 | Coupons print with the slicer's hole compensation OFF. | The design compensates holes itself (`HOLE_COMP`); a slicer offset on top would corrupt the ladders. Stated in COUPON_PRINT_GUIDE.md. |
+| D22 | Prototype BOM covers 2 engines + 25 % spares, alternative insert/screw/belt sizes, measuring tools; no steel parts (printed PETG stand-ins first), nothing x50. | Your rules 6b and 7. |
+| D23 | Verification still uses the un-engraved part shapes. | Engraving only removes 0.5 mm of material on hidden faces, so it cannot create an interference; keeping the check models label-free keeps the 95-minute check unchanged. |
+
 ## Exterior changes
 
 None so far. (Any exterior change gets: a commit before it, a before/after

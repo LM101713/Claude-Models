@@ -5,19 +5,40 @@ Times and grams are PrusaSlicer estimates with an H2S-like motion profile (`tool
 
 | Part | Material | Layer | Walls | Infill | Brim | Time (h) | Filament (g) | Cost ($) | Long bridges | Big overhangs | Ring ceilings | Slicer warnings |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 01_crankcase | ASA | 0.2 | 4 | 25% | - | 12.62 | 301 | 7.52 | - | - | - | - |
+| 02_valley_beam | ASA | 0.28 | 4 | 25% | - | 2.17 | 66 | 1.66 | - | - | - | - |
+| 03_cylinder_bank | ASA | 0.2 | 4 | 25% | - | 9.62 | 226 | 5.64 | - | - | - | - |
+| 04_end_plate | ASA | 0.28 | 4 | 25% | - | 1.23 | 35 | 0.89 | - | - | - | - |
+| 05_crank_end_web | ASA | 0.16 | 5 | 40% | - | 0.69 | 11 | 0.28 | - | - | - | - |
+| 06_crank_segment_54 | ASA | 0.16 | 5 | 40% | - | 1.71 | 27 | 0.68 | - | - | - | - |
+| 07_crank_segment_198 | ASA | 0.16 | 5 | 40% | - | 1.70 | 27 | 0.68 | - | - | - | - |
+| 08_conrod | ASA | 0.12 | 4 | 40% | - | 0.17 | 3 | 0.07 | - | - | - | - |
+| 09_piston | ASA | 0.16 | 4 | 25% | - | 0.50 | 12 | 0.29 | - | - | - | Floating bridge anchors, Long bridging extrusions |
+| 10_cylinder_head | ASA | 0.2 | 4 | 25% | - | 10.05 | 204 | 5.11 | - | - | - | Floating bridge anchors, Low bed adhesion, Long bridging extrusions |
+| 11_cam_cover | ASA | 0.2 | 3 | 15% | - | 1.68 | 54 | 1.34 | - | - | - | Long bridging extrusions |
+| 12_side_panel | ASA | 0.2 | 3 | 15% | - | 1.11 | 30 | 0.74 | - | - | - | - |
+| 13_intake_trumpet | ASA | 0.12 | 3 | 25% | - | 0.84 | 10 | 0.25 | - | - | - | - |
+| 14_exhaust_bank_A | ASA | 0.16 | 3 | 20% | - | 1.65 | 34 | 0.84 | - | - | - | - |
+| 15_exhaust_bank_B | ASA | 0.16 | 3 | 20% | - | 1.64 | 34 | 0.84 | - | - | - | Low bed adhesion |
+| 16_coil_pack | ASA | 0.16 | 3 | 25% | 3 | 0.31 | 3 | 0.07 | - | - | - | - |
+| 17_throttle_frame | ASA | 0.2 | 4 | 20% | - | 2.46 | 68 | 1.69 | - | - | - | - |
+| 18_end_cover | ASA | 0.2 | 3 | 15% | - | 0.91 | 28 | 0.71 | - | - | - | Long bridging extrusions |
+| 19_base_front | ASA | 0.2 | 4 | 25% | - | 13.44 | 419 | 10.47 | - | - | - | Floating bridge anchors, Long bridging extrusions |
+| 20_base_rear | ASA | 0.2 | 4 | 25% | - | 12.12 | 358 | 8.96 | - | - | - | Floating bridge anchors, Long bridging extrusions |
+| 21_base_panel | ASA | 0.28 | 3 | 15% | - | 3.45 | 114 | 2.85 | - | - | - | - |
+| P1_proto_split_crankpin | PETG | 0.12 | 4 | 100% | 3 | 0.36 | 1 | 0.02 | - | - | - | Low bed adhesion, Loose extrusions |
+| P2_proto_main_shaft | PETG | 0.16 | 4 | 100% | - | 0.50 | 6 | 0.12 | - | - | 1 | Floating bridge anchors, Loose extrusions, Long bridging extrusions |
 | T1_hole_ladder | PLA | 0.2 | 2 | 10% | - | 0.35 | 8 | 0.15 | - | - | - | - |
 | T1b_test_peg | PLA | 0.2 | 2 | 10% | - | 0.07 | 0 | 0.01 | - | - | - | - |
 | T1c_peg_captive | PLA | 0.2 | 2 | 10% | - | 0.26 | 6 | 0.12 | - | - | - | - |
 | T2_insert_ladder | PLA | 0.2 | 2 | 10% | - | 0.38 | 9 | 0.19 | - | - | - | - |
 | T3_608_seats | PLA | 0.2 | 3 | 10% | - | 0.39 | 11 | 0.22 | - | - | - | - |
-| T3_bearing_seats | PLA | 0.2 | 3 | 15% | - | 1.11 | 29 | 0.59 | - | - | - | - |
 | T3b_686_seats | PLA | 0.2 | 3 | 10% | - | 0.34 | 9 | 0.17 | - | - | - | - |
 | T4_piston_guide | PLA | 0.2 | 3 | 10% | - | 0.22 | 5 | 0.10 | - | - | - | - |
 | T4b_test_lug | PLA | 0.2 | 3 | 10% | - | 0.10 | 2 | 0.03 | - | - | - | - |
 | T4c_lug_slots | PLA | 0.2 | 3 | 10% | - | 0.32 | 9 | 0.17 | - | - | - | - |
 | T4d_wrist_pins | PLA | 0.2 | 3 | 10% | 3 | 0.23 | 6 | 0.12 | - | - | - | - |
 | T5_dpin_sockets | PLA | 0.2 | 3 | 10% | - | 0.23 | 6 | 0.12 | - | - | - | - |
-| T5_key_fits | PLA | 0.2 | 3 | 15% | - | 0.82 | 21 | 0.42 | - | - | - | - |
 | T5b_magnets | PLA | 0.2 | 3 | 10% | - | 0.39 | 9 | 0.19 | - | - | - | - |
 | T6_end_plate_seat | PLA | 0.2 | 3 | 10% | - | 0.25 | 7 | 0.14 | - | - | - | - |
 | T7_crank_vblock | PLA | 0.2 | 3 | 10% | - | 0.20 | 6 | 0.11 | - | - | - | - |

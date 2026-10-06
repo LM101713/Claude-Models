@@ -1,5 +1,4 @@
 Bounding boxes (print orientation). Limit 300 x 300 x 300 mm.
-00_fit_check_optional: 158.0 x 150.0 x 16.0 mm OK   x1
 01_crankcase: 268.0 x 104.7 x 49.7 mm OK   x1
 02_valley_beam: 268.0 x 25.0 x 25.0 mm OK   x1
 03_cylinder_bank: 260.0 x 72.0 x 51.0 mm OK   x2
@@ -7,7 +6,7 @@ Bounding boxes (print orientation). Limit 300 x 300 x 300 mm.
 05_crank_end_web: 46.5 x 43.0 x 12.0 mm OK   x2
 06_crank_segment_54: 46.6 x 45.6 x 35.5 mm OK   x2
 07_crank_segment_198: 48.1 x 45.3 x 35.5 mm OK   x2
-08_conrod: 75.5 x 18.0 x 5.0 mm OK   x10
+08_conrod: 76.0 x 19.0 x 5.0 mm OK   x10
 09_piston: 44.1 x 52.0 x 19.1 mm OK   x10
 10_cylinder_head: 260.0 x 73.0 x 35.5 mm OK   x2
 11_cam_cover: 258.0 x 52.5 x 18.0 mm OK   x2
@@ -21,6 +20,21 @@ Bounding boxes (print orientation). Limit 300 x 300 x 300 mm.
 19_base_front: 204.0 x 280.0 x 72.0 mm OK   x1
 20_base_rear: 200.0 x 280.0 x 72.0 mm OK   x1
 21_base_panel: 195.2 x 271.2 x 3.0 mm OK   x2
+T1_hole_ladder: 79.0 x 45.0 x 4.5 mm OK   x1
+T1b_test_peg: 10.0 x 10.0 x 10.0 mm OK   x2
+T1c_peg_captive: 79.0 x 33.0 x 4.5 mm OK   x1
+T2_insert_ladder: 79.0 x 32.0 x 12.0 mm OK   x1
+T3_608_seats: 101.0 x 42.0 x 7.0 mm OK   x1
+T3b_686_seats: 112.0 x 33.0 x 5.0 mm OK   x1
+T4_piston_guide: 79.0 x 23.0 x 5.0 mm OK   x1
+T4b_test_lug: 12.0 x 18.5 x 12.0 mm OK   x1
+T4c_lug_slots: 99.0 x 31.0 x 6.0 mm OK   x1
+T4d_wrist_pins: 79.0 x 8.0 x 12.0 mm OK   x1
+T5_dpin_sockets: 55.0 x 24.0 x 9.8 mm OK   x1
+T5b_magnets: 79.0 x 28.3 x 12.0 mm OK   x1
+T6_end_plate_seat: 66.0 x 30.0 x 9.0 mm OK   x1
+T7_crank_vblock: 34.0 x 22.0 x 20.0 mm OK   x2
+T8_belt_feeler: 40.0 x 15.0 x 3.0 mm OK   x1
 P1_proto_split_crankpin: 8.1 x 11.5 x 30.5 mm OK   x5
 P2_proto_main_shaft: 27.6 x 28.0 x 45.3 mm OK   x2
 M01_split_crankpin: 30.5 x 11.5 x 8.1 mm OK   x5

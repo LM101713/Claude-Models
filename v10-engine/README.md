@@ -50,6 +50,18 @@ remove the design mistakes; they cannot replace a first article. **Build unit
 #1 completely and run its 48 h burn-in before committing material and printer
 time to the other 49** (see `docs/PRODUCTION_PLAN.md`, gate 1).
 
+## Design-for-manufacturing pass (in progress - read these first)
+
+**Nothing has been printed yet.** The DFM pass turned every guessed fit into a
+tested one *before* any engine part is printed:
+
+1. [`docs/MORNING_SUMMARY.md`](docs/MORNING_SUMMARY.md) - what was done overnight, decisions, what is needed next
+2. [`fits.py`](fits.py) - **the one file** holding every tolerance / clearance / fit
+3. [`docs/COUPON_PRINT_GUIDE.md`](docs/COUPON_PRINT_GUIDE.md) - print the 15 coupons first (each < 25 min)
+4. [`docs/TEST_CHECKLIST.md`](docs/TEST_CHECKLIST.md) - what to measure, which number to change
+5. [`docs/DECISIONS.md`](docs/DECISIONS.md), [`docs/DFM_PHASE0.md`](docs/DFM_PHASE0.md), [`docs/RISKS_FIRST_ENGINE.md`](docs/RISKS_FIRST_ENGINE.md)
+6. [`docs/PROTO_BOM.md`](docs/PROTO_BOM.md) - the only order to place until engine #1 runs
+
 ## Start here
 
 1. [`docs/DESIGN_NOTES.md`](docs/DESIGN_NOTES.md) - why it is built this way
@@ -63,7 +75,7 @@ time to the other 49** (see `docs/PRODUCTION_PLAN.md`, gate 1).
 
 | # | Part | Qty | Made by |
 |---|---|---|---|
-| 00 | fit check piece (optional - not needed thanks to crush ribs) | 1 | print (PLA) |
+| T1-T8 | fit coupons (15 small prints, print first) | 1 set | print (PLA, then ASA) |
 | 01 | crankcase (open-top U) | 1 | print |
 | 02 | valley beam | 1 | print |
 | 03 | cylinder bank (both identical) | 2 | print |
@@ -102,12 +114,15 @@ v10-engine/
   build_all.py         regenerates every STL/STEP, preview and drawing
   cad/                 the parametric model (CadQuery)
     common.py          helpers: placement, export, crush ribs, bridged steps
+    coupons.py         test coupons T1-T8;  partnum.py  engraved part numbers
     crank.py  rods_pistons.py  block.py  styling.py  drive.py  base.py
     assembly.py        full engine at any crank angle, interference checks
   firmware/            ESP32 controller (Arduino IDE / PlatformIO), unit tests
   tools/
     verify_all.py      interference, clearance and assembly-path verification
     printcheck.py      slices every part, overhang/bridge analysis, times, grams
+    check_fits.py      fails if a clearance is written inside a part file
+    plates.py          coupon + motion-test plates (3MF) for the H2C;  proto_bom.py
     check_firmware.py  firmware vs CAD timing + unit tests
     gen_firmware_config.py  config.py -> firmware/v10_engine/engine_geometry.h
     electronics.py     netlist, pin tables, schematic and wiring drawings
