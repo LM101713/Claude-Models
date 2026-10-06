@@ -126,7 +126,7 @@ def cylinder_head():
         # rail tops: crush-rib pockets capture the 5 guide rails, which also
         # locate the head on the deck (RAIL_OFFSET != 0: it fits one way only).
         # 1 mm entry chamfer so the head finds all five rails at once.
-        rz1 = DECK + C.RAIL_HEAD_ENGAGE + 0.5
+        rz1 = DECK + C.RAIL_HEAD_ENGAGE + C.RAIL_POCKET_EXTRA
         head = head.cut(crush_z(C.RAIL_DIA, DECK, rz1, xc, C.RAIL_OFFSET, "rail_3", entry="lo"))
         r_in = C.hole(C.RAIL_DIA) / 2 + C.CRUSH_RELIEF / 2
         head = head.cut(cq.Solid.makeCone(r_in + 1.0, r_in, 1.0, cq.Vector(xc, C.RAIL_OFFSET, DECK - 0.01),
@@ -143,7 +143,7 @@ def cylinder_head():
     _chk(head, "per-cylinder")
     # cam-cover magnets in the outboard strip
     for xc in (CYL_X[0], CYL_X[1], CYL_X[3], CYL_X[4]):
-        head = head.cut(crush_z(C.MAGNET["d"], TOP - C.MAGNET["h"] - 0.3, TOP + 0.01, xc, -28.5, "magnet_6", entry="hi"))
+        head = head.cut(crush_z(C.MAGNET["d"], TOP - C.MAGNET["h"] - C.MAGNET_DEPTH_CLEAR, TOP + 0.01, xc, -28.5, "magnet_6", entry="hi"))
     _chk(head, "magnets")
     return safe_clean(head)
 
@@ -158,7 +158,7 @@ def print_head(s):
 # ---------------------------------------------------------------------------
 def coil_pack():
     """Local frame: shaft along -Z from z=0 (head top); the body sits on the head top."""
-    shaft_len = C.COIL_SOCKET_D - 0.5                  # never bottoms out: the body seats on the head
+    shaft_len = C.COIL_SOCKET_D - C.COIL_SHAFT_SHORT                  # never bottoms out: the body seats on the head
     c = C.COIL
     shaft = cyl_z(c["shaft_d"] / 2, -shaft_len, 0.01)
     shaft = cq.Workplane().add(shaft).faces("<Z").edges().chamfer(0.6).val()   # lead-in
@@ -201,14 +201,14 @@ def cam_cover():
     for xc in (CYL_X[0], CYL_X[1], CYL_X[3], CYL_X[4]):
         pil = cyl_z(4.5, z0, z1 - w + 0.1, xc, -28.5).intersect(outer)
         cover = cover.fuse(pil)
-        cover = cover.cut(crush_z(C.MAGNET["d"], z0 - 0.01, z0 + C.MAGNET["h"] + 0.3, xc, -28.5, "magnet_6", entry="lo"))
+        cover = cover.cut(crush_z(C.MAGNET["d"], z0 - 0.01, z0 + C.MAGNET["h"] + C.MAGNET_DEPTH_CLEAR, xc, -28.5, "magnet_6", entry="lo"))
     # top styling: two shallow grooves framing the coil-pack row (0.6 mm, bed face)
     for yg in (-9.5, 7.5):
         cover = cover.cut(box(x0 + 12, x1 - 12, yg - 0.5, yg + 0.5, z1 - 0.6, z1 + 1))
     # the coil packs stand up through the cover (F1-style row of coils on top)
     for xc in CYL_X:
         hole_ = (cq.Workplane("XY").workplane(offset=z1 - w - 1).center(xc, 0.0)
-                 .ellipse(C.COIL["l"] / 2 + 1.0, C.COIL["w"] / 2 + 1.0).extrude(w + 2).val())
+                 .ellipse(C.COIL["l"] / 2 + C.COIL_COVER_HOLE_CLEAR, C.COIL["w"] / 2 + C.COIL_COVER_HOLE_CLEAR).extrude(w + 2).val())
         cover = cover.cut(hole_)
     return safe_clean(cover)
 
@@ -236,7 +236,7 @@ def side_panel():
         slab = box(xc - 20, xc + 20, yf - sp["bulge"], yf + 0.01, sp["z0"] + 4, sp["z1"] - 4)
         panel = panel.fuse(barrel.intersect(slab))
     for xm in BETWEEN_X:
-        panel = panel.cut(crush_x(C.MAGNET["d"], 0, C.MAGNET["h"] + 0.3, 0, 0, "magnet_6", entry="lo")
+        panel = panel.cut(crush_x(C.MAGNET["d"], 0, C.MAGNET["h"] + C.MAGNET_DEPTH_CLEAR, 0, 0, "magnet_6", entry="lo")
                           .rotate((0, 0, 0), (0, 0, 1), -90)          # axis along -Y'
                           .translate(cq.Vector(xm, yb + 0.01, C.SIDE_PANEL_MAGNET_Z)))
     return safe_clean(panel)
@@ -392,7 +392,7 @@ def exhaust_header():
     f = C.EXH_FLANGE
     for xc in CYL_X:
         fl = (cq.Workplane("XZ").workplane(offset=-C.EXH_BACK_Y)
-              .pushPoints([(xc, zp)]).circle(f["d"] / 2 + 1.0).extrude(f["t"]).val())
+              .pushPoints([(xc, zp)]).circle(f["d"] / 2 + C.TRUMPET_FRAME_HOLE_CLEAR).extrude(f["t"]).val())
         fl2 = (cq.Workplane("XZ").workplane(offset=-C.EXH_BACK_Y)
                .pushPoints([(xc + C.EXH_SCREW_DX, C.EXH_SCREW_Z)]).circle(5.0).extrude(f["t"]).val())
         hdr = hdr.fuse(fl).fuse(fl2)
@@ -433,7 +433,7 @@ def end_cover():
         web = (cq.Workplane().add(box(x0, x1 - w + 0.1, -C.COVER_PILLAR_R, C.COVER_PILLAR_R, 0, 12)).val()
                .rotate((0, 0, 0), (1, 0, 0), -ang).translate(cq.Vector(0, y, z)))
         cover = cover.fuse(pil.fuse(web).intersect(_end_profile(0.0, x0, x1)))
-        cover = cover.cut(crush_x(C.MAGNET["d"], x0 - 0.5, x0 + C.MAGNET["h"] + 0.3, y, z, "magnet_6", entry="lo"))
+        cover = cover.cut(crush_x(C.MAGNET["d"], x0 - 0.5, x0 + C.MAGNET["h"] + C.MAGNET_DEPTH_CLEAR, y, z, "magnet_6", entry="lo"))
     # harness notch at the top of the back edge (used at the rear)
     cover = cover.cut(box(x0 - 1, x0 + 7, -6, 6, C.FACE_DIST * math.sqrt(2) - 6, C.END_COVER_ZC + C.COVER_R + 1))
     # face detail: an engraved ring round the crank axis (prints face-down)

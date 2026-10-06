@@ -109,7 +109,7 @@ def _bank_face_features(ins_d, which):
         for x in bank_between_x():
             f.append(cyl_z(ins_d / 2, C.FACE_DIST - C.INSERT_DEPTH, C.FACE_DIST + 1, x, C.BLOCK_SCREW_VALLEY_Y))
         for x, y in locator_xy():
-            f.append(cyl_z(C.hole(C.LOCATOR_D, "spigot") / 2, C.FACE_DIST - C.LOCATOR_H - 0.5, C.FACE_DIST + 1, x, y))
+            f.append(cyl_z(C.hole(C.LOCATOR_D, "spigot") / 2, C.FACE_DIST - C.LOCATOR_H - C.LOCATOR_DEPTH_CLEAR, C.FACE_DIST + 1, x, y))
         for x in C.BANK_A_CYL_X:
             # rail foot: crush ribs centre it, it still slides in by hand
             f.append(crush_z(C.RAIL_DIA, C.RAIL_BOTTOM, C.FACE_DIST + 0.01, x, C.RAIL_OFFSET, "rail_3", entry="hi"))
@@ -215,7 +215,7 @@ def cylinder_bank():
             blk = blk.cut(cyl_z(ins_d / 2, z1 - C.INSERT_DEPTH, z1 + 1, x, y))
     # side-panel magnets in the outboard face, between the windows
     for x in bank_between_x():
-        blk = blk.cut(crush_x(C.MAGNET["d"], 0, C.MAGNET["h"] + 0.3, 0, 0, "magnet_6", entry="lo")
+        blk = blk.cut(crush_x(C.MAGNET["d"], 0, C.MAGNET["h"] + C.MAGNET_DEPTH_CLEAR, 0, 0, "magnet_6", entry="lo")
                       .rotate((0, 0, 0), (0, 0, 1), 90)          # axis along +Y'
                       .translate(cq.Vector(x, C.BLOCK_Y_OUT - 0.01, C.SIDE_PANEL_MAGNET_Z)))
     for x, y in locator_xy():
@@ -258,7 +258,7 @@ def end_plate():
         plate = plate.cut(bridge_step(cb, C.hole(C.M3_CLEAR) / 2, (h + C.SCREW_FLOOR, y, z), "x", -1, C.LAYER["plate"]))
     # magnets for the drive cover (front) / rear cover (Phase 3) - same pattern both ends
     for y, z in C.COVER_MAGNETS:
-        plate = plate.cut(crush_x(C.MAGNET["d"], x_out - C.MAGNET["h"] - 0.3, x_out + 0.5, y, z,
+        plate = plate.cut(crush_x(C.MAGNET["d"], x_out - C.MAGNET["h"] - C.MAGNET_DEPTH_CLEAR, x_out + 0.5, y, z,
                                   "magnet_6", entry="hi"))
     return safe_clean(plate)
 

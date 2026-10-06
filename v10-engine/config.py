@@ -8,9 +8,8 @@ HOW TO USE THIS FILE
   - Press fits use crush ribs (see CRUSH) and need no tuning on a
     calibrated printer; if one is still too tight/loose, change its
     interference in CRUSH.
-  - Slip fits too tight everywhere?  raise HOLE_COMP
-  - One kind of slip fit wrong?      change that entry in FIT
-  - Pistons/rods too close to walls? raise CLEARANCE or PISTON_RADIAL_CLEARANCE
+  - EVERY tolerance, clearance and fit allowance is in fits.py (one file).
+    Test coupons T1-T6 + docs/TEST_CHECKLIST.md say which number to change.
 * After changing anything run:  python build_all.py
   It regenerates every STL/STEP, preview image and drawing, and re-runs
   the self-checks at the bottom of this file.
@@ -28,45 +27,10 @@ COORDINATE SYSTEM (whole engine)
 import math
 
 # ---------------------------------------------------------------------------
-# 1. GLOBAL PRINT TOLERANCES  (tune these from the tolerance test piece)
+# 1. TOLERANCES, CLEARANCES AND FITS live in fits.py (ONE file, nothing else
+#    holds a clearance). Re-exported here so every part reads C.<NAME>.
 # ---------------------------------------------------------------------------
-# Added to the diameter of EVERY printed round hole. Printers make holes
-# undersize; 0.10 is a typical start for a Bambu at 0.4 mm nozzle.
-HOLE_COMP = 0.10
-
-# Default gap between two printed parts that must slide together or just
-# touch (tabs, spigots, locating bosses). Applied per side.
-CLEARANCE = 0.20
-
-# SLIP / CLEARANCE fits: diameter offsets added on top of nominal + HOLE_COMP.
-FIT = {
-    "rail_3_slip":  +0.05,   # 3 mm guide rail, sliding into deck / crankcase
-    "shaft_8":      +0.05,   # 8 mm main shaft through printed parts (clearance)
-    "insert_m3":     0.00,   # heat-set insert pilot hole (see INSERT_HOLE_DIA)
-    "spigot":       +0.10,   # printed spigots / locating bosses into holes
-}
-
-# PRESS fits use CRUSH RIBS, so they work across normal printer variation
-# without a tolerance test. The hole itself is CRUSH_RELIEF bigger than the
-# part; small half-round ribs stand proud of the wall so that their tips are
-# `interference` smaller than the part. Pressing the part in flattens the
-# ribs. A printer that is 0.15 mm off in either direction still gives a
-# firm, centred fit (rib interference stays between about 0.1 and 0.45 mm).
-CRUSH_RELIEF = 0.30            # bore oversize (diameter) behind the ribs
-CRUSH_RIB_R = 0.6              # rib radius (a rib is ~2-3 extrusion lines wide)
-CRUSH_LEAD = 0.8               # rib-free lead-in at each entry, so parts start square
-CRUSH = {
-    # name: (number of ribs, diametral interference at the rib tips)
-    "bearing_608": (8, 0.30),   # 608 main bearing into end plate
-    "bearing_686": (6, 0.30),   # 686 big-end bearing into con-rod
-    "bushing_5":   (4, 0.25),   # 3x5x4 bronze bushing into rod / piston lug
-    "pin_3":       (3, 0.20),   # 3 mm wrist pin into piston bosses
-    "dpin_6":      (2, 0.30),   # D-flat crankpin end: 2 ribs push the flat home
-    "magnet_6":    (4, 0.25),   # 6x3 magnet pockets
-    "trumpet_14":  (6, 0.25),   # intake trumpet spigot into the head port
-    "coil_10":     (4, 0.25),   # coil-pack shaft into its socket in the head top
-    "rail_3":      (3, 0.05),   # guide-rail ends (valley beam + head): snug and centred, still slides in by hand
-}
+from fits import *  # noqa: F401,F403  (HOLE_COMP, CLEARANCE, FIT, CRUSH*, M3_*, INSERT_*, ...)
 
 # ---------------------------------------------------------------------------
 # 2. PURCHASED HARDWARE (nominal sizes - change only if you change supplier)
@@ -83,13 +47,8 @@ WRIST_PIN = dict(d=3.0, l=20.0)                # ISO 8734 / DIN 6325 3x20 steel 
 RAIL_DIA = 3.0                                  # ground stainless rod, cut to length
 MAGNET = dict(d=6.0, h=3.0)                    # N52 6x3 disc magnets
 
-M3_CLEAR = 3.4          # through hole for M3 screw shank
 M3_HEAD_D = 5.5         # socket head cap screw head
 M3_HEAD_H = 3.0
-M3_CBORE = 6.2          # counterbore for the head (plus HOLE_COMP)
-M3_TAP = 2.5            # tap drill / self-tap hole in printed prototypes
-INSERT_HOLE_DIA = 4.0   # pilot hole for M3 x 5.7 heat-set inserts (4.6 OD type)
-INSERT_DEPTH = 6.5      # pilot hole depth (insert length 5.7 + melt room)
 SCREW_LENGTHS = (8, 16) # the ONLY two screw lengths in the design (M3 SHCS)
 SCREW_FLOOR = 4.0       # plastic under a screw head when screwing into an insert
                         # (4 + 4 engaged in insert = M3x8)
@@ -113,7 +72,7 @@ CRANK_R = STROKE / 2                  # crank throw radius
 ROD_LENGTH = 62.0                     # con-rod centre to centre
 CYL_PITCH = 50.0                      # cylinder spacing along one bank (= 3 LEDs of a 60/m strip)
 PISTON_DIA = 44.0                     # visual "bore" of the model
-PISTON_RADIAL_CLEARANCE = 0.8         # piston never touches the bore
+# PISTON_RADIAL_CLEARANCE: see fits.py
 BORE_DIA = PISTON_DIA + 2 * PISTON_RADIAL_CLEARANCE
 
 # Throw centres along X (throw 1 at the front / +X)
@@ -131,7 +90,7 @@ PIN_SHOULDER_D = BEARING_686_INNER_SHOULDER
 PIN_SHOULDER_L = 0.75          # also the gap between rod body and web
 PIN_FLYWEB_T = 1.5             # flying web between the two journals
 PIN_TAP_DEPTH = 6.0            # M3 tapped depth in each pin end
-PIN_SOCKET_CLEAR = 0.3         # socket deeper than the pin end: the machined shoulder seats on the web face
+# PIN_SOCKET_CLEAR: see fits.py
 ROD_BODY_W = BEARING_686["w"]  # con-rod thickness = bearing width
 
 THROW_INNER = 2 * (PIN_SHOULDER_L + BEARING_686["w"] + PIN_SHOULDER_L) + PIN_FLYWEB_T
@@ -163,14 +122,15 @@ SHAFT_FLANGE_BOLT_ANGLES = (70.0, 180.0, 290.0)   # UNEVEN on purpose: shaft fit
 SHAFT_ACCESS_HOLE_D = 7.0      # lets the crankpin screw pass through the flange
 SHAFT_SHOULDER_D = 10.0
 SHAFT_D = BEARING_608["id"]
-AXIAL_FLOAT = 0.6              # crank end float, absorbs print-length variation of the crank
+# AXIAL_FLOAT: see fits.py
 PULLEY_MAX_W = 18.0            # tallest 60T pulley we allow for (real ones are ~16 mm)
 SHAFT_FLAT_DEPTH = 0.5         # flat for the pulley grub screws
 
 # ---------------------------------------------------------------------------
 # 5. CON-ROD, PISTON, GUIDE RAIL
 # ---------------------------------------------------------------------------
-ROD_BIG_END_OD = BEARING_686["od"] + 2 * 2.5
+ROD_BIG_END_WALL = 3.0         # plastic around the pressed 686 bearing (was 2.5: DFM risk A2, splitting)
+ROD_BIG_END_OD = BEARING_686["od"] + 2 * ROD_BIG_END_WALL
 ROD_SMALL_END_OD = BUSHING["od"] + 2 * 2.0
 ROD_SHANK_W_SMALL = 7.0
 ROD_SHANK_W_BIG = 10.0
@@ -180,7 +140,7 @@ PISTON_PIN_TO_CROWN = 12.0     # compression height
 PISTON_PIN_TO_SKIRT = 7.0
 PISTON_CROWN_T = 3.0
 PISTON_WALL_T = 2.0
-PISTON_BOSS_GAP = 1.0          # side float (each side) of the small end between the bosses: absorbs the
+# PISTON_BOSS_GAP: see fits.py
                                # crank's axial position (CRANK_DX) + print-length tolerance of the crank
 VALVE_RELIEF_D = 14.0
 VALVE_RELIEF_DEPTH = 0.8
@@ -192,7 +152,7 @@ RAIL_OFFSET = 25.5             # rail distance from the cylinder axis (valley si
 LUG_OD = BUSHING["od"] + 2 * 2.0
 LUG_TOP = PISTON_PIN_TO_CROWN         # lug flush with the crown, so the piston prints crown-down with no overhang
 LUG_BOTTOM = -2.0
-LUG_POCKET_CLEAR = PISTON_RADIAL_CLEARANCE
+# LUG_POCKET_CLEAR: see fits.py
 
 # ---------------------------------------------------------------------------
 # 6. CRANKCASE, CYLINDER BANKS, END PLATES
@@ -285,10 +245,24 @@ BELT_CENTER_FROM_HUB = 11.5    # belt centreline measured from the pulley hub fa
 PULLEY_GAP = 2.0               # pulley hub face to end-plate outer face
 MOTOR = dict(size=42.3, length=40.0, boss_d=22.0, boss_h=2.0, shaft_d=5.0,
              shaft_len=24.0, hole_pitch=31.0)
-MOTOR_TENSION_TRAVEL = 3.0     # tensioning travel beyond each belt's nominal position
+# MOTOR_TENSION_TRAVEL: see fits.py
 MOTOR_PLATE_T = 4.0            # bulkhead the motor bolts to (M3x8 into the motor)
 
 # ---------------------------------------------------------------------------
+# 7a1. FILAMENT PALETTE: <= 4 filaments, one colour per part (no multi-colour
+# objects). Rename the slots when the colours are chosen; nothing else changes.
+PALETTE = {
+    "slot1_block":   dict(name="slot 1 (block)",   parts=("01_", "02_", "03_", "04_"), render="block"),
+    "slot2_dark":    dict(name="slot 2 (dark)",    parts=("10_", "11_", "12_", "17_", "18_", "19_", "20_", "21_"), render="carbon"),
+    "slot3_accent":  dict(name="slot 3 (accent)",  parts=("16_",), render="red"),
+    "slot4_metal":   dict(name="slot 4 (metal)",   parts=("13_", "14_", "15_"), render="gold"),
+    "hidden":        dict(name="any (hidden)",     parts=("05_", "06_", "07_", "08_", "09_"), render="crank"),
+}
+
+# 7a2. PRINTER (plates are laid out for this bed; verify against the spec page)
+PRINTER = dict(name="Bambu Lab H2C", bed=(325.0, 320.0), z=325.0,   # single-nozzle mode
+               dual_bed=(300.0, 320.0))                           # dual-nozzle mode (exhausts do not fit)
+
 # 7b. DISPLAY BASE (Phase 2) - two halves joined at X=0, removable bottom panels
 # ---------------------------------------------------------------------------
 BASE_X = (-200.0, 200.0)
@@ -304,7 +278,7 @@ PANEL_T = 3.0                  # bottom panel thickness (sits in a rabbet)
 # engraved 0.8 mm metal plate on adhesive transfer tape in a 1 mm recess with a
 # 45 deg bevel all round (reads as a frame, prints cleanly on the vertical face).
 # enabled=False gives a plain front.
-EDITION_PLATE = dict(enabled=True, w=120.0, h=30.0, t=0.8, r=3.0, clear=0.3, depth=1.0, tape=0.13)
+EDITION_PLATE = dict(enabled=True, w=120.0, h=30.0, t=0.8, r=3.0, clear=PLATE_CLEAR, depth=1.0, tape=0.13)
 BASE_JOINT_SCREWS = [(-131.0, -48.0), (131.0, -48.0), (-131.0, -92.0), (131.0, -92.0), (-50.0, -42.0), (50.0, -42.0)]  # (y, z)
 BASE_JOINT_PEGS = [(-95.0, -42.0), (95.0, -42.0)]                                    # (y, z)
 PANEL_SCREW_INSET = 12.0       # panel screws, from the inner corners

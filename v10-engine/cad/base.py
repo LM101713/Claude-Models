@@ -149,7 +149,7 @@ def _front_features(s):
     def slot(r, y, dz):
         return cyl_x(r, x0 - 1, x1 + 1, y, za + dz).fuse(cyl_x(r, x0 - 1, x1 + 1, y, zb + dz)).fuse(
             box(x0 - 1, x1 + 1, y - r, y + r, za + dz, zb + dz))
-    rb = C.MOTOR["boss_d"] / 2 + 0.5
+    rb = C.MOTOR["boss_d"] / 2 + C.MOTOR_BOSS_SLOT_CLEAR
     s = s.cut(slot(rb, 0, 0.0))
     # the lower end of the boss slot is the top of the arch on the printer (base
     # prints skin-down): pointed 45 deg end instead of a 23 mm round bridge
@@ -227,11 +227,14 @@ def base_halves():
 
 def bottom_panel():
     """One panel, engine frame, for the FRONT half (rear = same part turned 180 deg)."""
-    c = 0.4
+    c = C.PANEL_EDGE_CLEAR
     p = box(c, X1 - W - c, Y0 + W + c, Y1 - W - c, ZB, ZP)
     p = cq.Workplane().add(p).edges("|Z").fillet(3.0).val()
     for x, y in _panel_screws(True):
-        p = p.cut(cyl_z(C.hole(C.M3_CLEAR) / 2, ZB - 1, ZP + 1, x, y))
+        # captive screws: clearance hole from outside, then a thin lip the M3
+        # thread cuts through once - the screw stays in the panel when undone
+        p = p.cut(cyl_z(C.hole(C.M3_CLEAR) / 2, ZB - 1, ZP - C.CAPTIVE_LIP_T, x, y))
+        p = p.cut(cyl_z(C.CAPTIVE_LIP_D / 2, ZB - 1, ZP + 1, x, y))
     # vents: under the motor and (on the rear copy, rotated) under the electronics
     for i in range(10):
         x = 98 + i * 6.0

@@ -143,8 +143,9 @@ def segment(delta_deg):
     part = part.cut(_pin_socket(delta_deg, -L, +1, 0.0))
     # engraved type number on the rear face (top face when printing) so the
     # two segment types cannot be mixed up at assembly
+    partno = "06" if abs(delta_deg - C.SEGMENT_TYPES[0]) < 1e-6 else "07"
     label = (cq.Workplane("ZY").workplane(offset=L - 0.6)
-             .text(f"{delta_deg:.0f}", 6.0, 0.7, halign="center", valign="center", kind="bold"))
+             .text(f"{partno}-{delta_deg:.0f}", 4.5, 0.7, halign="center", valign="center", kind="bold"))
     part = part.cut(label.val())
     return safe_clean(part)
 
@@ -163,7 +164,7 @@ def end_web():
                               t - C.INSERT_DEPTH, t + 1, y, z))
     # hall-sensor magnet: radial pocket in the counterweight rim
     if C.HALL_MAGNET_IN_WEB:
-        pocket = crush_z(C.MAGNET["d"], C.WEB_CW_R - C.MAGNET["h"] - 0.3, C.WEB_CW_R + 0.5,
+        pocket = crush_z(C.MAGNET["d"], C.WEB_CW_R - C.MAGNET["h"] - C.MAGNET_DEPTH_CLEAR, C.WEB_CW_R + 0.5,
                          t / 2, 0, "magnet_6", entry="hi")
         part = part.cut(rot_x(pocket, C.HALL_MAGNET_WEB_ANGLE))   # built at angle 0, turned into place
     return safe_clean(part)
@@ -217,7 +218,7 @@ def split_crankpin():
 
 def spacer_ring():
     """M06 bearing spacer ring, local frame: axis X, x from 0 to PIN_SHOULDER_L."""
-    return cyl_x(C.PIN_SHOULDER_D / 2, 0, C.PIN_SHOULDER_L).cut(cyl_x(C.PIN_DIA / 2 + 0.03, -1, 1 + C.PIN_SHOULDER_L))
+    return cyl_x(C.PIN_SHOULDER_D / 2, 0, C.PIN_SHOULDER_L).cut(cyl_x(C.PIN_DIA / 2 + C.RING_ID_CLEAR, -1, 1 + C.PIN_SHOULDER_L))
 
 
 def pin_rings():

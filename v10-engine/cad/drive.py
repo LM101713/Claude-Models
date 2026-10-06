@@ -94,7 +94,7 @@ def front_cover():
         pil = pil.fuse(cq.Workplane().add(box(x0, x1 - w + 0.1, -C.COVER_PILLAR_R, C.COVER_PILLAR_R, 0, 6)).val()
                        .rotate((0, 0, 0), (1, 0, 0), -ang).translate(cq.Vector(0, y, z)))
         cover = cover.fuse(pil.intersect(_cover_profile(0.0, x0, x1)))
-        cover = cover.cut(crush_x(C.MAGNET["d"], x0 - 0.5, x0 + C.MAGNET["h"] + 0.3, y, z, "magnet_6", entry="lo"))
+        cover = cover.cut(crush_x(C.MAGNET["d"], x0 - 0.5, x0 + C.MAGNET["h"] + C.MAGNET_DEPTH_CLEAR, y, z, "magnet_6", entry="lo"))
     return safe_clean(cover)
 
 

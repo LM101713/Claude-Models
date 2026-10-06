@@ -26,7 +26,8 @@ import drive  # noqa: E402
 import crank  # noqa: E402
 import rods_pistons as rp  # noqa: E402
 import styling  # noqa: E402
-import tolerance_test  # noqa: E402
+import coupons  # noqa: E402
+import partnum  # noqa: E402
 from common import check_printable_size, export, rot_z  # noqa: E402
 
 import drawings  # noqa: E402
@@ -40,7 +41,6 @@ def parts():
     cr, mp, bl, st, bs = L["crank"], L["rp"], L["block"], L["style"], L["base"]
     # (file name, shape in print orientation, qty per engine, preview colour)
     return [
-        ("00_fit_check_optional", tolerance_test.build(), 1, "white"),
         # Phase 1 - core engine
         ("01_crankcase", bl["case"], 1, "case"),
         ("02_valley_beam", block.print_beam(bl["beam"]), 1, "case"),
@@ -65,6 +65,8 @@ def parts():
         ("19_base_front", base.print_half(bs["base_front"]), 1, "carbon"),
         ("20_base_rear", base.print_half(bs["base_rear"]), 1, "carbon"),
         ("21_base_panel", base.print_panel(bs["panel"]), 2, "case"),
+        # test coupons (print FIRST, in PLA; see docs/TEST_CHECKLIST.md)
+        *[(n, shp, q, "white") for n, (shp, q) in coupons.build_all().items()],
         # printable stand-ins so the mechanism can be tested before the CNC parts arrive
         ("P1_proto_split_crankpin", crank.print_pin(cr["pin"]), 5, "orange"),
         ("P2_proto_main_shaft", crank.print_shaft(cr["shaft"]), 2, "orange"),
@@ -93,6 +95,9 @@ def main(check=False, stl_only=False, only=None):
         n_solids = len(shape.Solids())
         if n_solids != 1:
             raise SystemExit(f"{name}: {n_solids} separate solids - a printed part must be one piece")
+        shape, note = partnum.label_part(name, shape)
+        if note is None:
+            print(f"  WARNING {name}: no flat hidden spot found for its part number", flush=True)
         export(shape, name)
         ok, line = check_printable_size(shape, name)
         report.append(f"{line}   x{qty}")
