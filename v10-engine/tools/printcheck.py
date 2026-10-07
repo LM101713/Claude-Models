@@ -29,7 +29,8 @@ from shapely.geometry import Polygon
 from shapely.ops import unary_union
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STL = os.path.join(ROOT, "stl")
+sys.path.insert(0, os.path.join(ROOT, "cad"))
+from common import STL_DIR as STL  # noqa: E402   (stl/ for the V8, stl/v10/ for the V10)
 PROFILE = os.path.join(ROOT, "tools", "slicer", "h2s_like.ini")
 sys.path.insert(0, ROOT)
 import config as C  # noqa: E402
@@ -310,6 +311,9 @@ def check(names=None, qty=None, write_report=True):
     rows = []
     for f in files:
         name = f[:-4]
+        if not any(name.startswith(pfx) for pfx, *_ in SETTINGS):
+            print(f"  skip {name}: no print settings for this engine variant", flush=True)
+            continue
         path = os.path.join(STL, f)
         s = slice_part(path, name)
         mres, m, over, bridge = mesh_check(path)

@@ -12,7 +12,7 @@ if ROOT not in sys.path:
 
 import config as C  # noqa: E402
 
-STL_DIR = os.path.join(ROOT, "stl")
+STL_DIR = os.path.join(ROOT, "stl") if getattr(C, "VARIANT", "v8") == "v8" else os.path.join(ROOT, "stl", "v10")
 RENDER_DIR = os.path.join(ROOT, "renders")
 DRAWING_DIR = os.path.join(ROOT, "drawings")
 

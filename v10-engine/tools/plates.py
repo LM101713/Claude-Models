@@ -26,6 +26,7 @@ from matplotlib.patches import Rectangle  # noqa: E402
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "tools"))
+sys.path.insert(0, os.path.join(ROOT, "cad"))
 import config as C  # noqa: E402
 import printcheck  # noqa: E402
 
@@ -33,7 +34,8 @@ BED = C.PRINTER["bed"]
 DUAL = C.PRINTER["dual_bed"]
 MARGIN = 6.0          # bed edge to first part (brim / skirt room)
 GAP = 8.0             # between parts
-OUT_3MF = os.path.join(ROOT, "stl", "plates")
+from common import STL_DIR  # noqa: E402
+OUT_3MF = os.path.join(STL_DIR, "plates")
 OUT_PNG = os.path.join(ROOT, "renders", "plates")
 EXPORT_GROUPS = ("C", "M")     # only coupons + motion test until a real engine has been built
 
@@ -96,7 +98,7 @@ if C.VARIANT == "v8":
 
 
 def load(name):
-    m = trimesh.load(os.path.join(ROOT, "stl", name + ".stl"), force="mesh")
+    m = trimesh.load(os.path.join(STL_DIR, name + ".stl"), force="mesh")
     m.apply_translation(-m.bounds[0])          # min corner at the origin, sitting on z = 0
     return m
 

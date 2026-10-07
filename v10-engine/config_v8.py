@@ -265,12 +265,14 @@ MOTOR_PLATE_T = 4.0            # bulkhead the motor bolts to (M3x8 into the moto
 # ---------------------------------------------------------------------------
 # 7a1. FILAMENT PALETTE: <= 4 filaments, one colour per part (no multi-colour
 # objects). Rename the slots when the colours are chosen; nothing else changes.
-PALETTE = {
-    "slot1_block":   dict(name="slot 1 (block)",   parts=("01_", "02_", "03_", "04_"), render="block"),
-    "slot2_dark":    dict(name="slot 2 (dark)",    parts=("10_", "11_", "12_", "17_", "18_", "19_", "20_", "21_"), render="carbon"),
-    "slot3_accent":  dict(name="slot 3 (accent)",  parts=("16_",), render="red"),
-    "slot4_metal":   dict(name="slot 4 (metal)",   parts=("13_", "14_", "15_"), render="gold"),
-    "hidden":        dict(name="any (hidden)",     parts=("05_", "06_", "07_", "08_", "09_"), render="crank"),
+PALETTE = {   # V8: 4 opaque filaments + the translucent boots (your approved palette)
+    "slot1_block":   dict(name="slot 1 (satin grey: block, heads, intake, bell, front cover)",
+                          parts=("01_", "02_", "03_", "04_", "30", "36", "42_", "43_"), render="block"),
+    "slot2_dark":    dict(name="slot 2 (matte black: covers, pan, damper, accessories, stand)",
+                          parts=("31_", "40_", "41_", "44_", "45_", "46_", "47", "48_"), render="carbon"),
+    "slot3_headers": dict(name="slot 3 (headers, painted after printing)", parts=("33", "34", "35"), render="steel"),
+    "slot4_clear":   dict(name="slot 4 (translucent natural PETG: plug boots)", parts=("32_",), render="white"),
+    "hidden":        dict(name="any (hidden)", parts=("05_", "06_", "07_", "08_", "09_", "10_"), render="crank"),
 }
 
 # 7a2. PRINTER (plates are laid out for this bed; verify against the spec page)

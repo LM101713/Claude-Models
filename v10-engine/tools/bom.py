@@ -26,7 +26,52 @@ PRINTER_COST_PER_H = 0.30  # USD: electricity + wear parts per printer hour
 UNITS = 50
 
 
+def hardware_counts_v8():
+    """M3x8 screws, M3 inserts and 6x3 magnets per V8 engine, by location."""
+    import block
+    import pan_v8
+    import stand_v8
+    nb = len(block.bank_between_x())
+    n_panel = len(pan_v8.panel_screws())
+    n_br = len(stand_v8.bracket_positions())
+    screws = {
+        "banks -> crankcase / beam (block end screws)": 2 * (2 * len(block.block_end_screws_x())),
+        "end plates": 2 * len(block.END_PLATE_SCREWS),
+        "heads -> banks (head screws)": 2 * nb * len(C.HEAD_SCREW_Y),
+        "header flange plates -> heads": 2 * 2,
+        "crankpin ends (into the steel pins)": 2 * C.N_THROWS,
+        "main shaft flanges -> end webs": 2 * len(C.SHAFT_FLANGE_BOLT_ANGLES),
+        "pan skin -> crankcase": len(C.PAN_SCREWS),
+        "pan floor panel (captive)": n_panel,
+        "controller board standoffs": 4,
+        "brackets -> pan": 2 * n_br,
+        "brackets -> stand plate": 2 * n_br,
+        "motor -> bulkhead": 4,
+    }
+    inserts = {
+        "crankcase (bank ends, end plates, pan)": 2 * len(block.block_end_screws_x()) + 2 * len(block.CASE_END_SCREWS) + len(C.PAN_SCREWS),
+        "valley beam (banks, end plates)": 2 * nb + 2 * len(block.BEAM_END_SCREWS),
+        "cylinder banks (head screws)": 2 * nb * len(C.HEAD_SCREW_Y),
+        "crank end webs (main shafts)": 2 * len(C.SHAFT_FLANGE_BOLT_ANGLES),
+        "cylinder heads (flange plates)": 2 * 2,
+        "pan (panel bosses, bracket bosses)": n_panel + 2 * n_br,
+        "floor panel (board standoffs)": 4,
+        "bracket feet": 2 * n_br,
+    }
+    magnets = {
+        "valve covers (head + cover)": 2 * 2 * 4,
+        "intake lid (lid + base)": 2 * len(C.INTAKE["magnet_xy"]),
+        "front cover (end plate + cover)": 2 * len(C.COVER_MAGNETS),
+        "bellhousing (end plate + bell)": 2 * len(C.COVER_MAGNETS),
+        "accessory module (cover + module)": 2 * len(C.FRONT_COVER["module_magnets"]),
+        "hall magnet (one in each end web)": 2,
+    }
+    return screws, inserts, magnets
+
+
 def hardware_counts():
+    if C.VARIANT == "v8":
+        return hardware_counts_v8()
     """Fasteners and magnets, counted from the CAD feature lists."""
     import block
     import base
@@ -84,13 +129,13 @@ MACHINED = [
     ("M01 split crankpin (drawing M01)", 5, "416 / 303 stainless, turned + offset journal, ground journals, tapped M3",
      45.0, 9.0),
     ("M02 main shaft (drawing M02)", 2, "303 stainless, turned, 3-hole flange, flat", 35.0, 8.0),
-    ("M03 guide rail 3 x 57 mm (drawing M03)", 10, "cut from 3 mm h6 ground stainless rod, ends chamfered", 0.8, 0.5),
+    ("M03 guide rail 3 x 57 mm (drawing M03)", C.N_CYL, "cut from 3 mm h6 ground stainless rod, ends chamfered", 0.8, 0.5),
     ("M04 pulley spacer (drawing M04)", 1, "303 stainless, parted off", 8.0, 1.5),
-    ("M06 bearing spacer ring 6 x 7.5 x 0.75 (drawing M06)", 10, "303 stainless, parted off, deburred", 3.0, 0.4),
+    ("M06 bearing spacer ring 6 x 7.5 x 0.75 (drawing M06)", 2 * C.N_THROWS, "303 stainless, parted off, deburred", 3.0, 0.4),
 ]
 OPTIONAL = [
-    ("M05 intake trumpet, machined aluminium (drawing M05) - optional upgrade for the printed 13", 10,
-     "6061-T6, turned, clear anodised", 25.0, 5.0),
+    *([("M05 intake trumpet, machined aluminium (drawing M05) - optional upgrade for the printed 13", 10,
+     "6061-T6, turned, clear anodised", 25.0, 5.0)] if C.VARIANT == "v10" else []),
 ]
 
 # Purchased parts: (id, item, exact spec / search term, qty per engine, each x1, each x50, buy-ahead spares %)
@@ -101,9 +146,9 @@ def purchased(screws, inserts, magnets):
     return [
         # mechanical
         ("H1", "Ball bearing 608ZZ", "8x22x7 mm, metal shields (ZZ, not 2RS - low drag)", 2, 0.80, 0.35, 5),
-        ("H2", "Ball bearing 686ZZ", "6x13x5 mm, metal shields", 10, 0.90, 0.40, 5),
-        ("H3", "Sintered bronze bushing", "3x5x4 mm (ID 3, OD 5, length 4), oil-impregnated", 30, 0.20, 0.08, 10),
-        ("H4", "Wrist pin", "3x20 mm dowel pin, stainless, ISO 8734 m6", 10, 0.15, 0.06, 10),
+        ("H2", "Ball bearing 686ZZ", "6x13x5 mm, metal shields", 2 * C.N_THROWS, 0.90, 0.40, 5),
+        ("H3", "Sintered bronze bushing", "3x5x4 mm (ID 3, OD 5, length 4), oil-impregnated", 3 * C.N_CYL, 0.20, 0.08, 10),
+        ("H4", "Wrist pin", "3x20 mm dowel pin, stainless, ISO 8734 m6", C.N_CYL, 0.15, 0.06, 10),
         ("H5", "Heat-set insert", "M3 x 5.7 mm brass, 4.6 mm OD (for a 4.0 mm hole)", i, 0.08, 0.03, 10),
         ("H6", "Socket head cap screw", "M3 x 8 mm, ISO 4762, A2 stainless - the ONLY screw size in the engine", s,
          0.06, 0.025, 10),
@@ -129,7 +174,7 @@ def purchased(screws, inserts, magnets):
         ("E9", "START button", "16 mm stainless momentary 1NO, 12 V ring LED", 1, 3.50, 2.50, 4),
         ("E10", "Speed pot + knob", "10 k linear, 16 mm, M7 bushing, 6 mm shaft + 20 mm aluminium knob", 1, 3.50, 2.50, 4),
         ("E11", "Stepper motor", "StepperOnline 17HS4401S (1.7 A, 40 Ncm, 40 mm)", 1, 12.00, 10.00, 2),
-        ("E12", "LED strip", "BTF-LIGHTING WS2812B 60 LED/m, black PCB, IP30, 5 V (m)", 0.5, 4.00, 3.20, 10),
+        ("E12", "LED strip", "BTF-LIGHTING WS2812B 60 LED/m, black PCB, IP30, 5 V (m)", round(2 * (C.LED_STRIP["n"] + getattr(C, "BOOT_STRIP", {"n": 0})["n"]) / 60.0 + 0.05, 2), 4.00, 3.20, 10),
         ("E13", "Prototype board", "70 x 90 mm double-sided FR4", 1, 0.80, 0.40, 4),
         ("E14", "JST XH set", "headers 2/3/3/3/3/4/4 pin + housings + pre-crimped leads", 1, 3.00, 2.00, 4),
         ("E15", "Small parts set", "RXEF200, 1N5822, P6KE18A, 1N5817, 220uF 35V, 470uF 16V, 3x100nF/10nF, "
@@ -241,7 +286,7 @@ def main():
             w.writerow(["purchased", pid, item, spec, q, c1, c50, round(q * UNITS * (1 + spare / 100.0), 1)])
 
     # shopping list with search links
-    S = ["V10 ENGINE - SHOPPING LIST (generated by tools/bom.py from the BOM)",
+    S = [f"{C.VARIANT.upper()} ENGINE - SHOPPING LIST (generated by tools/bom.py from the BOM)",
          "Search links: pick a listing that matches the exact spec. Quantities: ONE engine / 50 engines (with spares).",
          ""]
     for pid, item, spec, q, c1, c50, spare in buy:
