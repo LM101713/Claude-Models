@@ -35,7 +35,13 @@ stand plate (laser-cut) takes 8 h and 230 g back off: about 133 h and 3.2 kg.
   fuel rail with end fittings, throttle cam, collector slip-joint bands
   with clamp bolts, plinth restyled to the stand's chamfers with a panel
   line, drain-plug boss on the sump.
-- Critiques per round in VISUAL_REVIEW.md ("Skin round N").
+- Critiques per round in VISUAL_REVIEW.md ("Skin round N"). The round-5
+  list, worst first: no bolt heads on the engine itself, valve cover still
+  a slab, bare plug boots, flat front (no alternator body), plain
+  bellhousing, heavy stand legs, smooth surface (slicer fuzzy skin).
+- Round 6, if the direction is approved: bolt rows on cover flanges, pan
+  rail, bellhousing and front cover rim, a valve-cover flange step and
+  bellhousing ribs. Cosmetic only, no new parts or fasteners.
 
 ## Assembly simplifications built (D60, D63)
 
@@ -48,8 +54,10 @@ pairs per valve cover. Details: ASSEMBLY_SIMPLIFICATION.md.
 ## Checks run on the round-5 files
 
 - Mesh: all 26 skin files watertight; fits within 0.02 mm except one
-  benign vertex on the throttle-body socket's lead chamfer; min walls at or
-  above 0.8 mm except the cylinder bank's deck lip (0.5 mm slivers where the
+  benign vertex on the throttle-body socket's lead chamfer (the plinth
+  panel line clipped the power-switch hole by 0.04 mm in the rendered set;
+  moved 1.5 mm inward, re-exported and passing); min walls at or above
+  0.8 mm except the cylinder bank's deck lip (0.5 mm slivers where the
   window-frame chamfer meets the lip, pre-existing).
 - Interference against the CAD core: static 0 overlaps apart from the
   board's four locating pins sitting in the board holes (expected, 34 mm3);

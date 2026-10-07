@@ -371,3 +371,55 @@ still off, worst first:
 
 Items 1, 2, 3, 5, 6 and 7 are the round-5 detail pass. Item 4 is Liam's
 call.
+
+## Skin round 5 - detail pass (`renders/skin_round5/`)
+
+What changed: wide flat plenum top plate with a bolt row, thicker fuel
+rail with end fittings, throttle cam and shaft boss, collector slip-joint
+bands with clamp bolts, plinth with the stand's chamfers and a panel line,
+drain-plug boss on the sump. The intake now reads as the reference's cast
+plenum (ref1, x2): runners under a bolted plate, rail alongside. Honest
+ranking of what is still off, worst first:
+
+1. **Almost no fasteners on the engine itself.** The reference is covered
+   in bolt heads: valve-cover flange, head-to-block seam, pan rail,
+   bellhousing circle, front cover. The skin has them only on the plenum
+   plate, spine, flange plates and collector bands, so the engine reads as
+   "clean" rather than "assembled" (ref2, ref4). Fix: raised 3 mm hex rows
+   on the vertical faces (1 mm proud, 45 deg underside, no support): about
+   14 per valve-cover flange, 10 per pan rail, 12 on the bellhousing, 8 on
+   the front cover rim. Cosmetic only, no new parts.
+2. **The valve cover is a slab with two scribed lines** (x3). The reference
+   cover has a crisp 3-4 mm flange step at the base carrying the bolt row,
+   and a taller, flatter top. Fix: flange step plus item 1; the cap can
+   grow to r 11 with a knurl that reads from 1 m.
+3. **Eight bare plug boots** (ref1, x3). Without wires they look like pegs.
+   Options: one printed loom bar per bank that clips over the boots (2
+   parts, 0 fasteners), or 8 lengths of 3 mm silicone cord into a drilled
+   loom bar (adds a purchased item, about $3 per engine). Liam's call.
+4. **The front is flat** (ref5). The belt runs between three discs on a
+   plain plate; the reference has an alternator body, a water-pump snout
+   and a tensioner giving the front depth. An alternator body (one part,
+   magnet-held on the cover) and a longer pump snout would carry it.
+5. **Rear bellhousing** (ref2): plate plus plain ring. Needs 6-8 cast
+   ribs from the ring to the flange and the bolt circle from item 1.
+6. **Stand legs**: the black box legs read heavy next to the reference's
+   slim angled steel stands, and the plinth's four holes read as a black
+   bar from the front (ref3, ref5). Either slim the legs (the pan saddle
+   legs now carry the load, so the stand's own legs can be 10 mm thinner)
+   or move the plinth to the rear.
+7. **Surface**: ASA prints smooth; the reference is sand-cast. A slicer
+   "fuzzy skin" (0.3 mm, 0.4 mm point distance) on block, heads, intake
+   and pan gets most of the way for free. Test on the prototype bank
+   before deciding.
+
+Items 1, 2 and 5 are a round-6 pass with no new parts or fasteners.
+Items 3, 4 and 6 add parts or change the stand and need Liam's yes.
+Item 7 is a slicer setting, tested on the first prototype print.
+
+Check results on the round-5 files: 26 files watertight; fits 207/208
+within 0.02 mm (one benign vertex on the throttle-body socket lead
+chamfer; the plinth panel line clipped the power-switch hole by 0.04 mm,
+moved 1.5 mm inward after this render set); static interference 0 apart
+from the floor-tray board pins in the CAD electronics envelope (expected);
+full-rotation sweep 2216 pair checks, 0 collisions.

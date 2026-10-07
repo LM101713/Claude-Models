@@ -93,9 +93,10 @@ def plinth():
     z0, z1 = ZT, ZT + PL["h"]
     bx = _rbox("48_controls_plinth", x0, x1, y0, y1, z0, z1, 8.0)
     U.bevel_edges(bx, ST["chamfer"], 2, lambda c, dd: abs(c.z - z1) < 0.2 and abs(dd.z) < 0.1)   # round 5: same chamfer as the stand
-    # round 5: panel line (1 mm groove, 0.8 deep) framing the control face, 4 mm in from the edges
-    frame = _rbox("panel_line", x1 - 0.8, x1 + 1, y0 + 4.0, y1 - 4.0, z0 + 4.0, z1 - 4.0, 3.0)
-    U.boolean(frame, _rbox("panel_line_in", x1 - 2, x1 + 2, y0 + 5.0, y1 - 5.0, z0 + 5.0, z1 - 5.0, 2.0))
+    # round 5: panel line (1 mm groove, 0.8 deep) framing the control face, 2.5 mm in from the edges
+    # (4 mm clipped the rim of the 20 mm power-switch hole: fit deviation 0.04 mm)
+    frame = _rbox("panel_line", x1 - 0.8, x1 + 1, y0 + 2.5, y1 - 2.5, z0 + 2.5, z1 - 2.5, 2.5)
+    U.boolean(frame, _rbox("panel_line_in", x1 - 2, x1 + 2, y0 + 3.5, y1 - 3.5, z0 + 3.5, z1 - 3.5, 1.5))
     U.boolean(bx, frame)
     w = PL["wall"]
     U.boolean(bx, _rbox("plinth_in", x0 + w, x1 - PL["face_t"], y0 + w, y1 - w, z0 - 1, z1 - w, 2.0))
