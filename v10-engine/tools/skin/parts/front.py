@@ -85,6 +85,11 @@ def damper():
     gr = U.cylinder("groove", DM["groove_r"] + DM["groove_w"] / 2, x1 - DM["groove_d"], x1 + 1, 0, 0, "X")
     U.boolean(gr, U.cylinder("groove_in", DM["groove_r"] - DM["groove_w"] / 2, x1 - DM["groove_d"] - 1, x1 + 2, 0, 0, "X"))
     U.boolean(d, gr)
+    # skin round 2: the face read as a flat disc - two more shallow rings inside the main groove (serpentine look)
+    for rr in (24.0, 19.0):
+        ring = U.cylinder("face_ring", rr + 0.6, x1 - 0.8, x1 + 1, 0, 0, "X")
+        U.boolean(ring, U.cylinder("face_ring_in", rr - 0.6, x1 - 2, x1 + 2, 0, 0, "X"))
+        U.boolean(d, ring)
     hub = U.cylinder("hub", DM["hub_d"] / 2, x1 - 0.1, x1 + DM["hub_h"], 0, 0, "X")
     U.bevel_edges(hub, 0.8, 2, lambda c, dd: abs(c.x - (x1 + DM["hub_h"])) < 0.2 and abs(dd.x) < 0.1)
     U.boolean(d, hub, "UNION")
@@ -185,6 +190,11 @@ def accessory_module():
         groove = U.cylinder("pgroove", r + 1, bx0, bx0 + AC["band_w"], y, z, "X")
         U.boolean(groove, U.cylinder("pgroove_in", r - 1.0, bx0 - 1, bx0 + AC["band_w"] + 1, y, z, "X"))
         U.boolean(p, groove)
+        # skin round 2: flat discs - two shallow concentric grooves in each pulley face (faces up in the print)
+        for f in (0.58, 0.82):
+            fr = U.cylinder("face_groove", r * f + 0.5, py1 - 0.8, py1 + 1, y, z, "X")
+            U.boolean(fr, U.cylinder("face_groove_in", r * f - 0.5, py1 - 2, py1 + 2, y, z, "X"))
+            U.boolean(p, fr)
         U.boolean(p, U.cylinder("nut", r * 0.35, py1 - 0.1, py1 + 1.5, y, z, "X", segs=6), "UNION")
         if name == "alt":
             # the alternator body in front of the plate stays on the module; the part behind the plate is 45B

@@ -152,3 +152,78 @@ Still open from the print check, for your decision:
    elbow and a lead. A lead would be a 2 mm filament "wire" - fragile, skipped.
 7. **Colour**: renders use flat approximations of the approved palette; the
    satin-grey vs matte-black contrast will read stronger in print than here.
+
+---
+
+# Blender skin - critique rounds (`renders/skin_roundN/`)
+
+Same method, new model: the whole visible exterior rebuilt in Blender by
+`tools/skin_blender.py` (D54/D55); the CAD core still shows inside the
+windows. Rendered headless with Cycles on CPU, 64 samples, 1456 x 1086.
+
+## Skin round 1 - first full-engine set (`renders/skin_round1/`)
+
+Only three of the eight views were kept (`ref1`, `ref2`, `ref3`): the set
+was stopped when the first views showed a black slab with a round socket in
+it on top of the intake. That was not the intake: the *library* valve cover
+(the un-rotated master the engine-frame copies are made from) was left
+visible in the scene and floated over the plenum in bank-local coordinates.
+Render-only bug, nothing in the STLs - fixed (library objects are hidden
+from render; `render_set`). Treat the intake in these three images as not
+yet judged.
+
+Ranked, what is off against STYLE_ai_01/02/03 (worst first):
+
+1. **A stop too dark, and a dark backdrop.** The references are a light-grey
+   cyclorama with bright satin metal; ours was mid-grey on dark grey, so
+   every form reads flatter than it is. *Fixed:* key/fill/top up, a wrap
+   fill from the front, world 1.0, +0.5 EV, backdrop 0.56.
+2. **Headers read as white plastic tubes.** No flange per port, no weld
+   beads, smooth bends; the collector tail is a bright open pipe. The
+   "painted header" preview material (albedo 0.80) is most of it. *Fixed:*
+   a square chamfered flange pad with two hex heads per primary on the
+   plate (34), weld-bead rings at the flange exit and both tangent points of
+   each bend (0.7 mm proud, 45 deg lead-in and -out so the standing print
+   has no ledge), preview material changed to a brushed metallic grey. The
+   printed part is still painted (decision 7); the paint test tile decides.
+3. **Bellhousing is a blank shell** (ref2): flat rear face, one hub ring,
+   nothing on the arch. *Fixed:* 11 axial half-round ribs over the arch and
+   flanks ending in hex heads on a new bolt flange band at the open end
+   (45 deg underside; the rear print face keeps only recessed detail,
+   D53), plus a shallow recessed ring on the rear face.
+4. **Head ends are slabs** (ref1 behind the damper, ref2 behind the bell):
+   two 0.3 mm bosses that never showed. *Fixed:* a raised chamfered end pad
+   with four hex heads and two proper 2.3 mm bosses with hex sockets. (Found
+   while doing it: the bosses were 0.3 mm proud because the inside/outside
+   signs were swapped; that is what also made the first version of the pad
+   float 0.3 mm off the face and pinch the mesh - the fit check caught it.)
+5. **Bank outboard walls and crankcase skirt are flat** between the windows
+   and ribs; the references' block sides are busy with the head-joint and
+   pan-rail bolt rows. *Fixed:* hex bolt rows under the deck lip and above
+   the skirt foot on each bank (10 per bank, on the ribs) and pan-rail bolts
+   between the crankcase skirt ribs.
+6. **Close-up framing** (ref1) cropped the intake and throttle body out of
+   the frame at 1.9x. *Fixed:* 1.45x from a little further forward.
+7. **Windows read as black voids** from the rear quarter (ref2): the CAD
+   pistons are inside but unlit, so the five slots per bank are black
+   triangles. Left for now: it is the lighting, not the geometry, and the
+   LED boot glow and the lighter studio change it; re-judge in round 2. If
+   it still reads as holes the fallback is `WINDOWS = False` (your
+   parameter) or a lighter core material in the renders.
+8. **Valve covers**: the rim bolt sockets do not read at all and the top
+   panel ribs are faint; the oil cap is a plain knurled puck. Not changed
+   this round - the shape is right, it needs a sharper rim shadow line and
+   a cap with a cross-bar; round 2 or 3.
+9. **Controls plinth** (ref3): a black brick on the stand's front right with
+   four holes facing the camera reads as a power strip. It is where you put
+   it (D46) and it works for reach; a lower, chamfered, half-recessed plinth
+   would hide better. Not changed; your call.
+10. **Pan**: reads as a black box; the three ribs per side and the flange are
+    there but need the brighter key to show. Re-judge in round 2.
+
+Print-check side effects of the fixes (all in `docs/SKIN_PRINT_REPORT.md`):
+the mirrored flange plate (34B) printed with its new pads on the bed - its
+print orientation is now the opposite quarter turn; the head is manifold
+again after the end-pad sign fix; the `rtree` package was missing in the
+render environment, which is why the previous report's min-wall column read
+`nan` - installed and listed in `tools/skin/README.md`.

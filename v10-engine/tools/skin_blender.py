@@ -81,7 +81,7 @@ PARTS = [
     ("33_header_primary_A", "primary", 4, "slot3", False, _primary_print, "standing on the collector spigot"),
     ("33B_header_primary_B", "primary", 4, "slot3", True, _primary_print, "standing on the collector spigot (mirror)"),
     ("34_header_plate_A", "plate", 1, "slot3", False, lambda: rx(-90), "outboard face up, flat"),
-    ("34B_header_plate_B", "plate", 1, "slot3", True, lambda: rx(-90), "outboard face up, flat (mirror)"),
+    ("34B_header_plate_B", "plate", 1, "slot3", True, lambda: rx(90), "outboard face up, flat (mirror; mirrored in Y, so the opposite turn)"),
     ("35_collector_A", "collector_A", 1, "slot3", False, lambda: ry(-90), "standing on the open tail"),
     ("35B_collector_B", "collector_B", 1, "slot3", False, lambda: ry(-90), "standing on the open tail"),
     ("36_intake_lid", "intake_lid", 1, "slot1", False, lambda: rx(180), "top face down"),
@@ -390,6 +390,14 @@ def render_set(round_no, views, samples, size, phi=0.0, with_core=True):
     out_dir = os.path.join(ROOT, "renders", f"skin_round{round_no}")
     os.makedirs(out_dir, exist_ok=True)
     placed = place_all(phi, with_core=with_core)
+    # Only the placed copies render. The library originals sit in the scene too (bank-local parts such as
+    # the valve cover float over the intake; engine-frame parts coincide with their copies): without this
+    # the first round-1 renders showed a black slab with a socket hole on top of the intake - the unrotated
+    # library valve cover.
+    shown = {o.name for _, o, _ in placed}
+    for o in bpy.data.objects:
+        if o.type == 'MESH' and o.name not in shown and not o.name.startswith("STUDIO"):
+            o.hide_render = True
     bbs = [U.bbox(o) for _, o, _ in placed if not _.startswith(("stand", "plinth", "edition", "bracket"))]
     bb = (min(b[0] for b in bbs), max(b[1] for b in bbs), min(b[2] for b in bbs), max(b[3] for b in bbs), min(b[4] for b in bbs), max(b[5] for b in bbs))
     floor_z = min(U.bbox(o)[4] for _, o, _ in placed)

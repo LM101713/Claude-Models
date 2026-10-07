@@ -32,18 +32,21 @@ def cylinder_head():
     # end faces (what you see of the head behind the damper and the bellhousing): a raised, chamfered cast
     # pad with a bolted cover plate look (round-1 critique: the ends were blank slabs), plus the 2 bosses.
     # The head prints deck down, so the end faces are vertical in print and raised detail is fine.
+    # (+sgn = into the head; every feature starts 0.3 mm inside the face so nothing is tangent to it)
     for xe, sgn in ((X0, 1), (X1, -1)):
-        pad = U.box("end_pad", min(xe - sgn * 0.3, xe - sgn * 1.5), max(xe - sgn * 0.3, xe - sgn * 1.5), YO + 7.0, YV - 7.0, DECK + 5.0, TOP - 7.0)
+        def xr(inside, outside):
+            return min(xe + sgn * inside, xe - sgn * outside), max(xe + sgn * inside, xe - sgn * outside)
+        pad = U.box("end_pad", *xr(0.3, 1.5), YO + 7.0, YV - 7.0, DECK + 5.0, TOP - 7.0)
         U.bevel_edges(pad, 1.0, 2, lambda c, dd: abs(c.x - (xe - sgn * 1.5)) < 0.2)
         U.boolean(head, pad, "UNION")
         for yb in (YO + 11.0, YV - 11.0):
             for zb in (DECK + 9.0, TOP - 11.0):
-                b = U.cylinder("end_bolt", 2.0, min(xe - sgn * 1.4, xe - sgn * 2.8), max(xe - sgn * 1.4, xe - sgn * 2.8), yb, zb, "X", segs=6)
-                U.boolean(head, b, "UNION")
+                U.boolean(head, U.cylinder("end_bolt", 2.0, *xr(-1.3, 3.1), yb, zb, "X", segs=6), "UNION")
         for yb in (-18.0, 24.0):
-            boss = U.cylinder("end_boss", 6.0, min(xe - sgn * 0.3, xe + sgn * 1.6), max(xe - sgn * 0.3, xe + sgn * 1.6), yb, DECK + 14.0, "X")
+            boss = U.cylinder("end_boss", 6.0, *xr(0.3, 2.3), yb, DECK + 14.0, "X")
+            U.bevel_edges(boss, 0.6, 1, lambda c, dd: abs(c.x - (xe - sgn * 2.3)) < 0.2 and abs(dd.x) < 0.1)
             U.boolean(head, boss, "UNION")
-            U.boolean(head, U.cylinder("end_boss_hex", 2.4, min(xe - sgn * 1.0, xe + sgn * 1.8), max(xe - sgn * 1.0, xe + sgn * 1.8), yb, DECK + 14.0, "X", segs=6))
+            U.boolean(head, U.cylinder("end_boss_hex", 2.4, *xr(1.0, 2.6), yb, DECK + 14.0, "X", segs=6))
     # valve-cover seat (1 mm recess) + 4 magnets
     vc = P.VC
     seat = U.rrect_prism("vc_seat", (X0 + X1) / 2, (vc["y0"] + vc["y1"]) / 2, (X1 - X0) - 2 * vc["x_inset"] + 2 * P.CLEARANCE,
@@ -116,6 +119,13 @@ def valve_cover():
     heads = [(x, yb) for x in xb for yb in (y0 - rt / 2 + 0.3, y1 + rt / 2 - 0.3)]
     heads += [(xe, yb) for yb in (ym - 10.0, ym + 10.0) for xe in (x0 - rt / 2 + 0.3, x1 + rt / 2 - 0.3)]
     zb = z0 + 1.0 + rh
+    # round-2 critique: the rim's recessed sockets did not read at all. Each bolt gets a cast ear: a
+    # half-round boss on the rim's outer side, full rim height (vertical in the top-down print, so no
+    # overhang) with the hex socket in its top; the rim then reads as the references' scalloped bolt flange.
+    for x, yb in heads:
+        ear = U.cylinder("vc_ear", 3.2, z0 + 1.0, zb, x, yb)
+        U.bevel_edges(ear, 0.8, 2, lambda c, dd: abs(c.z - zb) < 0.2 and abs(dd.z) < 0.1)
+        U.boolean(cover, ear, "UNION")
     for x, yb in heads:
         U.boolean(cover, U.cylinder("vc_hex", vc["bolt_d"] / 2, zb - 1.2, zb + 1, x, yb, segs=6))
     # oil cap socket (31B is a separate part); the panel ribs are cleared under the cap's footprint
@@ -151,6 +161,14 @@ def oil_cap():
         U.boolean(cap, g)
     spig = U.cylinder("cap_spigot", vc["cap_spigot_d"] / 2, z1 - vc["wall"] - 0.5 + vc["panel_depth"], z1 + 0.1, cx, cy)
     U.boolean(cap, spig, "UNION")
+    # round-2 critique: a plain puck. A recessed cross-bar in the top (2 mm wide, 1 mm deep - a recess, because
+    # the top is the print face; the 2 mm channel ceiling bridges) reads as the references' grip bar.
+    zt = z1 + vc["cap_h"]
+    for ang in (0.0, 90.0):
+        bar = U.box("cap_bar", -(vc["cap_d"] / 2 - 4.0), vc["cap_d"] / 2 - 4.0, -1.0, 1.0, zt - 1.0, zt + 1)
+        U.rot(bar, 'Z', ang)
+        U.move(bar, cx, cy, 0)
+        U.boolean(cap, bar)
     U.shade(cap)
     return cap
 
@@ -173,24 +191,32 @@ def flange_plate():
     plate = U.box("34_header_plate", X0 + fp["end_inset"], X1 - fp["end_inset"], YO - fp["t"], YO, DECK + fp["z0"], DECK + fp["z1"])
     U.bevel_edges(plate, 2.0, 3, lambda c, dd: abs(dd.y) > 0.9)
     # round-1 critique: the plate read as one blank strip. Each primary gets its own square flange pad
-    # (2.5 mm proud of the outboard face, chamfered) with two hex bolt heads on the diagonal, like the
+    # (2.5 mm proud of the outboard face, chamfered) with two hex bolt heads on one diagonal, like the
     # references' individual port flanges. The plate prints outboard face up, so the pads are on the top.
-    pad_hw, pad_hh, pad_t = 11.5, 14.5, 2.5                     # 2 mm clear of the boot bodies at xc + 15
+    # The plug boot sits 15 mm beside and 12 mm below the pipe centre, inside a square flange's footprint,
+    # so that corner of the pad is relieved by an arc 2.5 mm clear of the boot body (and its bolt goes on
+    # the other diagonal). The pad encloses the pipe hole by 1.85 mm; the hole cutters below are extended
+    # through the pad (the first version left the pad roofing the holes - caught by the overhang check).
+    pad_hw, pad_hh, pad_t = 12.0, 12.5, 2.5
+    boot_dx, boot_dz = P.PLUG_BOOT["dx"], d["BOOT_Z"] - d["PORT_Z"]
+    ytop = YO - fp["t"] - pad_t
     for xc in P.BANK_A_CYL_X:
-        pad = U.box("fl_pad", xc - pad_hw, xc + pad_hw, YO - fp["t"] - pad_t, YO - fp["t"] + 0.3, d["PORT_Z"] - pad_hh, d["PORT_Z"] + pad_hh)
-        U.bevel_edges(pad, 1.2, 2, lambda c, dd: abs(c.y - (YO - fp["t"] - pad_t)) < 0.2)
+        pad = U.box("fl_pad", xc - pad_hw, xc + pad_hw, ytop, YO - fp["t"] + 0.3, d["PORT_Z"] - pad_hh, d["PORT_Z"] + pad_hh)
+        U.bevel_edges(pad, 1.2, 2, lambda c, dd: abs(c.y - ytop) < 0.2)
+        U.boolean(pad, U.cylinder("fl_relief", P.PLUG_BOOT["d"] / 2 + 2.5, ytop - 1, YO + 1, xc + boot_dx, d["BOOT_Z"], "Y"))
         U.boolean(plate, pad, "UNION")
-        for sx, sz in ((-1, 1), (1, -1)):
+        sgn_x = -1 if boot_dx > 0 else 1                           # the bolt diagonal that avoids the boot corner
+        for sx, sz in ((sgn_x, -1 if boot_dz < 0 else 1), (-sgn_x, 1 if boot_dz < 0 else -1)):
             hx, hz = xc + sx * (pad_hw - 3.5), d["PORT_Z"] + sz * (pad_hh - 3.5)
-            bolt = U.cylinder("fl_bolt", 2.2, YO - fp["t"] - pad_t - 1.6, YO - fp["t"] - pad_t + 0.2, hx, hz, "Y", segs=6)
-            U.boolean(plate, bolt, "UNION")
+            U.boolean(plate, U.cylinder("fl_bolt", 2.2, ytop - 1.6, ytop + 0.2, hx, hz, "Y", segs=6), "UNION")
+    y_out = ytop - 2.0                                             # cutters start outside the pads and bolt heads
     for xc in P.BANK_A_CYL_X:
-        U.boolean(plate, U.cylinder("fp_pipe", P.EXH_PRIMARY_D / 2 + P.CLEARANCE, YO - fp["t"] - 1, YO + 1, xc, d["PORT_Z"], "Y"))
+        U.boolean(plate, U.cylinder("fp_pipe", P.EXH_PRIMARY_D / 2 + P.CLEARANCE, y_out, YO + 1, xc, d["PORT_Z"], "Y"))
     for xb in d["BOOT_X"]:
-        U.boolean(plate, U.cylinder("fp_boot", P.PLUG_BOOT["shaft_d"] / 2 + P.CLEARANCE, YO - fp["t"] - 1, YO + 1, xb, d["BOOT_Z"], "Y"))
+        U.boolean(plate, U.cylinder("fp_boot", P.PLUG_BOOT["shaft_d"] / 2 + P.CLEARANCE, y_out, YO + 1, xb, d["BOOT_Z"], "Y"))
     for xs, zs in plate_screw_xz():
-        U.boolean(plate, U.cylinder("fp_clear", P.hole["M3_CLEAR"] / 2, YO - fp["t"] - 1, YO + 1, xs, zs, "Y"))
-        U.boolean(plate, U.cylinder("fp_cbore", P.hole["M3_CBORE"] / 2, YO - fp["t"] - 1, YO - fp["t"] + (fp["t"] - P.SCREW_FLOOR + 2.0), xs, zs, "Y"))
+        U.boolean(plate, U.cylinder("fp_clear", P.hole["M3_CLEAR"] / 2, y_out, YO + 1, xs, zs, "Y"))
+        U.boolean(plate, U.cylinder("fp_cbore", P.hole["M3_CBORE"] / 2, y_out, YO - fp["t"] + (fp["t"] - P.SCREW_FLOOR + 2.0), xs, zs, "Y"))
     U.shade(plate)
     return plate
 

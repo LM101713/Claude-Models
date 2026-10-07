@@ -403,7 +403,9 @@ INTAKE = dict(                  # ENGINE frame - low, wide single-plane plenum (
     magnet_xy=[(70.0, 34.0), (70.0, -34.0), (-70.0, 34.0), (-70.0, -34.0)], pillar_r=4.8,   # 4 x 6x3 lid magnets
     rib_pitch=40.0, rib_t=3.0,                                                        # roof stiffening ribs inside the lid
     runner_w=22.0, runner_h=16.0, runner_r=5.0, port_depth=3.0, port_z=20.0,         # stubs into the head pockets
-    ridge=[(56.0, 122.0), (80.0, 140.0), (50.0, 150.0)], ridge_r=13.0,               # cosmetic runner ridge (|y|, z)
+    # cosmetic runner ridge (|y|, z): up the flank, over the top edge, across the roof and diving under it
+    # near the centre so the eight runners meet at a 44 mm spine (skin round 2: they stopped at |y| 50 as stumps)
+    ridge=[(56.0, 122.0), (80.0, 140.0), (42.0, 150.5), (24.0, 146.0)], ridge_r=13.0,
     rail_z=127.0, rail_r=4.0, rail_out=2.0, inj_r=4.5, inj_l=7.0,                    # fuel rail molded as a rib on the flank
     tb_d=44.0, tb_l=34.0, tb_z=132.0, tb_tilt=10.0, tb_bore=38.0, tb_bore_depth=12.0, tb_blade_deg=70.0,
     tb_spigot_d=14.0, tb_spigot_l=9.0)                                                # throttle body: separate, pressed in

@@ -5,7 +5,7 @@ import bpy
 _M = {}
 
 
-def _principled(name, base, metallic=0.0, roughness=0.5, transmission=0.0, emission=None, coat=0.0):
+def _principled(name, base, metallic=0.0, roughness=0.5, transmission=0.0, emission=None, coat=0.0, specular=None):
     if name in _M:
         return _M[name]
     m = bpy.data.materials.new("MAT_" + name)
@@ -14,6 +14,8 @@ def _principled(name, base, metallic=0.0, roughness=0.5, transmission=0.0, emiss
     b.inputs["Base Color"].default_value = (*base, 1.0)
     b.inputs["Metallic"].default_value = metallic
     b.inputs["Roughness"].default_value = roughness
+    if specular is not None:
+        b.inputs["Specular IOR Level"].default_value = specular
     if transmission:
         b.inputs["Transmission Weight"].default_value = transmission
     if coat:
@@ -26,11 +28,13 @@ def _principled(name, base, metallic=0.0, roughness=0.5, transmission=0.0, emiss
 
 
 def satin_alu():
-    return _principled("satin_aluminium", (0.62, 0.63, 0.65), metallic=1.0, roughness=0.42)
+    # round-2: 0.62 blew out to white under the brighter studio; the references' cast aluminium is a mid grey
+    return _principled("satin_aluminium", (0.50, 0.51, 0.53), metallic=1.0, roughness=0.46)
 
 
 def matte_black():
-    return _principled("matte_black", (0.025, 0.025, 0.027), metallic=0.0, roughness=0.78)
+    # round-2: read as mid-grey - the default specular lobe under four area lights; a powder-coat has little
+    return _principled("matte_black", (0.02, 0.02, 0.022), metallic=0.0, roughness=0.82, specular=0.2)
 
 
 def stainless():
@@ -38,7 +42,9 @@ def stainless():
 
 
 def painted_header():
-    return _principled("header_ceramic", (0.80, 0.80, 0.78), metallic=0.3, roughness=0.35)
+    # round-1 critique: 0.80 albedo read as white plastic; the references' headers are brushed stainless.
+    # (the printed part is still painted - decision 7 - this is only the render preview of a metallic paint)
+    return _principled("header_ceramic", (0.52, 0.52, 0.50), metallic=0.85, roughness=0.32)
 
 
 def amber_boot():

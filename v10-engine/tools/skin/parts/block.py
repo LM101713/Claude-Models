@@ -50,6 +50,10 @@ def crankcase():
         lip = U.box("rail_lip", -h + 6, h - 6, min(yw - sgn * 0.3, yw + sgn * 2.0), max(yw - sgn * 0.3, yw + sgn * 2.0), z_floor, z_floor + 5.0)
         U.bevel_edges(lip, 1.5, 2, lambda c, d: abs(d.x) > 0.9 and abs(c.z - (z_floor + 5.0)) < 0.3)
         U.boolean(case, lip, "UNION")
+        # round-1 critique: pan-rail bolt heads between the skirt ribs (side walls are vertical in the print)
+        for x in P.BANK_A_CYL_X:
+            lo, hi = sorted((yw - sgn * 0.3, yw + sgn * 3.0))
+            U.boolean(case, U.cylinder("rail_bolt", 2.2, lo, hi, x, z_floor + 9.0, "Y", segs=6), "UNION")
     # functional cuts, as the CAD
     U.boolean(case, _teardrop("cavity", P.CASE_INTERIOR_R, -h - 1, h + 1))
     U.boolean(case, U.prism("beam_space", [tuple(p) for p in P.beam_profile_yz], -h - 1, h + 1))
@@ -121,6 +125,12 @@ def cylinder_bank():
     lip = U.box("deck_lip", X0 + 6, X1 - 6, YO - 1.5, YO + 0.3, z1 - 4.0, z1 - 0.05)
     U.bevel_edges(lip, 1.0, 2, lambda c, d: abs(d.x) > 0.9 and abs(c.z - (z1 - 4.0)) < 0.3)
     U.boolean(blk, lip, "UNION")
+    # round-1 critique: the outboard wall between the windows was a blank slab. Two bolt rows like the
+    # references' head-to-block and block-to-crankcase joints: hex heads on the ribs under the deck lip
+    # and above the skirt foot (the wall is vertical in the deck-down print, so raised heads are fine).
+    for x in list(P.bank_between_x) + [X0 + 9.0, X1 - 9.0]:
+        for z in (z1 - 7.5, z0 + 6.5):
+            U.boolean(blk, U.cylinder("wall_bolt", 2.2, YO - 3.2, YO + 0.3, x, z, "Y", segs=6), "UNION")
     pocket_r = P.LUG_OD / 2 + P.LUG_POCKET_CLEAR
     for x in P.BANK_A_CYL_X:
         U.boolean(blk, U.cylinder("bore", P.BORE_DIA / 2, z0 - 1, z1 + 1, x, 0))

@@ -17,8 +17,9 @@ Blender meshes against it.
   wheel (`pip install bpy`, Python 3.11) - the cloud session used
   bpy 5.0.1 on Python 3.11.15, headless, Cycles on CPU.
 - Python packages inside Blender's Python: `trimesh`, `manifold3d`,
-  `numpy`, `Pillow`. With the Blender binary:
-  `"<blender dir>\4.5\python\bin\python.exe" -m pip install trimesh manifold3d pillow`.
+  `numpy`, `Pillow`, `rtree` (without `rtree` the min-wall column of the
+  print report reads `nan`). With the Blender binary:
+  `"<blender dir>\4.5\python\bin\python.exe" -m pip install trimesh manifold3d pillow rtree`.
 - The CAD environment (CadQuery) only for `tools/export_params.py`,
   `tools/export_core_meshes.py` and `tools/skin_check.py`.
 
