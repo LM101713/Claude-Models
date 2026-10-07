@@ -95,8 +95,6 @@ PARTS = [
     ("45_accessory_module", "accessory", 1, "slot2", False, lambda: ry(-90), "back plate down"),
     ("45B_alternator_body", "alt_body", 1, "slot2", False, lambda: ry(-90), "rear (slotted) face down, spigot up"),
     ("46_stand_plate", "stand_plate", 1, "slot2", False, lambda: rx(180), "chamfered top face down (as CAD)"),
-    ("47_bracket", "bracket", 2, "slot2", False, lambda: ry(90), "lying on its side"),
-    ("47B_bracket_mirror", "bracket_m", 2, "slot2", False, lambda: ry(90), "lying on its side"),
     ("48_controls_plinth", "plinth", 1, "slot2", False, lambda: rx(180), "top face down, open bottom up"),
     ("49_edition_plate", "edition_plate", 1, "purchased", False, lambda: ry(90), "reference model of the engraved plate (bought, not printed)"),
 ]
@@ -173,7 +171,7 @@ def _lib_key_for_placed(name):
              "header_plate": "plate", "boot": "boot", "header_": "primary", "collector": "collector_A", "intake_lid": "intake_lid",
              "intake_base": "intake_base", "throttle": "throttle", "pan_panel": "panel", "pan": "pan", "bellhousing": "bellhousing",
              "front_cover": "front_cover", "damper": "damper", "accessory": "accessory", "alternator": "alt_body", "stand_plate": "stand_plate",
-             "bracket": "bracket", "plinth": "plinth", "edition": "edition_plate"}
+             "plinth": "plinth", "edition": "edition_plate"}
     for k in ("pan_panel", "header_plate", "intake_lid", "intake_base", "stand_plate", "valve_cover", "front_cover"):
         if name.startswith(k):
             return table[k]

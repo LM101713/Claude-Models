@@ -7367,7 +7367,7 @@
   "panel": "41_pan_floor_panel: genus 20 tris 10828 vol 71627",
   "bellhousing": "42_bellhousing: genus 0 tris 13666 vol 73601",
   "front_cover": "43_front_cover: genus 1 tris 16424 vol 72371",
-  "damper": "44_damper: genus 1 tris 10562 vol 51674",
+  "damper": "44_damper: genus 1 tris 10554 vol 51672",
   "accessory": "45_accessory_module: genus 9 tris 23926 vol 55059",
   "alt_body": "45B_alternator_body: genus 0 tris 1980 vol 62751",
   "stand_plate": "46_stand_plate: genus 10 tris 13058 vol 634699",

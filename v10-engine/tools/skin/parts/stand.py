@@ -1,4 +1,4 @@
-"""46 stand plate, 47 brackets (L/R), 48 controls plinth, 49 edition plate -
+"""46 stand plate, 48 controls plinth, 49 edition plate (the 47 brackets became cast legs on the pan, D60) -
 as cad/stand_v8.py from params.json. Engine frame, +X = front."""
 import math
 
@@ -20,41 +20,9 @@ def _rbox(name, x0, x1, y0, y1, z0, z1, r):
     return U.rrect_prism(name, (x0 + x1) / 2, (y0 + y1) / 2, x1 - x0, y1 - y0, r, z0, z1)
 
 
-def bracket_positions():
+def leg_positions():
+    """Where the pan's cast saddle legs meet the plate (D60): one screw per leg, from below."""
     return [(x, sgn) for x in P.STAND["bracket_x"] for sgn in (-1, 1)]
-
-
-def bracket(sgn=1):
-    d = _d()
-    ST, ZT = d["ST"], d["ZT"]
-    t, w = ST["bracket_t"], ST["bracket_w"]
-    yf, y_wall, z_tab = ST["foot_y"], d["SY1"] + 0.2, ST["bracket_tab_z"]
-    name = "47_bracket_L" if sgn > 0 else "47B_bracket_R"
-
-    def prism(nm, pts):
-        return U.prism(nm, [(sgn * y, z) for y, z in pts], -w / 2, w / 2)
-    foot = prism(name, [(yf - 22, ZT), (yf + 20, ZT), (yf + 20, ZT + t), (yf - 22, ZT + t)])
-    hh = ST["bracket_tab_h"] / 2
-    tab = prism("tab", [(y_wall, z_tab - hh), (y_wall + t, z_tab - hh), (y_wall + t, z_tab + hh), (y_wall, z_tab + hh)])
-    A, B = (yf - 14.0, ZT + t / 2), (y_wall + t / 2, z_tab - hh + 2.0)
-    dy, dz = B[0] - A[0], B[1] - A[1]
-    L = math.hypot(dy, dz)
-    ny, nz = -dz / L * t / 2, dy / L * t / 2
-    strut = prism("strut", [(A[0] + ny, A[1] + nz), (B[0] + ny, B[1] + nz), (B[0] - ny, B[1] - nz), (A[0] - ny, A[1] - nz)])
-    U.boolean(foot, strut, "UNION")
-    U.boolean(foot, tab, "UNION")
-    b = foot
-    # soften the strut's long edges (cast-bracket look, no functional change)
-    U.bevel_edges(b, 1.0, 2, lambda c, dd: abs(dd.x) < 0.1 and abs(dd.y) > 0.2 and abs(dd.z) > 0.2 and abs(abs(c.x) - w / 2) < 0.1)
-    yw = sgn * y_wall
-    for dx in (-8.0, 8.0):
-        ya, yb = sorted((yw - sgn * 1, yw + sgn * (t + 1)))
-        U.boolean(b, U.cylinder("tab_clear", P.hole["M3_CLEAR"] / 2, ya, yb, dx, z_tab, "Y"))
-        ya, yb = sorted((yw + sgn * (t - P.SCREW_FLOOR + 1.5), yw + sgn * (t + 6)))
-        U.boolean(b, U.cylinder("tab_cbore", P.hole["M3_CBORE"] / 2, ya, yb, dx, z_tab, "Y"))
-        U.boolean(b, U.cylinder("foot_ins", P.insert_hole / 2, ZT - 1, ZT + P.INSERT_DEPTH, dx, sgn * yf))
-    U.shade(b)
-    return b
 
 
 def stand_plate():
@@ -64,10 +32,9 @@ def stand_plate():
     U.bevel_edges(pl, ST["chamfer"], 1, lambda c, dd: abs(c.z - ZT) < 0.2 and abs(dd.z) < 0.1)
     cw, cd = ST["cutout"]
     U.boolean(pl, _rbox("cutout", -cw / 2, cw / 2, -cd / 2, cd / 2, ZB - 1, ZT + 1, 6.0))
-    for x, sgn in bracket_positions():
-        for dx in (-8.0, 8.0):
-            U.boolean(pl, U.cylinder("br_clear", P.hole["M3_CLEAR"] / 2, ZB - 1, ZT + 1, x + dx, sgn * ST["foot_y"]))
-            U.boolean(pl, U.cylinder("br_cbore", P.hole["M3_CBORE"] / 2, ZB - 1, ZB + ST["t"] - P.SCREW_FLOOR, x + dx, sgn * ST["foot_y"]))
+    for x, sgn in leg_positions():
+        U.boolean(pl, U.cylinder("leg_clear", P.hole["M3_CLEAR"] / 2, ZB - 1, ZT + 1, x, sgn * ST["foot_y"]))
+        U.boolean(pl, U.cylinder("leg_cbore", P.hole["M3_CBORE"] / 2, ZB - 1, ZB + ST["t"] - P.SCREW_FLOOR, x, sgn * ST["foot_y"]))
     for sx in (-1, 1):
         for sy in (-1, 1):
             x = XC + sx * (ST["l"] / 2 - ST["feet_inset"])
@@ -148,14 +115,9 @@ def plinth():
 
 
 def build_all():
-    return {"stand_plate": stand_plate(), "bracket": bracket(1), "bracket_m": bracket(-1), "plinth": plinth(), "edition_plate": edition_plate()}
+    return {"stand_plate": stand_plate(), "plinth": plinth(), "edition_plate": edition_plate()}
 
 
 def placed(lib):
-    out = [("stand_plate", U.copy(lib["stand_plate"], "stand_plate")), ("plinth", U.copy(lib["plinth"], "plinth")),
-           ("edition_plate", U.copy(lib["edition_plate"], "edition_plate"))]
-    for x, sgn in bracket_positions():
-        b = U.copy(lib["bracket"] if sgn > 0 else lib["bracket_m"], f"bracket_{'R' if sgn < 0 else 'L'}{x:+.0f}")
-        U.move(b, x, 0, 0)
-        out.append((b.name, b))
-    return out
+    return [("stand_plate", U.copy(lib["stand_plate"], "stand_plate")), ("plinth", U.copy(lib["plinth"], "plinth")),
+            ("edition_plate", U.copy(lib["edition_plate"], "edition_plate"))]

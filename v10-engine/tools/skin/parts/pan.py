@@ -8,6 +8,7 @@ from .. import fitcut as F
 from ..params import P
 
 S45 = math.sqrt(0.5)
+LEG_W, LEG_TOP_Z, LEG_Y_IN, LEG_Y_OUT = 50.0, -76.0, 88.0, 110.0   # saddle legs cast onto the pan (D60)
 
 
 def _d():
@@ -49,12 +50,12 @@ def oil_pan():
         U.boolean(pan, fl, "UNION")
         ys = SY1 if sgn > 0 else SY0
         for z in PAN["rib_z"]:
+            if z - PAN["rib_h"] / 2 < LEG_TOP_Z + 1.0:            # the saddle legs take over below this
+                continue
             rib = U.box("rib", X0 + 14, X1 - 14, min(ys - sgn * 0.3, ys + sgn * PAN["rib_out"]), max(ys - sgn * 0.3, ys + sgn * PAN["rib_out"]),
                         z - PAN["rib_h"] / 2, z + PAN["rib_h"] / 2)
             yo = ys + sgn * PAN["rib_out"]
             U.bevel_edges(rib, PAN["rib_out"] * 0.7, 1, lambda c, dd: abs(dd.x) > 0.9 and abs(c.z - (z + PAN["rib_h"] / 2)) < 0.2 and abs(c.y - yo) < 0.2)
-            for xb in P.STAND["bracket_x"]:
-                U.boolean(rib, U.box("rib_gap", xb - P.STAND["bracket_w"] / 2 - 3.0, xb + P.STAND["bracket_w"] / 2 + 3.0, Y0 - 10, Y1 + 10, ZB - 1, ZT + 1))
             U.boolean(pan, rib, "UNION")
     # interior
     U.boolean(pan, _rbox("int_rail", IX0, IX1, Y0 + W, Y1 - W, ZSTEP + W, ZS, max(1.0, PAN["r"] - W)))
@@ -85,16 +86,20 @@ def oil_pan():
     hs = P.HALL_LEAD_SLOT
     hx = P.HALL_X + hs["dx"]
     U.boolean(pan, U.box("hall_slot", hx - hs["l"] / 2, hx + hs["l"] / 2, -hs["w"] / 2, hs["w"] / 2, ZS - 1, ZT + 1))
-    # stand bracket bosses with horizontal inserts inside the sump walls
+    # cast saddle legs (D60: replace the four 47 brackets): two per side, cast onto the sump wall, the stand
+    # plate screws up into them from below (one M3 x 8 per leg into a vertical insert). Skin-down print:
+    # the outer face slopes 44 deg from vertical, the foot's underside is a top face, no ceilings.
     ST = P.STAND
+    z_plate = ST["z_top"]
     for xb in ST["bracket_x"]:
         for sgn in (-1, 1):
-            yw = sgn * SY1
-            for dx in (-8.0, 8.0):
-                ya, yb = sorted((yw - sgn * (W - 0.1), yw - sgn * 9.0))
-                U.boolean(pan, U.cylinder("br_boss", 4.5, ya, yb, xb + dx, ST["bracket_tab_z"], "Y"), "UNION")
-                ya, yb = sorted((yw + sgn * 1, yw - sgn * (P.INSERT_DEPTH + 0.5)))
-                U.boolean(pan, U.cylinder("br_ins", P.insert_hole / 2, ya, yb, xb + dx, ST["bracket_tab_z"], "Y"))
+            yw = sgn * (SY1 - 0.2)
+            pts = [(yw, LEG_TOP_Z), (sgn * LEG_Y_OUT, z_plate + 8.0), (sgn * LEG_Y_OUT, z_plate),
+                   (sgn * LEG_Y_IN, z_plate), (yw, ZB + PAN["bottom_chamfer"])]
+            leg = U.prism("saddle_leg", pts, xb - LEG_W / 2, xb + LEG_W / 2)
+            U.bevel_edges(leg, 2.0, 2, lambda c, dd, yw=yw: abs(abs(c.y) - abs(yw)) > 1.0 and abs(c.z - z_plate) > 0.2)
+            U.boolean(pan, leg, "UNION")
+            U.boolean(pan, U.cylinder("leg_ins", P.insert_hole / 2, z_plate - 1, z_plate + P.INSERT_DEPTH, xb, sgn * ST["foot_y"]))
     h = P.HARNESS_HOLE
     U.boolean(pan, U.cylinder("harness", h["d"] / 2, X0 - 1, IX0 + 1, h["y"], h["z"], "X"))
     # front wall = motor bulkhead: boss slot (pointed bottom) + 4 bolt slots
