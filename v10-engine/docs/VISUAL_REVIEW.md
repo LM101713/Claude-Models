@@ -227,3 +227,69 @@ print orientation is now the opposite quarter turn; the head is manifold
 again after the end-pad sign fix; the `rtree` package was missing in the
 render environment, which is why the previous report's min-wall column read
 `nan` - installed and listed in `tools/skin/README.md`.
+
+## Skin round 2 - full set with the round-1 fixes (`renders/skin_round2/`)
+
+All eight views rendered. What the fixes did: the bell ribs and flange
+band, the head end pads, the flange pads and weld beads, the bolt rows on
+the bank walls and the crankcase skirt all show and all read as cast or
+welded detail rather than stuck-on bits (ref2, ref3, x3). The LED boots glow
+through the windows from every side angle. The close-up now frames the
+intake (ref1).
+
+Ranked, what is still off (worst first):
+
+1. **Over-exposed.** +0.5 EV on top of the stronger lights blew the satin
+   aluminium out to white and lifted the matte-black covers to mid-grey;
+   every cast face lost its shading, which is why the ribs on the pan and
+   the skirt barely read (ref4, ref5). *Fixed for round 3:* exposure back to
+   0.55, aluminium base 0.50, black with a weak specular lobe (a powder
+   coat), headers darker.
+2. **The intake is a lunch box** (ref1, x1, x2). The eight runner ridges
+   stop at |y| 50 as rounded stumps and the roof between them is a blank
+   100 x 170 mm plate; the throttle body is a plain tube end. *Fixed for
+   round 3:* the ridge path now runs over the top edge and dives under the
+   roof at |y| 24 (`INTAKE["ridge"]`, 4 points), into a raised 44 mm plenum
+   spine with a bolt row along both edges; the throttle mouth gets a bell
+   rim with a 45 deg lead. Print case unchanged: raised detail on the lid's
+   print face is the open D53 decision (soluble support upright, or a split
+   roof).
+3. **The front cover is the biggest blank face on the engine** (ref5): a
+   flat plate with a parting groove and eight dimples, and the drive in
+   front of it is flat discs and a ribbon. It prints face down (D53), so the
+   face can only carry recessed detail. *Fixed for round 3:* eight 1.8 mm
+   cast-web grooves from behind the damper to the bolt dimples; two
+   concentric face grooves in each pulley and two more rings in the damper
+   face (those faces are up in their prints). *Your call, bigger:* print the
+   cover rim-down with tree support inside the hidden shell, which would
+   allow real raised bosses and a water-pump housing on the face. It breaks
+   the "no new supports" rule for one hidden interior; I would do it for a
+   50-engine run because the front is the face people photograph.
+4. **Valve covers read as trays** (x3, ref4): the rim bolt sockets are dots,
+   the top ribs are faint, the cap is a puck. *Fixed for round 3:* a cast ear
+   per bolt on the rim's outer side (vertical in the top-down print) so the
+   rim scallops like the references' bolt flange; a recessed grip cross in
+   the cap top.
+5. **Controls plinth** (ref3, ref5): from the front it is a black brick with
+   four holes staring at the camera, the first thing the eye lands on after
+   the damper. Position is yours (D46). Recommendation: keep the corner, drop
+   it to an 18 mm wedge with the controls on a 30 deg sloped face, so it
+   reads as a console. Not changed.
+6. **Proportion, side view** (ref4): the engine reads shorter and taller
+   than the reference, because the reference's valve covers run almost the
+   whole block length and its headers sweep forward in long S-curves. Ours
+   follow the plan's 1:2.42 proportions and D37's S-curve; the covers could
+   grow 8 mm each end (x_inset 8 -> 4) at no cost - a round-3 candidate if
+   you want it, not done.
+7. **Windows**: with the boots lit the slots read as lit windows, not
+   voids, from ref2/ref3/ref4. Keeping `WINDOWS = True`.
+8. **Collectors**: a plain tapered log with a bright open tail. Could take a
+   rolled lip and a slip-joint bead; low priority.
+9. **Alternator**: a black can; its slots barely show. Low priority.
+
+Print-check side effects of the round-1 fixes (`SKIN_PRINT_REPORT.md`):
+the flange pads were roofing the pipe holes (1465 mm2 of ceilings per
+plate) - the hole cutters now go through the pads and the pad corner is
+relieved around the plug boot, which sits inside a square flange's
+footprint; crankcase +106 mm2 and heads +178 mm2 of sub-47 deg faces from
+the horizontal hex heads and bosses (3 mm long, print without support).

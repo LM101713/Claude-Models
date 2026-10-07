@@ -57,6 +57,13 @@ def front_cover():
     U.boolean(cover, groove)
     for y, z in _outline_perimeter_points(2.0, FC["n_bolts"]):
         U.boolean(cover, U.cylinder("dimple", FC["bolt_r"], X1 - 1.0, X1 + 1, y, z, "X"))
+        # skin round 2: the face is the biggest blank surface on the engine (ref5). It is the print face, so
+        # only recessed detail is allowed: a 1.8 mm cast "web" groove from behind the damper out to each
+        # bolt dimple (a 1.8 mm channel ceiling bridges in the print).
+        R = math.hypot(y, z)
+        web = U.box("web_groove", X1 - 1.0, X1 + 1, -0.9, 0.9, 40.0, R - 7.0)
+        U.rot(web, 'X', -math.degrees(math.atan2(y, z)))
+        U.boolean(cover, web)
     U.boolean(cover, U.cylinder("shaft_hole", P.SHAFT_D / 2 + FC["shaft_clear"], X1 - w - 1, X1 + 2, 0, 0, "X"))
     outer = _outline_solid("outer_ref", 0.0, X0, X1)
     for y, z in P.COVER_MAGNETS:
@@ -86,7 +93,9 @@ def damper():
     U.boolean(gr, U.cylinder("groove_in", DM["groove_r"] - DM["groove_w"] / 2, x1 - DM["groove_d"] - 1, x1 + 2, 0, 0, "X"))
     U.boolean(d, gr)
     # skin round 2: the face read as a flat disc - two more shallow rings inside the main groove (serpentine look)
-    for rr in (24.0, 19.0):
+    # (radii clear of the six holes at r 19.6-23.6 and the main groove at 29.2-30.8: a ring tangent to a hole edge
+    # pinched the mesh in the first try)
+    for rr in (26.5, 16.5):
         ring = U.cylinder("face_ring", rr + 0.6, x1 - 0.8, x1 + 1, 0, 0, "X")
         U.boolean(ring, U.cylinder("face_ring_in", rr - 0.6, x1 - 2, x1 + 2, 0, 0, "X"))
         U.boolean(d, ring)

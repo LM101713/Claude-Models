@@ -60,6 +60,17 @@ def intake_lid():
             U.rot(boss, 'X', -sgn * 150.0)                               # pointing down-inward into the flank
             U.move(boss, xc, yr, it["rail_z"])
             U.boolean(lid, boss, "UNION")
+    # skin round 2: the roof was a blank 100 x 170 mm plate between the ridge stumps. A raised central plenum
+    # spine (2 mm, chamfered, bolt row along both edges) that the eight runner ridges now dive into, as the
+    # references' flat-topped plenum. Same print case as the ridges (raised detail on the lid's print face -
+    # the open D53 decision: soluble support upright, or a split roof).
+    l_top = _dim(ZTOP)[1]
+    spine = U.rrect_prism("spine", 0, 0, l_top - 36.0, 44.0, 6.0, ZTOP - 0.5, ZTOP + 2.0)
+    U.bevel_edges(spine, 1.0, 2, lambda c, d: abs(c.z - (ZTOP + 2.0)) < 0.2)
+    U.boolean(lid, spine, "UNION")
+    for xs in (-(l_top / 2 - 25.0), -(l_top / 6), l_top / 6, l_top / 2 - 25.0):
+        for ys in (-18.0, 18.0):
+            U.boolean(lid, U.cylinder("spine_bolt", 2.0, ZTOP + 1.9, ZTOP + 3.2, xs, ys, segs=6), "UNION")
     # hollow (after the ridges so nothing intrudes where the base's tongue sits)
     U.boolean(lid, envelope("lid_inner", SPLIT - 1.0, ZTOP - W, W))
     # roof ribs
@@ -131,6 +142,10 @@ def throttle_body():
     U.bevel_edges(tb, 2.0, 3, lambda c, d: abs(c.z - it["tb_l"]) < 0.3)
     # cast ring and a throttle-shaft boss on the side
     U.boolean(tb, U.cylinder("tb_ring", it["tb_d"] / 2 + 1.5, it["tb_l"] - 9.0, it["tb_l"] - 6.0, 0, 0), "UNION")
+    # skin round 2: the mouth read as a plain tube end. A wider bell rim at the mouth with a 45 deg lead
+    # (the rim only widens the bed footprint of the bore-down print; 0.1 mm clear of tb_ring, never tangent)
+    U.boolean(tb, U.cylinder("tb_mouth_cone", it["tb_d"] / 2 + 0.05, it["tb_l"] - 5.9, it["tb_l"] - 3.4, 0, 0, r2=it["tb_d"] / 2 + 2.5), "UNION")
+    U.boolean(tb, U.cylinder("tb_mouth_rim", it["tb_d"] / 2 + 2.5, it["tb_l"] - 3.5, it["tb_l"], 0, 0), "UNION")
     U.boolean(tb, U.cylinder("tb_bore", it["tb_bore"] / 2, it["tb_l"] - it["tb_bore_depth"], it["tb_l"] + 1, 0, 0))
     blade = U.box("blade", -it["tb_bore"] / 2 + 0.3, it["tb_bore"] / 2 - 0.3, -1.2, 1.2, -it["tb_bore"] / 2 + 0.3, it["tb_bore"] / 2 - 0.3)
     U.rot(blade, 'X', 90 - it["tb_blade_deg"])

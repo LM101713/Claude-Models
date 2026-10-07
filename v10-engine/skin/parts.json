@@ -33,7 +33,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/01_crankcase.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/01_crankcase.stl"
   },
   {
    "file": "03_cylinder_bank",
@@ -53,7 +53,7 @@
      0.0,
      -1.0,
      -8.742277657347586e-08,
-     1.100006103515625
+     0.4000053405761719
     ],
     [
      0.0,
@@ -68,7 +68,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/03_cylinder_bank.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/03_cylinder_bank.stl"
   },
   {
    "file": "30_cylinder_head_A",
@@ -103,7 +103,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/30_cylinder_head_A.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/30_cylinder_head_A.stl"
   },
   {
    "file": "30B_cylinder_head_B",
@@ -138,7 +138,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/30B_cylinder_head_B.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/30B_cylinder_head_B.stl"
   },
   {
    "file": "31_valve_cover",
@@ -173,7 +173,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/31_valve_cover.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/31_valve_cover.stl"
   },
   {
    "file": "31B_oil_cap",
@@ -208,7 +208,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/31B_oil_cap.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/31B_oil_cap.stl"
   },
   {
    "file": "32_plug_boot",
@@ -243,7 +243,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/32_plug_boot.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/32_plug_boot.stl"
   },
   {
    "file": "33_header_primary_A",
@@ -257,7 +257,7 @@
      0.9909924268722534,
      0.0,
      -0.133917897939682,
-     11.955209732055664
+     12.093864440917969
     ],
     [
      0.0,
@@ -278,7 +278,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/33_header_primary_A.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/33_header_primary_A.stl"
   },
   {
    "file": "33B_header_primary_B",
@@ -292,7 +292,7 @@
      0.9909924268722534,
      0.0,
      -0.133917897939682,
-     11.955209732055664
+     12.093864440917969
     ],
     [
      0.0,
@@ -313,7 +313,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/33B_header_primary_B.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/33B_header_primary_B.stl"
   },
   {
    "file": "34_header_plate_A",
@@ -348,14 +348,14 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/34_header_plate_A.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/34_header_plate_A.stl"
   },
   {
    "file": "34B_header_plate_B",
    "key": "plate",
    "qty": 1,
    "slot": "slot3",
-   "note": "outboard face up, flat (mirror)",
+   "note": "outboard face up, flat (mirror; mirrored in Y, so the opposite turn)",
    "lib_name": "34_header_plate",
    "M": [
     [
@@ -366,15 +366,15 @@
     ],
     [
      0.0,
-     4.371138828673793e-08,
-     1.0,
-     -104.75
+     -7.549790126404332e-08,
+     -1.0,
+     104.75
     ],
     [
      0.0,
-     1.0,
-     -4.371138828673793e-08,
-     38.000003814697266
+     -1.0,
+     7.549790126404332e-08,
+     -34.00000762939453
     ],
     [
      0.0,
@@ -383,7 +383,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/34B_header_plate_B.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/34B_header_plate_B.stl"
   },
   {
    "file": "35_collector_A",
@@ -418,7 +418,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/35_collector_A.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/35_collector_A.stl"
   },
   {
    "file": "35B_collector_B",
@@ -453,7 +453,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/35B_collector_B.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/35B_collector_B.stl"
   },
   {
    "file": "36_intake_lid",
@@ -479,7 +479,7 @@
      0.0,
      8.742277657347586e-08,
      -1.0,
-     157.58946228027344
+     155.6706085205078
     ],
     [
      0.0,
@@ -488,7 +488,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/36_intake_lid.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/36_intake_lid.stl"
   },
   {
    "file": "36B_intake_base",
@@ -523,7 +523,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/36B_intake_base.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/36B_intake_base.stl"
   },
   {
    "file": "36C_throttle_body",
@@ -537,7 +537,7 @@
      -0.1736481636762619,
      0.0,
      0.9848077893257141,
-     -114.01900482177734
+     -114.01899719238281
     ],
     [
      0.0,
@@ -558,7 +558,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/36C_throttle_body.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/36C_throttle_body.stl"
   },
   {
    "file": "40_oil_pan",
@@ -593,7 +593,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/40_oil_pan.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/40_oil_pan.stl"
   },
   {
    "file": "41_pan_floor_panel",
@@ -628,7 +628,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/41_pan_floor_panel.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/41_pan_floor_panel.stl"
   },
   {
    "file": "42_bellhousing",
@@ -642,7 +642,7 @@
      -4.371138828673793e-08,
      0.0,
      -1.0,
-     -24.0000057220459
+     -23.57417869567871
     ],
     [
      0.0,
@@ -663,7 +663,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/42_bellhousing.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/42_bellhousing.stl"
   },
   {
    "file": "43_front_cover",
@@ -698,7 +698,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/43_front_cover.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/43_front_cover.stl"
   },
   {
    "file": "44_damper",
@@ -733,7 +733,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/44_damper.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/44_damper.stl"
   },
   {
    "file": "45_accessory_module",
@@ -768,7 +768,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/45_accessory_module.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/45_accessory_module.stl"
   },
   {
    "file": "45B_alternator_body",
@@ -803,7 +803,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/45B_alternator_body.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/45B_alternator_body.stl"
   },
   {
    "file": "46_stand_plate",
@@ -838,7 +838,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/46_stand_plate.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/46_stand_plate.stl"
   },
   {
    "file": "47_bracket",
@@ -873,7 +873,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/47_bracket.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/47_bracket.stl"
   },
   {
    "file": "47B_bracket_mirror",
@@ -908,7 +908,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/47B_bracket_mirror.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/47B_bracket_mirror.stl"
   },
   {
    "file": "48_controls_plinth",
@@ -943,7 +943,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/48_controls_plinth.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/48_controls_plinth.stl"
   },
   {
    "file": "49_edition_plate",
@@ -978,7 +978,7 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/49_edition_plate.stl"
+   "path": "/home/claude/claude-models/v10-engine/skin/49_edition_plate.stl"
   }
  ],
  "fits": {
@@ -3418,7 +3418,7 @@
      1.0,
      0.0
     ],
-    "t0": -38.98,
+    "t0": -42.48,
     "t1": -33.02,
     "e1": null,
     "sectors": null
@@ -3437,7 +3437,7 @@
      1.0,
      0.0
     ],
-    "t0": -38.98,
+    "t0": -42.48,
     "t1": -36.02,
     "e1": null,
     "sectors": null
@@ -3456,7 +3456,7 @@
      1.0,
      0.0
     ],
-    "t0": -38.98,
+    "t0": -42.48,
     "t1": -33.02,
     "e1": null,
     "sectors": null
@@ -3475,7 +3475,7 @@
      1.0,
      0.0
     ],
-    "t0": -38.98,
+    "t0": -42.48,
     "t1": -36.02,
     "e1": null,
     "sectors": null
@@ -7350,25 +7350,25 @@
   ]
  },
  "finalize": {
-  "case": "01_crankcase: genus 0 tris 8798 vol 585308",
-  "bank": "03_cylinder_bank: genus 15 tris 15240 vol 335521",
-  "head": "30_cylinder_head: genus 6 tris 33022 vol 499437",
-  "valve_cover": "31_valve_cover: genus 1 tris 11094 vol 70857",
-  "oil_cap": "31B_oil_cap: genus 0 tris 2332 vol 4044",
+  "case": "01_crankcase: genus 0 tris 8986 vol 585610",
+  "bank": "03_cylinder_bank: genus 15 tris 15480 vol 335809",
+  "head": "30_cylinder_head: genus 6 tris 34142 vol 503770",
+  "valve_cover": "31_valve_cover: genus 1 tris 17414 vol 71432",
+  "oil_cap": "31B_oil_cap: genus 0 tris 2380 vol 3972",
   "boot": "32_plug_boot: genus 0 tris 2556 vol 1790",
-  "plate": "34_header_plate: genus 10 tris 6244 vol 19223",
-  "intake_lid": "36_intake_lid: genus 1 tris 33434 vol 197313",
+  "plate": "34_header_plate: genus 10 tris 6996 vol 21730",
+  "intake_lid": "36_intake_lid: genus 1 tris 38666 vol 220492",
   "intake_base": "36B_intake_base: genus 7 tris 17236 vol 128182",
-  "throttle": "36C_throttle_body: genus 4 tris 4356 vol 39218",
-  "primary": "33_header_primary: genus 0 tris 6036 vol 39176",
+  "throttle": "36C_throttle_body: genus 4 tris 4352 vol 41047",
+  "primary": "33_header_primary: genus 0 tris 14042 vol 39668",
   "collector_A": "35_collector_A: genus 0 tris 15328 vol 160007",
   "collector_B": "35_collector_B: genus 0 tris 15332 vol 165449",
   "pan": "40_oil_pan: genus 19 tris 21822 vol 422788",
   "panel": "41_pan_floor_panel: genus 20 tris 10828 vol 71627",
-  "bellhousing": "42_bellhousing: genus 0 tris 10970 vol 65134",
-  "front_cover": "43_front_cover: genus 1 tris 16300 vol 72616",
-  "damper": "44_damper: genus 1 tris 8506 vol 51932",
-  "accessory": "45_accessory_module: genus 9 tris 17782 vol 55390",
+  "bellhousing": "42_bellhousing: genus 0 tris 13666 vol 73601",
+  "front_cover": "43_front_cover: genus 1 tris 16424 vol 72371",
+  "damper": "44_damper: genus 1 tris 10562 vol 51674",
+  "accessory": "45_accessory_module: genus 9 tris 23926 vol 55059",
   "alt_body": "45B_alternator_body: genus 0 tris 1980 vol 62751",
   "stand_plate": "46_stand_plate: genus 10 tris 13058 vol 634699",
   "bracket": "47_bracket_L: genus 4 tris 3184 vol 16885",
