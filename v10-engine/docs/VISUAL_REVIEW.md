@@ -417,7 +417,7 @@ Items 1, 2 and 5 are a round-6 pass with no new parts or fasteners.
 Items 3, 4 and 6 add parts or change the stand and need Liam's yes.
 Item 7 is a slicer setting, tested on the first prototype print.
 
-Check results on the round-5 files: 26 files watertight; fits 207/208
+Check results on the round-5 files: 26 files watertight; fits 209/210
 within 0.02 mm (one benign vertex on the throttle-body socket lead
 chamfer; the plinth panel line clipped the power-switch hole by 0.04 mm,
 moved 1.5 mm inward after this render set); static interference 0 apart
