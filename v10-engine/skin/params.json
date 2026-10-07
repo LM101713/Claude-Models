@@ -510,6 +510,8 @@
   "INSERT_DEPTH": 6.5,
   "INSERT_HOLE_DIA": 4.0,
   "INTAKE": {
+   "bolt_ledge_z": 6.0,
+   "flank_bolt_span": 140.0,
    "inj_deg": 120.0,
    "inj_l": 20.0,
    "inj_r": 4.5,
@@ -531,6 +533,7 @@
      -34.0
     ]
    ],
+   "n_flank_bolts": 6,
    "pillar_r": 4.8,
    "port_depth": 3.0,
    "port_z": 20.0,
@@ -619,9 +622,47 @@
      186.0
     ]
    ],
+   "skin_inj_l": 10.0,
+   "skin_rail_y": 70.0,
+   "skin_rail_z": 140.0,
+   "skin_sections": [
+    [
+     92.0,
+     70.0,
+     160.0
+    ],
+    [
+     100.0,
+     84.0,
+     170.0
+    ],
+    [
+     112.0,
+     108.0,
+     180.0
+    ],
+    [
+     138.0,
+     134.0,
+     186.0
+    ],
+    [
+     152.0,
+     116.0,
+     172.0
+    ]
+   ],
+   "spacer_out": 4.0,
+   "spacer_t": 8.0,
    "spine_h": 6.0,
    "spine_w": 72.0,
    "split_z": 118.0,
+   "tb4_bore": 21.0,
+   "tb4_h": 20.0,
+   "tb4_l": 66.0,
+   "tb4_pitch_x": 29.0,
+   "tb4_pitch_y": 27.0,
+   "tb4_w": 60.0,
    "tb_blade_deg": 70.0,
    "tb_bore": 38.0,
    "tb_bore_depth": 12.0,

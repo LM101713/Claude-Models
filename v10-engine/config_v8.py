@@ -412,9 +412,16 @@ INTAKE = dict(                  # ENGINE frame - low, wide single-plane plenum (
     # pieces so the sections match across the split line
     runner_path=[(46.0, 100.0), (50.0, 108.0), (54.0, 116.0), (62.0, 126.0), (74.0, 140.0), (58.0, 152.0), (40.0, 149.0), (20.0, 140.0)],
     spine_w=72.0, spine_h=6.0,            # skin round 5: a wide flat plenum top plate the runners dive under (was a 48 mm spine)
-    rail_z=128.0, rail_y=86.0, rail_r=5.5, rail_out=2.0, inj_r=4.5, inj_l=20.0, inj_deg=120.0,   # fuel rail outboard of the runners, injectors bridge to the tubes
+    rail_z=128.0, rail_y=86.0, rail_r=5.5, rail_out=2.0, inj_r=4.5, inj_l=20.0, inj_deg=120.0,   # (skin rounds 4-5) fuel rail outboard of the runners
     tb_d=44.0, tb_l=34.0, tb_z=132.0, tb_tilt=10.0, tb_bore=38.0, tb_bore_depth=12.0, tb_blade_deg=70.0,
-    tb_spigot_d=14.0, tb_spigot_l=9.0)                                                # throttle body: separate, pressed in
+    tb_spigot_d=14.0, tb_spigot_l=9.0,                                                # throttle body: separate, pressed in
+    # NASCAR restyle (D64): runners and spine gone (skin only; the CAD skin keeps the D61 keys above),
+    # fuel rail on the top flanks, flank bolt row, square 4-barrel throttle body on a spacer plate on top
+    skin_rail_y=70.0, skin_rail_z=140.0, skin_inj_l=10.0, bolt_ledge_z=6.0, n_flank_bolts=6, flank_bolt_span=140.0,
+    tb4_l=66.0, tb4_w=60.0, tb4_h=20.0, tb4_bore=21.0, tb4_pitch_x=29.0, tb4_pitch_y=27.0, spacer_t=8.0, spacer_out=4.0,
+    # skin-only envelope: shoulders roll in above z 138 so the top reads as a cast single-plane plenum, not a box
+    # (max flank angle ~46 deg in the top-down print). The lower sections match `sections` (the base is unchanged).
+    skin_sections=[(92.0, 70.0, 160.0), (100.0, 84.0, 170.0), (112.0, 108.0, 180.0), (138.0, 134.0, 186.0), (152.0, 116.0, 172.0)])
 PAN = dict(w=160.0, z_step=-60.0, w_sump=128.0, z_bot=-102.0, wall=3.5, skin=4.0, floor=6.0, ledge=11.0,
            rabbet_overlap=6.0, panel_t=3.0, r=8.0, flange_h=6.0, flange_out=3.0,
            rib_z=(-70.0, -80.0, -90.0), rib_out=3.0, rib_h=4.0, bottom_chamfer=6.0, panel_screw_inset=3.0)

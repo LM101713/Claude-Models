@@ -423,3 +423,46 @@ chamfer; the plinth panel line clipped the power-switch hole by 0.04 mm,
 moved 1.5 mm inward after this render set); static interference 0 apart
 from the floor-tray board pins in the CAD electronics envelope (expected);
 full-rotation sweep 2216 pair checks, 0 collisions.
+
+## Skin round 6 - NASCAR restyle (`renders/skin_round6/`)
+
+Liam asked whether the engine looks like a NASCAR engine; it did not (round
+5 read as a modern exotic V8, because the STYLE_ai references are that kind
+of engine). He chose the restyle (D64). What changed: the eight runner
+tubes and the raised spine are gone; the intake is a smooth single-plane
+casting with rolled shoulders, a fuel rail along each top edge and six
+manifold bolts per flank; a square 4-barrel throttle body with four open
+bores, blades and a linkage cam stands on a spacer plate on the top centre
+(the Cup EFI layout). The STYLE_ai side-by-sides are now only a lighting
+and material reference: the restyle deliberately moves away from their
+shapes.
+
+What it does now: the silhouette reads as a stock-car V8 from every angle
+(ref1, ref2, ref3): low wide intake, 4-barrel on top, long-tube headers.
+The lid prints flat-top-down with 1,835 to 3,627 mm2 of overhang instead of
+12,187 (the open D53 lid case is gone), and print time drops about 5 h.
+
+Honest ranking of what is still off, worst first:
+
+1. **The front is a road-car serpentine drive.** A Cup engine shows a
+   cogged dry-sump pump stack low on one side, a water pump on the centre
+   line and a small alternator; ours has three equal black discs. Next
+   pass: a stacked dry-sump pump body (banded sections) on the accessory
+   module, no new part.
+2. **No plug wires.** Eight bare boots read as pegs from 1 m. A printed
+   wire loom bar per bank, or silicone cord, remains the fix (adds 2
+   parts or a cheap purchased item).
+3. **Intake shoulders pinch at the front corners** (ref5): the rail end
+   fittings and the rolled shoulder meet in a small spike. Shorten the
+   rail by 4 mm or blend the fitting.
+4. **Valve covers**: acceptable, but a Cup cover has a breather fitting
+   and a taller, flatter top. The cap could become an AN-style breather.
+5. **Colour**: an all-silver intake on a silver block reads flat. A Cup
+   engine usually pairs a natural-aluminium intake with a painted block
+   (orange, blue or black by maker, no logos). Colour sign-off is Liam's.
+
+Checks on the round-6 files: 26 files watertight; fits 210/210 within
+0.02 mm; static interference 0 apart from the floor-tray board pins in the
+CAD electronics envelope (expected, 34 mm3); full-rotation sweep 2216 pair
+checks, 0 collisions. Estimate: 90 printed pieces, about 136 h and 3.28 kg
+per engine (was 141 h, 3.45 kg).
