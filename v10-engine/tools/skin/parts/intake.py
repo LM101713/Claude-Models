@@ -140,8 +140,14 @@ def intake_base():
             clip = U.box("stub_clip", -200, 200, -200, 200, Z0 - 20, SPLIT)
             U.boolean(stub, clip, "INTERSECT")
             U.boolean(base, stub, "UNION")
-            # ... merged with the lower half of the runner tube that the lid continues above the gasket line (D61)
-            U.boolean(base, _runner(bank, xc, Z0 - 20.0, SPLIT), "UNION")
+            # ... merged with the lower half of the runner tube that the lid continues above the gasket line (D61).
+            # The tube is cut back to 0.3 mm outside the head's valley face (its section would otherwise cross
+            # into the head: 8.9 cm3 overlap per head in the skin check).
+            tube = _runner(bank, xc, Z0 - 20.0, SPLIT)
+            head_side = U.box("head_side", -300, 300, -300, yl + 0.3, -300, 400)          # bank-local: y' <= port face
+            U.to_bank(head_side, bank, P.bank_angle_A, P.bank_angle_B)
+            U.boolean(tube, head_side)
+            U.boolean(base, tube, "UNION")
     for x, y in it["magnet_xy"]:
         pil = U.cylinder("base_pillar", it["pillar_r"], Z0 + W - 0.1, SPLIT, x, y)
         U.boolean(base, pil, "UNION")

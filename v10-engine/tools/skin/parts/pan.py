@@ -9,7 +9,7 @@ from ..params import P
 
 S45 = math.sqrt(0.5)
 LEG_W, LEG_TOP_Z, LEG_Y_IN, LEG_Y_OUT = 50.0, -76.0, 88.0, 110.0   # saddle legs cast onto the pan (D60)
-TONGUE_L, TONGUE_T, TONGUE_Z0, TONGUE_INSET = 6.0, 2.0, 2.0, 20.0   # S2 floor-tray tongue: 6 mm long, 2 thick, 2 above the panel bottom
+TONGUE_L, TONGUE_T, TONGUE_Z0, TONGUE_INSET = 6.0, 1.5, 1.5, 20.0   # S2 floor-tray tongue: 6 mm long, 1.5 thick, flush with the panel top
 HOOK_W, HOOK_T, HOOK_LIP = 6.0, 2.0, 1.2                            # S3 board snap hooks
 
 
@@ -189,6 +189,8 @@ def electronics_envelope():
     cx, cy = P.pan_board_centre
     z0 = d["ZB"] + d["PAN"]["panel_t"] + b["standoff"]
     env = U.box("elec_board", cx - b["w"] / 2, cx + b["w"] / 2, cy - b["h"] / 2, cy + b["h"] / 2, z0, z0 + 1.6)
+    for x, y in P.pan_board_holes:                                   # the board's 3.2 mm holes (S3 locating pins sit in them)
+        U.boolean(env, U.cylinder("board_hole", 1.6, z0 - 1, z0 + 1.6 + 1, x, y))
     U.boolean(env, U.box("elec_parts", cx - b["w"] / 2 + 6, cx + b["w"] / 2 - 6, cy - b["h"] / 2 + 4, cy + b["h"] / 2 - 4, z0 + 1.6, z0 + 1.6 + P.board_stack), "UNION")
     return env
 
