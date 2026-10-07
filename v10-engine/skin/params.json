@@ -1,0 +1,1473 @@
+{
+ "config": {
+  "ACCESSORY": {
+   "alt_body": {
+    "r": 24.0,
+    "x0": 108.0,
+    "x1": 148.0
+   },
+   "arm_w": 14.0,
+   "arms": [
+    [
+     "pump",
+     "alt"
+    ],
+    [
+     "pump",
+     "idler"
+    ]
+   ],
+   "band_gap": 1.2,
+   "band_t": 2.0,
+   "band_w": 6.0,
+   "band_x0": 9.0,
+   "idler_boss_r": 6.0,
+   "plate_margin": 5.0,
+   "plate_t": 2.5,
+   "pulley_t": 12.0,
+   "pulley_x0": 6.0,
+   "pulleys": [
+    [
+     "pump",
+     0.0,
+     62.0,
+     24.0
+    ],
+    [
+     "alt",
+     -70.0,
+     70.0,
+     12.0
+    ],
+    [
+     "idler",
+     46.0,
+     26.0,
+     11.0
+    ]
+   ],
+   "pump_snout_r": 16.0
+  },
+  "AUTO_IDLE_MIN": 5,
+  "AUTO_SLEEP_MIN": 15,
+  "AXIAL_FLOAT": 0.6,
+  "BANK_ANGLE": 90.0,
+  "BANK_A_ANGLE": -45.0,
+  "BANK_A_CYL_X": [
+   71.75,
+   21.75,
+   -28.25,
+   -78.25
+  ],
+  "BANK_B_ANGLE": 45.0,
+  "BANK_B_CYL_X": [
+   78.25,
+   28.25,
+   -21.75,
+   -71.75
+  ],
+  "BANK_OFFSET": 6.5,
+  "BASE_BOTTOM_Z": -104.0,
+  "BASE_ENGINE_RECESS": 1.5,
+  "BASE_H": 72.0,
+  "BASE_INSERTS": [
+   [
+    -94.0,
+    -40.0
+   ],
+   [
+    -94.0,
+    40.0
+   ],
+   [
+    94.0,
+    -40.0
+   ],
+   [
+    94.0,
+    40.0
+   ]
+  ],
+  "BASE_JOINT_PEGS": [
+   [
+    -95.0,
+    -42.0
+   ],
+   [
+    95.0,
+    -42.0
+   ]
+  ],
+  "BASE_JOINT_SCREWS": [
+   [
+    -131.0,
+    -48.0
+   ],
+   [
+    131.0,
+    -48.0
+   ],
+   [
+    -131.0,
+    -92.0
+   ],
+   [
+    131.0,
+    -92.0
+   ],
+   [
+    -50.0,
+    -42.0
+   ],
+   [
+    50.0,
+    -42.0
+   ]
+  ],
+  "BASE_SKIN": 5.0,
+  "BASE_TOP_CHAMFER": 8.0,
+  "BASE_TOP_Z": -32.0,
+  "BASE_WALL": 4.0,
+  "BASE_X": [
+   -200.0,
+   200.0
+  ],
+  "BASE_Y": [
+   -140.0,
+   140.0
+  ],
+  "BEARING_608": {
+   "id": 8.0,
+   "od": 22.0,
+   "w": 7.0
+  },
+  "BEARING_608_OUTER_LIP_ID": 18.5,
+  "BEARING_686": {
+   "id": 6.0,
+   "od": 13.0,
+   "w": 5.0
+  },
+  "BEARING_686_INNER_SHOULDER": 7.5,
+  "BEARING_INNER_X": 109.75,
+  "BEARING_LIP_T": 1.5,
+  "BEARING_OUTER_X": 116.75,
+  "BELL": {
+   "bolt_r": 36.0,
+   "depth": 22.0,
+   "half_w_bot": 60.0,
+   "hub_h": 4.0,
+   "hub_r": 22.0,
+   "n_bolts": 8,
+   "r_top": 44.0,
+   "wall": 3.0,
+   "z_bot": -92.0
+  },
+  "BELT_ALT_LEN": 220.0,
+  "BELT_CENTER_FROM_HUB": 11.5,
+  "BELT_CENTRE": 63.728081162411016,
+  "BELT_LEN": 210.0,
+  "BELT_W": 6.0,
+  "BELT_X": 131.75,
+  "BLOCK_END_MARGIN": 30.0,
+  "BLOCK_SCREW_END_Y": -20.0,
+  "BLOCK_SCREW_VALLEY_Y": 30.0,
+  "BLOCK_X_MAX": 101.75,
+  "BLOCK_X_MIN": -108.25,
+  "BLOCK_Y_OUT": -34.0,
+  "BLOCK_Y_VALLEY": 38.0,
+  "BOOT_STRIP": {
+   "d": 2.6,
+   "first_boot_led": 1,
+   "n": 11,
+   "w": 11.0
+  },
+  "BORE_DIA": 45.6,
+  "BUSHING": {
+   "id": 3.0,
+   "l": 4.0,
+   "od": 5.0
+  },
+  "CAM_CAP_HALF_W": 6.0,
+  "CAM_COVER": {
+   "chamfer": 5.0,
+   "end_inset": 1.0,
+   "h": 18.0,
+   "wall": 3.0,
+   "y0": -33.0,
+   "y1": 19.5
+  },
+  "CAM_END_GAP": 9.0,
+  "CAM_LOBE_R": 6.5,
+  "CAM_R": 5.0,
+  "CAM_Y": [
+   -17.0,
+   10.0
+  ],
+  "CAPTIVE_LIP_D": 2.75,
+  "CAPTIVE_LIP_T": 1.0,
+  "CASE_FLOOR_T": 4.0,
+  "CASE_FLOOR_Z": -32.0,
+  "CASE_HALF_LEN": 108.25,
+  "CASE_INTERIOR_R": 28.0,
+  "CASE_SLOT_HALF": 15.0,
+  "CLEARANCE": 0.2,
+  "COIL": {
+   "h": 24.0,
+   "l": 15.0,
+   "shaft_d": 10.0,
+   "w": 11.0
+  },
+  "COIL_COVER_HOLE_CLEAR": 1.0,
+  "COIL_SHAFT_SHORT": 0.5,
+  "COIL_SOCKET_D": 10.0,
+  "CONTROLS": [
+   [
+    "dc_jack",
+    75.0,
+    "round",
+    11.0
+   ],
+   [
+    "power",
+    30.0,
+    "round",
+    20.2
+   ],
+   [
+    "speed",
+    -20.0,
+    "round",
+    7.2
+   ],
+   [
+    "start",
+    -75.0,
+    "round",
+    16.2
+   ]
+  ],
+  "CONTROLS_Z": -70.0,
+  "CONTROL_PANEL_T": 2.5,
+  "COVER_MAGNETS": [
+   [
+    0.0,
+    27.0
+   ],
+   [
+    27.0,
+    -18.0
+   ],
+   [
+    -27.0,
+    -18.0
+   ]
+  ],
+  "COVER_PILLAR_R": 4.0,
+  "COVER_R": 31.0,
+  "COVER_WALL": 3.0,
+  "COVER_X0": 118.25,
+  "COVER_X1": 142.75,
+  "CRANK_ACCEL_RPM_S": 15.0,
+  "CRANK_DX": 0.3,
+  "CRANK_R": 13.0,
+  "CRUSH": {
+   "bearing_608": [
+    8,
+    0.3
+   ],
+   "bearing_686": [
+    6,
+    0.3
+   ],
+   "boot_9": [
+    3,
+    0.25
+   ],
+   "bushing_5": [
+    4,
+    0.25
+   ],
+   "coil_10": [
+    4,
+    0.25
+   ],
+   "dpin_6": [
+    2,
+    0.3
+   ],
+   "magnet_6": [
+    4,
+    0.25
+   ],
+   "pin_3": [
+    3,
+    0.2
+   ],
+   "rail_3": [
+    3,
+    0.05
+   ],
+   "trumpet_14": [
+    6,
+    0.25
+   ]
+  },
+  "CRUSH_LEAD": 0.8,
+  "CRUSH_RELIEF": 0.3,
+  "CRUSH_RIB_R": 0.6,
+  "CYCLE_DEG": 720.0,
+  "CYL_PITCH": 50.0,
+  "DAMPER": {
+   "d": 72.0,
+   "gap": 1.2,
+   "groove_d": 1.0,
+   "groove_r": 30.0,
+   "groove_w": 1.6,
+   "hole_r": 2.0,
+   "hub_d": 24.0,
+   "hub_h": 1.0,
+   "n_holes": 6,
+   "t": 13.0
+  },
+  "DAMPER_X0": 143.95,
+  "DECK_DIST": 88.0,
+  "DRIVE_RATIO": 3.0,
+  "EDITION_PLATE": {
+   "clear": 0.3,
+   "depth": 1.0,
+   "enabled": true,
+   "h": 30.0,
+   "r": 3.0,
+   "t": 0.8,
+   "tape": 0.13,
+   "w": 120.0
+  },
+  "END_COVER_ZC": 30.0,
+  "END_PLATE_FLANGE_T": 10.0,
+  "END_PLATE_INNER_X": 104.25,
+  "END_PLATE_OUTER_X": 118.25,
+  "END_PLATE_SPIGOT": 4.0,
+  "END_WEB_OUTER_X": 93.5,
+  "END_WEB_T": 12.0,
+  "ENGINE_RPM": [
+   20.0,
+   120.0
+  ],
+  "EXH_BACK_Y": -35.0,
+  "EXH_BEND_R": 24.0,
+  "EXH_BEND_R2": 20.0,
+  "EXH_COLLECTOR_FRONT_MARGIN": 20.0,
+  "EXH_COLLECTOR_R": [
+   14.0,
+   21.0
+  ],
+  "EXH_COLLECTOR_SADDLE": 3.0,
+  "EXH_COLLECTOR_TOP_Z": -44.0,
+  "EXH_COLLECTOR_Y": 104.0,
+  "EXH_DIP": 8.0,
+  "EXH_FLANGE": {
+   "d": 17.0,
+   "t": 3.0
+  },
+  "EXH_FLANGE_PLATE": {
+   "end_inset": 6.0,
+   "t": 4.0,
+   "z0": 0.5,
+   "z1": 33.0
+  },
+  "EXH_FLARE_Y": 122.0,
+  "EXH_JOIN_DX": 46.0,
+  "EXH_OFFSET": 4.0,
+  "EXH_PORT_D": 20.0,
+  "EXH_PORT_DEPTH": 2.0,
+  "EXH_PORT_Z": 20.0,
+  "EXH_PRIMARY_D": 20.0,
+  "EXH_R_PRIMARY": 6.0,
+  "EXH_R_TRUNK": 9.5,
+  "EXH_SCREW_DX": 9.0,
+  "EXH_SCREW_Z": 100.0,
+  "EXH_SPIGOT_D": 14.0,
+  "EXH_SPIGOT_L": 9.0,
+  "EXH_STUB_MIN": 14.0,
+  "EXH_S_X_SHARE": 0.8,
+  "EXH_S_Z": -10.0,
+  "EXH_TAIL_MARGIN": 8.0,
+  "EXH_TAIL_WALL": 4.5,
+  "EXH_TAIL_X": -166.0,
+  "EXH_TAIL_Z": 146.0,
+  "EXH_TRUNK_Z": 124.0,
+  "EXH_X_JOG": -25.0,
+  "FACE_DIST": 40.0,
+  "FIRE_ANGLE": {
+   "1": 0.0,
+   "2": 630.0,
+   "3": 270.0,
+   "4": 540.0,
+   "5": 450.0,
+   "6": 360.0,
+   "7": 180.0,
+   "8": 90.0
+  },
+  "FIRING_INTERVAL": 90.0,
+  "FIRING_ORDER": [
+   1,
+   8,
+   7,
+   3,
+   6,
+   5,
+   4,
+   2
+  ],
+  "FIT": {
+   "insert_m3": 0.0,
+   "rail_3_slip": 0.05,
+   "shaft_8": 0.05,
+   "spigot": 0.1
+  },
+  "FLANGE_OUTER_X": 97.5,
+  "FLASH_DEG": 110.0,
+  "FRONT_COVER": {
+   "bolt_r": 2.0,
+   "module_magnets": [
+    [
+     16.0,
+     44.0
+    ],
+    [
+     -16.0,
+     44.0
+    ],
+    [
+     36.0,
+     24.0
+    ]
+   ],
+   "n_bolts": 8,
+   "outline": [
+    [
+     -86.0,
+     46.0
+    ],
+    [
+     -32.0,
+     50.0
+    ],
+    [
+     18.0,
+     52.0
+    ],
+    [
+     56.0,
+     26.0
+    ]
+   ],
+   "r": 10.0,
+   "rim": 2.0,
+   "shaft_clear": 1.5,
+   "wall": 3.0
+  },
+  "GT2_PITCH": 2.0,
+  "HALL_LEAD_SLOT": {
+   "dx": 3.3,
+   "l": 2.0,
+   "w": 4.0
+  },
+  "HALL_MAGNET_IN_WEB": true,
+  "HALL_MAGNET_WEB_ANGLE": 135.0,
+  "HALL_PHI": 90.0,
+  "HALL_POCKET": {
+   "d": 1.7,
+   "l": 7.0,
+   "w": 5.0
+  },
+  "HALL_PULSE_DEG": [
+   2.0,
+   90.0
+  ],
+  "HALL_SENSOR_ANGLE": 180.0,
+  "HALL_SENSOR_END": "rear",
+  "HALL_X": -87.2,
+  "HARNESS_HOLE": {
+   "d": 12.0,
+   "y": 28.0,
+   "z": -46.0
+  },
+  "HEADER_SCREW_X_INSET": 8.0,
+  "HEAD_H": 36.0,
+  "HEAD_SCREW_Y": [
+   -17.0,
+   10.0
+  ],
+  "HEAD_VALVE_R": 7.5,
+  "HEAD_VALVE_Y": [
+   10.0,
+   -10.0
+  ],
+  "HOLE_COMP": 0.1,
+  "HOMING_RPM": 15.0,
+  "IDLE_RPM": 20.0,
+  "INSERT_DEPTH": 6.5,
+  "INSERT_HOLE_DIA": 4.0,
+  "INTAKE": {
+   "inj_l": 7.0,
+   "inj_r": 4.5,
+   "magnet_xy": [
+    [
+     70.0,
+     34.0
+    ],
+    [
+     70.0,
+     -34.0
+    ],
+    [
+     -70.0,
+     34.0
+    ],
+    [
+     -70.0,
+     -34.0
+    ]
+   ],
+   "pillar_r": 4.8,
+   "port_depth": 3.0,
+   "port_z": 20.0,
+   "r": 18.0,
+   "rail_out": 2.0,
+   "rail_r": 4.0,
+   "rail_z": 127.0,
+   "rib_pitch": 40.0,
+   "rib_t": 3.0,
+   "ridge": [
+    [
+     56.0,
+     122.0
+    ],
+    [
+     80.0,
+     140.0
+    ],
+    [
+     50.0,
+     150.0
+    ]
+   ],
+   "ridge_r": 13.0,
+   "runner_h": 16.0,
+   "runner_r": 5.0,
+   "runner_w": 22.0,
+   "sections": [
+    [
+     92.0,
+     70.0,
+     160.0
+    ],
+    [
+     100.0,
+     84.0,
+     170.0
+    ],
+    [
+     112.0,
+     112.0,
+     180.0
+    ],
+    [
+     152.0,
+     156.0,
+     188.0
+    ]
+   ],
+   "split_z": 118.0,
+   "tb_blade_deg": 70.0,
+   "tb_bore": 38.0,
+   "tb_bore_depth": 12.0,
+   "tb_d": 44.0,
+   "tb_l": 34.0,
+   "tb_spigot_d": 14.0,
+   "tb_spigot_l": 9.0,
+   "tb_tilt": 10.0,
+   "tb_z": 132.0,
+   "tongue_h": 3.0,
+   "tongue_w": 1.5,
+   "top_fillet": 10.0,
+   "wall": 3.0
+  },
+  "JOURNAL_R": 17.0,
+  "LAYER": {
+   "bank": 0.2,
+   "base": 0.2,
+   "beam": 0.28,
+   "case": 0.2,
+   "coil": 0.16,
+   "cosmetic": 0.2,
+   "crank": 0.16,
+   "exhaust": 0.16,
+   "head": 0.2,
+   "panel": 0.28,
+   "piston": 0.16,
+   "plate": 0.28,
+   "rod": 0.12,
+   "trumpet": 0.12
+  },
+  "LED_GROOVE": {
+   "d": 2.6,
+   "end_wall": 1.6,
+   "w": 11.0
+  },
+  "LED_MAX_BRIGHTNESS": 170,
+  "LED_STRIP": {
+   "n": 12,
+   "pitch": 16.666666666666668,
+   "t": 2.1,
+   "w": 10.0
+  },
+  "LED_WIRE_GROOVE": {
+   "d": 3.8,
+   "w": 4.4
+  },
+  "LOAD_BEARING_INFILL": "25% gyroid",
+  "LOAD_BEARING_WALLS": 4,
+  "LOCATOR_D": 6.0,
+  "LOCATOR_DEPTH_CLEAR": 0.5,
+  "LOCATOR_H": 3.0,
+  "LOCATOR_Y": 21.0,
+  "LUG_BOTTOM": -2.0,
+  "LUG_OD": 9.0,
+  "LUG_POCKET_CLEAR": 0.8,
+  "LUG_TOP": 12.0,
+  "M3_CBORE": 6.2,
+  "M3_CLEAR": 3.4,
+  "M3_HEAD_D": 5.5,
+  "M3_HEAD_H": 3.0,
+  "M3_TAP": 2.5,
+  "MAGNET": {
+   "d": 6.0,
+   "h": 3.0
+  },
+  "MAGNET_DEPTH_CLEAR": 0.3,
+  "MICROSTEPS": 16,
+  "MOTOR": {
+   "boss_d": 22.0,
+   "boss_h": 2.0,
+   "hole_pitch": 31.0,
+   "length": 40.0,
+   "shaft_d": 5.0,
+   "shaft_len": 24.0,
+   "size": 42.3
+  },
+  "MOTOR_BOSS_SLOT_CLEAR": 0.5,
+  "MOTOR_FACE_X": 114.25,
+  "MOTOR_FULL_STEPS": 200,
+  "MOTOR_HOLD_FRACTION": 0.35,
+  "MOTOR_PLATE_T": 4.0,
+  "MOTOR_PLATE_X1": 118.25,
+  "MOTOR_RUN_MA": 600,
+  "MOTOR_SLOT_BOTTOM": -71.82222720469676,
+  "MOTOR_SLOT_TOP": -60.728081162411016,
+  "MOTOR_TENSION_TRAVEL": 3.0,
+  "MOTOR_Z": -63.728081162411016,
+  "MOTOR_Z_ALT": -68.82222720469676,
+  "NO_HALL_REVS": 1.4,
+  "N_CYL": 8,
+  "N_THROWS": 4,
+  "PALETTE": {
+   "hidden": {
+    "name": "any (hidden)",
+    "parts": [
+     "05_",
+     "06_",
+     "07_",
+     "08_",
+     "09_",
+     "10_"
+    ],
+    "render": "crank"
+   },
+   "slot1_block": {
+    "name": "slot 1 (satin grey: block, heads, intake, bell, front cover)",
+    "parts": [
+     "01_",
+     "02_",
+     "03_",
+     "04_",
+     "30",
+     "36",
+     "42_",
+     "43_"
+    ],
+    "render": "block"
+   },
+   "slot2_dark": {
+    "name": "slot 2 (matte black: covers, pan, damper, accessories, stand)",
+    "parts": [
+     "31_",
+     "40_",
+     "41_",
+     "44_",
+     "45_",
+     "46_",
+     "47",
+     "48_"
+    ],
+    "render": "carbon"
+   },
+   "slot3_headers": {
+    "name": "slot 3 (headers, painted after printing)",
+    "parts": [
+     "33",
+     "34",
+     "35"
+    ],
+    "render": "steel"
+   },
+   "slot4_clear": {
+    "name": "slot 4 (translucent natural PETG: plug boots)",
+    "parts": [
+     "32_"
+    ],
+    "render": "white"
+   }
+  },
+  "PAN": {
+   "bottom_chamfer": 6.0,
+   "flange_h": 6.0,
+   "flange_out": 3.0,
+   "floor": 6.0,
+   "ledge": 11.0,
+   "panel_screw_inset": 3.0,
+   "panel_t": 3.0,
+   "r": 8.0,
+   "rabbet_overlap": 6.0,
+   "rib_h": 4.0,
+   "rib_out": 3.0,
+   "rib_z": [
+    -70.0,
+    -80.0,
+    -90.0
+   ],
+   "skin": 4.0,
+   "w": 160.0,
+   "w_sump": 128.0,
+   "wall": 3.5,
+   "z_bot": -102.0,
+   "z_step": -60.0
+  },
+  "PANEL_EDGE_CLEAR": 0.4,
+  "PANEL_SCREW_INSET": 12.0,
+  "PANEL_T": 3.0,
+  "PAN_SCREWS": [
+   [
+    -94.0,
+    -40.0
+   ],
+   [
+    -94.0,
+    40.0
+   ],
+   [
+    94.0,
+    -40.0
+   ],
+   [
+    94.0,
+    40.0
+   ]
+  ],
+  "PCB": {
+   "h": 70.0,
+   "inset": 2.5,
+   "standoff": 10.0,
+   "w": 90.0,
+   "x_center": -105.0,
+   "y_center": 52.0
+  },
+  "PIN_ANGLE": {
+   "1": 45.0,
+   "2": 45.0,
+   "3": 135.0,
+   "4": 135.0,
+   "5": -45.0,
+   "6": -45.0,
+   "7": -135.0,
+   "8": -135.0
+  },
+  "PIN_DFLAT": 0.5,
+  "PIN_DIA": 6.0,
+  "PIN_END_LEN": 8.0,
+  "PIN_FLYWEB_T": 0.0,
+  "PIN_LEN": 29.0,
+  "PIN_SCREW_FLOOR": 3.0,
+  "PIN_SHOULDER_D": 7.5,
+  "PIN_SHOULDER_L": 0.75,
+  "PIN_SOCKET_CLEAR": 0.3,
+  "PIN_TAP_DEPTH": 6.0,
+  "PISTON_BOSS_GAP": 1.0,
+  "PISTON_CROWN_T": 3.0,
+  "PISTON_DIA": 44.0,
+  "PISTON_PIN_TO_CROWN": 12.0,
+  "PISTON_PIN_TO_SKIRT": 7.0,
+  "PISTON_RADIAL_CLEARANCE": 0.8,
+  "PISTON_WALL_T": 2.0,
+  "PITCH_D_BIG": 38.197186342054884,
+  "PITCH_D_SMALL": 12.732395447351628,
+  "PLATE_CLEAR": 0.3,
+  "PLENUM_HALF_W": 65.0,
+  "PLENUM_T": 5.0,
+  "PLINTH": {
+   "controls": [
+    [
+     "dc_jack",
+     -100.0
+    ],
+    [
+     "power",
+     -78.0
+    ],
+    [
+     "speed",
+     -46.0
+    ],
+    [
+     "start",
+     -22.0
+    ]
+   ],
+   "controls_z": 15.0,
+   "depth": 37.0,
+   "face_t": 2.5,
+   "h": 30.0,
+   "tie_slots": [
+    [
+     -60.0,
+     8.0
+    ]
+   ],
+   "wall": 3.0,
+   "x0": 122.0,
+   "y": [
+    -115.0,
+    -5.0
+   ]
+  },
+  "PLUG_BOOT": {
+   "d": 10.0,
+   "dx": 15.0,
+   "l": 14.0,
+   "shaft_d": 9.0,
+   "shaft_l": 8.0,
+   "z": 8.0
+  },
+  "POT_TAB": {
+   "d": 3.2,
+   "dy": -7.8
+  },
+  "PRINTER": {
+   "bed": [
+    325.0,
+    320.0
+   ],
+   "dual_bed": [
+    300.0,
+    320.0
+   ],
+   "name": "Bambu Lab H2C",
+   "z": 325.0
+  },
+  "PULLEY_BIG": {
+   "bore": 8.0,
+   "hub_d": 25.0,
+   "hub_len": 7.0,
+   "od": 37.6,
+   "teeth": 60,
+   "width": 16.0
+  },
+  "PULLEY_GAP": 2.0,
+  "PULLEY_HUB_X": 120.25,
+  "PULLEY_MAX_W": 18.0,
+  "PULLEY_SMALL": {
+   "bore": 5.0,
+   "hub_d": 16.0,
+   "hub_len": 7.0,
+   "od": 12.1,
+   "teeth": 20,
+   "width": 16.0
+  },
+  "RAIL_BOTTOM": 34.0,
+  "RAIL_DIA": 3.0,
+  "RAIL_HEAD_ENGAGE": 3.0,
+  "RAIL_HOLE_DEPTH_CASE": 6.0,
+  "RAIL_LEN": 57.0,
+  "RAIL_OFFSET": 25.5,
+  "RAIL_POCKET_EXTRA": 0.5,
+  "RAIL_TOP": 91.0,
+  "RAIL_W": 24.0,
+  "RING_ID_CLEAR": 0.03,
+  "ROD_BIG_END_OD": 19.0,
+  "ROD_BIG_END_WALL": 3.0,
+  "ROD_BODY_W": 5.0,
+  "ROD_FLUTE_DEPTH": 0.8,
+  "ROD_LENGTH": 62.0,
+  "ROD_SHANK_W_BIG": 10.0,
+  "ROD_SHANK_W_SMALL": 7.0,
+  "ROD_SMALL_END_OD": 9.0,
+  "ROD_X_OFFSET": 3.25,
+  "RUNNER_POCKET_CLEAR": 0.5,
+  "SCREW_CHANNEL_D": 6.2,
+  "SCREW_FLOOR": 4.0,
+  "SCREW_LENGTHS": [
+   8,
+   16
+  ],
+  "SEGMENT_DELTA": [
+   90.0,
+   180.0,
+   270.0
+  ],
+  "SEGMENT_LEN": 37.0,
+  "SEGMENT_TYPES": [
+   90.0,
+   180.0,
+   270.0
+  ],
+  "SHADOW_GROOVE": {
+   "d": 1.0,
+   "offset": 1.0,
+   "w": 1.2
+  },
+  "SHAFT_ACCESS_HOLE_D": 7.0,
+  "SHAFT_D": 8.0,
+  "SHAFT_END_X": 136.75,
+  "SHAFT_END_X_FRONT": 155.95,
+  "SHAFT_FLANGE_BOLT_ANGLES": [
+   70.0,
+   180.0,
+   290.0
+  ],
+  "SHAFT_FLANGE_D": 28.0,
+  "SHAFT_FLANGE_PCD": 20.0,
+  "SHAFT_FLANGE_T": 4.0,
+  "SHAFT_FLAT_DEPTH": 0.5,
+  "SHAFT_JOURNAL_L": 27.299999999999997,
+  "SHAFT_JOURNAL_L_FRONT": 46.499999999999986,
+  "SHAFT_SHOULDER_D": 10.0,
+  "SHAFT_SHOULDER_L": 11.95,
+  "SHAFT_SPIGOT_D": 10.0,
+  "SHAFT_SPIGOT_L": 2.0,
+  "SIDE_PANEL": {
+   "bulge": 1.5,
+   "t": 5.0,
+   "z0": 44.0,
+   "z1": 87.0
+  },
+  "SIDE_PANEL_MAGNET_Z": 65.0,
+  "SPACER_T": 3.5,
+  "SPLIT_ANGLE": 0.0,
+  "SPLIT_DIST": 0.0,
+  "STAND": {
+   "bracket_t": 6.0,
+   "bracket_tab_h": 24.0,
+   "bracket_tab_z": -90.0,
+   "bracket_w": 30.0,
+   "bracket_x": [
+    -70.0,
+    70.0
+   ],
+   "chamfer": 3.0,
+   "channel_d": 6.0,
+   "channel_w": 10.0,
+   "cutout": [
+    190.0,
+    90.0
+   ],
+   "feet_d": 20.0,
+   "feet_inset": 18.0,
+   "foot_y": 100.0,
+   "l": 300.0,
+   "t": 12.0,
+   "w": 240.0,
+   "x_offset": 9.0,
+   "z_top": -132.0
+  },
+  "STROKE": 26.0,
+  "SYNC_CORRECT_DEG": 3.0,
+  "SYNC_FAULT_DEG": 8.0,
+  "THROTTLE": {
+   "d": 24.0,
+   "h": 9.0
+  },
+  "THROW_ANGLE": [
+   45.0,
+   135.0,
+   -45.0,
+   -135.0
+  ],
+  "THROW_INNER": 13.0,
+  "THROW_PATTERN": [
+   0.0,
+   90.0,
+   270.0,
+   180.0
+  ],
+  "THROW_PIN_A": [
+   45.0,
+   135.0,
+   -45.0,
+   -135.0
+  ],
+  "THROW_PIN_B": [
+   45.0,
+   135.0,
+   -45.0,
+   -135.0
+  ],
+  "THROW_X": [
+   75.0,
+   25.0,
+   -25.0,
+   -75.0
+  ],
+  "TIE_ANCHOR_X": [
+   -175.0,
+   -115.0,
+   -55.0,
+   5.0,
+   65.0
+  ],
+  "TIE_ANCHOR_Y": -60.0,
+  "TRUMPET": {
+   "base_od": 17.0,
+   "bell_h": 12.0,
+   "bell_od": 32.0,
+   "bore": 12.0,
+   "flange_d": 21.0,
+   "flange_t": 2.0,
+   "height": 44.0,
+   "spigot_d": 14.0,
+   "spigot_l": 11.5,
+   "top_od": 19.0
+  },
+  "TRUMPET_FACE_Z": 96.0,
+  "TRUMPET_FRAME_HOLE_CLEAR": 1.0,
+  "VALVE_RELIEF_D": 14.0,
+  "VALVE_RELIEF_DEPTH": 0.8,
+  "VARIANT": "v8",
+  "VC": {
+   "bolt_d": 3.6,
+   "bolt_pitch": 28.0,
+   "boss_d": 6.0,
+   "boss_h": 2.0,
+   "cap_d": 27.0,
+   "cap_h": 7.0,
+   "cap_spigot_d": 9.0,
+   "cap_x": -40.0,
+   "cap_y": -8.0,
+   "chamfer": 1.5,
+   "h": 29.0,
+   "panel_depth": 0.8,
+   "panel_inset": 5.0,
+   "r": 4.0,
+   "rim_h": 5.0,
+   "rim_t": 2.5,
+   "wall": 3.0,
+   "x_inset": 8.0,
+   "y0": -31.0,
+   "y1": 17.0
+  },
+  "VC_MAGNET_Y": -7.0,
+  "WEB_CW_R": 24.0,
+  "WEB_CW_SPAN": 140.0,
+  "WEB_FACE_X": 81.5,
+  "WEB_HUB_R": 16.0,
+  "WEB_PIN_BOSS_R": 9.5,
+  "WEB_T": 10.0,
+  "WINDOWS": true,
+  "WINDOW_BOTTOM": 46.0,
+  "WINDOW_HALF_W": 17.0,
+  "WINDOW_TOP": 85.5,
+  "WRIST_PIN": {
+   "d": 3.0,
+   "l": 20.0
+  }
+ },
+ "derived": {
+  "bank_angle_A": -45.0,
+  "bank_angle_B": 45.0,
+  "bank_between_x": [
+   46.75,
+   -3.25,
+   -53.25
+  ],
+  "base_inserts": [
+   [
+    -94.0,
+    -40.0
+   ],
+   [
+    -94.0,
+    40.0
+   ],
+   [
+    94.0,
+    -40.0
+   ],
+   [
+    94.0,
+    40.0
+   ]
+  ],
+  "beam_profile_yz": [
+   [
+    0.0,
+    56.568542494923804
+   ],
+   [
+    17.67766952966369,
+    38.890872965260115
+   ],
+   [
+    9.192388155425117,
+    30.405591591021544
+   ],
+   [
+    0.0,
+    39.59797974644666
+   ],
+   [
+    -9.192388155425117,
+    30.405591591021544
+   ],
+   [
+    -17.67766952966369,
+    38.890872965260115
+   ]
+  ],
+  "block_end_screws_x": [
+   89.75,
+   -97.25
+  ],
+  "board_stack": 22.0,
+  "case_end_screws": [
+   [
+    -40.0,
+    -22.0
+   ],
+   [
+    40.0,
+    -22.0
+   ],
+   [
+    -42.0,
+    -3.0
+   ],
+   [
+    42.0,
+    -3.0
+   ]
+  ],
+  "crankcase_outer_profile_yz": [
+   [
+    -52.32590180780451,
+    -32.0
+   ],
+   [
+    52.32590180780451,
+    -32.0
+   ],
+   [
+    52.32590180780451,
+    4.242640687119284
+   ],
+   [
+    0.0,
+    56.5685424949238
+   ],
+   [
+    -52.32590180780451,
+    4.242640687119284
+   ]
+  ],
+  "crush": {
+   "bearing_608": {
+    "bore": 22.400000000000002,
+    "n_ribs": 8,
+    "rib_centre_r": 11.45,
+    "rib_r": 0.6
+   },
+   "bearing_686": {
+    "bore": 13.4,
+    "n_ribs": 6,
+    "rib_centre_r": 6.949999999999999,
+    "rib_r": 0.6
+   },
+   "boot_9": {
+    "bore": 9.4,
+    "n_ribs": 3,
+    "rib_centre_r": 4.975,
+    "rib_r": 0.6
+   },
+   "dpin_shaft": {
+    "bore": 8.4,
+    "n_ribs": 2,
+    "rib_centre_r": 4.45,
+    "rib_r": 0.6
+   },
+   "magnet_6": {
+    "bore": 6.3999999999999995,
+    "n_ribs": 4,
+    "rib_centre_r": 3.475,
+    "rib_r": 0.6
+   },
+   "rail_3": {
+    "bore": 3.4,
+    "n_ribs": 3,
+    "rib_centre_r": 1.835,
+    "rib_r": 0.36
+   },
+   "trumpet_14": {
+    "bore": 14.4,
+    "n_ribs": 6,
+    "rib_centre_r": 7.475,
+    "rib_r": 0.6
+   }
+  },
+  "cyl_bank": {
+   "1": "B",
+   "2": "A",
+   "3": "B",
+   "4": "A",
+   "5": "B",
+   "6": "A",
+   "7": "B",
+   "8": "A"
+  },
+  "cyl_throw": {
+   "1": 0,
+   "2": 0,
+   "3": 1,
+   "4": 1,
+   "5": 2,
+   "6": 2,
+   "7": 3,
+   "8": 3
+  },
+  "edition_texts": [
+   [
+    "358 ci  V8  -  90 DEG  CROSS-PLANE",
+    5.0,
+    5.5
+   ],
+   [
+    "1-8-7-3-6-5-4-2      No. {number:02d} / 50",
+    3.6,
+    -6.0
+   ]
+  ],
+  "edition_y": 65.0,
+  "end_plate_screws": [
+   [
+    -40.0,
+    -22.0
+   ],
+   [
+    40.0,
+    -22.0
+   ],
+   [
+    -42.0,
+    -3.0
+   ],
+   [
+    42.0,
+    -3.0
+   ],
+   [
+    -9.0,
+    39.0
+   ],
+   [
+    9.0,
+    39.0
+   ]
+  ],
+  "fire_angle": {
+   "1": 0.0,
+   "2": 630.0,
+   "3": 270.0,
+   "4": 540.0,
+   "5": 450.0,
+   "6": 360.0,
+   "7": 180.0,
+   "8": 90.0
+  },
+  "hole": {
+   "M3_CBORE": 6.3,
+   "M3_CLEAR": 3.5
+  },
+  "insert_hole": 4.0,
+  "locator_xy": [
+   [
+    89.75,
+    21.0
+   ],
+   [
+    -96.25,
+    21.0
+   ]
+  ],
+  "pan_board_centre": [
+   -50.75,
+   0.0
+  ],
+  "pan_board_holes": [
+   [
+    -93.25,
+    -32.5
+   ],
+   [
+    -93.25,
+    32.5
+   ],
+   [
+    -8.25,
+    -32.5
+   ],
+   [
+    -8.25,
+    32.5
+   ]
+  ],
+  "pan_interior": [
+   -114.75,
+   114.25,
+   -60.5,
+   60.5
+  ],
+  "pan_opening": [
+   -103.75,
+   103.25,
+   -49.5,
+   49.5
+  ],
+  "pan_panel_screws": [
+   [
+    -106.75,
+    -52.5
+   ],
+   [
+    -106.75,
+    52.5
+   ],
+   [
+    -0.25,
+    -52.5
+   ],
+   [
+    -0.25,
+    52.5
+   ],
+   [
+    106.25,
+    -52.5
+   ],
+   [
+    106.25,
+    52.5
+   ]
+  ],
+  "pan_rabbet": [
+   -109.75,
+   109.25,
+   -55.5,
+   55.5
+  ],
+  "plinth_labels": {
+   "dc_jack": "12V DC",
+   "power": "POWER",
+   "speed": "SPEED",
+   "start": "START"
+  },
+  "variant": "v8"
+ },
+ "fits": {
+  "AXIAL_FLOAT": 0.6,
+  "CAPTIVE_LIP_D": 2.75,
+  "CAPTIVE_LIP_T": 1.0,
+  "CLEARANCE": 0.2,
+  "COIL_COVER_HOLE_CLEAR": 1.0,
+  "COIL_SHAFT_SHORT": 0.5,
+  "CRUSH": {
+   "bearing_608": [
+    8,
+    0.3
+   ],
+   "bearing_686": [
+    6,
+    0.3
+   ],
+   "boot_9": [
+    3,
+    0.25
+   ],
+   "bushing_5": [
+    4,
+    0.25
+   ],
+   "coil_10": [
+    4,
+    0.25
+   ],
+   "dpin_6": [
+    2,
+    0.3
+   ],
+   "magnet_6": [
+    4,
+    0.25
+   ],
+   "pin_3": [
+    3,
+    0.2
+   ],
+   "rail_3": [
+    3,
+    0.05
+   ],
+   "trumpet_14": [
+    6,
+    0.25
+   ]
+  },
+  "CRUSH_LEAD": 0.8,
+  "CRUSH_RELIEF": 0.3,
+  "CRUSH_RIB_R": 0.6,
+  "FIT": {
+   "insert_m3": 0.0,
+   "rail_3_slip": 0.05,
+   "shaft_8": 0.05,
+   "spigot": 0.1
+  },
+  "HOLE_COMP": 0.1,
+  "INSERT_DEPTH": 6.5,
+  "INSERT_HOLE_DIA": 4.0,
+  "LOCATOR_DEPTH_CLEAR": 0.5,
+  "LUG_POCKET_CLEAR": 0.8,
+  "M3_CBORE": 6.2,
+  "M3_CLEAR": 3.4,
+  "M3_TAP": 2.5,
+  "MAGNET_DEPTH_CLEAR": 0.3,
+  "MOTOR_BOSS_SLOT_CLEAR": 0.5,
+  "MOTOR_TENSION_TRAVEL": 3.0,
+  "PANEL_EDGE_CLEAR": 0.4,
+  "PIN_SOCKET_CLEAR": 0.3,
+  "PISTON_BOSS_GAP": 1.0,
+  "PISTON_RADIAL_CLEARANCE": 0.8,
+  "PLATE_CLEAR": 0.3,
+  "RAIL_POCKET_EXTRA": 0.5,
+  "RING_ID_CLEAR": 0.03,
+  "RUNNER_POCKET_CLEAR": 0.5,
+  "TRUMPET_FRAME_HOLE_CLEAR": 1.0
+ },
+ "source": "generated by tools/export_params.py from config.py (variant v8) and fits.py - do not edit"
+}

@@ -4,3 +4,7 @@ renders/_anim/
 renders/_*.png
 burnin_logs/
 firmware/.pio/
+
+# regenerated mesh copies (tools/skin_blender.py --export, tools/export_core_meshes.py)
+skin/assembly/
+skin/core/

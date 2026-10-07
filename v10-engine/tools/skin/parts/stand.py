@@ -1,0 +1,161 @@
+"""46 stand plate, 47 brackets (L/R), 48 controls plinth, 49 edition plate -
+as cad/stand_v8.py from params.json. Engine frame, +X = front."""
+import math
+
+from .. import bpyutil as U
+from .. import fitcut as F
+from ..params import P
+
+
+def _d():
+    ST, PL = P.STAND, P.PLINTH
+    XC = ST["x_offset"]
+    d = dict(ST=ST, PL=PL, XC=XC, X0=XC - ST["l"] / 2, X1=XC + ST["l"] / 2, Y0=-ST["w"] / 2, Y1=ST["w"] / 2, ZT=ST["z_top"])
+    d["ZB"] = d["ZT"] - ST["t"]
+    d["SY1"] = P.PAN["w_sump"] / 2
+    return d
+
+
+def _rbox(name, x0, x1, y0, y1, z0, z1, r):
+    return U.rrect_prism(name, (x0 + x1) / 2, (y0 + y1) / 2, x1 - x0, y1 - y0, r, z0, z1)
+
+
+def bracket_positions():
+    return [(x, sgn) for x in P.STAND["bracket_x"] for sgn in (-1, 1)]
+
+
+def bracket(sgn=1):
+    d = _d()
+    ST, ZT = d["ST"], d["ZT"]
+    t, w = ST["bracket_t"], ST["bracket_w"]
+    yf, y_wall, z_tab = ST["foot_y"], d["SY1"] + 0.2, ST["bracket_tab_z"]
+    name = "47_bracket_L" if sgn > 0 else "47B_bracket_R"
+
+    def prism(nm, pts):
+        return U.prism(nm, [(sgn * y, z) for y, z in pts], -w / 2, w / 2)
+    foot = prism(name, [(yf - 22, ZT), (yf + 20, ZT), (yf + 20, ZT + t), (yf - 22, ZT + t)])
+    hh = ST["bracket_tab_h"] / 2
+    tab = prism("tab", [(y_wall, z_tab - hh), (y_wall + t, z_tab - hh), (y_wall + t, z_tab + hh), (y_wall, z_tab + hh)])
+    A, B = (yf - 14.0, ZT + t / 2), (y_wall + t / 2, z_tab - hh + 2.0)
+    dy, dz = B[0] - A[0], B[1] - A[1]
+    L = math.hypot(dy, dz)
+    ny, nz = -dz / L * t / 2, dy / L * t / 2
+    strut = prism("strut", [(A[0] + ny, A[1] + nz), (B[0] + ny, B[1] + nz), (B[0] - ny, B[1] - nz), (A[0] - ny, A[1] - nz)])
+    U.boolean(foot, strut, "UNION")
+    U.boolean(foot, tab, "UNION")
+    b = foot
+    # soften the strut's long edges (cast-bracket look, no functional change)
+    U.bevel_edges(b, 1.0, 2, lambda c, dd: abs(dd.x) < 0.1 and abs(dd.y) > 0.2 and abs(dd.z) > 0.2 and abs(abs(c.x) - w / 2) < 0.1)
+    yw = sgn * y_wall
+    for dx in (-8.0, 8.0):
+        ya, yb = sorted((yw - sgn * 1, yw + sgn * (t + 1)))
+        U.boolean(b, U.cylinder("tab_clear", P.hole["M3_CLEAR"] / 2, ya, yb, dx, z_tab, "Y"))
+        ya, yb = sorted((yw + sgn * (t - P.SCREW_FLOOR + 1.5), yw + sgn * (t + 6)))
+        U.boolean(b, U.cylinder("tab_cbore", P.hole["M3_CBORE"] / 2, ya, yb, dx, z_tab, "Y"))
+        U.boolean(b, U.cylinder("foot_ins", P.insert_hole / 2, ZT - 1, ZT + P.INSERT_DEPTH, dx, sgn * yf))
+    U.shade(b)
+    return b
+
+
+def stand_plate():
+    d = _d()
+    ST, PL, XC, X0, X1, Y0, Y1, ZT, ZB = d["ST"], d["PL"], d["XC"], d["X0"], d["X1"], d["Y0"], d["Y1"], d["ZT"], d["ZB"]
+    pl = _rbox("46_stand_plate", X0, X1, Y0, Y1, ZB, ZT, 8.0)
+    U.bevel_edges(pl, ST["chamfer"], 1, lambda c, dd: abs(c.z - ZT) < 0.2 and abs(dd.z) < 0.1)
+    cw, cd = ST["cutout"]
+    U.boolean(pl, _rbox("cutout", -cw / 2, cw / 2, -cd / 2, cd / 2, ZB - 1, ZT + 1, 6.0))
+    for x, sgn in bracket_positions():
+        for dx in (-8.0, 8.0):
+            U.boolean(pl, U.cylinder("br_clear", P.hole["M3_CLEAR"] / 2, ZB - 1, ZT + 1, x + dx, sgn * ST["foot_y"]))
+            U.boolean(pl, U.cylinder("br_cbore", P.hole["M3_CBORE"] / 2, ZB - 1, ZB + ST["t"] - P.SCREW_FLOOR, x + dx, sgn * ST["foot_y"]))
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            x = XC + sx * (ST["l"] / 2 - ST["feet_inset"])
+            y = sy * (ST["w"] / 2 - ST["feet_inset"])
+            ring = U.cylinder("foot_ring", ST["feet_d"] / 2 + 0.5, ZB - 1, ZB + 0.4, x, y)
+            U.boolean(ring, U.cylinder("foot_ring_in", ST["feet_d"] / 2 - 0.3, ZB - 2, ZB + 1, x, y))
+            U.boolean(pl, ring)
+    ch_w, ch_d = ST["channel_w"], ST["channel_d"]
+    yc = (PL["y"][0] + PL["y"][1]) / 2
+    xm = PL["x0"] + PL["depth"] / 2
+    U.boolean(pl, U.box("channel", -cw / 2 - 1, xm, yc - ch_w / 2, yc + ch_w / 2, ZB - 1, ZB + ch_d))
+    U.boolean(pl, U.box("channel_up", xm - ch_w / 2, xm + ch_w / 2, yc - ch_w / 2, yc + ch_w / 2, ZB - 1, ZT + 1))
+    for dx in (-30.0, 30.0):
+        for sy in (-1, 1):
+            ya, yb = sorted((yc + sy * (ch_w / 2 + 2), yc + sy * (ch_w / 2 + 6)))
+            U.boolean(pl, U.box("tie_slot", dx - 1.5, dx + 1.5, ya, yb, ZB - 1, ZB + ch_d + 2))
+    # edition plate recess on the front edge: floor at X1 - depth, 45 deg flare outwards
+    e = P.EDITION_PLATE
+    zc = (ZT + ZB) / 2
+    w0, h0, r0 = e["w"] + 2 * e["clear"], e["h"] + 2 * e["clear"], e["r"] + e["clear"]
+    x_floor, x_out = X1 - e["depth"], X1 + 0.5
+    grow = (x_out - x_floor)
+    ring0 = [(x_floor, P.edition_y + u, zc + v) for u, v, _ in U.rrect_ring(0, 0, w0, h0, r0, 0)]
+    ring1 = [(x_out, P.edition_y + u, zc + v) for u, v, _ in U.rrect_ring(0, 0, w0 + 2 * grow, h0 + 2 * grow, r0 + grow, 0)]
+    U.boolean(pl, U.loft("edition_recess", [ring0, ring1]))
+    U.shade(pl)
+    return pl
+
+
+def edition_plate(number=1):
+    d = _d()
+    X1, ZT, ZB = d["X1"], d["ZT"], d["ZB"]
+    e = P.EDITION_PLATE
+    zc = (ZT + ZB) / 2
+    x0 = X1 - e["depth"] + e["tape"]
+    ring_a = [(x0, P.edition_y + u, zc + v) for u, v, _ in U.rrect_ring(0, 0, e["w"], e["h"], e["r"], 0)]
+    ring_b = [(x0 + e["t"], P.edition_y + u, zc + v) for u, v, _ in U.rrect_ring(0, 0, e["w"], e["h"], e["r"], 0)]
+    plate = U.loft("49_edition_plate", [ring_a, ring_b])
+    face = x0 + e["t"]
+    for text, size, dz in P.edition_texts:
+        tm = U.text_mesh("edition_text", text.format(number=number), size, 0.5 * 2)
+        # text drawn in XY (+X right, +Y up) -> plate face: right = +Y, up = +Z, normal +X
+        U.rot(tm, 'Z', 90)          # +X -> +Y
+        U.rot(tm, 'X', 90)          # +Y(up) -> +Z
+        U.move(tm, face - 0.12 + 0.5, P.edition_y, zc + dz)
+        U.boolean(plate, tm)
+    U.shade(plate)
+    return plate
+
+
+def plinth():
+    d = _d()
+    ST, PL, ZT = d["ST"], d["PL"], d["ZT"]
+    x0, x1 = PL["x0"], PL["x0"] + PL["depth"]
+    y0, y1 = PL["y"]
+    z0, z1 = ZT, ZT + PL["h"]
+    bx = _rbox("48_controls_plinth", x0, x1, y0, y1, z0, z1, 4.0)
+    U.bevel_edges(bx, 1.5, 2, lambda c, dd: abs(c.z - z1) < 0.2 and abs(dd.z) < 0.1)
+    w = PL["wall"]
+    U.boolean(bx, _rbox("plinth_in", x0 + w, x1 - PL["face_t"], y0 + w, y1 - w, z0 - 1, z1 - w, 2.0))
+    zc = ZT + PL["controls_z"]
+    sizes = {c[0]: c[3] for c in P.CONTROLS}
+    for name, y in PL["controls"]:
+        dia = sizes[name]
+        U.boolean(bx, U.cylinder("ctl_hole", dia / 2 + P.HOLE_COMP / 2, x1 - PL["face_t"] - 1, x1 + 1, y, zc, "X"))
+        if name == "speed":
+            U.boolean(bx, U.cylinder("pot_tab", P.POT_TAB["d"] / 2, x1 - PL["face_t"] - 1, x1 + 1, y + P.POT_TAB["dy"], zc, "X"))
+        tm = U.text_mesh("label", P.plinth_labels[name], 3.6, 0.8 * 2)
+        U.rot(tm, 'Z', -90)         # +X -> -Y (viewer at +X reads left-to-right towards -Y)
+        U.rot(tm, 'X', 90)
+        U.move(tm, x1 - 0.5 + 0.8, y, zc - 13.0)
+        U.boolean(bx, tm)
+    yc = (y0 + y1) / 2
+    xm = (x0 + x1) / 2
+    U.boolean(bx, U.box("wire_exit", xm - ST["channel_w"] / 2, xm + ST["channel_w"] / 2, yc - ST["channel_w"] / 2, yc + ST["channel_w"] / 2, z0 - 1, z0 + w + 1))
+    U.shade(bx)
+    return bx
+
+
+def build_all():
+    return {"stand_plate": stand_plate(), "bracket": bracket(1), "bracket_m": bracket(-1), "plinth": plinth(), "edition_plate": edition_plate()}
+
+
+def placed(lib):
+    out = [("stand_plate", U.copy(lib["stand_plate"], "stand_plate")), ("plinth", U.copy(lib["plinth"], "plinth")),
+           ("edition_plate", U.copy(lib["edition_plate"], "edition_plate"))]
+    for x, sgn in bracket_positions():
+        b = U.copy(lib["bracket"] if sgn > 0 else lib["bracket_m"], f"bracket_{'R' if sgn < 0 else 'L'}{x:+.0f}")
+        U.move(b, x, 0, 0)
+        out.append((b.name, b))
+    return out
