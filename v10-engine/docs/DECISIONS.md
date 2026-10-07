@@ -78,6 +78,7 @@ before/after and the commit made just before them.
 | D50 | **Header flex-test part T10** (one real primary in PLA) added to coupon plate C1 (0.9 h), with a handling / shipping plan and a PLA vs ASA note in `docs/V8_HEADERS_PRINT.md`; the collector gets a conical seat and the pipe a 45 deg cone at its collector spigot so the standing print has no floating ring. | Your request. |
 | D51 | **Accessory module back plate slimmed** to a disc behind each pulley plus two 14 mm arms (round-4 renders: the hull-shaped plate read as a flat shield); the pump housing is a snout only. Third module magnet moved so its boss clears the turning damper by 2.8 mm (it touched at first). | Round-4 critique + static check. |
 | D52 | **Part numbers**: V8 parts 30-48 engraved on hidden faces per `cad/partnum.py` SPEC_V8; the primaries (33), oil pan (40) and floor panel (41) currently have no spot the prober accepts and are exported unnumbered - open item, see VISUAL_REVIEW. | Rule from the DFM pass; not blocking the prototype. |
+| D53 | **Print-face rule**: no raised detail on a part's bed face. Applied: separate oil cap (31B, 9 mm crush spigot), recessed cover bolts, recessed bell hub/bolts, recessed front-cover groove/dimples, collector printed standing on its tail (no flat), pan panel bosses as full-height pillars, intake base with a z 92 bottom section. The intake lid is the one open case (ridges on top): upright-with-soluble-support or a split roof - your call. | PrusaSlicer check on all exported parts. |
 
 ## Exterior changes
 

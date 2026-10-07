@@ -52,16 +52,15 @@ def front_cover():
     outer = _outline_solid(0.0, X0, X1)
     outer = cq.Workplane().add(outer).faces(">X").edges().chamfer(2.0).val()
     cover = outer.cut(_outline_solid(w, X0 - 1, X1 - w))
-    # cast-look rim and bolt heads on the front face
-    rim = _outline_solid(0.0, X1 - 0.1, X1 + FC["rim"]).cut(_outline_solid(4.0, X1 - 1, X1 + FC["rim"] + 1))
-    cover = cover.fuse(rim)
+    # cast-look parting groove and bolt dimples RECESSED into the front face (it prints face-down, flat)
+    groove = _outline_solid(4.0, X1 - 1.0, X1 + 1).cut(_outline_solid(5.2, X1 - 2, X1 + 2))
+    cover = cover.cut(groove)
     wire = _outline_wire(2.0, X1)
-    L = wire.Length()
     for i in range(FC["n_bolts"]):
         p = wire.positionAt(i / FC["n_bolts"] + 0.03)
-        cover = cover.fuse(cyl_x(FC["bolt_r"], X1 - 0.1, X1 + FC["rim"] + 0.6, p.y, p.z))
+        cover = cover.cut(cyl_x(FC["bolt_r"], X1 - 1.0, X1 + 1, p.y, p.z))
     # shaft clearance hole
-    cover = cover.cut(cyl_x(C.SHAFT_D / 2 + FC["shaft_clear"], X1 - w - 1, X1 + FC["rim"] + 2))
+    cover = cover.cut(cyl_x(C.SHAFT_D / 2 + FC["shaft_clear"], X1 - w - 1, X1 + 2))
     # magnet pillars on the end plate pattern (same 3 as the V10 cover)
     for y, z in C.COVER_MAGNETS:
         pil = cyl_x(C.COVER_PILLAR_R, X0, X1 - w + 0.1, y, z)
@@ -140,8 +139,8 @@ def accessory_module():
     """One printed part: slim back plate (a disc behind every pulley + arms
     between them), pulleys with bosses, pump housing, alternator body, belt band."""
     t = AC["plate_t"]
-    px0, px1 = X1 + FC["rim"] + 1.0, X1 + FC["rim"] + 1.0 + t   # back plate just clear of the cover's rim and bolt heads
-    mx0 = X1 + 0.3                                              # magnet bosses reach down to the cover face
+    px0, px1 = X1 + 0.3, X1 + 0.3 + t                      # back plate flat on the cover's (flush) front face
+    mx0 = px0                                                # magnet pockets open in the plate's back
     pul = {name: (y, z, r) for name, y, z, r in AC["pulleys"]}
     mod = None
     for name, (y, z, r) in pul.items():

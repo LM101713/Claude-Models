@@ -96,6 +96,42 @@ What the round-5 renders still show as off (honest):
   ridges and a flange line - the two-piece split line is hidden under them;
 * colours in the renders are flat approximations of the palette.
 
+## Print check on the round-5 parts (PrusaSlicer + mesh check) - found and fixed
+
+The slicer run on all 59 exported parts caught a class of mistake I made on
+five cosmetic parts: raised details on the very face the part prints on,
+so the part would have stood on its bumps instead of the bed. Fixed:
+* **valve cover**: the oil cap is now a separate pressed-in part (31B) and
+  the rim bolts are recessed hex sockets; the cover prints flat on the
+  textured plate as intended;
+* **bellhousing**: hub ring and bolt circle recessed into the rear face;
+* **front cover**: cast rim and bolt heads became a parting groove and
+  dimples; the accessory module's plate now sits flat on that face;
+* **collector**: the inboard flat was at 82 % radius = a 55 deg overhang;
+  it now prints standing on its open tail (fully round, 7 deg cone, no flat);
+* **oil pan**: the six panel-screw bosses hung from the floor ring in
+  mid-air when printed skin-down; they are full-height pillars now;
+* **intake base**: the runner stubs reached 8 mm below its floor; the base
+  got a fourth, narrower bottom section (z 92) so the stubs start inside it.
+
+Still open from the print check, for your decision:
+* **intake lid**: with the 8 runner ridges standing proud of the top, the lid
+  cannot print top-down (the top face would bridge between the ridges).
+  Options: (a) print it upright with soluble support inside the hollow
+  (H2C dual nozzle; support is removed from the open underside) and give the
+  ridge and rail undersides 45 deg chamfers; (b) split off a flat roof plate
+  (ridges up, no support) and accept a seam along the top fillet. I lean to
+  (a). Not built either way yet.
+* **throttle body**: the slicer flags its rear face (cut to the lid's front
+  face at a compound angle) and the blade shaft as loose/overhanging; a
+  flat rear face with a short pad would fix it (5-minute change, after your
+  intake decision).
+* **heads**: horizontal 14 mm / 9 mm sockets and the flange inserts in the
+  outboard face bridge their tops (same as the V10 trumpet sockets did);
+  acceptable at 0.2 mm layers, listed for honesty.
+* **primaries**: "low bed adhesion" (14 mm footprint) - the 5 mm brim is
+  already in the settings.
+
 ## What still looks off (honest list)
 
 1. **Headers** are smooth printed tubes: no weld beads, no slip joints, no

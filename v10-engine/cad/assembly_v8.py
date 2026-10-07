@@ -128,7 +128,7 @@ def _same_joint(n1, n2):
 PRESS_FIT_PAIRS = {("head", "rail"): 1.0, ("rail", "valley"): 1.0, ("boot", "head"): 6.0,
                    ("head", "header"): 4.0, ("collector", "header"): 4.0,
                    ("bearing608", "end"): 5.0, ("intake", "throttle"): 4.0,
-                   ("damper", "main"): 6.0}
+                   ("damper", "main"): 6.0, ("valve", "valve"): 4.0}
 
 
 def static_check():

@@ -383,7 +383,6 @@ EXH_COLLECTOR_Y = 104.0         # engine |y| of the collector axis (beside the p
 EXH_COLLECTOR_TOP_Z = -44.0     # top line of the collector (horizontal; the tapered body hangs from it)
 EXH_COLLECTOR_R = (14.0, 21.0)  # collector radius at the front nose and at the rear tail (taper)
 EXH_COLLECTOR_SADDLE = 3.0      # primary tube ends this far below the collector's top line
-EXH_COLLECTOR_FLAT = 0.82       # inboard flat (print face) at this fraction of the local radius
 EXH_TAIL_WALL = 4.5             # wall around the open tail bore
 EXH_COLLECTOR_FRONT_MARGIN = 20.0   # collector nose beyond the first socket
 EXH_TAIL_MARGIN = 8.0           # collector tail ends this far inside the stand footprint
@@ -395,10 +394,10 @@ BOOT_STRIP = dict(w=11.0, d=2.6, n=11, first_boot_led=1)   # strip groove in the
                                 # first_boot_led (from the rear) sits under the rear boot, then every 3rd LED
 VC = dict(x_inset=8.0, y0=-31.0, y1=17.0, h=29.0, wall=3.0, r=4.0, chamfer=1.5, rim_h=5.0, rim_t=2.5,
           boss_d=6.0, boss_h=2.0, bolt_d=3.6, bolt_pitch=28.0, panel_inset=5.0, panel_depth=0.8,
-          cap_d=27.0, cap_h=7.0, cap_x=-40.0, cap_y=-14.0)   # valve cover: crisp 1.5 mm edge, 5 mm bolt rim
+          cap_d=27.0, cap_h=7.0, cap_x=-40.0, cap_y=-8.0, cap_spigot_d=9.0)   # valve cover: crisp 1.5 mm edge, 5 mm bolt rim; separate oil cap
 VC_MAGNET_Y = -7.0              # cover magnets: 4 along this line in the head top
 INTAKE = dict(                  # ENGINE frame - low, wide single-plane plenum (STYLE_ai_04/05), two printed pieces
-    sections=[(100.0, 84.0, 170.0), (112.0, 112.0, 180.0), (152.0, 156.0, 188.0)],   # outer envelope (z, width y, length x)
+    sections=[(92.0, 70.0, 160.0), (100.0, 84.0, 170.0), (112.0, 112.0, 180.0), (152.0, 156.0, 188.0)],   # outer envelope (z, width y, length x)
     r=18.0, top_fillet=10.0, wall=3.0, split_z=118.0,                                 # lid above split_z, base below
     tongue_w=1.5, tongue_h=3.0,                                                       # base tongue inside the lid wall
     magnet_xy=[(70.0, 34.0), (70.0, -34.0), (-70.0, 34.0), (-70.0, -34.0)], pillar_r=4.8,   # 4 x 6x3 lid magnets

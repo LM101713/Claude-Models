@@ -66,6 +66,7 @@ def parts_v8():
         ("30_cylinder_head_A", E.print_head(st["head"]), 1, "block"),
         ("30B_cylinder_head_B", E.print_head(st["head"].mirror("XZ")), 1, "block"),
         ("31_valve_cover", E.print_valve_cover(st["valve_cover"]), 2, "carbon"),
+        ("31B_oil_cap", E.print_oil_cap(st["oil_cap"]), 2, "carbon"),
         ("32_plug_boot", E.print_boot(st["boot"]), C.N_CYL, "white"),
         ("33_header_primary_A", E.print_primary(st["primary"]), 4, "steel"),
         ("33B_header_primary_B", E.print_primary(st["primary"].mirror("XZ")), 4, "steel"),

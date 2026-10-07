@@ -12,11 +12,11 @@ of this engine exists yet.
 | 06/07/08 | crank segments 90 / 180 / 270 deg | 1 each | 47 x 47 x 37 | front face down |
 | 09, 10 | con-rod, piston | 8, 8 | 76 x 19 x 5 / 44 x 52 x 19 | as the V10 |
 | 30 / 30B | cylinder head A / B (mirror) | 1 + 1 | 210 x 72 x 36 | deck down |
-| 31 | valve cover | 2 | 200 x 54 x 36 | top down (textured plate) |
+| 31 / 31B | valve cover / oil cap | 2 + 2 | 200 x 54 x 29 / 27 x 27 x 11 | top down (textured plate) / cap down |
 | 32 | plug boot (translucent) | 8 | 10 x 10 x 26 | standing, brim |
 | 33 / 33B | header primary A / B (mirror) | 4 + 4 | 33 x 40 x 127 | standing on the collector spigot, brim |
 | 34 / 34B | header flange plate A / B | 1 + 1 | 198 x 33 x 4 | flat |
-| 35 / 35B | collector A / B | 1 + 1 | 205-211 x 42 x 39 | on the inboard flat |
+| 35 / 35B | collector A / B | 1 + 1 | 42 x 42 x 205-211 | standing on the open tail |
 | 36 / 36B / 36C | intake lid / base / throttle body | 1 each | 189 x 147 x 42 / 185 x 119 x 26 / 44 x 46 x 43 | lid upside down, base upright, TB bore-down |
 | 40, 41 | oil pan, floor panel | 1, 1 | 237 x 166 x 70 / 219 x 111 x 13 | skin down / flat |
 | 42 | bellhousing | 1 | 136 x 120 x 26 | rear face down |
@@ -50,6 +50,14 @@ production settings); overhang / bridge findings: `docs/PRINT_REPORT.md`.
 3. Approve the full engine for the motion-test prints (plates M1-M6) once
    the coupons have been printed and `TEST_CHECKLIST.md` says the fits are
    right.
+
+## Print check (all parts, PrusaSlicer estimates with production settings)
+
+Plates for the motion test (C1 + M1-M6) total about 52 h and 1.1 kg; the
+remaining F plates (planned, not released) add roughly 50 h and 1.5 kg - see
+`docs/PLATES.md`. Findings and the fixes made from them: `docs/VISUAL_REVIEW.md`
+("Print check on the round-5 parts"). One open decision: how to print the
+intake lid (soluble support vs. a split roof).
 
 ## Open items I know about
 

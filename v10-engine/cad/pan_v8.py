@@ -95,7 +95,7 @@ def pan():
                           ZB - 1, ZB + P["panel_t"], 3.0 + C.CLEARANCE))                 # panel rabbet
     # panel screw bosses with inserts (on the ledge, inside)
     for x, y in panel_screws():
-        body = body.fuse(cyl_z(4.5, ZF - 0.3, ZF + 8.0, x, y).intersect(box(IX0, IX1, IY0, IY1, ZB, ZS)))
+        body = body.fuse(cyl_z(4.5, ZF - 0.3, ZS + 0.1, x, y).intersect(box(IX0, IX1, IY0, IY1, ZB, ZS + 0.2)))   # pillar up to the skin
         body = body.cut(cyl_z(INS / 2, ZB + P["panel_t"] - 0.5, ZF + 8.0 - 2.0, x, y))
     # pan-to-crankcase screws: M3x8 up through the skin, heads inside the pan
     for x, y in C.PAN_SCREWS:
@@ -218,14 +218,14 @@ def bellhousing():
     outer = _bell_outline(0.0, x0, x1)
     outer = cq.Workplane().add(outer).faces("<X").edges().chamfer(2.5).val()
     bell = outer.cut(_bell_outline(b["wall"], x0 + b["wall"], x1 + 1))
-    # flywheel hub boss and bolt bumps on the rear face
-    bell = bell.fuse(cyl_x(b["hub_r"], x0 - b["hub_h"], x0 + 0.1))
-    bell = cq.Workplane().add(bell).faces("<X").edges().chamfer(1.0).val()
+    # flywheel hub ring and bolt holes RECESSED into the rear face (the face prints flat on the bed)
+    ring = cyl_x(b["hub_r"], x0 - 1, x0 + 1.5).cut(cyl_x(b["hub_r"] - 2.5, x0 - 2, x0 + 2))
+    bell = bell.cut(ring)
     for i in range(b["n_bolts"]):
         a = math.radians(i * 360.0 / b["n_bolts"] + 22.5)
         y, z = b["bolt_r"] * math.cos(a), b["bolt_r"] * math.sin(a)
         if z > b["z_bot"] + 6:
-            bell = bell.fuse(cyl_x(2.2, x0 - 1.2, x0 + 0.1, y, z))
+            bell = bell.cut(cyl_x(2.2, x0 - 1, x0 + 1.5, y, z))
     # magnet pillars on the end plate pattern (mirrored for the rear plate)
     for y, z in C.COVER_MAGNETS:
         y = -y

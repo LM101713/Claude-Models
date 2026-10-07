@@ -186,20 +186,12 @@ def valve_cover():
     for yb in (ym - 10.0, ym + 10.0):
         heads += [(x0 - rt / 2 + 0.3, yb), (x1 + rt / 2 - 0.3, yb)]
     zb = z0 + 1.0 + rh
-    for x, yb in heads:
-        bolt = cyl_z(vc["bolt_d"] / 2, zb - 0.5, zb + 1.6, x, yb)
-        bolt = cq.Workplane().add(bolt).faces(">Z").edges().chamfer(0.8).val()
-        cover = cover.fuse(bolt)
-    # knurled oil cap on top
+    for x, yb in heads:                                     # recessed hex sockets (prints top-down with no islands)
+        hexs = cq.Workplane("XY").workplane(offset=zb - 1.2).center(x, yb).polygon(6, vc["bolt_d"]).extrude(2.0).val()
+        cover = cover.cut(hexs)
+    # oil cap: separate part (31B) pressed into a hole, so the cover's top prints flat on the textured plate
     cx, cy = (X1 - 40.0 if vc["cap_x"] < 0 else X0 + 40.0), vc["cap_y"]
-    cap = cyl_z(vc["cap_d"] / 2, z1 - pd - 0.5, z1 + vc["cap_h"], cx, cy)
-    cap = cq.Workplane().add(cap).faces(">Z").edges().chamfer(1.5).val()
-    nk = 24
-    for i in range(nk):
-        groove = box(-0.6, 0.6, vc["cap_d"] / 2 - 0.7, vc["cap_d"] / 2 + 1, z1 + 1.0, z1 + vc["cap_h"] - 1.6)
-        groove = groove.rotate((0, 0, 0), (0, 0, 1), i * 360.0 / nk).translate(cq.Vector(cx, cy, 0))
-        cap = cap.cut(groove)
-    cover = cover.fuse(cap)
+    cover = cover.cut(crush_z(vc["cap_spigot_d"], z1 - w - 1.0, z1 + 1.0, cx, cy, "boot_9", entry="hi"))
     # magnet pillars down to the head top
     for xc in (CYL_X[0], CYL_X[-1], BETWEEN_X[0], BETWEEN_X[-1]):
         pil = cyl_z(4.5, z0, z1 - w + 0.1, xc, C.VC_MAGNET_Y).intersect(outer)
@@ -211,6 +203,27 @@ def valve_cover():
 
 def print_valve_cover(s):
     return s.rotate((0, 0, 0), (1, 0, 0), 180)
+
+
+def oil_cap():
+    """31B knurled oil cap, local frame: cap on top of the cover's recessed panel, 9 mm crush spigot down into it."""
+    vc = C.VC
+    z1 = TOP - 1.0 + vc["h"] - vc["panel_depth"]
+    cx, cy = (X1 - 40.0 if vc["cap_x"] < 0 else X0 + 40.0), vc["cap_y"]
+    cap = cyl_z(vc["cap_d"] / 2, z1, z1 + vc["cap_h"], cx, cy)
+    cap = cq.Workplane().add(cap).faces(">Z").edges().chamfer(1.5).val()
+    nk = 24
+    for i in range(nk):
+        groove = box(-0.6, 0.6, vc["cap_d"] / 2 - 0.7, vc["cap_d"] / 2 + 1, z1 + 1.0, z1 + vc["cap_h"] - 1.6)
+        groove = groove.rotate((0, 0, 0), (0, 0, 1), i * 360.0 / nk).translate(cq.Vector(cx, cy, 0))
+        cap = cap.cut(groove)
+    spig = cyl_z(vc["cap_spigot_d"] / 2, z1 - vc["wall"] - 0.5 + vc["panel_depth"], z1 + 0.1, cx, cy)
+    return safe_clean(cap.fuse(spig))
+
+
+def print_oil_cap(s):
+    bb = s.BoundingBox()
+    return s.rotate((0, 0, 0), (1, 0, 0), 180).translate((0, 0, bb.zmax))     # cap top on the bed, spigot up
 
 
 # ---------------------------------------------------------------------------
@@ -346,14 +359,7 @@ def collector(bank):
     nose = cq.Solid.makeCone(r0, r0 - 4.0, 5.0, cq.Vector(x_front, yc, zt - r0), cq.Vector(1, 0, 0))
     tube = tube.fuse(nose)
     tube = cq.Workplane().add(tube).faces("<X").edges().chamfer(2.0).val()
-    # inboard flat at 82 % of the local radius all along the taper (print bed face; hidden by the pan)
-    k = C.EXH_COLLECTOR_FLAT
-    flat = (cq.Workplane("XY").workplane(offset=zt - 2 * r1 - 1)
-            .polyline([(x_rear - 1, yc + k * r1), (x_front + 6, yc + k * r0), (x_front + 6, yc + r1 + 1), (x_rear - 1, yc + r1 + 1)])
-            .close().extrude(2 * r1 + 2).val())
-    tube = tube.cut(flat)
     r_tail = r1 - C.EXH_TAIL_WALL
-    assert r_tail < k * r1 - 0.3, "tail bore would break through the inboard flat"
     tube = tube.cut(cq.Solid.makeCylinder(r_tail, 30.0, cq.Vector(x_rear - 1, yc, zt - r1), cq.Vector(1, 0, 0)))
     sad = C.EXH_COLLECTOR_SADDLE
     for x in xs:
@@ -370,12 +376,11 @@ def collector(bank):
 
 
 def print_collector(s):
-    """Flat back down."""
+    """Standing on its open tail (the big end): a 7 deg cone, 211 mm tall, fully
+    round - no flat needed; the saddle sockets become horizontal holes."""
+    s = s.rotate((0, 0, 0), (0, 1, 0), -90)                # +x (front) -> +z: tail down, nose up
     bb = s.BoundingBox()
-    sgn = 1 if bb.ymin + bb.ymax > 0 else -1
-    s = s.rotate((0, 0, 0), (1, 0, 0), -90 * sgn)          # inboard flat -> -Z
-    bb = s.BoundingBox()
-    return s.translate(cq.Vector(0, 0, -bb.zmin))
+    return s.translate(cq.Vector(-(bb.xmin + bb.xmax) / 2, -(bb.ymin + bb.ymax) / 2, -bb.zmin))
 
 
 # ---------------------------------------------------------------------------
@@ -432,7 +437,7 @@ def intake():
 # ---------------------------------------------------------------------------
 def build_all():
     import intake_v8
-    lib = {"head": cylinder_head(), "valve_cover": valve_cover(), "boot": plug_boot(), "primary": primary_pipe(),
+    lib = {"head": cylinder_head(), "valve_cover": valve_cover(), "oil_cap": oil_cap(), "boot": plug_boot(), "primary": primary_pipe(),
            "plate": flange_plate(), "collector_A": collector("A"), "collector_B": collector("B")}
     lib.update(intake_v8.build_all())
     return lib
@@ -451,6 +456,7 @@ def placed(lib, banks=("A", "B"), with_intake=True):
         mir = (lambda s: s) if bank == "A" else (lambda s: s.mirror("XZ").translate((C.BANK_OFFSET, 0, 0)))
         out.append((f"head_{bank}", mir(tA(lib["head"])), "block"))
         out.append((f"valve_cover_{bank}", block.to_bank(lib["valve_cover"], bank), "carbon"))
+        out.append((f"valve_cover_cap_{bank}", block.to_bank(lib["oil_cap"], bank), "carbon"))
         out.append((f"header_plate_{bank}", mir(tA(lib["plate"])), "steel"))
         xs = C.BANK_A_CYL_X if bank == "A" else C.BANK_B_CYL_X
         pipe = lib["primary"] if bank == "A" else lib["primary"].mirror("XZ")

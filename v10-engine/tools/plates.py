@@ -82,7 +82,7 @@ if C.VARIANT == "v8":
         ("M5_crankcase", "motion test: crankcase", [("01_crankcase", 1)]),
         ("M6_beam_plates", "motion test: valley beam + 2 end plates", [("02_valley_beam", 1), ("04_end_plate", 2)]),
         ("F1_bank_head_B", "second bank + head B (mirror)", [("03_cylinder_bank", 1), ("30B_cylinder_head_B", 1)]),
-        ("F2_covers_boots_tb", "2 valve covers, throttle body", [("31_valve_cover", 2), ("36C_throttle_body", 1)]),
+        ("F2_covers_boots_tb", "2 valve covers, 2 oil caps, throttle body", [("31_valve_cover", 2), ("31B_oil_cap", 2), ("36C_throttle_body", 1)]),
         ("F2b_boots", "8 translucent boots (5th filament)", [("32_plug_boot", 8)]),
         ("F3_primaries_plates", "8 header primaries (4 + 4 mirror), 2 flange plates", [
             ("33_header_primary_A", 4), ("33B_header_primary_B", 4), ("34_header_plate_A", 1), ("34B_header_plate_B", 1)]),

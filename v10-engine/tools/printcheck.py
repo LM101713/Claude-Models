@@ -97,7 +97,7 @@ if C.VARIANT == "v8":
         ("09_", "ASA", L["rod"], 4, 40, 6, 5, 0),       # con-rod
         ("10_", "ASA", L["piston"], 4, 25, 6, 5, 0),    # piston
         ("30", "ASA", L["head"], 4, 25, 5, 4, 0),       # heads (A and mirror B)
-        ("31_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),  # valve cover
+        ("31", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),   # valve cover + oil cap
         ("32_", "PETG", 0.16, 2, 0, 3, 2, 3),           # translucent boots (5th filament), brim
         ("33", "ASA", L["exhaust"], 4, 15, 5, 4, 5),    # primaries: production walls, standing, 5 mm brim
         ("34", "ASA", L["cosmetic"], 3, 20, 5, 4, 0),   # flange plates
