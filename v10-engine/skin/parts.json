@@ -677,13 +677,13 @@
      7.549790126404332e-08,
      0.0,
      1.0,
-     14.999990463256836
+     15.949987411499023
     ],
     [
      0.0,
      1.0,
      0.0,
-     0.0
+     -16.012680053710938
     ],
     [
      -1.0,
@@ -6408,8 +6408,8 @@
   "valve_cover": "31_valve_cover: genus 1 tris 13830 vol 68335",
   "oil_cap": "31B_oil_cap: genus 0 tris 2380 vol 3972",
   "boot": "32_plug_boot: genus 0 tris 2556 vol 1790",
-  "plate": "34_header_plate: genus 8 tris 9544 vol 22240",
-  "intake_lid": "36_intake_lid: genus 0 tris 24508 vol 168467",
+  "plate": "34_header_plate: genus 8 tris 9996 vol 22543",
+  "intake_lid": "36_intake_lid: genus 0 tris 24160 vol 166135",
   "intake_base": "36B_intake_base: genus 5 tris 16498 vol 154822",
   "throttle": "36C_throttle_body: genus 8 tris 10674 vol 106776",
   "primary": "33_header_primary: genus 0 tris 14368 vol 41571",
@@ -6418,7 +6418,7 @@
   "pan": "40_oil_pan: genus 15 tris 14454 vol 621509",
   "panel": "41_pan_floor_panel: genus 18 tris 7912 vol 73559",
   "bellhousing": "42_bellhousing: genus 0 tris 13666 vol 73601",
-  "front_cover": "43_front_cover: genus 1 tris 16424 vol 72371",
+  "front_cover": "43_front_cover: genus 1 tris 17662 vol 90347",
   "damper": "44_damper: genus 1 tris 10554 vol 51672",
   "accessory": "45_accessory_module: genus 13 tris 32226 vol 56467",
   "alt_body": "45B_alternator_body: genus 0 tris 1980 vol 62751",

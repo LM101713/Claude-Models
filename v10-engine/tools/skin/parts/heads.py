@@ -235,6 +235,16 @@ def flange_plate():
         U.boolean(plate, U.cylinder("fp_pipe", P.EXH_PRIMARY_D / 2 + P.CLEARANCE, y_out, YO + 1, xc, d["PORT_Z"], "Y"))
     for xb in d["BOOT_X"]:
         U.boolean(plate, U.cylinder("fp_boot", P.PLUG_BOOT["shaft_d"] / 2 + P.CLEARANCE, y_out, YO + 1, xb, d["BOOT_Z"], "Y"))
+    # NASCAR restyle (D65): plug wires. One half-round wire per cylinder on the plate's outboard face, from just
+    # above its boot (0.4 mm clear of the separate boot part) up past the pad edge to the plate top, where it runs
+    # on behind the valve cover. Raised detail on the top face of the outboard-face-up print: no support. The
+    # front wire ends under the front magnet boss, which then reads as a loom clip.
+    wr = P.PLUG_WIRE["r"]
+    for xb in d["BOOT_X"]:
+        wire = U.cylinder("plug_wire", wr, d["BOOT_Z"] + P.PLUG_BOOT["d"] / 2 + 0.4, DECK + fp["z1"] - 0.3, xb + P.PLUG_WIRE["dx"],
+                          YO - fp["t"] + wr - P.PLUG_WIRE["proud"], segs=20)
+        U.bevel_edges(wire, wr * 0.6, 3, lambda c, dd: abs(c.z - (d["BOOT_Z"] + P.PLUG_BOOT["d"] / 2 + 0.4)) < 0.2)
+        U.boolean(plate, wire, "UNION")
     for xs, zs in plate_screw_xz():                         # S5: magnet pockets in the inboard face, under a cast boss
         boss = U.cylinder("fl_mag_boss", 5.5, ytop - 0.5, YO - fp["t"] + 0.3, xs, zs, "Y")
         U.bevel_edges(boss, 1.0, 2, lambda c, dd: abs(c.y - (ytop - 0.5)) < 0.2 and abs(dd.y) < 0.1)

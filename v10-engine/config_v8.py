@@ -389,6 +389,7 @@ EXH_TAIL_MARGIN = 4.0           # collector tail ends this far inside the stand 
 EXH_FLANGE_PLATE = dict(t=4.0, z0=0.5, z1=33.0, end_inset=6.0)   # one flange bar per bank over the ports
 PLUG_BOOT = dict(d=10.0, l=14.0, shaft_d=9.0, shaft_l=8.0, dx=15.0, z=8.0)  # boot per cylinder, below and
                                 # ahead of its port, lit by a strip in the outboard face behind the flange plate
+PLUG_WIRE = dict(r=2.0, proud=1.6, dx=0.0)   # NASCAR restyle (D65): half-round plug wire on the flange plate, boot to plate top
 BOOT_STRIP = dict(w=11.0, d=2.6, n=11, first_boot_led=1)   # strip groove in the outboard face under the flange plate;
                                 # the strip is chained after the head strip on the same data line; LED
                                 # first_boot_led (from the rear) sits under the rear boot, then every 3rd LED
@@ -417,7 +418,7 @@ INTAKE = dict(                  # ENGINE frame - low, wide single-plane plenum (
     tb_spigot_d=14.0, tb_spigot_l=9.0,                                                # throttle body: separate, pressed in
     # NASCAR restyle (D64): runners and spine gone (skin only; the CAD skin keeps the D61 keys above),
     # fuel rail on the top flanks, flank bolt row, square 4-barrel throttle body on a spacer plate on top
-    skin_rail_y=70.0, skin_rail_z=140.0, skin_inj_l=10.0, bolt_ledge_z=6.0, n_flank_bolts=6, flank_bolt_span=140.0,
+    skin_rail_y=70.0, skin_rail_z=140.0, skin_rail_end=6.0, skin_inj_l=10.0, bolt_ledge_z=6.0, n_flank_bolts=6, flank_bolt_span=140.0,
     tb4_l=66.0, tb4_w=60.0, tb4_h=20.0, tb4_bore=21.0, tb4_pitch_x=29.0, tb4_pitch_y=27.0, spacer_t=8.0, spacer_out=4.0,
     # skin-only envelope: shoulders roll in above z 138 so the top reads as a cast single-plane plenum, not a box
     # (max flank angle ~46 deg in the top-down print). The lower sections match `sections` (the base is unchanged).
@@ -434,6 +435,8 @@ HARNESS_HOLE = dict(y=28.0, z=-46.0, d=12.0)   # LED harness enters the pan thro
 FRONT_COVER = dict(wall=3.0, outline=[(-86.0, 46.0), (-32.0, 50.0), (18.0, 52.0), (56.0, 26.0)],   # (z, half width)
                    r=10.0, rim=2.0, shaft_clear=1.5, bolt_r=2.0, n_bolts=8,
                    module_magnets=[(16.0, 44.0), (-16.0, 44.0), (36.0, 24.0)])   # (y, z) magnets for the accessory module (inside pump / idler discs)
+DRY_SUMP = dict(y=70.0, z=-74.0, r=13.0, x0=118.4, bands_x=(123.0, 130.0, 137.0), band_w=2.0, band_out=0.9,   # NASCAR restyle (D65):
+                web_y0=40.0, web_h=14.0, face_groove_r=9.0)   # dry-sump pump stack on the front cover, lower right (+y)
 DAMPER = dict(d=72.0, t=13.0, gap=1.2, hub_h=1.0, hub_d=24.0, groove_r=30.0, groove_w=1.6, groove_d=1.0, n_holes=6, hole_r=2.0)
 ACCESSORY = dict(plate_t=2.5, pulley_t=12.0, pulley_x0=6.0, band_w=6.0, band_t=2.0, band_x0=9.0, band_gap=1.2,
                  pulleys=[("pump", 0.0, 62.0, 24.0), ("alt", -70.0, 70.0, 12.0), ("idler", 46.0, 26.0, 11.0)],   # (name, y, z, r)

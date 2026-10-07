@@ -466,3 +466,28 @@ Checks on the round-6 files: 26 files watertight; fits 210/210 within
 CAD electronics envelope (expected, 34 mm3); full-rotation sweep 2216 pair
 checks, 0 collisions. Estimate: 90 printed pieces, about 136 h and 3.28 kg
 per engine (was 141 h, 3.45 kg).
+
+## Skin round 7 - plug wires, dry-sump pump (`renders/skin_round7/`)
+
+What changed (D65, no new parts): a dry-sump pump stack with three stage
+bands and a recessed pulley face is cast onto the front cover low on the
+right; a half-round plug wire per cylinder is cast on each header flange
+plate; the fuel rails are 6 mm shorter per end so their fittings clear the
+intake shoulders (7 mm pinched the lid mesh, 6 mm is clean).
+
+What works: the pump stack is the clearest stock-car cue after the
+4-barrel (ref3, ref5). Still off, worst first:
+
+1. **The plug wires barely show.** They sit behind the primaries and under
+   the valve-cover rim (x3). A loom on the valve cover side would read; it
+   needs either the cover printed on its side or a separate loom part.
+2. **The serpentine belt is still road-car.** The pump has a pulley face
+   but no belt; a cogged drive band to the crank would finish it, on the
+   accessory module.
+3. **Valve covers**: a breather fitting and a flatter top would read as
+   race covers.
+4. **Colour**: silver on silver reads flat; waiting on the colour sign-off.
+
+Checks on the round-7 files: 26 files watertight; fits 210/210 within
+0.02 mm; static interference 0 apart from the expected board pins; full
+rotation sweep 2216 pair checks, 0 collisions.

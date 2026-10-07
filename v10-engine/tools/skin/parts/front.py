@@ -79,6 +79,23 @@ def front_cover():
     for y, z in FC["module_magnets"]:
         U.boolean(cover, U.cylinder("mod_boss", P.COVER_PILLAR_R + 0.5, X1 - w - 5.0, X1 - w + 0.1, y, z, "X"), "UNION")
         F.cut_magnet(cover, X1, -1, y, z, axis="X")
+    # NASCAR restyle (D65): dry-sump oil pump stack low on the right side, cast onto the cover by a web. The cover
+    # prints front face down, so the pump is a vertical cylinder in print; its stage bands are radial (no overhang)
+    # and its face detail (pulley groove, centre hex) is recessed into the bed face.
+    ds = P.DRY_SUMP
+    yp, zp, rp = ds["y"], ds["z"], ds["r"]
+    xa = max(X0, ds["x0"])
+    pump = U.cylinder("dry_sump", rp, xa, X1, yp, zp, "X", segs=48)
+    U.bevel_edges(pump, 1.0, 2, lambda c, dd: abs(c.x - xa) < 0.3 and abs(dd.x) < 0.1)
+    for xb in ds["bands_x"]:
+        U.boolean(pump, U.cylinder("ds_band", rp + ds["band_out"], xb - ds["band_w"] / 2, xb + ds["band_w"] / 2, yp, zp, "X", segs=48), "UNION")
+    web = U.box("ds_web", xa, X1, ds["web_y0"], yp, zp - ds["web_h"] / 2, zp + ds["web_h"] / 2)
+    U.boolean(pump, web, "UNION")
+    gr = U.cylinder("ds_pulley_groove", ds["face_groove_r"] + 0.6, X1 - 0.8, X1 + 1, yp, zp, "X", segs=48)
+    U.boolean(gr, U.cylinder("ds_pulley_groove_in", ds["face_groove_r"] - 0.6, X1 - 2, X1 + 2, yp, zp, "X", segs=48))
+    U.boolean(pump, gr)
+    U.boolean(pump, U.cylinder("ds_hex", 3.2, X1 - 1.2, X1 + 1, yp, zp, "X", segs=6))
+    U.boolean(cover, pump, "UNION")
     U.shade(cover)
     return cover
 

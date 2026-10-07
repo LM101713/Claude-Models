@@ -332,6 +332,22 @@
   "DAMPER_X0": 143.95,
   "DECK_DIST": 88.0,
   "DRIVE_RATIO": 3.0,
+  "DRY_SUMP": {
+   "band_out": 0.9,
+   "band_w": 2.0,
+   "bands_x": [
+    123.0,
+    130.0,
+    137.0
+   ],
+   "face_groove_r": 9.0,
+   "r": 13.0,
+   "web_h": 14.0,
+   "web_y0": 40.0,
+   "x0": 118.4,
+   "y": 70.0,
+   "z": -74.0
+  },
   "EDITION_PLATE": {
    "clear": 0.3,
    "depth": 1.0,
@@ -623,6 +639,7 @@
     ]
    ],
    "skin_inj_l": 10.0,
+   "skin_rail_end": 6.0,
    "skin_rail_y": 70.0,
    "skin_rail_z": 140.0,
    "skin_sections": [
@@ -941,6 +958,11 @@
    "shaft_d": 9.0,
    "shaft_l": 8.0,
    "z": 8.0
+  },
+  "PLUG_WIRE": {
+   "dx": 0.0,
+   "proud": 1.6,
+   "r": 2.0
   },
   "POT_TAB": {
    "d": 3.2,

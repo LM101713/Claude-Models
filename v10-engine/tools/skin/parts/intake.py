@@ -62,8 +62,9 @@ def intake_lid():
         sgn = -1 if bank == "A" else 1
         xs = P.BANK_A_CYL_X if bank == "A" else P.BANK_B_CYL_X
         yr, zr = sgn * it["skin_rail_y"], it["skin_rail_z"]
-        rail = U.cylinder("rail", it["rail_r"], min(xs) - 12.0, max(xs) + 12.0, yr, zr, "X")
-        for xe in (min(xs) - 12.0, max(xs) + 12.0):              # end fittings
+        re_ = it["skin_rail_end"]                                 # round 7: 12 -> 6 mm, the fittings pinched the shoulder corners
+        rail = U.cylinder("rail", it["rail_r"], min(xs) - re_, max(xs) + re_, yr, zr, "X")
+        for xe in (min(xs) - re_, max(xs) + re_):                # end fittings
             cap = U.cylinder("rail_cap", it["rail_r"] + 1.5, xe - 2.5, xe + 2.5, yr, zr, "X", segs=6)
             U.boolean(rail, cap, "UNION")
         for xc in xs:
