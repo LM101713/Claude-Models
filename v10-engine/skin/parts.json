@@ -432,7 +432,7 @@
      -4.371138828673793e-08,
      0.0,
      -1.0,
-     -65.00001525878906
+     -64.95588684082031
     ],
     [
      0.0,
@@ -479,7 +479,7 @@
      0.0,
      8.742277657347586e-08,
      -1.0,
-     164.4407196044922
+     160.6322021484375
     ],
     [
      0.0,
@@ -508,7 +508,7 @@
      0.0,
      1.0,
      0.0,
-     0.0
+     -5.7220458984375e-06
     ],
     [
      0.0,
@@ -537,7 +537,7 @@
      -0.1736481636762619,
      0.0,
      0.9848077893257141,
-     -114.10581970214844
+     -109.65582275390625
     ],
     [
      0.0,
@@ -549,7 +549,7 @@
      -0.9848077893257141,
      0.0,
      -0.1736481636762619,
-     148.03146362304688
+     150.03147888183594
     ],
     [
      0.0,
@@ -6409,21 +6409,21 @@
   "oil_cap": "31B_oil_cap: genus 0 tris 2380 vol 3972",
   "boot": "32_plug_boot: genus 0 tris 2556 vol 1790",
   "plate": "34_header_plate: genus 8 tris 9544 vol 22240",
-  "intake_lid": "36_intake_lid: genus 7 tris 57660 vol 414531",
-  "intake_base": "36B_intake_base: genus 9 tris 33006 vol 189598",
-  "throttle": "36C_throttle_body: genus 4 tris 4314 vol 41231",
+  "intake_lid": "36_intake_lid: genus 7 tris 52230 vol 404996",
+  "intake_base": "36B_intake_base: genus 9 tris 19448 vol 161644",
+  "throttle": "36C_throttle_body: genus 4 tris 5370 vol 42505",
   "primary": "33_header_primary: genus 0 tris 14368 vol 41571",
-  "collector_A": "35_collector_A: genus -2 tris 15304 vol 155725",
-  "collector_B": "35_collector_B: genus 1 tris 15424 vol 161452",
-  "pan": "40_oil_pan: genus 15 tris 13404 vol 620815",
-  "panel": "41_pan_floor_panel: genus 18 tris 7940 vol 73918",
+  "collector_A": "35_collector_A: genus -2 tris 17152 vol 156605",
+  "collector_B": "35_collector_B: genus 1 tris 17528 vol 162428",
+  "pan": "40_oil_pan: genus 15 tris 14454 vol 621509",
+  "panel": "41_pan_floor_panel: genus 18 tris 7912 vol 73559",
   "bellhousing": "42_bellhousing: genus 0 tris 13666 vol 73601",
   "front_cover": "43_front_cover: genus 1 tris 16424 vol 72371",
   "damper": "44_damper: genus 1 tris 10554 vol 51672",
   "accessory": "45_accessory_module: genus 13 tris 32226 vol 56467",
   "alt_body": "45B_alternator_body: genus 0 tris 1980 vol 62751",
   "stand_plate": "46_stand_plate: genus 6 tris 8946 vol 635850",
-  "plinth": "48_controls_plinth: genus 12 tris 3964 vol 31393",
+  "plinth": "48_controls_plinth: genus 10 tris 4020 vol 29407",
   "edition_plate": "49_edition_plate: genus 20 tris 1094 vol 2865"
  }
 }
