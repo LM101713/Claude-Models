@@ -11,7 +11,6 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "cad"))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
-sys.modules.setdefault("pan_v8", None)          # pan / stand not designed yet
 
 from PIL import Image, ImageDraw  # noqa: E402
 
@@ -24,7 +23,9 @@ COLOURS = {                                     # approved palette, approximated
     "header": (0.84, 0.84, 0.82), "collector": (0.84, 0.84, 0.82), "boot": (0.98, 0.80, 0.40),
     "intake": (0.70, 0.71, 0.73), "crankcase": (0.70, 0.71, 0.73), "valley": (0.70, 0.71, 0.73),
     "bank": (0.70, 0.71, 0.73), "end": (0.70, 0.71, 0.73),
+    "pan": (0.11, 0.11, 0.12), "bellhousing": (0.70, 0.71, 0.73),
 }
+HIDDEN = ("motor", "pulley", "belt", "spacer", "elec")      # inside the pan / the future front cover
 
 VIEWS = {
     "ref1_closeup_34_above": ((0.55, -1.0, 0.75), 2.0, "STYLE_ai_01.png"),
@@ -45,28 +46,34 @@ def colour(name):
     return {"steel": "steel", "crank": "crank"}.get(name, "steel")
 
 
-def scene(phi=0.0, with_intake=True):
+BANKS = ("A", "B")
+
+
+def scene(phi=0.0, with_intake=True, banks=None):
     L = A.libs()
     items = []
     for n, s, c in A.engine(phi):
         items.append((s, colour(n) if n.startswith(A.STATIC) else c))
-    for n, s, _ in E.placed(L["style"], banks=("A",), with_intake=with_intake):
+    for n, s, _ in E.placed(L["style"], banks=banks or BANKS, with_intake=with_intake):
         if n.startswith("boot"):
             items.append((s, colour(n), 0.85))
         else:
+            items.append((s, colour(n)))
+    for n, s, _ in A.drive_and_base():
+        if not n.startswith(HIDDEN):
             items.append((s, colour(n)))
     return items
 
 
 def main():
-    out = os.path.join(ROOT, "renders", "v8_bankA")
+    out = os.path.join(ROOT, "renders", sys.argv[1] if len(sys.argv) > 1 else "v8_round1")
     os.makedirs(out, exist_ok=True)
     items = scene(20.0)
     size = (1448, 1086)
     for name, (direction, zoom, ref) in VIEWS.items():
         path = os.path.join(out, name + ".png")
         render.render(items, path, view=(direction, (0, 0, 1)) if name != "x3_top" else (direction, (1, 0, 0)),
-                      size=size, zoom=zoom, title=f"V8 bank A exterior + moving core - {name} (no pan / stand / front yet)")
+                      size=size, zoom=zoom, title=f"V8 {os.path.basename(out)} - {name}")
         if ref:
             a = Image.open(path).convert("RGB")
             b = Image.open(os.path.join(ROOT, "references", ref)).convert("RGB").resize(size)
@@ -74,13 +81,10 @@ def main():
             comp.paste(a, (0, 40))
             comp.paste(b, (size[0] + 20, 40))
             d = ImageDraw.Draw(comp)
-            d.text((10, 12), f"CAD (bank A only)  -  {name}", fill=(0, 0, 0))
+            d.text((10, 12), f"CAD {os.path.basename(out)}  -  {name}", fill=(0, 0, 0))
             d.text((size[0] + 30, 12), f"reference {ref} (AI-generated, style only)", fill=(0, 0, 0))
             comp.save(os.path.join(out, name + "_vs_ref.png"))
         print("wrote", path, flush=True)
-    render.render(scene(20.0, with_intake=False), os.path.join(out, "x4_no_intake_34.png"),
-                  view=((0.55, -1.0, 0.75), (0, 0, 1)), size=size, zoom=1.2,
-                  title="V8 bank A exterior without the provisional intake")
     print("done")
 
 

@@ -1,5 +1,7 @@
 # V8 - bank A exterior, for your approval
 
+> Approved as the direction. Superseded by `docs/VISUAL_REVIEW.md` (rounds 1-3).
+
 Status: **moving core verified, exterior of ONE bank built, STOPPED for your
 approval.** Nothing of the V8 is printed. Nothing here is production-ready.
 

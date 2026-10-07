@@ -68,7 +68,7 @@ def to_bank(shape, bank):
 CASE_END_SCREWS = [(-40.0, -22.0), (40.0, -22.0), (-42.0, -3.0), (42.0, -3.0)]   # (y, z) U-body
 BEAM_END_SCREWS = [(-9.0, 39.0), (9.0, 39.0)]                                      # (y, z) valley beam
 END_PLATE_SCREWS = CASE_END_SCREWS + BEAM_END_SCREWS
-BASE_INSERTS = [(sx * 112.0, sy * 40.0) for sx in (-1, 1) for sy in (-1, 1)]
+BASE_INSERTS = getattr(C, "BASE_INSERTS", [(sx * 112.0, sy * 40.0) for sx in (-1, 1) for sy in (-1, 1)])
 SQ2 = math.sqrt(2.0)
 
 

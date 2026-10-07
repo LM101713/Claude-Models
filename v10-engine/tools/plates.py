@@ -39,12 +39,12 @@ EXPORT_GROUPS = ("C", "M")     # only coupons + motion test until a real engine 
 
 # (plate name, description, [(part file name, qty), ...])
 PLATES = [
-    ("C1_coupons", "fit coupons T1-T8 - PRINT FIRST (PLA)", [
+    ("C1_coupons", "fit coupons T1-T9 - PRINT FIRST (PLA; T9b boot in the translucent filament)", [
         ("T1_hole_ladder", 1), ("T1b_test_peg", 2), ("T1c_peg_captive", 1), ("T2_insert_ladder", 1),
         ("T3_608_seats", 1), ("T3b_686_seats", 1), ("T4_piston_guide", 1), ("T4b_test_lug", 1),
         ("T4c_lug_slots", 1), ("T4d_wrist_pins", 1),
         ("T5_dpin_sockets", 1), ("T5b_magnets", 1), ("T6_end_plate_seat", 1),
-        ("T7_crank_vblock", 2), ("T8_belt_feeler", 1)]),
+        ("T7_crank_vblock", 2), ("T8_belt_feeler", 1), ("T9_boot_glow", 1), ("T9b_boot", 2)]),
     ("M1_crank", "motion test: crank webs + segments, printed shafts", [
         ("05_crank_end_web", 2), ("06_crank_segment_54", 2), ("07_crank_segment_198", 2), ("P2_proto_main_shaft", 2)]),
     ("M2_rods_pins", "motion test: 10 con-rods, 5 printed crankpins", [("08_conrod", 10), ("P1_proto_split_crankpin", 5)]),

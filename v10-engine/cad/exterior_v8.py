@@ -158,31 +158,46 @@ def print_head(s):
 # 31 Valve cover (magnetic) - printed top-down on the textured plate
 # ---------------------------------------------------------------------------
 def valve_cover():
+    """Crisp box with a 1.5 mm top edge, a shallow recessed top panel, a 5 mm
+    bolt rim with hex-less bolt heads every 28 mm, knurled oil cap, 4 magnets."""
     vc = C.VC
     x0, x1 = X0 + vc["x_inset"], X1 - vc["x_inset"]
     y0, y1, h, w = vc["y0"], vc["y1"], vc["h"], vc["wall"]
+    xm, ym = (x0 + x1) / 2, (y0 + y1) / 2
     z0, z1 = TOP - 1.0, TOP - 1.0 + h                              # sits 1 mm down in the head's seat
-    outer = _rrect_prism((x0 + x1) / 2, (y0 + y1) / 2, x1 - x0, y1 - y0, vc["r"], z0, z1)
+    outer = _rrect_prism(xm, ym, x1 - x0, y1 - y0, vc["r"], z0, z1)
     outer = cq.Workplane().add(outer).faces(">Z").edges().chamfer(vc["chamfer"]).val()
-    cover = outer.cut(_rrect_prism((x0 + x1) / 2, (y0 + y1) / 2, x1 - x0 - 2 * w, y1 - y0 - 2 * w,
-                                   max(0.5, vc["r"] - w), z0 - 1, z1 - w))
-    # raised rim band with the bolt bosses (reads as the gasket flange)
-    rim = _rrect_prism((x0 + x1) / 2, (y0 + y1) / 2, x1 - x0 + 2 * vc["rim_t"], y1 - y0 + 2 * vc["rim_t"],
-                       vc["r"] + vc["rim_t"], z0 + 1.0, z0 + 1.0 + vc["rim_h"])
-    rim = rim.cut(_rrect_prism((x0 + x1) / 2, (y0 + y1) / 2, x1 - x0, y1 - y0, vc["r"], z0, z1))
+    cover = outer.cut(_rrect_prism(xm, ym, x1 - x0 - 2 * w, y1 - y0 - 2 * w, max(0.5, vc["r"] - w), z0 - 1, z1 - w))
+    # recessed top panel
+    pi, pd = vc["panel_inset"], vc["panel_depth"]
+    cover = cover.cut(_rrect_prism(xm, ym, x1 - x0 - 2 * pi, y1 - y0 - 2 * pi, 2.0, z1 - pd, z1 + 1))
+    # bolt rim: a band standing proud all round the base, with bolt heads on it
+    rt, rh = vc["rim_t"], vc["rim_h"]
+    rim = _rrect_prism(xm, ym, x1 - x0 + 2 * rt, y1 - y0 + 2 * rt, vc["r"] + rt, z0 + 1.0, z0 + 1.0 + rh)
+    rim = rim.cut(_rrect_prism(xm, ym, x1 - x0 - 2 * w, y1 - y0 - 2 * w, max(0.5, vc["r"] - w), z0, z1))
+    rim = cq.Workplane().add(rim).faces(">Z").edges().chamfer(0.8).val()
     cover = cover.fuse(rim)
-    for xb in [x0 + 12.0, x1 - 12.0] + list(BETWEEN_X):
-        for yb in (y0 - vc["rim_t"] + 0.2, y1 + vc["rim_t"] - 0.2):
-            boss = cyl_z(vc["boss_d"] / 2, z0 + 1.0 + vc["rim_h"] - 0.01, z0 + 1.0 + vc["rim_h"] + vc["boss_h"], xb, yb)
-            cover = cover.fuse(boss.intersect(box(x0 - 20, x1 + 20, y0 - 1.5, y1 + 1.5, z0, z1)))
+    n = int((x1 - x0 - 16.0) // vc["bolt_pitch"])
+    xb = [x0 + 8.0 + i * (x1 - x0 - 16.0) / n for i in range(n + 1)]
+    heads = []
+    for x in xb:
+        for yb in (y0 - rt / 2 + 0.3, y1 + rt / 2 - 0.3):
+            heads.append((x, yb))
+    for yb in (ym - 10.0, ym + 10.0):
+        heads += [(x0 - rt / 2 + 0.3, yb), (x1 + rt / 2 - 0.3, yb)]
+    zb = z0 + 1.0 + rh
+    for x, yb in heads:
+        bolt = cyl_z(vc["bolt_d"] / 2, zb - 0.5, zb + 1.6, x, yb)
+        bolt = cq.Workplane().add(bolt).faces(">Z").edges().chamfer(0.8).val()
+        cover = cover.fuse(bolt)
     # knurled oil cap on top
     cx, cy = (X1 - 40.0 if vc["cap_x"] < 0 else X0 + 40.0), vc["cap_y"]
-    cap = cyl_z(vc["cap_d"] / 2, z1 - 0.5, z1 + vc["cap_h"], cx, cy)
+    cap = cyl_z(vc["cap_d"] / 2, z1 - pd - 0.5, z1 + vc["cap_h"], cx, cy)
     cap = cq.Workplane().add(cap).faces(">Z").edges().chamfer(1.5).val()
-    n = 24
-    for i in range(n):
+    nk = 24
+    for i in range(nk):
         groove = box(-0.6, 0.6, vc["cap_d"] / 2 - 0.7, vc["cap_d"] / 2 + 1, z1 + 1.0, z1 + vc["cap_h"] - 1.6)
-        groove = groove.rotate((0, 0, 0), (0, 0, 1), i * 360.0 / n).translate(cq.Vector(cx, cy, 0))
+        groove = groove.rotate((0, 0, 0), (0, 0, 1), i * 360.0 / nk).translate(cq.Vector(cx, cy, 0))
         cap = cap.cut(groove)
     cover = cover.fuse(cap)
     # magnet pillars down to the head top
@@ -220,51 +235,64 @@ def print_boot(s):
 # 33 Header primary pipe (one shape, x8): spigot - straight - bend - slanted drop - spigot
 # ---------------------------------------------------------------------------
 def primary_geometry():
-    """Centreline for bank A, cylinder at x=0, ENGINE frame.
-    Returns dict(p0, t1, Q, t2, p3, r, alpha_deg, stub, drop, A, B, M)."""
+    """S-curve centreline for bank A, cylinder at x=0, ENGINE frame:
+    port -> straight stub (normal to the head face, 45 deg) -> bend out to the
+    flare -> tuck-in run towards the collector -> short drop into the saddle."""
     p0 = _bank_pt(YO + C.EXH_PORT_DEPTH, PORT_Z)                     # start inside the port counterbore
     t1 = (_bank_pt(YO - 10.0, PORT_Z) - p0).normalized()             # outboard, 45 deg down (normal to the face)
-    L1 = (-C.EXH_COLLECTOR_Y - p0.y) / t1.y                          # straight until y = collector axis
-    Q = p0 + t1 * L1                                                 # corner point
-    z_top = C.EXH_COLLECTOR_Z + C.EXH_COLLECTOR_D / 2 - C.EXH_COLLECTOR_SADDLE
-    drop = Q.z - z_top
+    L1 = (-C.EXH_FLARE_Y - p0.y) / t1.y                              # straight until the flare line
+    Q1 = p0 + t1 * L1
     jog = C.EXH_X_JOG
-    alpha = math.atan2(abs(jog), drop)                               # drop slant from vertical
-    t2 = cq.Vector(math.copysign(math.sin(alpha), jog), 0, -math.cos(alpha))
-    L2 = drop / math.cos(alpha)
-    p3 = Q + t2 * L2
-    r = C.EXH_BEND_R
-    beta = math.acos(max(-1.0, min(1.0, t1.dot(t2))))
-    tl = r * math.tan(beta / 2)
-    A, B = Q - t1 * tl, Q + t2 * tl
-    bis = (t2 - t1).normalized()
-    centre = Q + bis * (r / math.cos(beta / 2))
-    M = centre + (Q - centre).normalized() * r
-    return dict(p0=p0, t1=t1, Q=Q, t2=t2, p3=p3, r=r, alpha_deg=math.degrees(alpha),
-                stub=L1 - tl, drop=L2 - tl, A=A, B=B, M=M, beta_deg=math.degrees(beta))
+    Q2 = cq.Vector(jog * C.EXH_S_X_SHARE, -C.EXH_COLLECTOR_Y, C.EXH_S_Z)
+    p3 = cq.Vector(jog, -C.EXH_COLLECTOR_Y, C.EXH_COLLECTOR_TOP_Z - C.EXH_COLLECTOR_SADDLE)
+    t2 = (Q2 - Q1).normalized()
+    t3 = (p3 - Q2).normalized()
+    def turn(a, b):
+        return math.degrees(math.acos(max(-1.0, min(1.0, a.dot(b)))))
+    tl1 = C.EXH_BEND_R * math.tan(math.radians(turn(t1, t2)) / 2)
+    tl2 = C.EXH_BEND_R2 * math.tan(math.radians(turn(t2, t3)) / 2)
+    return dict(points=[p0, Q1, Q2, p3], radii=[C.EXH_BEND_R, C.EXH_BEND_R2], t1=t1, t2=t2, t3=t3,
+                stub=L1 - tl1, run=(Q2 - Q1).Length - tl1 - tl2, drop=(p3 - Q2).Length - tl2,
+                turn1=turn(t1, t2), turn2=turn(t2, t3),
+                # angles from the print vertical when standing on the collector spigot (t3 vertical)
+                print_angles=dict(stub=turn(t1, t3), run=turn(t2, t3), drop=0.0),
+                drop_slant_deg=math.degrees(math.atan2(math.hypot(t3.x, t3.y), -t3.z)),
+                p0=p0, p3=p3)
 
 
 def primary_pipe():
     g = primary_geometry()
     assert g["stub"] >= C.EXH_STUB_MIN, f"header stub too short: {g['stub']:.1f} mm"
-    assert g["drop"] > 5.0, "header drop too short"
-    path = cq.Wire.assembleEdges([cq.Edge.makeLine(g["p0"], g["A"]),
-                                  cq.Edge.makeThreePointArc(g["A"], g["M"], g["B"]),
-                                  cq.Edge.makeLine(g["B"], g["p3"])])
+    assert g["run"] > 2.0 and g["drop"] > 2.0, "header S-curve legs too short for the bend radii"
+    path = _rounded_path(g["points"], g["radii"])
     prof = cq.Workplane(cq.Plane(origin=g["p0"].toTuple(), xDir=(1, 0, 0), normal=g["t1"].toTuple()))
     pipe = prof.circle(C.EXH_PRIMARY_D / 2).sweep(cq.Workplane().add(path), transition="round").val()
     sp_head = cq.Solid.makeCylinder(C.EXH_SPIGOT_D / 2, C.EXH_SPIGOT_L + 0.3, (g["p0"] + g["t1"] * 0.3).toTuple(),
                                     (g["t1"] * -1).toTuple())
-    sp_col = cq.Solid.makeCylinder(C.EXH_SPIGOT_D / 2, C.EXH_SPIGOT_L + 0.3, (g["p3"] - g["t2"] * 0.3).toTuple(),
-                                   g["t2"].toTuple())
+    sp_col = cq.Solid.makeCylinder(C.EXH_SPIGOT_D / 2, C.EXH_SPIGOT_L + 0.3, (g["p3"] - g["t3"] * 0.3).toTuple(),
+                                   g["t3"].toTuple())
     return safe_clean(pipe.fuse(sp_head).fuse(sp_col))
 
 
+def _rotate_vec(shape, a, b):
+    """Rotate `shape` by the rotation that takes direction a onto direction b."""
+    a, b = cq.Vector(*a).normalized() if not isinstance(a, cq.Vector) else a.normalized(), \
+        cq.Vector(*b).normalized() if not isinstance(b, cq.Vector) else b.normalized()
+    axis = a.cross(b)
+    if axis.Length < 1e-9:
+        if a.dot(b) > 0:
+            return shape
+        perp = cq.Vector(1, 0, 0) if abs(a.x) < 0.9 else cq.Vector(0, 1, 0)
+        return shape.rotate((0, 0, 0), a.cross(perp).toTuple(), 180)
+    ang = math.degrees(math.acos(max(-1.0, min(1.0, a.dot(b)))))
+    return shape.rotate((0, 0, 0), axis.toTuple(), ang)
+
+
 def print_primary(s):
-    """Stand the pipe on its collector spigot: the drop leans a few degrees,
-    the stub leans 45 deg (the limit), the head spigot is at the top."""
+    """Stand the pipe on its collector spigot: the final drop is vertical, the
+    tuck-in run and the stub lean (angles in primary_geometry()['print_angles'])."""
     g = primary_geometry()
-    s = s.rotate((0, 0, 0), (0, 1, 0), math.copysign(g["alpha_deg"], C.EXH_X_JOG))   # drop -> vertical
+    s = _rotate_vec(s, g["t3"], (0, 0, -1))         # pipe end direction -> straight down
     bb = s.BoundingBox()
     return s.translate(cq.Vector(0, 0, -bb.zmin))
 
@@ -294,28 +322,39 @@ def print_plate(s):
 # 35 Collector: straight log collector along X beside the pan, tail to the rear
 # ---------------------------------------------------------------------------
 def collector(bank):
-    """ENGINE frame. 4 saddle sockets on top for the primaries' spigots. Flat
-    back on the inboard side (85 % round) so it prints lying down without
-    supports. Built for bank A's side (-y); bank B is the mirror."""
+    """ENGINE frame. Tapered log collector hanging from a horizontal top line
+    (so all 4 saddle sockets are at one height and the primaries stay one
+    shape), nose at the front, open tail to the rear inside the stand
+    footprint. Flat on the inboard side so it prints lying down. Built for
+    bank A's side (-y); bank B is the mirror."""
     g = primary_geometry()
     xs = C.BANK_A_CYL_X if bank == "A" else C.BANK_B_CYL_X
-    yc, zc = -C.EXH_COLLECTOR_Y, C.EXH_COLLECTOR_Z
-    r = C.EXH_COLLECTOR_D / 2
-    x_front = max(xs) + C.EXH_X_JOG + 24.0
-    x_rear = min(xs) + C.EXH_X_JOG - 24.0 - C.EXH_TAIL_L
-    tube = cyl_x(r, x_rear, x_front, yc, zc)
-    tube = cq.Workplane().add(tube).faces("<X").edges().chamfer(2.5).val()
-    tube = cq.Workplane().add(tube).faces(">X").edges().chamfer(4.0).val()
-    flat = box(x_rear - 1, x_front + 1, yc + r * 0.85, yc + r + 1, zc - r - 1, zc + r + 1)   # inboard flat
+    yc, zt = -C.EXH_COLLECTOR_Y, C.EXH_COLLECTOR_TOP_Z
+    r0, r1 = C.EXH_COLLECTOR_R
+    x_front = max(xs) + C.EXH_X_JOG + C.EXH_COLLECTOR_FRONT_MARGIN
+    x_rear = -C.STAND["l"] / 2 + C.EXH_TAIL_MARGIN
+    assert x_rear < min(xs) + C.EXH_X_JOG - r1, "collector tail too short for the last socket"
+    def ring(x, r):
+        return cq.Wire.makeCircle(r, cq.Vector(x, yc, zt - r), cq.Vector(1, 0, 0))
+    tube = cq.Solid.makeLoft([ring(x_rear, r1), ring(x_front, r0)], ruled=True)
+    nose = cq.Solid.makeCone(r0, r0 - 4.0, 5.0, cq.Vector(x_front, yc, zt - r0), cq.Vector(1, 0, 0))
+    tube = tube.fuse(nose)
+    tube = cq.Workplane().add(tube).faces("<X").edges().chamfer(2.0).val()
+    # inboard flat at 82 % of the local radius all along the taper (print bed face; hidden by the pan)
+    k = C.EXH_COLLECTOR_FLAT
+    flat = (cq.Workplane("XY").workplane(offset=zt - 2 * r1 - 1)
+            .polyline([(x_rear - 1, yc + k * r1), (x_front + 6, yc + k * r0), (x_front + 6, yc + r1 + 1), (x_rear - 1, yc + r1 + 1)])
+            .close().extrude(2 * r1 + 2).val())
     tube = tube.cut(flat)
-    tube = tube.cut(cyl_x(r - 3.0, x_rear - 1, x_rear + 30.0, yc, zc))                       # open tail
-    tilt = -math.copysign(g["alpha_deg"], C.EXH_X_JOG)       # socket axis = -t2 (up, leaning forward)
+    r_tail = r1 - C.EXH_TAIL_WALL
+    assert r_tail < k * r1 - 0.3, "tail bore would break through the inboard flat"
+    tube = tube.cut(cq.Solid.makeCylinder(r_tail, 30.0, cq.Vector(x_rear - 1, yc, zt - r1), cq.Vector(1, 0, 0)))
     sad = C.EXH_COLLECTOR_SADDLE
     for x in xs:
-        mouth = cq.Vector(x + C.EXH_X_JOG, yc, zc + r - sad)             # = pipe end p3 for this cylinder
-        cb = cyl_z(C.EXH_PRIMARY_D / 2 + C.CLEARANCE, -0.3, r + 2.0)        # saddle counterbore for the tube
+        mouth = cq.Vector(x + C.EXH_X_JOG, yc, zt - sad)                # = pipe end p3 for this cylinder
+        cb = cyl_z(C.EXH_PRIMARY_D / 2 + C.CLEARANCE, -0.3, r1 + 2.0)       # saddle counterbore for the tube
         sock = crush_z(C.EXH_SPIGOT_D, -(C.EXH_SPIGOT_L + 0.5), 0.01, 0, 0, "trumpet_14", entry="hi")
-        cut = cb.fuse(sock).rotate((0, 0, 0), (0, 1, 0), tilt).translate(mouth)
+        cut = _rotate_vec(cb.fuse(sock), (0, 0, -1), g["t3"]).translate(mouth)   # socket depth along the pipe end
         tube = tube.cut(cut)
     out = safe_clean(tube)
     return out if bank == "A" else out.mirror("XZ")
@@ -348,15 +387,16 @@ def intake():
         for xc, xl in zip(xs, C.BANK_A_CYL_X):
             pe = block.to_bank(cq.Vertex.makeVertex(xl, YV - it["port_depth"] + 0.5, DECK + it["port_z"]), bank)
             pe = cq.Vector(xc, pe.Y, pe.Z)                              # runner end, inside the head pocket
-            side_y = sgn * it["runner_side_y"]
-            L = (abs(side_y) - abs(pe.y)) / abs(up_in.y)             # along up_in until the runner reaches the side
-            c1 = pe + up_in * L
-            c2 = cq.Vector(xc, side_y, it["runner_side_z"])
-            end = cq.Vector(xc, sgn * it["runner_top_y"], it["runner_top_z"])
-            path = _rounded_path([pe, c1, c2, end], [it["runner_r1"], it["runner_r2"]])
             plane = cq.Plane(origin=pe.toTuple(), xDir=(1, 0, 0), normal=up_in.toTuple())
-            runner = (cq.Workplane(plane).sketch().rect(it["runner_w"], it["runner_h"]).vertices()
-                      .fillet(it["runner_r"]).finalize().sweep(cq.Workplane().add(path)).val())
+            prof = cq.Workplane(plane).sketch().rect(it["runner_w"], it["runner_h"]).vertices().fillet(it["runner_r"]).finalize()
+            runner = prof.extrude(it["stub_len"]).val()                 # hidden stub into the plenum body
+            pts = [cq.Vector(xc, sgn * y, z) for y, z in it["ridge"]]
+            path = _rounded_path(pts, [it["ridge_r"]] * (len(pts) - 2))
+            d0 = (pts[1] - pts[0]).normalized()
+            plane = cq.Plane(origin=pts[0].toTuple(), xDir=(1, 0, 0), normal=d0.toTuple())
+            ridge = (cq.Workplane(plane).sketch().rect(it["runner_w"], it["runner_h"]).vertices()
+                     .fillet(it["runner_r"]).finalize().sweep(cq.Workplane().add(path)).val())
+            runner = runner.fuse(ridge)
             out = out.fuse(runner)
         # fuel rail with 4 injector bosses angled into the runners (printed with the manifold for now)
         rail = cyl_x(it["rail_d"] / 2, min(xs) - 12.0, max(xs) + 12.0, sgn * it["rail_y"], it["rail_z"])

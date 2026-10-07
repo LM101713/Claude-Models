@@ -105,6 +105,19 @@ meets the lip.
 | bearing square against the lip, spins freely, lip touches only the outer ring | nothing (nominal) |
 | nominal cracks or needs a hammer, the -.10 seat is right | lower `CRUSH["bearing_608"]` by 0.10 (and re-check T3) |
 
+## T9 - lit spark-plug boot (V8, one LED)
+
+A slice of the V8 head's outboard face with the flange-plate layer, the strip
+slot and the 9 mm crush socket, plus two boots (T9b) printed in the translucent
+filament. Slide one LED of a 60/m strip into the slot (LED under the socket),
+press a boot in, power the strip at the engine's firing brightness.
+
+| Pass | Change |
+|---|---|
+| boot glows evenly to the dome, no hot spot at the shaft, holds by friction | nothing: boots stay separate translucent parts |
+| hot spot / dim dome | try the second boot with 2 walls, 0 % infill (slicer setting); still bad -> fall back to a drilled light pipe in the satin-grey boot (D36) |
+| boot loose in the socket | lower `CRUSH["boot_9"]` interference by 0.10 |
+
 ## T7 / T8 - tools, not tests
 
 * **T7 crank V-blocks (x2):** both main shafts rest in the Vs on a flat table

@@ -369,30 +369,50 @@ EXH_PORT_DEPTH = 2.0            # counterbore depth; the 14 mm spigot socket is 
 EXH_SPIGOT_D = 14.0             # pipe spigot into the head (crush fit "trumpet_14", as the V10 trumpets)
 EXH_SPIGOT_L = 9.0
 EXH_PRIMARY_D = 20.0            # primary pipe OD (real 1 7/8 in)
-EXH_BEND_R = 24.0               # bend centreline radius (pipe OD 20 -> prints without support)
-EXH_X_JOG = -CYL_PITCH / 2      # each primary drops half a cylinder pitch behind its port, so the
+EXH_BEND_R = 24.0               # first bend centreline radius (pipe OD 20 -> prints without support)
+EXH_BEND_R2 = 20.0              # second (S) bend radius
+EXH_X_JOG = -CYL_PITCH / 2      # each primary ends half a cylinder pitch behind its port, so the
                                 # drops sit BETWEEN the block windows (and the pipes lean rearward)
+EXH_S_X_SHARE = 0.8             # share of that jog done in the S run (rest in the final drop)
+EXH_FLARE_Y = 122.0             # engine |y| the pipe centreline flares out to before tucking in
+EXH_S_Z = -10.0                 # engine z where the tuck-in run meets the final drop
 EXH_STUB_MIN = 14.0             # straight run out of the head before the bend starts (>= plate + lip)
-EXH_COLLECTOR_D = 36.0          # collector OD (real 3.5 in)
-EXH_COLLECTOR_Y = 118.0         # engine |y| of the collector axis (outboard of the pan)
-EXH_COLLECTOR_Z = -62.0         # engine z of the collector axis
+EXH_COLLECTOR_Y = 104.0         # engine |y| of the collector axis (beside the pan)
+EXH_COLLECTOR_TOP_Z = -44.0     # top line of the collector (horizontal; the tapered body hangs from it)
+EXH_COLLECTOR_R = (14.0, 21.0)  # collector radius at the front nose and at the rear tail (taper)
 EXH_COLLECTOR_SADDLE = 3.0      # primary tube ends this far below the collector's top line
-EXH_TAIL_L = 60.0               # tail pipe beyond the last primary (towards the rear)
+EXH_COLLECTOR_FLAT = 0.82       # inboard flat (print face) at this fraction of the local radius
+EXH_TAIL_WALL = 4.5             # wall around the open tail bore
+EXH_COLLECTOR_FRONT_MARGIN = 20.0   # collector nose beyond the first socket
+EXH_TAIL_MARGIN = 8.0           # collector tail ends this far inside the stand footprint
 EXH_FLANGE_PLATE = dict(t=4.0, z0=0.5, z1=33.0, end_inset=6.0)   # one flange bar per bank over the ports
 PLUG_BOOT = dict(d=10.0, l=14.0, shaft_d=9.0, shaft_l=8.0, dx=15.0, z=8.0)  # boot per cylinder, below and
                                 # ahead of its port, lit by a strip in the outboard face behind the flange plate
 BOOT_STRIP = dict(w=11.0, d=2.6, n=11)     # strip groove in the outboard face under the flange plate
-VC = dict(x_inset=8.0, y0=-31.0, y1=17.0, h=29.0, wall=3.0, r=6.0, chamfer=3.5, rim_h=4.0, rim_t=1.5,
-          boss_d=5.0, boss_h=1.5, cap_d=27.0, cap_h=7.0, cap_x=-40.0, cap_y=-14.0)   # valve cover
+VC = dict(x_inset=8.0, y0=-31.0, y1=17.0, h=29.0, wall=3.0, r=4.0, chamfer=1.5, rim_h=5.0, rim_t=2.5,
+          boss_d=6.0, boss_h=2.0, bolt_d=3.6, bolt_pitch=28.0, panel_inset=5.0, panel_depth=0.8,
+          cap_d=27.0, cap_h=7.0, cap_x=-40.0, cap_y=-14.0)   # valve cover: crisp 1.5 mm edge, 5 mm bolt rim
 VC_MAGNET_Y = -7.0              # cover magnets: 4 along this line in the head top
-INTAKE = dict(                  # ENGINE frame, provisional - a tall single-plane plenum filling the valley
-    sections=[(100.0, 84.0, 168.0), (116.0, 106.0, 178.0), (168.0, 126.0, 186.0)],   # (z, width y, length x)
-    r=16.0, top_fillet=10.0,
+INTAKE = dict(                  # ENGINE frame, provisional - a low, wide single-plane plenum (STYLE_ai_04/05)
+    sections=[(100.0, 84.0, 170.0), (112.0, 112.0, 180.0), (152.0, 156.0, 188.0)],   # (z, width y, length x)
+    r=18.0, top_fillet=10.0,
     runner_w=22.0, runner_h=16.0, runner_r=5.0, port_depth=3.0, port_z=20.0,
-    runner_side_y=62.0, runner_side_z=158.0, runner_top_y=40.0, runner_top_z=172.0,   # hump path: up the
-    runner_r1=12.0, runner_r2=18.0,                                                   # side, curl over the top
-    tb_d=44.0, tb_l=34.0, tb_z=146.0, tb_tilt=10.0, tb_bore=38.0,
-    rail_d=8.0, rail_y=68.0, rail_z=116.0, inj_d=9.0)
+    stub_len=30.0,                                   # runner stub from the head pocket into the plenum body
+    ridge=[(56.0, 122.0), (80.0, 140.0), (50.0, 150.0)], ridge_r=13.0,   # cosmetic runner ridge (|y|, z):
+                                                     # out of the flank, over the top edge, onto the top
+    tb_d=44.0, tb_l=34.0, tb_z=132.0, tb_tilt=10.0, tb_bore=38.0,
+    rail_d=8.0, rail_y=70.0, rail_z=114.0, inj_d=9.0)
+PAN = dict(w=160.0, z_step=-60.0, w_sump=128.0, z_bot=-102.0, wall=3.5, skin=4.0, floor=6.0, ledge=11.0,
+           rabbet_overlap=6.0, panel_t=3.0, r=8.0, flange_h=6.0, flange_out=3.0,
+           rib_z=(-70.0, -80.0, -90.0), rib_out=3.0, rib_h=4.0, bottom_chamfer=6.0, panel_screw_inset=3.0)
+           # oil pan = motor + electronics bay: full-width rail section down to z_step, narrower sump below   # oil pan = motor + electronics bay; x = the end plates' outer faces
+PAN_SCREWS = [(sx * 94.0, sy * 40.0) for sx in (-1, 1) for sy in (-1, 1)]   # M3x8 up through the pan skin into
+BASE_INSERTS = PAN_SCREWS                                                   # crankcase floor inserts (hidden)
+BELL = dict(depth=22.0, r_top=44.0, half_w_bot=60.0, z_bot=-92.0, wall=3.0, hub_r=22.0, hub_h=4.0,
+            bolt_r=36.0, n_bolts=8)   # cosmetic bellhousing on the rear end plate (3 magnets, same pattern as the V10 cover)
+HARNESS_HOLE = dict(y=28.0, z=-46.0, d=12.0)   # LED harness enters the pan through its rear wall, inside the bell
+STAND = dict(l=300.0, w=240.0, t=12.0)   # display stand plate footprint (x, y) and thickness - the whole
+                                # engine incl. bellhousing, damper and collector tails stays inside l
 HEADER_SCREW_X_INSET = 8.0      # flange-plate screws from the plate ends (M3x8 into head inserts)
 
 # ===========================================================================
@@ -507,7 +527,7 @@ MOTOR_Z = -BELT_CENTRE                             # motor shaft axis (y = 0)
 MOTOR_Z_ALT = -_belt_centre(BELT_ALT_LEN, PITCH_D_BIG, PITCH_D_SMALL)
 MOTOR_SLOT_TOP = MOTOR_Z + MOTOR_TENSION_TRAVEL        # motor axis travel in the bulkhead slots
 MOTOR_SLOT_BOTTOM = MOTOR_Z_ALT - MOTOR_TENSION_TRAVEL
-MOTOR_PLATE_X1 = PULLEY_HUB_X - 1.0                # front face of the motor bulkhead
+MOTOR_PLATE_X1 = END_PLATE_OUTER_X                 # front face of the motor bulkhead = pan front wall, flush with the end plate
 MOTOR_FACE_X = MOTOR_PLATE_X1 - MOTOR_PLATE_T      # motor mounting face
 BASE_BOTTOM_Z = BASE_TOP_Z - BASE_H
 COVER_X0 = END_PLATE_OUTER_X

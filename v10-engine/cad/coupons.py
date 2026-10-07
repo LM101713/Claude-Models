@@ -25,6 +25,8 @@ which number in fits.py to change.
 The engine has no gears (belt drive), so there is no gear-mesh coupon.
 """
 
+import math
+
 import cadquery as cq
 
 from common import C, box, crush_params, cyl_x, cyl_z, d_hole_x, polar, safe_clean
@@ -304,8 +306,46 @@ def t8_belt_feeler():
     return _engrave(safe_clean(bar), "BELT 3.0", 20.0, 7.5, 3.0, 3.2)
 
 
+def t9_boot_glow():
+    """One lit spark-plug boot: a slice of the head's outboard face with the
+    4 mm flange-plate layer built in, the 2.6 mm strip slot behind it (open at
+    both ends, one LED of the 60/m strip sits under the boot) and the 9 mm
+    crush socket. Prints standing like the head (socket axis horizontal).
+    Judge the glow with the room lights on and off; see TEST_CHECKLIST T9."""
+    pb, bs, fp = C.PLUG_BOOT, C.BOOT_STRIP, C.EXH_FLANGE_PLATE
+    w, h = 26.0, 26.0                                  # x, z' (print: x, z)
+    depth = fp["t"] + bs["d"] + pb["shaft_l"] + 1.5    # y': plate + slot + socket + back wall
+    blk = box(0, w, 0, depth, 0, h)
+    blk = cq.Workplane().add(blk).edges("|Y").chamfer(1.0).val()
+    cx, cz = w / 2, h / 2
+    # flange-plate layer: clearance hole for the boot shaft
+    blk = blk.cut(cq.Solid.makeCylinder(pb["shaft_d"] / 2 + C.CLEARANCE, fp["t"] + 0.1, cq.Vector(cx, -0.1, cz), cq.Vector(0, 1, 0)))
+    # strip slot, open at both x ends
+    blk = blk.cut(box(-1, w + 1, fp["t"], fp["t"] + bs["d"], cz - bs["w"] / 2, cz + bs["w"] / 2))
+    # 9 mm crush socket behind the slot
+    n, bore, rr, _ = crush_params(pb["shaft_d"], "boot_9")
+    sock = cq.Solid.makeCylinder(bore / 2, pb["shaft_l"] + 0.5, cq.Vector(cx, fp["t"] + bs["d"] - 0.01, cz), cq.Vector(0, 1, 0))
+    for i in range(n):
+        a = math.radians(i * 360.0 / n)
+        rib = cq.Solid.makeCylinder(rr, pb["shaft_l"] + 0.5, cq.Vector(cx + (bore / 2) * math.cos(a), fp["t"] + bs["d"] - 0.01, cz + (bore / 2) * math.sin(a)), cq.Vector(0, 1, 0))
+        sock = sock.cut(rib)
+    blk = blk.cut(sock)
+    blk = _engrave(safe_clean(blk), "T9", cx, depth - 1.0, h, 3.2) if False else safe_clean(blk)
+    # label on the back face (print orientation: back face is a side wall)
+    t = (cq.Workplane("XZ", origin=(0, depth - TXT_D, 0)).center(cx, cz).text("T9 BOOT", 3.0, -(TXT_D + 0.1), halign="center", valign="center", kind="bold"))
+    return blk.cut(t.val())
+
+
+def t9_boot():
+    """The translucent boot itself (print in the clear / natural filament)."""
+    import exterior_v8
+    return exterior_v8.print_boot(exterior_v8.plug_boot())
+
+
 def build_all():
     return {
+        "T9_boot_glow": (t9_boot_glow(), 1),
+        "T9b_boot": (t9_boot(), 2),
         "T1_hole_ladder": (t1_hole_ladder(), 1),
         "T1b_test_peg": (t1b_test_peg(), 2),
         "T1c_peg_captive": (t1c_peg_captive(), 1),

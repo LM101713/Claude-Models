@@ -54,6 +54,7 @@ SETTINGS = [
     ("T1", "PLA", 0.20, 2, 10, 3, 2, 0),        # coupons: PLA first, re-run T3-T6 in ASA before production
     ("T2", "PLA", 0.20, 2, 10, 3, 2, 0),
     ("T4d", "PLA", 0.20, 3, 10, 3, 2, 3),       # tall thin bar: 3 mm brim
+    ("T9b", "PLA", 0.16, 2, 0, 3, 2, 3),        # translucent boot: 2 walls, no infill (glow), brim (10 mm footprint)
     ("T", "PLA", 0.20, 3, 10, 3, 2, 0),         # crush-rib coupons keep 3 walls like the real parts
     ("01_", "ASA", L["case"], 4, 25, 5, 4, 0),       # crankcase: carries the crank and the engine weight
     ("02_", "ASA", L["beam"], 4, 25, 5, 4, 0),       # valley beam: carries the banks' valley side + rails

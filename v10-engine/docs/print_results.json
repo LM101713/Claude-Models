@@ -606,5 +606,37 @@
   "slicer_warning": "",
   "bridge_spans": [],
   "overhang_areas": []
+ },
+ "T9_boot_glow": {
+  "material": "PLA",
+  "layer": 0.2,
+  "walls": 3,
+  "infill": 10,
+  "brim": 0,
+  "hours": 0.29,
+  "grams": 6.8,
+  "cost": 0.14,
+  "long_bridges": 0,
+  "big_overhangs": 0,
+  "ring_ceilings": 0,
+  "slicer_warning": "",
+  "bridge_spans": [],
+  "overhang_areas": []
+ },
+ "T9b_boot": {
+  "material": "PLA",
+  "layer": 0.16,
+  "walls": 2,
+  "infill": 0,
+  "brim": 3,
+  "hours": 0.231,
+  "grams": 0.8,
+  "cost": 0.02,
+  "long_bridges": 0,
+  "big_overhangs": 0,
+  "ring_ceilings": 0,
+  "slicer_warning": "",
+  "bridge_spans": [],
+  "overhang_areas": []
  }
 }

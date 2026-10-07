@@ -9,9 +9,13 @@ rendered from the same angles as the five reference images.
 
 * Moving core rebuilt and verified (6 deg full-rotation sweep clear) - commit
   `503802e`.
-* Exterior of bank A built and rendered next to the references:
-  `docs/V8_BANK_A_REVIEW.md`, `renders/v8_bankA/`. **Waiting for approval.**
-* Decisions from your answers and mine: `docs/DECISIONS.md` D26-D35.
+* Bank A approved as the direction (`docs/V8_BANK_A_REVIEW.md`).
+* Critique rounds 1-3 (`docs/VISUAL_REVIEW.md`, `renders/v8_round1..3/`):
+  S-curve headers, tapered collector, crisp valve cover, lower/wider intake
+  (provisional), both banks, oil pan = motor + electronics bay, bellhousing.
+  **Waiting for approval** before the front cover, damper, stand, edition
+  plate and the real (hollow, two-piece) intake.
+* Decisions from your answers and mine: `docs/DECISIONS.md` D26-D42.
 
 ## 0. The reference images
 

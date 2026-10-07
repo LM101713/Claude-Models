@@ -43,5 +43,7 @@ Times and grams are PrusaSlicer estimates with an H2S-like motion profile (`tool
 | T6_end_plate_seat | PLA | 0.2 | 3 | 10% | - | 0.25 | 7 | 0.14 | - | - | - | - |
 | T7_crank_vblock | PLA | 0.2 | 3 | 10% | - | 0.20 | 6 | 0.11 | - | - | - | - |
 | T8_belt_feeler | PLA | 0.2 | 3 | 10% | - | 0.06 | 1 | 0.03 | - | - | - | - |
+| T9_boot_glow | PLA | 0.2 | 3 | 10% | - | 0.29 | 7 | 0.14 | - | - | - | - |
+| T9b_boot | PLA | 0.16 | 2 | 0% | 3 | 0.23 | 1 | 0.02 | - | - | - | - |
 
 Parts with findings get an image in `renders/printcheck/` (view from below; red = overhang steeper than 45 deg, orange = flat bridge).
