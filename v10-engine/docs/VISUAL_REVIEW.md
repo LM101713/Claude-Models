@@ -182,6 +182,35 @@ primary pipe beside bank A. Fixed before round 2 (library objects are hidden fro
 images are kept as they were so the record is honest. Points 1, 2, 5-10 of the critique stand; point 4
 (intake "slab") was partly this bug - the real roof was never visible in round 1.
 
+## Blender skin - round 2 (`renders/skin_round2/`, 32 samples, library parts hidden)
+
+What changed since round 1: brighter studio, named camera targets, header weld beads and flange collars,
+bellhousing bosses and rib band, throttle-body flange / shaft boss / lever / bore chamfer, head end-face
+panels, collector tail lips, tapered intake ridges with a roof crown, alternator in satin, pistons and rods
+satin in the preview.
+
+Honest read, ranked:
+
+1. **Over-exposed.** The round-1 correction went too far: satin parts are near white and lose their
+   shading, the sweep is too bright. Round 3: exposure -0.05, key 3.0e6, world 0.45.
+2. **The intake lid is the weak part.** With the stray cover gone the roof is finally visible: a flat
+   rounded box with eight shallow nubs where the ridges end and a low crown. The references have eight tall
+   individual runners that stay separate until the plenum. Round 3: ridge height grows 0.9x -> 1.6x along
+   the path (they stand well proud of the roof), crown 7 mm with a bevelled top, crown kept inside the roof
+   outline (it reached past the front face in round 2 and collided with the throttle flange - caught by the
+   mesh check, 433 mm3, fixed). This is as far as the parametric approach goes: a sculptor should take over
+   on this part if you want the reference look (see below).
+3. **Headers now read as fabricated** (collars, beads, lips). Remaining gap: the references' pipes are
+   polished stainless; ours are the painted-header slot by your palette decision, so this stays.
+4. **Bellhousing**: bosses and band work from ref2's angle. The references' bell is still richer (radial
+   webs on the rear face) - not possible with the rear face as the bed face (print-face rule D53).
+5. **Block windows** still read as dark openings; the satin pistons are visible but small. Your option (c)
+   stands; a brighter LED inside the crankcase would be the display-side fix, not a modelling one.
+6. **Front end** (ref5): damper, belt band, pulleys and alternator read correctly; the front cover face is
+   plain with its groove and dimples - acceptable, and the references' covers are similar.
+7. **Valve cover close-up** (x3) is the best match to the references of any part: rim, sockets, panel, cap.
+8. Head end-face panels are visible but subtle; fine.
+
 ## Where a person should take over (honest)
 
 The script builds exact cylinders, lofts, bevels and booleans. It cannot do what the references' AI images

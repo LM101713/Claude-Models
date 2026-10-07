@@ -49,7 +49,7 @@ def build(scene_bbox, floor_z):
         return l
     t = (cx, cy, (z0 + z1) / 2)
     span = max(x1 - x0, y1 - y0, z1 - z0)
-    area("LGT_key", (cx + 1.2 * span, cy - 1.6 * span, z1 + 1.4 * span), t, 3.6e6, 1.8 * span)
+    area("LGT_key", (cx + 1.2 * span, cy - 1.6 * span, z1 + 1.4 * span), t, 3.0e6, 1.8 * span)
     area("LGT_fill", (cx - 0.6 * span, cy + 1.8 * span, z1 + 0.6 * span), t, 1.4e6, 2.4 * span)
     area("LGT_rim", (cx - 1.8 * span, cy - 0.8 * span, z1 + 1.0 * span), t, 1.6e6, 0.8 * span)
     area("LGT_top", (cx, cy, z1 + 2.2 * span), t, 1.2e6, 2.5 * span)
@@ -58,13 +58,13 @@ def build(scene_bbox, floor_z):
     w.use_nodes = True
     bg = w.node_tree.nodes["Background"]
     bg.inputs["Color"].default_value = (0.62, 0.64, 0.67, 1.0)
-    bg.inputs["Strength"].default_value = 0.6
+    bg.inputs["Strength"].default_value = 0.45
     sc.render.engine = 'CYCLES'
     sc.cycles.device = 'CPU'
     sc.cycles.use_denoising = True
     sc.view_settings.view_transform = 'AgX'
     sc.view_settings.look = 'AgX - Base Contrast'
-    sc.view_settings.exposure = 0.25
+    sc.view_settings.exposure = -0.05
     sc.render.film_transparent = False
     return floor
 

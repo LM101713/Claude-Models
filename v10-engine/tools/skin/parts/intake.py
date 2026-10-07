@@ -49,7 +49,7 @@ def intake_lid():
             # from 0.8x at the flank to 1.15x where the runner enters the plenum roof (cast-runner look)
             pts = [(xc, sgn * (it["ridge"][0][0] - 6.0), it["ridge"][0][1] - 4.0)] + pts
             path, _ = U.rounded_path(pts, [10.0, 10.0], n=10)
-            ridge = U.loft_along("ridge", path, lambda f: (it["runner_w"] * (0.8 + 0.35 * f), it["runner_h"] * (0.8 + 0.35 * f), it["runner_r"]), up=(1, 0, 0))
+            ridge = U.loft_along("ridge", path, lambda f: (it["runner_w"] * (0.8 + 0.3 * f), it["runner_h"] * (0.9 + 0.7 * f), it["runner_r"]), up=(1, 0, 0))
             U.boolean(ridge, U.box("ridge_clip", -300, 300, -300, 300, SPLIT + 0.05, ZTOP + 50), "INTERSECT")   # nothing below the split (the base is there)
             U.boolean(lid, ridge, "UNION")
         # molded fuel rail with injector bosses
@@ -74,9 +74,10 @@ def intake_lid():
         U.boolean(lid, rib, "UNION")
     # plenum crown along the roof centre, between the ridge ends
     cw = _dim(ZTOP)[0] - 2 * (it["ridge"][-1][0] + it["runner_h"] / 2 + 2.0)
-    cl = (max(P.BANK_B_CYL_X) - min(P.BANK_A_CYL_X)) + it["runner_w"] + 12.0
-    crown = U.loft("crown", [U.rrect_ring((max(P.BANK_B_CYL_X) + min(P.BANK_A_CYL_X)) / 2, 0, cl, cw, 10.0, ZTOP - 0.5),
-                             U.rrect_ring((max(P.BANK_B_CYL_X) + min(P.BANK_A_CYL_X)) / 2, 0, cl - 10.0, cw - 8.0, 7.0, ZTOP + 4.0)])
+    cl = _dim(ZTOP)[1] - 24.0            # inside the roof's rounded ends (it reached past the front face before)
+    xc_mid = (max(P.BANK_B_CYL_X) + min(P.BANK_A_CYL_X)) / 2
+    crown = U.loft("crown", [U.rrect_ring(xc_mid, 0, cl, cw, 10.0, ZTOP - 0.5), U.rrect_ring(xc_mid, 0, cl - 6.0, cw - 5.0, 8.0, ZTOP + 7.0)])
+    U.bevel_edges(crown, 2.5, 3, lambda c, d: abs(c.z - (ZTOP + 7.0)) < 0.3)
     U.boolean(lid, crown, "UNION")
     for x, y in it["magnet_xy"]:
         U.boolean(lid, U.cylinder("lid_pillar", it["pillar_r"], SPLIT, ZTOP - W + 0.1, x, y), "UNION")
