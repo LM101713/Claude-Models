@@ -211,6 +211,36 @@ Honest read, ranked:
 7. **Valve cover close-up** (x3) is the best match to the references of any part: rim, sockets, panel, cap.
 8. Head end-face panels are visible but subtle; fine.
 
+## Blender skin - round 3 (`renders/skin_round3/`, 64 samples, first full-size set to approve)
+
+Changes since round 2: exposure -0.05 and weaker key and world (round 2 was over-exposed), intake ridges that
+grow to 1.6x height along their path, a 7 mm bevelled crown (kept inside the roof outline after the mesh check
+caught it touching the throttle flange). Mesh checks on this exact build: 0 static interferences, 0 collisions
+over the full rotation at 15-degree steps, 260 of 260 fit features within 0.02 mm, every part watertight.
+
+Honest read against STYLE_ai_01-05, worst first. I looked at all eight images at full size.
+
+1. **It still reads as a clean 3D model, not as the photographic engines in the references.** The silhouette,
+   bank angle, S-curve headers, front accessory drive, pan and four-bracket stand all match. The surface
+   character does not: the references are dense with small hardware (bolt heads on every flange, braided fuel
+   lines, brackets, fittings, cast texture). Ours has bolts only on the valve cover and a few bosses. This is
+   the largest gap and it is detail, not form.
+2. **The satin grey parts still look near-white** (heads, block, intake, heads, headers in the preview). The
+   references' aluminium is darker with visible brushed highlights. This is a material setting I can still
+   fix cheaply, but your palette says slot 1 is satin grey filament, so a printed part will look like the
+   render only if the filament is mid-grey. Do not read the render as the print colour.
+3. **Intake**: better. Ridges now stand up from the roof and the crown reads as a plenum. It is still smoother
+   and simpler than the references' tall separate runners and the throttle body is a plain cylinder with a
+   flange. Needs a sculptor to match (see below).
+4. **Headers** read as fabricated pipes (collars, beads, lip). Painted-header colour is your palette
+   decision, so they stay matte off-white in the preview where the references are polished stainless.
+5. **Block windows**: your option (c) stays. They read as dark openings with small satin pistons visible. Fine.
+6. **Front cover face and bellhousing** are plain next to the references' ribbed cast covers. The bellhousing
+   rear face cannot get radial webs because it is the bed face (print-face rule D53).
+7. **Close-ups** (ref1, x2, x3) now frame the right things. The valve cover close-up is the best match.
+
+Not claiming this looks like the references: it matches their form and layout, not their surface richness.
+
 ## Where a person should take over (honest)
 
 The script builds exact cylinders, lofts, bevels and booleans. It cannot do what the references' AI images
