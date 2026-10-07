@@ -1,0 +1,282 @@
+{
+ "total": {
+  "n": 28,
+  "h04": 90.24095577701402,
+  "h06": 45.680309815442826,
+  "g06": 2161.1455139609748,
+  "r7_n": 90,
+  "r7_h04": 136.22432363887688,
+  "r7_h06": 72.90148251083627
+ },
+ "parts": [
+  {
+   "file": "c01_block",
+   "qty": 1,
+   "solid_cm3": 380.7,
+   "h04": 13.04,
+   "h06": 7.31,
+   "g06": 359.8,
+   "size": [
+    221.0,
+    174.7,
+    118.3
+   ],
+   "print": "pan rail down, open bottom"
+  },
+  {
+   "file": "c02_pan",
+   "qty": 1,
+   "solid_cm3": 120.4,
+   "h04": 4.09,
+   "h06": 2.29,
+   "g06": 113.8,
+   "size": [
+    220.0,
+    124.0,
+    29.0
+   ],
+   "print": "flange down, open top"
+  },
+  {
+   "file": "c03_head",
+   "qty": 2,
+   "solid_cm3": 240.3,
+   "h04": 4.67,
+   "h06": 2.42,
+   "g06": 118.3,
+   "size": [
+    210.4,
+    67.2,
+    68.8
+   ],
+   "print": "deck face down, open"
+  },
+  {
+   "file": "c04_valve_cover",
+   "qty": 2,
+   "solid_cm3": 173.4,
+   "h04": 3.44,
+   "h06": 1.79,
+   "g06": 86.5,
+   "size": [
+    196.0,
+    58.0,
+    58.0
+   ],
+   "print": "flange down, open, 45 deg roof inside"
+  },
+  {
+   "file": "c05_intake",
+   "qty": 1,
+   "solid_cm3": 913.2,
+   "h04": 12.81,
+   "h06": 5.73,
+   "g06": 279.3,
+   "size": [
+    193.5,
+    128.0,
+    111.7
+   ],
+   "print": "upright, open underneath"
+  },
+  {
+   "file": "c06_air_cleaner_base",
+   "qty": 1,
+   "solid_cm3": 69.6,
+   "h04": 2.41,
+   "h06": 1.35,
+   "g06": 65.8,
+   "size": [
+    132.0,
+    132.0,
+    27.0
+   ],
+   "print": "base down, open top"
+  },
+  {
+   "file": "c07_air_cleaner_lid",
+   "qty": 1,
+   "solid_cm3": 53.1,
+   "h04": 1.75,
+   "h06": 1.0,
+   "g06": 50.2,
+   "size": [
+    131.7,
+    131.7,
+    12.0
+   ],
+   "print": "upright"
+  },
+  {
+   "file": "c08_distributor",
+   "qty": 1,
+   "solid_cm3": 50.1,
+   "h04": 1.35,
+   "h06": 0.76,
+   "g06": 23.5,
+   "size": [
+    40.0,
+    40.0,
+    100.0
+   ],
+   "print": "upright"
+  },
+  {
+   "file": "c09_header_right",
+   "qty": 1,
+   "solid_cm3": 163.6,
+   "h04": 4.72,
+   "h06": 2.54,
+   "g06": 99.5,
+   "size": [
+    231.8,
+    42.0,
+    94.0
+   ],
+   "print": "on its port flanges, tree supports"
+  },
+  {
+   "file": "c10_header_left",
+   "qty": 1,
+   "solid_cm3": 163.6,
+   "h04": 4.72,
+   "h06": 2.54,
+   "g06": 99.5,
+   "size": [
+    231.8,
+    42.0,
+    94.0
+   ],
+   "print": "on its port flanges, tree supports"
+  },
+  {
+   "file": "c11_front_cover",
+   "qty": 1,
+   "solid_cm3": 104.9,
+   "h04": 2.58,
+   "h06": 1.43,
+   "g06": 59.7,
+   "size": [
+    89.5,
+    132.4,
+    136.4
+   ],
+   "print": "back face down"
+  },
+  {
+   "file": "c12_alternator",
+   "qty": 1,
+   "solid_cm3": 16.4,
+   "h04": 0.45,
+   "h06": 0.25,
+   "g06": 9.7,
+   "size": [
+    21.5,
+    48.3,
+    36.8
+   ],
+   "print": "back face down"
+  },
+  {
+   "file": "c13_crank_pulley",
+   "qty": 1,
+   "solid_cm3": 30.7,
+   "h04": 0.81,
+   "h06": 0.45,
+   "g06": 19.1,
+   "size": [
+    27.6,
+    46.0,
+    46.0
+   ],
+   "print": "back face down"
+  },
+  {
+   "file": "c14_pulley_water",
+   "qty": 1,
+   "solid_cm3": 4.6,
+   "h04": 0.2,
+   "h06": 0.11,
+   "g06": 4.4,
+   "size": [
+    10.1,
+    32.8,
+    32.8
+   ],
+   "print": "flat"
+  },
+  {
+   "file": "c15_pulley_pump",
+   "qty": 1,
+   "solid_cm3": 4.0,
+   "h04": 0.18,
+   "h06": 0.1,
+   "g06": 3.8,
+   "size": [
+    10.1,
+    30.8,
+    30.8
+   ],
+   "print": "flat"
+  },
+  {
+   "file": "c16_pulley_alt",
+   "qty": 1,
+   "solid_cm3": 1.5,
+   "h04": 0.09,
+   "h06": 0.06,
+   "g06": 1.4,
+   "size": [
+    10.1,
+    18.8,
+    18.8
+   ],
+   "print": "flat"
+  },
+  {
+   "file": "c17_flywheel",
+   "qty": 1,
+   "solid_cm3": 65.8,
+   "h04": 1.62,
+   "h06": 0.9,
+   "g06": 44.9,
+   "size": [
+    11.6,
+    110.0,
+    110.0
+   ],
+   "print": "flat"
+  },
+  {
+   "file": "c18_plinth",
+   "qty": 1,
+   "solid_cm3": 1645.5,
+   "h04": 22.66,
+   "h06": 10.05,
+   "g06": 514.7,
+   "size": [
+    316.0,
+    280.0,
+    38.0
+   ],
+   "print": "flat"
+  },
+  {
+   "file": "c19_plug_boot",
+   "qty": 8,
+   "solid_cm3": 0.3,
+   "h04": 0.07,
+   "h06": 0.05,
+   "g06": 0.3,
+   "size": [
+    6.6,
+    10.4,
+    13.4
+   ],
+   "print": "upright, translucent"
+  }
+ ],
+ "q04": 8.456100091848004,
+ "t_layer": 3.267957629999932,
+ "fit_err": 0.17029658982783574
+}

@@ -1,0 +1,232 @@
+{
+ "parts": [
+  {
+   "file": "c01_block",
+   "qty": 1,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c01_block.stl",
+   "ok": true,
+   "msg": "block_exp: genus 1 tris 5218 vol 380667",
+   "size": [
+    221.0,
+    174.7,
+    118.3
+   ]
+  },
+  {
+   "file": "c02_pan",
+   "qty": 1,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c02_pan.stl",
+   "ok": true,
+   "msg": "pan_exp: genus 3 tris 9420 vol 120446",
+   "size": [
+    220.0,
+    124.0,
+    29.0
+   ]
+  },
+  {
+   "file": "c03_head",
+   "qty": 2,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c03_head.stl",
+   "ok": true,
+   "msg": "head_A_exp: genus 6 tris 10056 vol 240296",
+   "size": [
+    210.4,
+    67.2,
+    68.8
+   ]
+  },
+  {
+   "file": "c04_valve_cover",
+   "qty": 2,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c04_valve_cover.stl",
+   "ok": true,
+   "msg": "valve_cover_A_exp: genus 0 tris 11584 vol 173389",
+   "size": [
+    196.0,
+    58.0,
+    58.0
+   ]
+  },
+  {
+   "file": "c05_intake",
+   "qty": 1,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c05_intake.stl",
+   "ok": true,
+   "msg": "intake_exp: genus 0 tris 9126 vol 913223",
+   "size": [
+    193.5,
+    128.0,
+    111.7
+   ]
+  },
+  {
+   "file": "c06_air_cleaner_base",
+   "qty": 1,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c06_air_cleaner_base.stl",
+   "ok": true,
+   "msg": "air_base_exp: genus 0 tris 3484 vol 69630",
+   "size": [
+    132.0,
+    132.0,
+    27.0
+   ]
+  },
+  {
+   "file": "c07_air_cleaner_lid",
+   "qty": 1,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c07_air_cleaner_lid.stl",
+   "ok": true,
+   "msg": "air_lid_exp: genus 0 tris 3396 vol 53072",
+   "size": [
+    131.7,
+    131.7,
+    12.0
+   ]
+  },
+  {
+   "file": "c08_distributor",
+   "qty": 1,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c08_distributor.stl",
+   "ok": true,
+   "msg": "distributor_exp: genus 0 tris 2764 vol 50129",
+   "size": [
+    40.0,
+    40.0,
+    100.0
+   ]
+  },
+  {
+   "file": "c09_header_right",
+   "qty": 1,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c09_header_right.stl",
+   "ok": true,
+   "msg": "header_A_exp: genus 0 tris 29036 vol 163624",
+   "size": [
+    231.8,
+    42.0,
+    94.0
+   ]
+  },
+  {
+   "file": "c10_header_left",
+   "qty": 1,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c10_header_left.stl",
+   "ok": true,
+   "msg": "mirror of c09_header_right",
+   "size": [
+    231.8,
+    42.0,
+    94.0
+   ]
+  },
+  {
+   "file": "c11_front_cover",
+   "qty": 1,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c11_front_cover.stl",
+   "ok": true,
+   "msg": "front_cover_exp: genus 4 tris 7154 vol 104940",
+   "size": [
+    89.5,
+    132.4,
+    136.4
+   ]
+  },
+  {
+   "file": "c12_alternator",
+   "qty": 1,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c12_alternator.stl",
+   "ok": true,
+   "msg": "alternator_exp: genus 0 tris 980 vol 16402",
+   "size": [
+    21.5,
+    48.3,
+    36.8
+   ]
+  },
+  {
+   "file": "c13_crank_pulley",
+   "qty": 1,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c13_crank_pulley.stl",
+   "ok": true,
+   "msg": "crank_pulley_exp: genus 0 tris 3668 vol 30743",
+   "size": [
+    27.6,
+    46.0,
+    46.0
+   ]
+  },
+  {
+   "file": "c14_pulley_water",
+   "qty": 1,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c14_pulley_water.stl",
+   "ok": true,
+   "msg": "pulley_wp_exp: genus 0 tris 2004 vol 4628",
+   "size": [
+    10.1,
+    32.8,
+    32.8
+   ]
+  },
+  {
+   "file": "c15_pulley_pump",
+   "qty": 1,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c15_pulley_pump.stl",
+   "ok": true,
+   "msg": "pulley_ds_exp: genus 0 tris 2004 vol 4047",
+   "size": [
+    10.1,
+    30.8,
+    30.8
+   ]
+  },
+  {
+   "file": "c16_pulley_alt",
+   "qty": 1,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c16_pulley_alt.stl",
+   "ok": true,
+   "msg": "pulley_alt_exp: genus 0 tris 1364 vol 1497",
+   "size": [
+    10.1,
+    18.8,
+    18.8
+   ]
+  },
+  {
+   "file": "c17_flywheel",
+   "qty": 1,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c17_flywheel.stl",
+   "ok": true,
+   "msg": "flywheel_exp: genus 0 tris 4108 vol 65837",
+   "size": [
+    11.6,
+    110.0,
+    110.0
+   ]
+  },
+  {
+   "file": "c18_plinth",
+   "qty": 1,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c18_plinth.stl",
+   "ok": true,
+   "msg": "plinth_exp: genus 0 tris 1660 vol 1645461",
+   "size": [
+    316.0,
+    280.0,
+    38.0
+   ]
+  },
+  {
+   "file": "c19_plug_boot",
+   "qty": 8,
+   "path": "/home/claude/claude-models/v10-engine/cup/stl/c19_plug_boot.stl",
+   "ok": true,
+   "msg": "boot_A0_exp: genus 0 tris 124 vol 328",
+   "size": [
+    6.6,
+    10.4,
+    13.4
+   ]
+  }
+ ]
+}
