@@ -371,13 +371,13 @@ EXH_PORT_DEPTH = 2.0            # counterbore depth; the 14 mm spigot socket is 
 EXH_SPIGOT_D = 14.0             # pipe spigot into the head (crush fit "trumpet_14", as the V10 trumpets)
 EXH_SPIGOT_L = 9.0
 EXH_PRIMARY_D = 20.0            # primary pipe OD (real 1 7/8 in)
-EXH_BEND_R = 24.0               # first bend centreline radius (pipe OD 20 -> prints without support)
-EXH_BEND_R2 = 20.0              # second (S) bend radius
-EXH_X_JOG = -CYL_PITCH / 2      # each primary ends half a cylinder pitch behind its port, so the
+EXH_BEND_R = 30.0               # first bend centreline radius (pipe OD 20 -> prints without support); skin round 4 (D62): 24 -> 30
+EXH_BEND_R2 = 26.0              # second (S) bend radius; D62: 20 -> 26
+EXH_X_JOG = -36.0               # each primary ends 36 mm behind its port (D62: was half a pitch, 25; 40 fails the CAD collector-tail assert), so the
                                 # drops sit BETWEEN the block windows (and the pipes lean rearward)
 EXH_S_X_SHARE = 0.8             # share of that jog done in the S run (rest in the final drop)
-EXH_FLARE_Y = 122.0             # engine |y| the pipe centreline flares out to before tucking in
-EXH_S_Z = -10.0                 # engine z where the tuck-in run meets the final drop
+EXH_FLARE_Y = 128.0             # engine |y| the pipe centreline flares out to before tucking in (D62: 122 -> 128)
+EXH_S_Z = -18.0                 # engine z where the tuck-in run meets the final drop (D62: -10 -> -18)
 EXH_STUB_MIN = 14.0             # straight run out of the head before the bend starts (>= plate + lip)
 EXH_COLLECTOR_Y = 104.0         # engine |y| of the collector axis (beside the pan)
 EXH_COLLECTOR_TOP_Z = -44.0     # top line of the collector (horizontal; the tapered body hangs from it)
@@ -385,7 +385,7 @@ EXH_COLLECTOR_R = (14.0, 21.0)  # collector radius at the front nose and at the 
 EXH_COLLECTOR_SADDLE = 3.0      # primary tube ends this far below the collector's top line
 EXH_TAIL_WALL = 4.5             # wall around the open tail bore
 EXH_COLLECTOR_FRONT_MARGIN = 20.0   # collector nose beyond the first socket
-EXH_TAIL_MARGIN = 8.0           # collector tail ends this far inside the stand footprint
+EXH_TAIL_MARGIN = 4.0           # collector tail ends this far inside the stand footprint
 EXH_FLANGE_PLATE = dict(t=4.0, z0=0.5, z1=33.0, end_inset=6.0)   # one flange bar per bank over the ports
 PLUG_BOOT = dict(d=10.0, l=14.0, shaft_d=9.0, shaft_l=8.0, dx=15.0, z=8.0)  # boot per cylinder, below and
                                 # ahead of its port, lit by a strip in the outboard face behind the flange plate
@@ -397,16 +397,22 @@ VC = dict(x_inset=8.0, y0=-31.0, y1=17.0, h=29.0, wall=3.0, r=4.0, chamfer=1.5, 
           cap_d=27.0, cap_h=7.0, cap_x=-40.0, cap_y=-8.0, cap_spigot_d=9.0)   # valve cover: crisp 1.5 mm edge, 5 mm bolt rim; separate oil cap
 VC_MAGNET_Y = -7.0              # cover magnets: 4 along this line in the head top
 INTAKE = dict(                  # ENGINE frame - low, wide single-plane plenum (STYLE_ai_04/05), two printed pieces
-    sections=[(92.0, 70.0, 160.0), (100.0, 84.0, 170.0), (112.0, 112.0, 180.0), (152.0, 156.0, 188.0)],   # outer envelope (z, width y, length x)
+    sections=[(92.0, 70.0, 160.0), (100.0, 84.0, 170.0), (112.0, 108.0, 180.0), (152.0, 136.0, 186.0)],   # outer envelope (z, width y, length x)
+    # skin round 4 (D61): top width 156 -> 136 so the eight runner tubes, not the plenum box, carry the silhouette
     r=18.0, top_fillet=10.0, wall=3.0, split_z=118.0,                                 # lid above split_z, base below
     tongue_w=1.5, tongue_h=3.0,                                                       # base tongue inside the lid wall
     magnet_xy=[(70.0, 34.0), (70.0, -34.0), (-70.0, 34.0), (-70.0, -34.0)], pillar_r=4.8,   # 4 x 6x3 lid magnets
     rib_pitch=40.0, rib_t=3.0,                                                        # roof stiffening ribs inside the lid
-    runner_w=22.0, runner_h=16.0, runner_r=5.0, port_depth=3.0, port_z=20.0,         # stubs into the head pockets
+    runner_w=26.0, runner_h=22.0, runner_r=7.0, port_depth=3.0, port_z=20.0,         # runner tube section, stubs into the head pockets
     # cosmetic runner ridge (|y|, z): up the flank, over the top edge, across the roof and diving under it
     # near the centre so the eight runners meet at a 44 mm spine (skin round 2: they stopped at |y| 50 as stumps)
-    ridge=[(56.0, 122.0), (80.0, 140.0), (42.0, 150.5), (24.0, 146.0)], ridge_r=13.0,
-    rail_z=127.0, rail_r=4.0, rail_out=2.0, inj_r=4.5, inj_l=7.0,                    # fuel rail molded as a rib on the flank
+    ridge=[(56.0, 122.0), (80.0, 140.0), (42.0, 150.5), (24.0, 146.0)], ridge_r=13.0,   # (CAD skin only, frozen)
+    # skin round 4 (D61): one continuous runner tube per cylinder from the head port, up the base and lid flank,
+    # over the top edge and into a raised plenum spine; (|y|, z) guide points above the port, same path on both
+    # pieces so the sections match across the split line
+    runner_path=[(46.0, 100.0), (50.0, 108.0), (54.0, 116.0), (62.0, 126.0), (74.0, 140.0), (58.0, 152.0), (38.0, 156.0), (16.0, 146.0)],
+    spine_w=48.0, spine_h=6.0,
+    rail_z=128.0, rail_y=86.0, rail_r=4.0, rail_out=2.0, inj_r=4.5, inj_l=20.0, inj_deg=120.0,   # fuel rail outboard of the runners, injectors bridge to the tubes
     tb_d=44.0, tb_l=34.0, tb_z=132.0, tb_tilt=10.0, tb_bore=38.0, tb_bore_depth=12.0, tb_blade_deg=70.0,
     tb_spigot_d=14.0, tb_spigot_l=9.0)                                                # throttle body: separate, pressed in
 PAN = dict(w=160.0, z_step=-60.0, w_sump=128.0, z_bot=-102.0, wall=3.5, skin=4.0, floor=6.0, ledge=11.0,

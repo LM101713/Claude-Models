@@ -110,7 +110,10 @@ def collector(bank):
     # nose cone and a soft rolled tail lip
     nose = U.cylinder("nose", r0, x_front - 0.1, x_front + 5.0, yc, zt - r0, "X", r2=r0 - 4.0)
     U.boolean(col, nose, "UNION")
-    U.bevel_edges(col, 2.0, 3, lambda c, d: abs(c.x - x_rear) < 0.3)
+    # skin round 4: flared tail (3 mm over 8 mm) instead of a flat cut; the bevel softens the lip
+    flare = U.cylinder("tail_flare", r1 + 3.0, x_rear - 0.01, x_rear + 8.0, yc, zt - r1, "X", r2=r1 - 0.05)
+    U.boolean(col, flare, "UNION")
+    U.bevel_edges(col, 1.5, 3, lambda c, d: abs(c.x - x_rear) < 0.3)
     U.boolean(col, U.cylinder("tail_bore", r1 - P.EXH_TAIL_WALL, x_rear - 1, x_rear + 30.0, yc, zt - r1, "X"))
     sad = P.EXH_COLLECTOR_SADDLE
     cone_l = (P.EXH_PRIMARY_D - P.EXH_SPIGOT_D) / 2

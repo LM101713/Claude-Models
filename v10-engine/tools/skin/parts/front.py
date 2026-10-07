@@ -191,6 +191,12 @@ def accessory_module():
     band = U.prism("band", _band_polygon(AC["band_t"]), bx0, bx0 + AC["band_w"])
     # inner face 0.5 mm inside the pulley grooves (not tangent to the pulley rims): the band fuses into the grooves
     U.boolean(band, U.prism("band_in", _band_polygon(-0.5), bx0 - 1, bx0 + AC["band_w"] + 1))
+    # skin round 4: serpentine belt - three 0.5 mm ribs grooves around the outer face (vertical in the plate-down print)
+    for k in range(3):
+        xg = bx0 + AC["band_w"] * (k + 1) / 4
+        gr = U.prism("belt_groove", _band_polygon(AC["band_t"] + 1.0), xg - 0.35, xg + 0.35)
+        U.boolean(gr, U.prism("belt_groove_in", _band_polygon(AC["band_t"] - 0.5), xg - 1, xg + 1))
+        U.boolean(band, gr)
     U.boolean(mod, band, "UNION")
     py0, py1 = X1 + AC["pulley_x0"], X1 + AC["pulley_x0"] + AC["pulley_t"]
     for name, (y, z, r) in pul.items():
@@ -205,6 +211,11 @@ def accessory_module():
             U.boolean(fr, U.cylinder("face_groove_in", r * f - 0.5, py1 - 2, py1 + 2, y, z, "X"))
             U.boolean(p, fr)
         U.boolean(p, U.cylinder("nut", r * 0.35, py1 - 0.1, py1 + 1.5, y, z, "X", segs=6), "UNION")
+        # skin round 4: a V-groove ring on the exposed rim in front of the belt (pulley rims read as plain discs)
+        if r > 8.0:
+            vg = U.cylinder("rim_groove", r + 1.0, py1 - 2.2, py1 - 1.2, y, z, "X")
+            U.boolean(vg, U.cylinder("rim_groove_in", r - 0.7, py1 - 3, py1 - 0.5, y, z, "X"))
+            U.boolean(p, vg)
         if name == "alt":
             # the alternator body in front of the plate stays on the module; the part behind the plate is 45B
             # (it would hang 35 mm below the back plate when the module prints plate-down) and plugs into a socket here
@@ -214,6 +225,14 @@ def accessory_module():
             U.boolean(mod, front_body, "UNION")
             F.cut_crush(mod, "boot_9", px0 - 0.5, px0 + ALT_SPIGOT_L + 0.3, y, z, "X", entry="lo")
         elif name == "pump":
+            # skin round 4: cast water-pump housing (r 22, 3 mm proud of the plate, four hex bolt heads) under the snout
+            hr = AC["pump_snout_r"] + 6.0
+            hous = U.cylinder("pump_housing", hr, px1 - 0.1, px1 + 3.0, y, z, "X")
+            U.bevel_edges(hous, 1.2, 2, lambda c, dd: abs(c.x - (px1 + 3.0)) < 0.2 and abs(dd.x) < 0.1)
+            U.boolean(mod, hous, "UNION")
+            for k in range(4):
+                a = math.radians(45.0 + 90.0 * k)
+                U.boolean(mod, U.cylinder("pump_bolt", 2.0, px1 + 2.9, px1 + 4.4, y + (hr - 4.0) * math.cos(a), z + (hr - 4.0) * math.sin(a), "X", segs=6), "UNION")
             U.boolean(mod, U.cylinder("snout", AC["pump_snout_r"], px1 - 0.1, py0 + 0.1, y, z, "X"), "UNION")
         else:
             U.boolean(mod, U.cylinder("idler_boss", AC["idler_boss_r"], px1 - 0.1, py0 + 0.1, y, z, "X"), "UNION")

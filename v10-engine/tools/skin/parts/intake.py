@@ -1,5 +1,5 @@
 """36 intake lid, 36B intake base, 36C throttle body - sculpted single-plane
-plenum with bulging flanks and eight runner ridges (approved D42/D48 layout),
+plenum with bulging flanks and eight continuous runner tubes (D42/D48 layout, D61 tubes),
 every dimension from params.json INTAKE."""
 import math
 
@@ -34,44 +34,55 @@ def _bank_vec(bank, yl, zl):
     return (y * math.cos(a) - z * math.sin(a), y * math.sin(a) + z * math.cos(a))
 
 
+def runner_path(bank, xc):
+    """Guide points (engine frame) of one runner tube: INTAKE.runner_path (|y|, z) from just above the head's
+    port face, up and outward along the flank, over the top edge and into the spine. Every point lies on the
+    plenum side of the head's valley face. Lid and base sweep the same path and clip at split_z, so the tube
+    section matches across the gasket line; the straight port stub on the base plugs the head pocket."""
+    sgn = -1 if bank == "A" else 1
+    return [(xc, sgn * y, z) for y, z in P.INTAKE["runner_path"]]
+
+
+def _runner(bank, xc, z0, z1):
+    it = P.INTAKE
+    tube = U.tube_along("runner", runner_path(bank, xc), 0, profile=(it["runner_w"], it["runner_h"], it["runner_r"]), segs=32)
+    U.boolean(tube, U.box("runner_clip", -300, 300, -300, 300, z0, z1), "INTERSECT")
+    return tube
+
+
 def intake_lid():
     it = P.INTAKE
     Z0, ZTOP, SPLIT, W = it["sections"][0][0], it["sections"][-1][0], it["split_z"], it["wall"]
     lid = envelope("36_intake_lid", SPLIT, ZTOP)
     U.bevel_edges(lid, it["top_fillet"], 6, lambda c, d: abs(c.z - ZTOP) < 0.3)
-    # runner ridges: rounded-rect tube along the flank, over the top edge, onto the roof
+    # skin round 4 (D61): eight full runner tubes (the round-2/3 ridges read as bumps on a box). Nothing
+    # below the split: the base carries the same tube from the head port up to the gasket line.
     for bank in ("A", "B"):
         sgn = -1 if bank == "A" else 1
         xs = P.BANK_A_CYL_X if bank == "A" else P.BANK_B_CYL_X
         for xc in xs:
-            pts = [(xc, sgn * y, z) for y, z in it["ridge"]]
-            # smooth path: pre-point inside the flank so the ridge grows out of the wall
-            pts = [(xc, sgn * (it["ridge"][0][0] - 6.0), it["ridge"][0][1] - 4.0)] + pts
-            ridge = U.tube_along("ridge", pts, 0, profile=(it["runner_w"], it["runner_h"], it["runner_r"]), segs=32)
-            U.boolean(ridge, U.box("ridge_clip", -300, 300, -300, 300, SPLIT + 0.05, ZTOP + 50), "INTERSECT")   # nothing below the split (the base is there)
-            U.boolean(lid, ridge, "UNION")
-        # molded fuel rail with injector bosses
-        yr = sgn * (_dim(it["rail_z"])[0] / 2 + it["rail_out"])
+            U.boolean(lid, _runner(bank, xc, SPLIT + 0.05, ZTOP + 60.0), "UNION")
+        # fuel rail outboard of the runners, injector bosses bridging the gap into each tube
+        yr = sgn * it["rail_y"]
         rail = U.cylinder("rail", it["rail_r"], min(xs) - 12.0, max(xs) + 12.0, yr, it["rail_z"], "X")
         U.bevel_edges(rail, 1.5, 3, lambda c, d: abs(d.x) < 0.1 and abs(abs(c.x) - (max(xs) + 12.0 if c.x > 0 else -(min(xs) - 12.0))) < 2.0)
-        U.boolean(lid, rail, "UNION")
         for xc in xs:
             boss = U.cylinder("inj", it["inj_r"], 0, it["inj_l"], 0, 0)
-            U.rot(boss, 'X', -sgn * 150.0)                               # pointing down-inward into the flank
+            U.rot(boss, 'X', sgn * it["inj_deg"])                        # Rx(+a) takes +z to (0, -sin a, cos a): down and inward for bank B (+y), mirrored for A
             U.move(boss, xc, yr, it["rail_z"])
-            U.boolean(lid, boss, "UNION")
-    # skin round 2: the roof was a blank 100 x 170 mm plate between the ridge stumps. A raised central plenum
-    # spine (2 mm, chamfered, bolt row along both edges) that the eight runner ridges now dive into, as the
-    # references' flat-topped plenum. Same print case as the ridges (raised detail on the lid's print face -
-    # the open D53 decision: soluble support upright, or a split roof).
+            U.boolean(rail, boss, "UNION")
+        U.boolean(rail, U.box("rail_clip", -300, 300, -300, 300, SPLIT + 0.05, ZTOP + 60.0), "INTERSECT")
+        U.boolean(lid, rail, "UNION")
+    # raised plenum spine the runners dive into (bolt row along both edges). Same print case as the runners
+    # (raised detail on the lid's print face - the open D53 decision: soluble support upright, or a split roof).
     l_top = _dim(ZTOP)[1]
-    spine = U.rrect_prism("spine", 0, 0, l_top - 36.0, 44.0, 6.0, ZTOP - 0.5, ZTOP + 2.0)
-    U.bevel_edges(spine, 1.0, 2, lambda c, d: abs(c.z - (ZTOP + 2.0)) < 0.2)
+    spine = U.rrect_prism("spine", 0, 0, l_top - 36.0, it["spine_w"], 8.0, ZTOP - 0.5, ZTOP + it["spine_h"])
+    U.bevel_edges(spine, 2.0, 3, lambda c, d: abs(c.z - (ZTOP + it["spine_h"])) < 0.2)
     U.boolean(lid, spine, "UNION")
     for xs in (-(l_top / 2 - 25.0), -(l_top / 6), l_top / 6, l_top / 2 - 25.0):
-        for ys in (-18.0, 18.0):
-            U.boolean(lid, U.cylinder("spine_bolt", 2.0, ZTOP + 1.9, ZTOP + 3.2, xs, ys, segs=6), "UNION")
-    # hollow (after the ridges so nothing intrudes where the base's tongue sits)
+        for ys in (-(it["spine_w"] / 2 - 5.0), it["spine_w"] / 2 - 5.0):
+            U.boolean(lid, U.cylinder("spine_bolt", 2.0, ZTOP + it["spine_h"] - 0.1, ZTOP + it["spine_h"] + 1.3, xs, ys, segs=6), "UNION")
+    # hollow (after the runners so nothing intrudes where the base's tongue sits)
     U.boolean(lid, envelope("lid_inner", SPLIT - 1.0, ZTOP - W, W))
     # roof ribs
     l_in = _dim(ZTOP - W)[1] - 2 * W
@@ -118,6 +129,7 @@ def intake_base():
         up = (up1[0] - up0[0], up1[1] - up0[1])
         L = (SPLIT + 2.0 - pe[1]) / up[1]
         for xc in xs:
+            # straight port stub along the bank normal into the head pocket (as before) ...
             stub = U.rrect_prism("stub", 0, 0, it["runner_w"], it["runner_h"], it["runner_r"], 0.0, L)
             ang = math.degrees(math.atan2(up[0], up[1]))                     # tilt of +y' from +z in the yz plane
             U.rot(stub, 'X', -ang)
@@ -125,6 +137,8 @@ def intake_base():
             clip = U.box("stub_clip", -200, 200, -200, 200, Z0 - 20, SPLIT)
             U.boolean(stub, clip, "INTERSECT")
             U.boolean(base, stub, "UNION")
+            # ... merged with the lower half of the runner tube that the lid continues above the gasket line (D61)
+            U.boolean(base, _runner(bank, xc, Z0 - 20.0, SPLIT), "UNION")
     for x, y in it["magnet_xy"]:
         pil = U.cylinder("base_pillar", it["pillar_r"], Z0 + W - 0.1, SPLIT, x, y)
         U.boolean(base, pil, "UNION")

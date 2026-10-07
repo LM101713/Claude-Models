@@ -3,8 +3,9 @@
 Goal set by Liam for the 50-unit run: more visible detail, fewer parts,
 fewer fasteners, details printed into the parts rather than added as pieces.
 This is the plan for the exterior (the Blender skin). The moving core stays
-as it is (D55). Nothing here is implemented yet; it waits on the look
-approval and on Liam's yes to the items marked "decision".
+as it is (D55). S1 is built in the round-4 skin (D60) and renders in
+`renders/skin_round4/`; S2 to S6 wait on the look approval, S7 and the
+stand-plate outsourcing on Liam's yes.
 
 ## Where the fasteners go today (exterior only, from `docs/BOM.md` and `docs/SKIN_PRINT_REPORT.md`)
 
