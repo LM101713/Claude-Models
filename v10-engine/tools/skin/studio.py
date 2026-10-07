@@ -13,7 +13,8 @@ from . import materials as M
 # name: (camera direction from the target, zoom, reference image, target)
 # target None = the engine's bounding-box centre; otherwise a named point computed from the placed parts
 VIEWS = {
-    "ref1_closeup_34_above": ((0.55, -1.0, 0.75), 1.9, "STYLE_ai_01.png", "bank_A_top"),
+    # round-1 critique: 1.9x from this angle cropped the intake and throttle body out of the frame
+    "ref1_closeup_34_above": ((0.7, -1.0, 0.62), 1.45, "STYLE_ai_01.png", "bank_A_top"),
     "ref2_rear_left_34": ((-1.0, -0.9, 0.45), 1.0, "STYLE_ai_02.png", None),
     "ref3_front_right_34": ((1.0, 0.9, 0.45), 1.0, "STYLE_ai_03.png", None),
     "ref4_side_left": ((0.0, -1.0, 0.12), 1.0, "STYLE_ai_04.png", None),
@@ -49,22 +50,25 @@ def build(scene_bbox, floor_z):
         return l
     t = (cx, cy, (z0 + z1) / 2)
     span = max(x1 - x0, y1 - y0, z1 - z0)
-    area("LGT_key", (cx + 1.2 * span, cy - 1.6 * span, z1 + 1.4 * span), t, 3.6e6, 1.8 * span)
-    area("LGT_fill", (cx - 0.6 * span, cy + 1.8 * span, z1 + 0.6 * span), t, 1.4e6, 2.4 * span)
-    area("LGT_rim", (cx - 1.8 * span, cy - 0.8 * span, z1 + 1.0 * span), t, 1.6e6, 0.8 * span)
-    area("LGT_top", (cx, cy, z1 + 2.2 * span), t, 1.2e6, 2.5 * span)
+    # round-1 critique: the set read a stop too dark against the references (light-grey cyclorama, bright
+    # satin metal). Key and fill up, a larger wrap-around fill, brighter world, +0.5 EV.
+    area("LGT_key", (cx + 1.2 * span, cy - 1.6 * span, z1 + 1.4 * span), t, 5.4e6, 2.0 * span)
+    area("LGT_fill", (cx - 0.6 * span, cy + 1.8 * span, z1 + 0.6 * span), t, 2.6e6, 3.0 * span)
+    area("LGT_rim", (cx - 1.8 * span, cy - 0.8 * span, z1 + 1.0 * span), t, 2.2e6, 0.8 * span)
+    area("LGT_top", (cx, cy, z1 + 2.2 * span), t, 2.0e6, 2.5 * span)
+    area("LGT_front", (cx + 2.2 * span, cy + 0.4 * span, z1 + 0.2 * span), t, 1.6e6, 2.0 * span)
     w = bpy.data.worlds.new("studio_world") if sc.world is None else sc.world
     sc.world = w
     w.use_nodes = True
     bg = w.node_tree.nodes["Background"]
-    bg.inputs["Color"].default_value = (0.62, 0.64, 0.67, 1.0)
-    bg.inputs["Strength"].default_value = 0.6
+    bg.inputs["Color"].default_value = (0.70, 0.72, 0.75, 1.0)
+    bg.inputs["Strength"].default_value = 1.0
     sc.render.engine = 'CYCLES'
     sc.cycles.device = 'CPU'
     sc.cycles.use_denoising = True
     sc.view_settings.view_transform = 'AgX'
     sc.view_settings.look = 'AgX - Base Contrast'
-    sc.view_settings.exposure = 0.4
+    sc.view_settings.exposure = 0.9
     sc.render.film_transparent = False
     return floor
 

@@ -54,4 +54,4 @@ def brushed_plate():
 
 
 def backdrop():
-    return _principled("backdrop", (0.42, 0.43, 0.45), metallic=0.0, roughness=0.9)
+    return _principled("backdrop", (0.56, 0.57, 0.59), metallic=0.0, roughness=0.9)    # the references' light-grey cyclorama

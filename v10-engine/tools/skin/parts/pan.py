@@ -148,7 +148,7 @@ def electronics_envelope():
     return env
 
 
-def _bell_outline(name, off, x0, x1):
+def _bell_pts(off):
     b = P.BELL
     r, hw, zb = b["r_top"] - off, b["half_w_bot"] - off, b["z_bot"] + off
     dist = math.hypot(hw, zb)
@@ -161,7 +161,11 @@ def _bell_outline(name, off, x0, x1):
         a = a0 + (a1 - a0) * i / n
         pts.append((r * math.cos(a), r * math.sin(a)))
     pts.append((-hw, zb))
-    return U.prism(name, pts, x0, x1)
+    return pts
+
+
+def _bell_outline(name, off, x0, x1):
+    return U.prism(name, _bell_pts(off), x0, x1)
 
 
 def bellhousing():
@@ -170,7 +174,34 @@ def bellhousing():
     x0 = x1 - b["depth"]
     bell = _bell_outline("42_bellhousing", 0.0, x0, x1)
     U.bevel_edges(bell, 2.5, 3, lambda c, dd: abs(c.x - x0) < 0.3 and abs(dd.x) < 0.1)
+    # round-1 critique: the bell was a blank shell. Cast detail on the curved wall, where it is vertical in the
+    # rear-face-down print: 7 axial half-round ribs over the arch and a bolt flange band at the open (engine)
+    # end with a 45 deg underside, each rib ending in a hex bolt head on the band. The rear face keeps only
+    # recessed detail (print face rule D53).
+    r, hw, zb = b["r_top"], b["half_w_bot"], b["z_bot"]
+    t_right = math.atan2(zb, hw) + math.acos(r / math.hypot(hw, zb))
+    sites = []                                                   # (y, z, outward normal) on the shell surface
+    for i in range(7):
+        a = t_right + (math.pi - 2 * t_right) * (i + 0.5) / 7
+        sites.append((r * math.cos(a), r * math.sin(a), (math.cos(a), math.sin(a))))
+    for sgn in (1, -1):                                          # two ribs on each straight flank
+        ty, tz = r * math.cos(t_right), r * math.sin(t_right)
+        for f in (0.3, 0.65):
+            sites.append((sgn * (ty + f * (hw - ty)), tz + f * (zb - tz), (sgn * math.cos(t_right), math.sin(t_right))))
+    for y, z, (ny, nz) in sites:
+        rib = U.cylinder("bell_rib", 3.0, x0 + 4.0, x1 - 4.0, y - 0.8 * ny, z - 0.8 * nz, "X", segs=32)
+        U.boolean(bell, rib, "UNION")
+        bolt = U.cylinder("bell_flange_bolt", 2.6, x1 - 5.0, x1 - 1.0, y + 1.6 * ny, z + 1.6 * nz, "X", segs=6)
+        U.boolean(bell, bolt, "UNION")
+    band = _bell_outline("bell_band", -3.0, x1 - 5.0, x1 - 1.0)
+    cham = U.loft("bell_band_cham", [[(x1 - 8.0, y, z) for y, z in _bell_pts(-0.3)], [(x1 - 5.0 + 0.01, y, z) for y, z in _bell_pts(-3.0)]])
+    U.boolean(band, cham, "UNION")
+    U.boolean(bell, band, "UNION")
     U.boolean(bell, _bell_outline("bell_in", b["wall"], x0 + b["wall"], x1 + 1))
+    # shallow recessed ring on the rear face between the hub and the bolt circle (bridges at 1.6 mm wide)
+    rg = U.cylinder("rear_groove", b["hub_r"] + 9.0, x0 - 1, x0 + 0.6, 0, 0, "X")
+    U.boolean(rg, U.cylinder("rear_groove_in", b["hub_r"] + 7.4, x0 - 2, x0 + 2, 0, 0, "X"))
+    U.boolean(bell, rg)
     ring = U.cylinder("hub_ring", b["hub_r"], x0 - 1, x0 + 1.5, 0, 0, "X")
     U.boolean(ring, U.cylinder("hub_ring_in", b["hub_r"] - 2.5, x0 - 2, x0 + 2, 0, 0, "X"))
     U.boolean(bell, ring)

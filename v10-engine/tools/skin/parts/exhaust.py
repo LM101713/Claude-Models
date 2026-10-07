@@ -70,6 +70,19 @@ def primary():
         from mathutils import Matrix
         U.transform(c, Matrix.Translation(start) @ rotq.to_matrix().to_4x4())
         return c
+    # round-1 critique: smooth tubes read as plastic. Weld-bead rings (0.7 mm proud, 45 deg lead-in and
+    # -out so the standing print has no flat ledge) at the flange exit and at both tangent points of each
+    # bend - where a real tube header is welded. Bead index maths follows _rounded_polyline's output.
+    rp = P.EXH_PRIMARY_D / 2
+    bead_at = [(g["p0"] + g["t1"] * (P.EXH_PORT_DEPTH + P.EXH_FLANGE_PLATE["t"] + 2.5 + 4.0), g["t1"])]
+    n_arc = 16
+    for i in (1, n_arc + 1, n_arc + 2, 2 * n_arc + 2):
+        bead_at.append((path[i], (path[min(i + 1, len(path) - 1)] - path[i - 1]).normalized()))
+    for k, (centre, tdir) in enumerate(bead_at):
+        start = centre - tdir * 1.4
+        U.boolean(pipe, along(f"bead{k}_in", start, tdir, 0.7, rp + 0.05, r2=rp + 0.7), "UNION")
+        U.boolean(pipe, along(f"bead{k}_mid", start + tdir * 0.65, tdir, 1.5, rp + 0.7), "UNION")
+        U.boolean(pipe, along(f"bead{k}_out", start + tdir * 2.1, tdir, 0.7, rp + 0.7, r2=rp + 0.05), "UNION")
     U.boolean(pipe, along("sp_head", g["p0"] + g["t1"] * 0.3, -g["t1"], L_sp + 0.3, r_sp), "UNION")
     U.boolean(pipe, along("sp_col", g["p3"] - g["t3"] * 0.3, g["t3"], L_sp + cone_l + 0.3, r_sp), "UNION")
     U.boolean(pipe, along("sp_cone", g["p3"] - g["t3"] * 0.3, g["t3"], cone_l + 0.3, P.EXH_PRIMARY_D / 2 - 0.05, r_sp), "UNION")

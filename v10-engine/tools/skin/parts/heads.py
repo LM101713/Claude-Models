@@ -29,8 +29,17 @@ def cylinder_head():
     U.bevel_edges(head, 3.0, 4, lambda c, dd: abs(dd.z) > 0.9)                       # cast vertical corners
     U.bevel_edges(head, 2.0, 3, lambda c, dd: abs(dd.x) > 0.9 and abs(c.z - TOP) < 0.3)   # top long edges
     U.bevel_edges(head, 1.2, 2, lambda c, dd: abs(dd.x) > 0.9 and abs(c.z - DECK) < 0.3)  # parting line at the deck
-    # end-face cast bosses (2 per end) - the ends are what you see of the head
+    # end faces (what you see of the head behind the damper and the bellhousing): a raised, chamfered cast
+    # pad with a bolted cover plate look (round-1 critique: the ends were blank slabs), plus the 2 bosses.
+    # The head prints deck down, so the end faces are vertical in print and raised detail is fine.
     for xe, sgn in ((X0, 1), (X1, -1)):
+        pad = U.box("end_pad", min(xe - sgn * 0.3, xe - sgn * 1.5), max(xe - sgn * 0.3, xe - sgn * 1.5), YO + 7.0, YV - 7.0, DECK + 5.0, TOP - 7.0)
+        U.bevel_edges(pad, 1.0, 2, lambda c, dd: abs(c.x - (xe - sgn * 1.5)) < 0.2)
+        U.boolean(head, pad, "UNION")
+        for yb in (YO + 11.0, YV - 11.0):
+            for zb in (DECK + 9.0, TOP - 11.0):
+                b = U.cylinder("end_bolt", 2.0, min(xe - sgn * 1.4, xe - sgn * 2.8), max(xe - sgn * 1.4, xe - sgn * 2.8), yb, zb, "X", segs=6)
+                U.boolean(head, b, "UNION")
         for yb in (-18.0, 24.0):
             boss = U.cylinder("end_boss", 6.0, min(xe - sgn * 0.3, xe + sgn * 1.6), max(xe - sgn * 0.3, xe + sgn * 1.6), yb, DECK + 14.0, "X")
             U.boolean(head, boss, "UNION")
@@ -163,6 +172,18 @@ def flange_plate():
     fp = d["FP"]
     plate = U.box("34_header_plate", X0 + fp["end_inset"], X1 - fp["end_inset"], YO - fp["t"], YO, DECK + fp["z0"], DECK + fp["z1"])
     U.bevel_edges(plate, 2.0, 3, lambda c, dd: abs(dd.y) > 0.9)
+    # round-1 critique: the plate read as one blank strip. Each primary gets its own square flange pad
+    # (2.5 mm proud of the outboard face, chamfered) with two hex bolt heads on the diagonal, like the
+    # references' individual port flanges. The plate prints outboard face up, so the pads are on the top.
+    pad_hw, pad_hh, pad_t = 11.5, 14.5, 2.5                     # 2 mm clear of the boot bodies at xc + 15
+    for xc in P.BANK_A_CYL_X:
+        pad = U.box("fl_pad", xc - pad_hw, xc + pad_hw, YO - fp["t"] - pad_t, YO - fp["t"] + 0.3, d["PORT_Z"] - pad_hh, d["PORT_Z"] + pad_hh)
+        U.bevel_edges(pad, 1.2, 2, lambda c, dd: abs(c.y - (YO - fp["t"] - pad_t)) < 0.2)
+        U.boolean(plate, pad, "UNION")
+        for sx, sz in ((-1, 1), (1, -1)):
+            hx, hz = xc + sx * (pad_hw - 3.5), d["PORT_Z"] + sz * (pad_hh - 3.5)
+            bolt = U.cylinder("fl_bolt", 2.2, YO - fp["t"] - pad_t - 1.6, YO - fp["t"] - pad_t + 0.2, hx, hz, "Y", segs=6)
+            U.boolean(plate, bolt, "UNION")
     for xc in P.BANK_A_CYL_X:
         U.boolean(plate, U.cylinder("fp_pipe", P.EXH_PRIMARY_D / 2 + P.CLEARANCE, YO - fp["t"] - 1, YO + 1, xc, d["PORT_Z"], "Y"))
     for xb in d["BOOT_X"]:
