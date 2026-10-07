@@ -144,7 +144,7 @@ def intake_base():
             # The tube is cut back to 0.3 mm outside the head's valley face (its section would otherwise cross
             # into the head: 8.9 cm3 overlap per head in the skin check).
             tube = _runner(bank, xc, Z0 - 20.0, SPLIT)
-            head_side = U.box("head_side", -300, 300, -300, yl + 0.3, -300, 400)          # bank-local: y' <= port face
+            head_side = U.box("head_side", -300, 300, -300, yl + 4.0, -300, 400)          # bank-local: 4 mm out from the port face (the straight stub covers that zone; 0.3 left a thin step)
             U.to_bank(head_side, bank, P.bank_angle_A, P.bank_angle_B)
             U.boolean(tube, head_side)
             U.boolean(base, tube, "UNION")
