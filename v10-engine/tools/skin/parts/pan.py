@@ -9,6 +9,14 @@ from ..params import P
 
 S45 = math.sqrt(0.5)
 LEG_W, LEG_TOP_Z, LEG_Y_IN, LEG_Y_OUT = 50.0, -76.0, 88.0, 110.0   # saddle legs cast onto the pan (D60)
+TONGUE_L, TONGUE_T, TONGUE_Z0, TONGUE_INSET = 6.0, 2.0, 2.0, 20.0   # S2 floor-tray tongue: 6 mm long, 2 thick, 2 above the panel bottom
+HOOK_W, HOOK_T, HOOK_LIP = 6.0, 2.0, 1.2                            # S3 board snap hooks
+
+
+def panel_screws():
+    """S2: only the rear pair of the CAD's six panel screws stays; the front edge is a tongue."""
+    xs = sorted({x for x, _ in P.pan_panel_screws})
+    return [(x, y) for x, y in P.pan_panel_screws if x == xs[0]]
 
 
 def _d():
@@ -35,7 +43,8 @@ def oil_pan():
     IX0, IX1, IY0, IY1 = d["IX0"], d["IX1"], d["IY0"], d["IY1"]
     pan = _rbox("40_oil_pan", X0, X1, Y0, Y1, ZSTEP - 0.1, ZT, PAN["r"])
     sump = _rbox("sump", X0, X1, SY0, SY1, ZB, ZSTEP + 6.0, PAN["r"])
-    U.bevel_edges(sump, PAN["bottom_chamfer"], 1, lambda c, dd: abs(c.z - ZB) < 0.3 and abs(dd.z) < 0.1)
+    # long bottom edges only (S2: the front wall keeps a square corner so the floor-tray tongue slot has a full wall)
+    U.bevel_edges(sump, PAN["bottom_chamfer"], 1, lambda c, dd: abs(c.z - ZB) < 0.3 and abs(dd.x) > 0.9)
     U.boolean(pan, sump, "UNION")
     for sgn in (-1, 1):                         # 45 deg under-cut rail -> sump
         yw, ys = (Y1, SY1) if sgn > 0 else (Y0, SY0)
@@ -57,6 +66,11 @@ def oil_pan():
             yo = ys + sgn * PAN["rib_out"]
             U.bevel_edges(rib, PAN["rib_out"] * 0.7, 1, lambda c, dd: abs(dd.x) > 0.9 and abs(c.z - (z + PAN["rib_h"] / 2)) < 0.2 and abs(c.y - yo) < 0.2)
             U.boolean(pan, rib, "UNION")
+    # round 5: drain-plug boss on the sump wall between the legs (horizontal cylinder in the skin-down print)
+    boss = U.cylinder("drain_boss", 6.0, SY1 - 0.3, SY1 + 3.0, -20.0, ZB + 14.0, "Y")
+    U.bevel_edges(boss, 1.0, 2, lambda c, dd: abs(c.y - (SY1 + 3.0)) < 0.2 and abs(dd.y) < 0.1)
+    U.boolean(pan, boss, "UNION")
+    U.boolean(pan, U.cylinder("drain_plug", 3.5, SY1 + 2.9, SY1 + 5.0, -20.0, ZB + 14.0, "Y", segs=6), "UNION")
     # interior
     U.boolean(pan, _rbox("int_rail", IX0, IX1, Y0 + W, Y1 - W, ZSTEP + W, ZS, max(1.0, PAN["r"] - W)))
     ri = max(1.0, PAN["r"] - W)
@@ -77,9 +91,13 @@ def oil_pan():
     for sgn in (-1, 1):
         yl, yw_ = sgn * d["PY1"], sgn * (IY1 + 0.01)
         U.boolean(pan, U.prism("ledge_fillet", [(yl, ZF - 0.01), (yw_, ZF - 0.01), (yw_, ZF + led)], d["PX0"] + 3.0, d["PX1"] - 3.0), "UNION")
-    for x, y in P.pan_panel_screws:                                   # panel screw pillars + inserts
+    for x, y in panel_screws():                                      # S2: two rear panel screws (pillars + inserts)
         U.boolean(pan, U.cylinder("pillar", 4.5, ZF - 0.3, ZS + 0.1, x, y), "UNION")
         U.boolean(pan, U.cylinder("pillar_ins", P.insert_hole / 2, ZB + PAN["panel_t"] - 0.5, ZF + 8.0 - 2.0, x, y))
+    # S2: tongue slot in the front rabbet wall - the panel's front tongue slides in, the rear screws clamp it
+    c = P.CLEARANCE
+    U.boolean(pan, U.box("tongue_slot", RX1 - 1.0, RX1 + TONGUE_L + c, RY0 + TONGUE_INSET - c, RY1 - TONGUE_INSET + c,
+                         ZB + TONGUE_Z0 - c, ZB + TONGUE_Z0 + TONGUE_T + c))
     for x, y in P.PAN_SCREWS:                                         # up into the crankcase, heads inside
         U.boolean(pan, U.cylinder("pan_screw", P.hole["M3_CLEAR"] / 2, ZS - 1, ZT + 1, x, y))
         U.boolean(pan, U.cylinder("pan_cbore", P.hole["M3_CBORE"] / 2, ZS - 1, ZT - 2.5, x, y))
@@ -127,13 +145,35 @@ def floor_panel():
     PAN, ZB = d["PAN"], d["ZB"]
     RX0, RX1, RY0, RY1 = d["RX0"], d["RX1"], d["RY0"], d["RY1"]
     p = _rbox("41_pan_floor_panel", RX0, RX1, RY0, RY1, ZB, ZB + PAN["panel_t"], 3.0)
-    for x, y in P.pan_panel_screws:
+    for x, y in panel_screws():
         U.boolean(p, U.cylinder("cap_clear", P.hole["M3_CLEAR"] / 2, ZB - 1, ZB + PAN["panel_t"] - P.CAPTIVE_LIP_T, x, y))
         U.boolean(p, U.cylinder("cap_lip", P.CAPTIVE_LIP_D / 2, ZB - 1, ZB + PAN["panel_t"] + 1, x, y))
+    # S2: front tongue (upper 2 mm of the panel, 6 mm long) into the pan's slot
+    tongue = U.box("tongue", RX1 - 4.0, RX1 + TONGUE_L, RY0 + TONGUE_INSET, RY1 - TONGUE_INSET, ZB + TONGUE_Z0, ZB + TONGUE_Z0 + TONGUE_T)
+    U.bevel_edges(tongue, 0.8, 1, lambda c, dd: abs(c.x - (RX1 + TONGUE_L)) < 0.2 and abs(dd.y) > 0.9)
+    U.boolean(p, tongue, "UNION")
+    # S3: the controller board sits on four plain standoffs with 2.6 mm locating pins in its holes and is
+    # held down by four cantilever snap hooks at its long edges (no inserts, no screws)
     b = P.PCB
+    zt = ZB + PAN["panel_t"]
     for x, y in P.pan_board_holes:
-        U.boolean(p, U.cylinder("standoff", 4.0, ZB + PAN["panel_t"] - 0.1, ZB + PAN["panel_t"] + b["standoff"], x, y), "UNION")
-        U.boolean(p, U.cylinder("standoff_ins", P.insert_hole / 2, ZB + 1.0, ZB + PAN["panel_t"] + b["standoff"] + 0.1, x, y))
+        U.boolean(p, U.cylinder("standoff", 4.0, zt - 0.1, zt + b["standoff"], x, y), "UNION")
+        pin = U.cylinder("board_pin", 1.3, zt + b["standoff"] - 0.1, zt + b["standoff"] + 2.2, x, y)
+        U.bevel_edges(pin, 0.5, 1, lambda c, dd: abs(c.z - (zt + b["standoff"] + 2.2)) < 0.2 and abs(dd.z) < 0.1)
+        U.boolean(p, pin, "UNION")
+    cx, cy = P.pan_board_centre
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            x = cx + sx * (b["w"] / 2 - 14.0)
+            ye = cy + sy * (b["h"] / 2 + 0.3)                      # the hook's inner face, 0.3 mm off the board edge
+            lo, hi = sorted((ye, ye + sy * HOOK_T))
+            hook = U.box("hook", x - HOOK_W / 2, x + HOOK_W / 2, lo, hi, zt - 0.1, zt + b["standoff"] + 1.6 + HOOK_LIP + 1.0)
+            # the lip: 45 deg underside so it prints flat on the panel without support
+            zl = zt + b["standoff"] + 1.6 + 0.3
+            lip = U.prism("hook_lip", [(sy * 0.0, 0.0), (-sy * HOOK_LIP, HOOK_LIP), (-sy * HOOK_LIP, HOOK_LIP + 1.0), (sy * 0.0, HOOK_LIP + 1.0)], x - HOOK_W / 2, x + HOOK_W / 2)
+            U.move(lip, 0, ye, zl)
+            U.boolean(hook, lip, "UNION")
+            U.boolean(p, hook, "UNION")
     for i in range(8):
         x = P.MOTOR_FACE_X - 36 + i * 4.5
         for yc in (-20.0, 20.0):

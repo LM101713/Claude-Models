@@ -15,6 +15,23 @@ def _dims():
                 FP=P.EXH_FLANGE_PLATE)
 
 
+DOWEL_D, DOWEL_H = 6.0, 4.0        # S4 printed locating dowels on the bank deck (same size as the core's locators)
+
+
+def VC_MAGNET_X():
+    return (P.BANK_A_CYL_X[0], P.BANK_A_CYL_X[-1])
+
+
+def head_screw_x():
+    bx = P.bank_between_x
+    return (bx[0], bx[-1])
+
+
+def head_dowel_x():
+    bx = P.bank_between_x
+    return tuple(bx[1:-1])
+
+
 def plate_screw_xz():
     d = _dims()
     fp = d["FP"]
@@ -52,12 +69,17 @@ def cylinder_head():
     seat = U.rrect_prism("vc_seat", (X0 + X1) / 2, (vc["y0"] + vc["y1"]) / 2, (X1 - X0) - 2 * vc["x_inset"] + 2 * P.CLEARANCE,
                          vc["y1"] - vc["y0"] + 2 * P.CLEARANCE, vc["r"] + P.CLEARANCE, TOP - 1.0, TOP + 1)
     U.boolean(head, seat)
-    bx = P.bank_between_x
-    for xc in (P.BANK_A_CYL_X[0], P.BANK_A_CYL_X[-1], bx[0], bx[-1]):
+    # S6: the 1 mm seat recess locates the cover, so two magnet pairs (the ends) hold it instead of four
+    for xc in VC_MAGNET_X():
         F.cut_magnet(head, TOP - 1.0, -1, xc, P.VC_MAGNET_Y)
-    for xc in bx:
+    # S4: four head screws (the end positions) instead of six; the middle pair becomes two printed dowels on
+    # the bank deck that take the shear, with 6.4 mm sockets here
+    for xc in head_screw_x():
         for yc in P.HEAD_SCREW_Y:
             U.boolean(head, F.screw_cbore("head_screw", DECK, TOP, P.SCREW_FLOOR, xc, yc))
+    for xc in head_dowel_x():
+        for yc in P.HEAD_SCREW_Y:
+            U.boolean(head, U.cylinder("dowel_socket", DOWEL_D / 2 + P.CLEARANCE, DECK - 1, DECK + DOWEL_H + 0.5, xc, yc))
     gw, gd, ew = P.LED_GROOVE["w"], P.LED_GROOVE["d"], P.LED_GROOVE["end_wall"]
     U.boolean(head, U.box("led_groove", X0 + ew, X1 - ew, -gw / 2, gw / 2, DECK - 1, DECK + gd))
     ww, wd = P.LED_WIRE_GROOVE["w"], P.LED_WIRE_GROOVE["d"]
@@ -82,8 +104,8 @@ def cylinder_head():
     U.boolean(head, U.box("boot_strip", X0 + 6, X1 - 6, YO - 1, YO + bs["d"], d["BOOT_Z"] - bs["w"] / 2, d["BOOT_Z"] + bs["w"] / 2))
     for xb in d["BOOT_X"]:
         F.cut_crush(head, "boot_9", YO - 0.01, YO + pb["shaft_l"] + bs["d"] + 0.5, xb, d["BOOT_Z"], "Y", entry="lo")
-    for xs, zs in plate_screw_xz():
-        U.boolean(head, U.cylinder("plate_ins", P.insert_hole / 2, YO - 1.0, YO + P.INSERT_DEPTH, xs, zs, "Y"))
+    for xs, zs in plate_screw_xz():                         # S5: the flange plate is held by two magnets, not screws
+        F.cut_magnet(head, YO, 1, xs, zs, axis="Y")
     U.cleanup(head)
     U.shade(head)
     return head
@@ -134,8 +156,7 @@ def valve_cover():
     F.cut_crush(cover, "boot_9", z1 - w - 1.0, z1 + 1.0, cx, cy, entry="hi")
     # magnet pillars down to the head
     outer = U.rrect_prism("vc_outer", xm, ym, x1 - x0, y1 - y0, vc["r"], z0, z1)
-    bx = P.bank_between_x
-    for xc in (P.BANK_A_CYL_X[0], P.BANK_A_CYL_X[-1], bx[0], bx[-1]):
+    for xc in VC_MAGNET_X():
         U.boolean(cover, U.cylinder("vc_pillar", 4.5, z0, z1 - w + 0.1, xc, P.VC_MAGNET_Y), "UNION")
         F.cut_magnet(cover, z0, 1, xc, P.VC_MAGNET_Y)
     U.delete(outer)
@@ -214,9 +235,12 @@ def flange_plate():
         U.boolean(plate, U.cylinder("fp_pipe", P.EXH_PRIMARY_D / 2 + P.CLEARANCE, y_out, YO + 1, xc, d["PORT_Z"], "Y"))
     for xb in d["BOOT_X"]:
         U.boolean(plate, U.cylinder("fp_boot", P.PLUG_BOOT["shaft_d"] / 2 + P.CLEARANCE, y_out, YO + 1, xb, d["BOOT_Z"], "Y"))
-    for xs, zs in plate_screw_xz():
-        U.boolean(plate, U.cylinder("fp_clear", P.hole["M3_CLEAR"] / 2, y_out, YO + 1, xs, zs, "Y"))
-        U.boolean(plate, U.cylinder("fp_cbore", P.hole["M3_CBORE"] / 2, y_out, YO - fp["t"] + (fp["t"] - P.SCREW_FLOOR + 2.0), xs, zs, "Y"))
+    for xs, zs in plate_screw_xz():                         # S5: magnet pockets in the inboard face, under a cast boss
+        boss = U.cylinder("fl_mag_boss", 5.5, ytop - 0.5, YO - fp["t"] + 0.3, xs, zs, "Y")
+        U.bevel_edges(boss, 1.0, 2, lambda c, dd: abs(c.y - (ytop - 0.5)) < 0.2 and abs(dd.y) < 0.1)
+        U.boolean(plate, boss, "UNION")
+        U.boolean(plate, U.cylinder("fl_mag_hex", 2.2, ytop - 2.0, ytop - 0.4, xs, zs, "Y", segs=6), "UNION")
+        F.cut_magnet(plate, YO, -1, xs, zs, axis="Y")
     U.shade(plate)
     return plate
 

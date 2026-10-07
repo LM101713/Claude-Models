@@ -410,9 +410,9 @@ INTAKE = dict(                  # ENGINE frame - low, wide single-plane plenum (
     # skin round 4 (D61): one continuous runner tube per cylinder from the head port, up the base and lid flank,
     # over the top edge and into a raised plenum spine; (|y|, z) guide points above the port, same path on both
     # pieces so the sections match across the split line
-    runner_path=[(46.0, 100.0), (50.0, 108.0), (54.0, 116.0), (62.0, 126.0), (74.0, 140.0), (58.0, 152.0), (38.0, 156.0), (16.0, 146.0)],
-    spine_w=48.0, spine_h=6.0,
-    rail_z=128.0, rail_y=86.0, rail_r=4.0, rail_out=2.0, inj_r=4.5, inj_l=20.0, inj_deg=120.0,   # fuel rail outboard of the runners, injectors bridge to the tubes
+    runner_path=[(46.0, 100.0), (50.0, 108.0), (54.0, 116.0), (62.0, 126.0), (74.0, 140.0), (58.0, 152.0), (40.0, 149.0), (20.0, 140.0)],
+    spine_w=72.0, spine_h=6.0,            # skin round 5: a wide flat plenum top plate the runners dive under (was a 48 mm spine)
+    rail_z=128.0, rail_y=86.0, rail_r=5.5, rail_out=2.0, inj_r=4.5, inj_l=20.0, inj_deg=120.0,   # fuel rail outboard of the runners, injectors bridge to the tubes
     tb_d=44.0, tb_l=34.0, tb_z=132.0, tb_tilt=10.0, tb_bore=38.0, tb_bore_depth=12.0, tb_blade_deg=70.0,
     tb_spigot_d=14.0, tb_spigot_l=9.0)                                                # throttle body: separate, pressed in
 PAN = dict(w=160.0, z_step=-60.0, w_sump=128.0, z_bot=-102.0, wall=3.5, skin=4.0, floor=6.0, ledge=11.0,

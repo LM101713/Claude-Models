@@ -114,6 +114,14 @@ def collector(bank):
     flare = U.cylinder("tail_flare", r1 + 3.0, x_rear - 0.01, x_rear + 8.0, yc, zt - r1, "X", r2=r1 - 0.05)
     U.boolean(col, flare, "UNION")
     U.bevel_edges(col, 1.5, 3, lambda c, d: abs(c.x - x_rear) < 0.3)
+    # round 5: slip-joint clamp band 14 mm in from the tail (follows the taper), two hex clamp bolts on top
+    xb0, xb1 = x_rear + 14.0, x_rear + 19.0
+    rb = r1 + (r0 - r1) * ((xb0 + xb1) / 2 - x_rear) / (x_front - x_rear)
+    band = U.cylinder("col_band", rb + 1.5, xb0, xb1, yc, zt - r1, "X")
+    U.bevel_edges(band, 0.8, 2, lambda c, d: abs(d.x) < 0.1)
+    U.boolean(col, band, "UNION")
+    for dx in (-1.2, 1.2):
+        U.boolean(col, U.cylinder("col_band_bolt", 1.8, zt - r1 + rb + 1.4, zt - r1 + rb + 3.2, (xb0 + xb1) / 2 + dx * 0, yc + dx * 2.6 * ym, "Z", segs=6), "UNION")
     U.boolean(col, U.cylinder("tail_bore", r1 - P.EXH_TAIL_WALL, x_rear - 1, x_rear + 30.0, yc, zt - r1, "X"))
     sad = P.EXH_COLLECTOR_SADDLE
     cone_l = (P.EXH_PRIMARY_D - P.EXH_SPIGOT_D) / 2

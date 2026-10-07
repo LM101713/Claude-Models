@@ -145,9 +145,15 @@ def cylinder_bank():
     screws = [(x, P.BLOCK_SCREW_VALLEY_Y) for x in P.bank_between_x] + [(x, P.BLOCK_SCREW_END_Y) for x in P.block_end_screws_x]
     for x, y in screws:
         U.boolean(blk, F.screw_cbore("blk_screw", z0, z1, P.SCREW_FLOOR, x, y))
-    for x in P.bank_between_x:
+    from . import heads as H                      # S4: inserts under the four head screws, printed dowels at the middle pair
+    for x in H.head_screw_x():
         for y in P.HEAD_SCREW_Y:
             U.boolean(blk, U.cylinder("head_ins", P.insert_hole / 2, z1 - P.INSERT_DEPTH, z1 + 1, x, y))
+    for x in H.head_dowel_x():
+        for y in P.HEAD_SCREW_Y:
+            dw = U.cylinder("head_dowel", H.DOWEL_D / 2, z1 - 0.1, z1 + H.DOWEL_H, x, y)
+            U.bevel_edges(dw, 0.8, 1, lambda c, d: abs(c.z - (z1 + H.DOWEL_H)) < 0.2 and abs(d.z) < 0.1)
+            U.boolean(blk, dw, "UNION")
     for x, y in P.locator_xy:
         U.boolean(blk, U.cylinder("locator", P.LOCATOR_D / 2, z0 - P.LOCATOR_H, z0 + 0.1, x, y), "UNION")
     U.cleanup(blk)

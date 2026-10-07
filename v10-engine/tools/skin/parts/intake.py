@@ -66,6 +66,9 @@ def intake_lid():
         yr = sgn * it["rail_y"]
         rail = U.cylinder("rail", it["rail_r"], min(xs) - 12.0, max(xs) + 12.0, yr, it["rail_z"], "X")
         U.bevel_edges(rail, 1.5, 3, lambda c, d: abs(d.x) < 0.1 and abs(abs(c.x) - (max(xs) + 12.0 if c.x > 0 else -(min(xs) - 12.0))) < 2.0)
+        for xe in (min(xs) - 12.0, max(xs) + 12.0):              # round 5: end caps (fittings) on the rail
+            cap = U.cylinder("rail_cap", it["rail_r"] + 1.5, xe - 2.5, xe + 2.5, yr, it["rail_z"], "X", segs=6)
+            U.boolean(rail, cap, "UNION")
         for xc in xs:
             boss = U.cylinder("inj", it["inj_r"], 0, it["inj_l"], 0, 0)
             U.rot(boss, 'X', sgn * it["inj_deg"])                        # Rx(+a) takes +z to (0, -sin a, cos a): down and inward for bank B (+y), mirrored for A
@@ -76,8 +79,8 @@ def intake_lid():
     # raised plenum spine the runners dive into (bolt row along both edges). Same print case as the runners
     # (raised detail on the lid's print face - the open D53 decision: soluble support upright, or a split roof).
     l_top = _dim(ZTOP)[1]
-    spine = U.rrect_prism("spine", 0, 0, l_top - 36.0, it["spine_w"], 8.0, ZTOP - 0.5, ZTOP + it["spine_h"])
-    U.bevel_edges(spine, 2.0, 3, lambda c, d: abs(c.z - (ZTOP + it["spine_h"])) < 0.2)
+    spine = U.rrect_prism("spine", 0, 0, l_top - 36.0, it["spine_w"], 10.0, ZTOP - 0.5, ZTOP + it["spine_h"])
+    U.bevel_edges(spine, 2.5, 3, lambda c, d: abs(c.z - (ZTOP + it["spine_h"])) < 0.2)
     U.boolean(lid, spine, "UNION")
     for xs in (-(l_top / 2 - 25.0), -(l_top / 6), l_top / 6, l_top / 2 - 25.0):
         for ys in (-(it["spine_w"] / 2 - 5.0), it["spine_w"] / 2 - 5.0):
@@ -166,7 +169,12 @@ def throttle_body():
     U.move(blade, 0, 0, it["tb_l"] - it["tb_bore_depth"] / 2)
     U.boolean(blade, U.cylinder("blade_clip", it["tb_bore"] / 2 + 0.5, it["tb_l"] - it["tb_bore_depth"] - 0.5, it["tb_l"] + 1, 0, 0), "INTERSECT")
     U.boolean(tb, blade, "UNION")
-    U.boolean(tb, U.cylinder("tb_shaft", 1.6, -it["tb_d"] / 2 - 1, it["tb_d"] / 2 + 1, 0, it["tb_l"] - it["tb_bore_depth"] / 2, "X"), "UNION")
+    zs = it["tb_l"] - it["tb_bore_depth"] / 2
+    U.boolean(tb, U.cylinder("tb_shaft", 1.6, -it["tb_d"] / 2 - 1, it["tb_d"] / 2 + 10.0, 0, zs, "X"), "UNION")
+    # round 5: throttle cam on the shaft end (45 deg cone under the disc: the bore-down print has no flat ceiling)
+    U.boolean(tb, U.cylinder("tb_cam_cone", 2.0, it["tb_d"] / 2 + 1.0, it["tb_d"] / 2 + 8.0, 0, zs, "X", r2=9.0), "UNION")
+    U.boolean(tb, U.cylinder("tb_cam", 9.0, it["tb_d"] / 2 + 7.9, it["tb_d"] / 2 + 10.0, 0, zs, "X"), "UNION")
+    U.boolean(tb, U.cylinder("tb_cam_hex", 2.2, it["tb_d"] / 2 + 9.9, it["tb_d"] / 2 + 11.4, 0, zs, "X", segs=6), "UNION")
     spig = U.cylinder("tb_spigot", it["tb_spigot_d"] / 2, -(it["tb_spigot_l"] + 2.0), 0.1, 0, 0)
     U.boolean(tb, spig, "UNION")
     # place: local +Z -> TB axis (x forward, tilted up), seat on the lid's front face, trim with the lid envelope

@@ -115,39 +115,38 @@ Filament: 3.05 kg ASA = $76 per engine at $25/kg (152 kg for 50 engines; buy 165
 |---|---|
 | banks -> crankcase / beam (block end screws) | 8 |
 | end plates | 12 |
-| heads -> banks (head screws) | 12 |
-| header flange plates -> heads | 4 |
+| heads -> banks (head screws; D63: 4 per head, 2 printed dowels locate) | 8 |
+| header flange plates -> heads | 0 (D63: magnets) |
 | crankpin ends (into the steel pins) | 8 |
 | main shaft flanges -> end webs | 6 |
 | pan skin -> crankcase | 4 |
-| pan floor panel (captive) | 6 |
-| controller board standoffs | 4 |
-| brackets -> pan | 8 |
-| brackets -> stand plate | 8 |
+| pan floor tray (D63: rear pair, front tongue) | 2 |
+| controller board (D63: snap hooks) | 0 |
+| stand plate -> pan saddle legs (D60: from below, one per leg) | 4 |
 | motor -> bulkhead | 4 |
-| **total** | **84** |
+| **total** | **56** (was 84) |
 
 | Heat-set inserts | Qty |
 |---|---|
 | crankcase (bank ends, end plates, pan) | 16 |
 | valley beam (banks, end plates) | 10 |
-| cylinder banks (head screws) | 12 |
+| cylinder banks (head screws, D63) | 8 |
 | crank end webs (main shafts) | 6 |
-| cylinder heads (flange plates) | 4 |
-| pan (panel bosses, bracket bosses) | 14 |
-| floor panel (board standoffs) | 4 |
-| bracket feet | 8 |
-| **total** | **74** |
+| cylinder heads (flange plates) | 0 (D63: magnets) |
+| pan (tray pillars 2, saddle legs 4) | 6 |
+| floor panel (board) | 0 (D63: snap hooks) |
+| **total** | **46** (was 74) |
 
 | 6 x 3 mm magnets | Qty |
 |---|---|
-| valve covers (head + cover) | 16 |
+| valve covers (head + cover, D63: two pairs each) | 8 |
+| header flange plates (head + plate, D63) | 8 |
 | intake lid (lid + base) | 8 |
 | front cover (end plate + cover) | 6 |
 | bellhousing (end plate + bell) | 6 |
 | accessory module (cover + module) | 6 |
 | hall magnet (one in each end web) | 2 |
-| **total** | **44** |
+| **total** | **44** (unchanged: 8 fewer on the covers, 8 more on the flange plates) |
 
 ## 4. Cost per engine
 

@@ -340,3 +340,34 @@ decide on; 5 to 10 are a round of detail on top.
 
 Fasteners and parts this round did not change; see
 `docs/ASSEMBLY_SIMPLIFICATION.md` for the plan to cut them.
+
+## Skin round 4 - shape changes (`renders/skin_round4/`)
+
+What changed: continuous runner tubes into a raised spine with the plenum
+narrowed (D61), cast saddle legs on the pan instead of brackets (D60),
+longer header sweeps and flared collector tails (D62), a ribbed belt,
+pulley rim grooves and a water-pump housing. Honest ranking of what is
+still off, worst first:
+
+1. **The intake now reads as runners, but the top is lumpy.** Eight tubes
+   diving into a narrow 48 mm spine give a quilted roof (ref1, ref3). The
+   reference has a flat cast plenum top that the runners run under. Fix:
+   a wide flat top plate (about 70 mm) with a bolt row, runners ending
+   under its edge.
+2. **The controls plinth is still a black block with four holes** (ref3,
+   lower left). It needs the stand's chamfers, a recessed control panel and
+   rounded corners so it reads as part of the stand.
+3. **Collectors are plain fat tubes.** A slip-joint band and a visible
+   4-into-1 merge cone would finish them; the flared tails help.
+4. **The front cover face stays a plate.** With the face as the print face
+   only recessed detail is possible; a raised cast face needs the cover
+   printed rim-down on soluble support (decision for Liam).
+5. **Throttle body**: plain tube; a throttle-cam disc and shaft boss on the
+   side would carry it.
+6. **Pan sump sides are smooth between the legs**; a drain-plug boss and
+   one more rib would do.
+7. The fuel rail reads as a thin floating tube; a thicker rail (r 5) with
+   end caps would read as the reference's black rail.
+
+Items 1, 2, 3, 5, 6 and 7 are the round-5 detail pass. Item 4 is Liam's
+call.

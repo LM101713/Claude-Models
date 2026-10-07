@@ -3,9 +3,8 @@
 Goal set by Liam for the 50-unit run: more visible detail, fewer parts,
 fewer fasteners, details printed into the parts rather than added as pieces.
 This is the plan for the exterior (the Blender skin). The moving core stays
-as it is (D55). S1 is built in the round-4 skin (D60) and renders in
-`renders/skin_round4/`; S2 to S6 wait on the look approval, S7 and the
-stand-plate outsourcing on Liam's yes.
+as it is (D55). S1 (D60) and S2 to S6 (D63) are built in the round-4/5 skin; S7 and the
+stand-plate outsourcing wait on Liam's yes.
 
 ## Where the fasteners go today (exterior only, from `docs/BOM.md` and `docs/SKIN_PRINT_REPORT.md`)
 
@@ -32,12 +31,12 @@ stand-plate outsourcing on Liam's yes.
 | S2 | Floor panel becomes a slide-in tray: a lip at the front engages a slot in the pan, 2 screws at the rear. | -4 | -4 | | | none, it is hidden | none |
 | S3 | Controller board held by four printed snap clips in the floor panel instead of standoffs and screws. | -4 | -4 | | | none, hidden | none |
 | S4 | Two printed locating dowels per head (6 mm, in the bank deck) and 4 head screws per head instead of 6. The dowels take the shear, the screws only clamp. | -4 | -4 | | | the two spare bolt bosses stay as cast detail | none |
-| S5 | Header flange plates held by two 6 x 3 magnets each instead of two screws and inserts; the four primaries plugged into the port counterbores locate the plate. | -4 | -4 | +4 | | the plate can carry a full bolt row as printed detail instead of two real screws | none |
+| S5 | Header flange plates held by two 6 x 3 magnet pairs each instead of two screws and inserts; the four primaries plugged into the port counterbores locate the plate. | -4 | -4 | +8 | | the plate can carry a full bolt row as printed detail instead of two real screws | none |
 | S6 | Valve covers: a locating lip around the head's cover face, two magnet pairs per cover instead of four. | | | -8 | | the cover rail gets a continuous printed bolt row | none |
 | S7 (decision) | Thread-forming instead of heat-set inserts on joints that are assembled once (pan -> crankcase, heads -> banks, stand): same M3 x 8 screw into a 2.5 mm pilot hole in ASA. Inserts stay only where a part is removed for service (motor, board, bellhousing end). | | about -16 more | | | none | Liam's yes: it changes the "keep all purchased components" rule and should be pull-tested on the first printed bank before it is adopted |
 
-Totals after S1 to S6: **56 screws (from 84), 46 inserts (from 74), 40
-magnets (from 44), 42 exterior pieces in 26 files (from 46 in 28)**. The
+Totals after S1 to S6: **56 screws (from 84), 46 inserts (from 74), 44
+magnets (unchanged), 42 exterior pieces in 26 files (from 46 in 28)**. The
 38 remaining core screws and 28 core inserts are untouched. S7 would take
 inserts to about 30.
 

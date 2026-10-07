@@ -354,8 +354,8 @@
    120.0
   ],
   "EXH_BACK_Y": -35.0,
-  "EXH_BEND_R": 24.0,
-  "EXH_BEND_R2": 20.0,
+  "EXH_BEND_R": 30.0,
+  "EXH_BEND_R2": 26.0,
   "EXH_COLLECTOR_FRONT_MARGIN": 20.0,
   "EXH_COLLECTOR_R": [
    14.0,
@@ -375,7 +375,7 @@
    "z0": 0.5,
    "z1": 33.0
   },
-  "EXH_FLARE_Y": 122.0,
+  "EXH_FLARE_Y": 128.0,
   "EXH_JOIN_DX": 46.0,
   "EXH_OFFSET": 4.0,
   "EXH_PORT_D": 20.0,
@@ -390,13 +390,13 @@
   "EXH_SPIGOT_L": 9.0,
   "EXH_STUB_MIN": 14.0,
   "EXH_S_X_SHARE": 0.8,
-  "EXH_S_Z": -10.0,
-  "EXH_TAIL_MARGIN": 8.0,
+  "EXH_S_Z": -18.0,
+  "EXH_TAIL_MARGIN": 4.0,
   "EXH_TAIL_WALL": 4.5,
   "EXH_TAIL_X": -166.0,
   "EXH_TAIL_Z": 146.0,
   "EXH_TRUNK_Z": 124.0,
-  "EXH_X_JOG": -25.0,
+  "EXH_X_JOG": -36.0,
   "FACE_DIST": 40.0,
   "FIRE_ANGLE": {
    "1": 0.0,
@@ -510,7 +510,8 @@
   "INSERT_DEPTH": 6.5,
   "INSERT_HOLE_DIA": 4.0,
   "INTAKE": {
-   "inj_l": 7.0,
+   "inj_deg": 120.0,
+   "inj_l": 20.0,
    "inj_r": 4.5,
    "magnet_xy": [
     [
@@ -535,8 +536,9 @@
    "port_z": 20.0,
    "r": 18.0,
    "rail_out": 2.0,
-   "rail_r": 4.0,
-   "rail_z": 127.0,
+   "rail_r": 5.5,
+   "rail_y": 86.0,
+   "rail_z": 128.0,
    "rib_pitch": 40.0,
    "rib_t": 3.0,
    "ridge": [
@@ -558,9 +560,43 @@
     ]
    ],
    "ridge_r": 13.0,
-   "runner_h": 16.0,
-   "runner_r": 5.0,
-   "runner_w": 22.0,
+   "runner_h": 22.0,
+   "runner_path": [
+    [
+     46.0,
+     100.0
+    ],
+    [
+     50.0,
+     108.0
+    ],
+    [
+     54.0,
+     116.0
+    ],
+    [
+     62.0,
+     126.0
+    ],
+    [
+     74.0,
+     140.0
+    ],
+    [
+     58.0,
+     152.0
+    ],
+    [
+     40.0,
+     149.0
+    ],
+    [
+     20.0,
+     140.0
+    ]
+   ],
+   "runner_r": 7.0,
+   "runner_w": 26.0,
    "sections": [
     [
      92.0,
@@ -574,15 +610,17 @@
     ],
     [
      112.0,
-     112.0,
+     108.0,
      180.0
     ],
     [
      152.0,
-     156.0,
-     188.0
+     136.0,
+     186.0
     ]
    ],
+   "spine_h": 6.0,
+   "spine_w": 72.0,
    "split_z": 118.0,
    "tb_blade_deg": 70.0,
    "tb_bore": 38.0,
