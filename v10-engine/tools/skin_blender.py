@@ -93,7 +93,7 @@ PARTS = [
     ("43_front_cover", "front_cover", 1, "slot1", False, lambda: ry(90), "front face down"),
     ("44_damper", "damper", 1, "slot2", False, lambda: ry(-90), "back face down"),
     ("45_accessory_module", "accessory", 1, "slot2", False, lambda: ry(-90), "back plate down"),
-    ("45B_alternator_body", "alt_body", 1, "slot2", False, lambda: ry(-90), "rear (slotted) face down, spigot up"),
+    ("45B_alternator_body", "alt_body", 1, "slot1", False, lambda: ry(-90), "rear (slotted) face down, spigot up"),
     ("46_stand_plate", "stand_plate", 1, "slot2", False, lambda: rx(180), "chamfered top face down (as CAD)"),
     ("47_bracket", "bracket", 2, "slot2", False, lambda: ry(90), "lying on its side"),
     ("47B_bracket_mirror", "bracket_m", 2, "slot2", False, lambda: ry(90), "lying on its side"),
@@ -161,7 +161,8 @@ def place_all(phi=0.0, with_core=False):
             for c in o.users_collection:
                 c.objects.unlink(o)
             U.collection("COL_core").objects.link(o)
-            U.set_material(o, M.dark_steel())
+            # preview colours only (these are hidden-slot prints): pistons / rods satin so the windows show machinery
+            U.set_material(o, M.satin_alu() if f.startswith(("piston", "rod_", "bush")) else M.dark_steel())
             U.shade(o)
             named.append((o.name, o, "core"))
     PLACED[:] = named

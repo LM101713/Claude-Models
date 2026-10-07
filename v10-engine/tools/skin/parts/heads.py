@@ -22,6 +22,14 @@ def plate_screw_xz():
     return [(x, d["DECK"] + fp["z1"] - 5.0) for x in xs]
 
 
+def _end_panel(xe, sgn, DECK):
+    """Shallow (1.2 mm) recessed panel on a head end face (local XY prism turned to face X)."""
+    pan = U.rrect_prism("end_panel", 0, 0, 58.0, 22.0, 5.0, -1.0, 1.2)
+    U.rot(pan, 'Y', 90 * sgn)                      # prism axis Z -> +-X
+    U.move(pan, xe, 3.0, DECK + 14.0)
+    return pan
+
+
 def cylinder_head():
     d = _dims()
     DECK, TOP, X0, X1, YO, YV = d["DECK"], d["TOP"], d["X0"], d["X1"], d["YO"], d["YV"]
@@ -29,8 +37,10 @@ def cylinder_head():
     U.bevel_edges(head, 3.0, 4, lambda c, dd: abs(dd.z) > 0.9)                       # cast vertical corners
     U.bevel_edges(head, 2.0, 3, lambda c, dd: abs(dd.x) > 0.9 and abs(c.z - TOP) < 0.3)   # top long edges
     U.bevel_edges(head, 1.2, 2, lambda c, dd: abs(dd.x) > 0.9 and abs(c.z - DECK) < 0.3)  # parting line at the deck
-    # end-face cast bosses (2 per end) - the ends are what you see of the head
+    # end-face cast bosses (2 per end) standing in a shallow recessed panel - the ends are what you see of the head
     for xe, sgn in ((X0, 1), (X1, -1)):
+        U.boolean(head, U.rrect_prism("end_panel", 0, 0, 56.0, 24.0, 4.0, 0.0, 1.2 + 1.0)
+                  if False else _end_panel(xe, sgn, DECK))
         for yb in (-18.0, 24.0):
             boss = U.cylinder("end_boss", 6.0, min(xe - sgn * 0.3, xe + sgn * 1.6), max(xe - sgn * 0.3, xe + sgn * 1.6), yb, DECK + 14.0, "X")
             U.boolean(head, boss, "UNION")
@@ -164,7 +174,12 @@ def flange_plate():
     plate = U.box("34_header_plate", X0 + fp["end_inset"], X1 - fp["end_inset"], YO - fp["t"], YO, DECK + fp["z0"], DECK + fp["z1"])
     U.bevel_edges(plate, 2.0, 3, lambda c, dd: abs(dd.y) > 0.9)
     for xc in P.BANK_A_CYL_X:
-        U.boolean(plate, U.cylinder("fp_pipe", P.EXH_PRIMARY_D / 2 + P.CLEARANCE, YO - fp["t"] - 1, YO + 1, xc, d["PORT_Z"], "Y"))
+        # flange collar round every pipe (2.5 mm proud on the outboard face, which is the print's top face)
+        collar = U.cylinder("fp_collar", P.EXH_PRIMARY_D / 2 + 3.5, YO - fp["t"] - 2.5, YO - fp["t"] + 0.1, xc, d["PORT_Z"], "Y")
+        U.bevel_edges(collar, 1.0, 2, lambda c, dd: abs(dd.y) < 0.1 and abs(c.y - (YO - fp["t"] - 2.5)) < 0.2)
+        U.boolean(plate, collar, "UNION")
+    for xc in P.BANK_A_CYL_X:
+        U.boolean(plate, U.cylinder("fp_pipe", P.EXH_PRIMARY_D / 2 + P.CLEARANCE, YO - fp["t"] - 4, YO + 1, xc, d["PORT_Z"], "Y"))
     for xb in d["BOOT_X"]:
         U.boolean(plate, U.cylinder("fp_boot", P.PLUG_BOOT["shaft_d"] / 2 + P.CLEARANCE, YO - fp["t"] - 1, YO + 1, xb, d["BOOT_Z"], "Y"))
     for xs, zs in plate_screw_xz():

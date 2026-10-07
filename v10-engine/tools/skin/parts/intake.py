@@ -45,9 +45,11 @@ def intake_lid():
         xs = P.BANK_A_CYL_X if bank == "A" else P.BANK_B_CYL_X
         for xc in xs:
             pts = [(xc, sgn * y, z) for y, z in it["ridge"]]
-            # smooth path: pre-point inside the flank so the ridge grows out of the wall
+            # smooth path: pre-point inside the flank so the ridge grows out of the wall; the section swells
+            # from 0.8x at the flank to 1.15x where the runner enters the plenum roof (cast-runner look)
             pts = [(xc, sgn * (it["ridge"][0][0] - 6.0), it["ridge"][0][1] - 4.0)] + pts
-            ridge = U.tube_along("ridge", pts, 0, profile=(it["runner_w"], it["runner_h"], it["runner_r"]), segs=32)
+            path, _ = U.rounded_path(pts, [10.0, 10.0], n=10)
+            ridge = U.loft_along("ridge", path, lambda f: (it["runner_w"] * (0.8 + 0.35 * f), it["runner_h"] * (0.8 + 0.35 * f), it["runner_r"]), up=(1, 0, 0))
             U.boolean(ridge, U.box("ridge_clip", -300, 300, -300, 300, SPLIT + 0.05, ZTOP + 50), "INTERSECT")   # nothing below the split (the base is there)
             U.boolean(lid, ridge, "UNION")
         # molded fuel rail with injector bosses
@@ -70,6 +72,12 @@ def intake_lid():
         rib = U.box("roof_rib", x - it["rib_t"] / 2, x + it["rib_t"] / 2, -100, 100, ZTOP - W - 8.0, ZTOP - W + 0.1)
         U.boolean(rib, envelope("rib_clip", SPLIT, ZTOP, W - 0.1), "INTERSECT")
         U.boolean(lid, rib, "UNION")
+    # plenum crown along the roof centre, between the ridge ends
+    cw = _dim(ZTOP)[0] - 2 * (it["ridge"][-1][0] + it["runner_h"] / 2 + 2.0)
+    cl = (max(P.BANK_B_CYL_X) - min(P.BANK_A_CYL_X)) + it["runner_w"] + 12.0
+    crown = U.loft("crown", [U.rrect_ring((max(P.BANK_B_CYL_X) + min(P.BANK_A_CYL_X)) / 2, 0, cl, cw, 10.0, ZTOP - 0.5),
+                             U.rrect_ring((max(P.BANK_B_CYL_X) + min(P.BANK_A_CYL_X)) / 2, 0, cl - 10.0, cw - 8.0, 7.0, ZTOP + 4.0)])
+    U.boolean(lid, crown, "UNION")
     for x, y in it["magnet_xy"]:
         U.boolean(lid, U.cylinder("lid_pillar", it["pillar_r"], SPLIT, ZTOP - W + 0.1, x, y), "UNION")
         F.cut_magnet(lid, SPLIT, 1, x, y)
@@ -131,13 +139,27 @@ def throttle_body():
     U.bevel_edges(tb, 2.0, 3, lambda c, d: abs(c.z - it["tb_l"]) < 0.3)
     # cast ring and a throttle-shaft boss on the side
     U.boolean(tb, U.cylinder("tb_ring", it["tb_d"] / 2 + 1.5, it["tb_l"] - 9.0, it["tb_l"] - 6.0, 0, 0), "UNION")
+    # square mounting flange at the lid face with four recessed bolts (pockets open towards the bore face)
+    fl = U.rrect_prism("tb_flange", 0, 0, it["tb_d"] + 10.0, it["tb_d"] + 10.0, 5.0, 0.5, 4.0)
+    U.bevel_edges(fl, 1.0, 2, lambda c, d: abs(c.z - 4.0) < 0.2 and abs(d.z) < 0.1)
+    U.boolean(tb, fl, "UNION")
+    hp = (it["tb_d"] + 10.0) / 2 - 4.5
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            U.boolean(tb, U.cylinder("tb_bolt", 2.0, 2.6, 5.0, sx * hp, sy * hp, segs=6))
     U.boolean(tb, U.cylinder("tb_bore", it["tb_bore"] / 2, it["tb_l"] - it["tb_bore_depth"], it["tb_l"] + 1, 0, 0))
+    U.boolean(tb, U.cylinder("tb_bore_chamfer", it["tb_bore"] / 2 + 0.01, it["tb_l"] - 1.5, it["tb_l"] + 0.05, 0, 0, r2=it["tb_bore"] / 2 + 1.6))
     blade = U.box("blade", -it["tb_bore"] / 2 + 0.3, it["tb_bore"] / 2 - 0.3, -1.2, 1.2, -it["tb_bore"] / 2 + 0.3, it["tb_bore"] / 2 - 0.3)
     U.rot(blade, 'X', 90 - it["tb_blade_deg"])
     U.move(blade, 0, 0, it["tb_l"] - it["tb_bore_depth"] / 2)
     U.boolean(blade, U.cylinder("blade_clip", it["tb_bore"] / 2 + 0.5, it["tb_l"] - it["tb_bore_depth"] - 0.5, it["tb_l"] + 1, 0, 0), "INTERSECT")
     U.boolean(tb, blade, "UNION")
-    U.boolean(tb, U.cylinder("tb_shaft", 1.6, -it["tb_d"] / 2 - 1, it["tb_d"] / 2 + 1, 0, it["tb_l"] - it["tb_bore_depth"] / 2, "X"), "UNION")
+    zs = it["tb_l"] - it["tb_bore_depth"] / 2
+    U.boolean(tb, U.cylinder("tb_shaft", 1.6, -it["tb_d"] / 2 - 1, it["tb_d"] / 2 + 3.0, 0, zs, "X"), "UNION")
+    # throttle shaft boss and lever on the +x side
+    U.boolean(tb, U.cylinder("tb_shaft_boss", 4.0, it["tb_d"] / 2 - 2.0, it["tb_d"] / 2 + 2.5, 0, zs, "X"), "UNION")
+    lever = U.box("tb_lever", it["tb_d"] / 2 + 2.5, it["tb_d"] / 2 + 4.0, -2.0, 2.0, zs - 12.0, zs + 2.0)
+    U.boolean(tb, lever, "UNION")
     spig = U.cylinder("tb_spigot", it["tb_spigot_d"] / 2, -(it["tb_spigot_l"] + 2.0), 0.1, 0, 0)
     U.boolean(tb, spig, "UNION")
     # place: local +Z -> TB axis (x forward, tilted up), seat on the lid's front face, trim with the lid envelope

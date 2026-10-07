@@ -58,8 +58,15 @@ def _rounded_polyline(pts, radii, n=12):
 
 def primary():
     g = geometry()
-    path = _rounded_polyline([g["p0"] + g["t1"] * 0.1, g["Q1"], g["Q2"], g["p3"]], [P.EXH_BEND_R, P.EXH_BEND_R2], n=16)
-    pipe = U.tube_along("33_header_primary", [tuple(p) for p in path], P.EXH_PRIMARY_D / 2, smooth=False)
+    path, tangents = U.rounded_path([g["p0"] + g["t1"] * 0.1, g["Q1"], g["Q2"], g["p3"]], [P.EXH_BEND_R, P.EXH_BEND_R2], n=16)
+    pipe = U.tube_along("33_header_primary", path, P.EXH_PRIMARY_D / 2, smooth=False)
+    # weld beads: a 1.6 mm wide ring 0.5 mm proud at every bend tangent (fabricated-header look; 0.5 mm overhang prints)
+    for pt, tdir in tangents:
+        bead = U.cylinder("weld", P.EXH_PRIMARY_D / 2 + 0.5, -0.8, 0.8, 0, 0, segs=96)
+        U.bevel_edges(bead, 0.4, 2, lambda c, dd: abs(dd.z) < 0.1)
+        from mathutils import Matrix
+        U.transform(bead, Matrix.Translation(pt) @ Vector((0, 0, 1)).rotation_difference(Vector(tdir)).to_matrix().to_4x4())
+        U.boolean(pipe, bead, "UNION")
     r_sp, L_sp = P.EXH_SPIGOT_D / 2, P.EXH_SPIGOT_L
     cone_l = (P.EXH_PRIMARY_D - P.EXH_SPIGOT_D) / 2
 
@@ -98,6 +105,10 @@ def collector(bank):
     nose = U.cylinder("nose", r0, x_front - 0.1, x_front + 5.0, yc, zt - r0, "X", r2=r0 - 4.0)
     U.boolean(col, nose, "UNION")
     U.bevel_edges(col, 2.0, 3, lambda c, d: abs(c.x - x_rear) < 0.3)
+    # rolled tail lip (slip-joint look); the tail is the bed face of the standing print, so the lip is its base
+    lip = U.cylinder("tail_lip", r1 + 1.2, x_rear, x_rear + 4.0, yc, zt - r1, "X")
+    U.bevel_edges(lip, 1.0, 2, lambda c, d: abs(d.x) < 0.1)
+    U.boolean(col, lip, "UNION")
     U.boolean(col, U.cylinder("tail_bore", r1 - P.EXH_TAIL_WALL, x_rear - 1, x_rear + 30.0, yc, zt - r1, "X"))
     sad = P.EXH_COLLECTOR_SADDLE
     cone_l = (P.EXH_PRIMARY_D - P.EXH_SPIGOT_D) / 2

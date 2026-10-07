@@ -179,6 +179,18 @@ def bellhousing():
         y, z = b["bolt_r"] * math.cos(a), b["bolt_r"] * math.sin(a)
         if z > b["z_bot"] + 6:
             U.boolean(bell, U.cylinder("bell_bolt", 2.2, x0 - 1, x0 + 1.5, y, z, "X"))
+    # cast detail on the outer skin (faces outward / up when the bell prints rear face down):
+    # a rib band at mid depth and six bosses with recessed hex pockets in the rear face
+    band = _bell_outline("bell_band", -1.5, x0 + 9.0, x0 + 12.5)
+    U.boolean(band, _bell_outline("bell_band_in", 0.01, x0 + 8.0, x0 + 14.0))
+    U.bevel_edges(band, 0.8, 2, lambda c, dd: abs(dd.x) < 0.1)
+    U.boolean(bell, band, "UNION")
+    for i in range(6):
+        a = math.radians(30.0 + 24.0 * i)
+        y, z = (b["r_top"] - 1.0) * math.cos(a), (b["r_top"] - 1.0) * math.sin(a)
+        boss = U.cylinder("bell_boss", 4.0, x0 + 0.5, x1 - 3.0, y, z, "X")
+        U.boolean(bell, boss, "UNION")
+        U.boolean(bell, U.cylinder("bell_boss_hex", 2.2, x0 - 1, x0 + 2.0, y, z, "X", segs=6))
     outer = _bell_outline("bell_outer", 0.0, x0, x1)
     for y, z in P.COVER_MAGNETS:
         y = -y

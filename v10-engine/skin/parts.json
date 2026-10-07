@@ -257,7 +257,7 @@
      0.9909924268722534,
      0.0,
      -0.133917897939682,
-     11.955209732055664
+     12.112457275390625
     ],
     [
      0.0,
@@ -292,7 +292,7 @@
      0.9909924268722534,
      0.0,
      -0.133917897939682,
-     11.955209732055664
+     12.112457275390625
     ],
     [
      0.0,
@@ -333,7 +333,7 @@
      0.0,
      -4.371138828673793e-08,
      1.0,
-     -104.75
+     -105.0
     ],
     [
      0.0,
@@ -368,13 +368,13 @@
      0.0,
      4.371138828673793e-08,
      1.0,
-     -104.75
+     -105.0
     ],
     [
      0.0,
      1.0,
      -4.371138828673793e-08,
-     38.000003814697266
+     40.500003814697266
     ],
     [
      0.0,
@@ -397,13 +397,13 @@
      -4.371138828673793e-08,
      0.0,
      -1.0,
-     -64.92835235595703
+     -65.00001525878906
     ],
     [
      0.0,
      1.0,
      0.0,
-     103.99999237060547
+     104.0
     ],
     [
      1.0,
@@ -432,13 +432,13 @@
      -4.371138828673793e-08,
      0.0,
      -1.0,
-     -64.93054962158203
+     -65.00001525878906
     ],
     [
      0.0,
      1.0,
      0.0,
-     -103.99999237060547
+     -104.0
     ],
     [
      1.0,
@@ -479,7 +479,7 @@
      0.0,
      8.742277657347586e-08,
      -1.0,
-     157.58946228027344
+     158.72789001464844
     ],
     [
      0.0,
@@ -642,7 +642,7 @@
      -4.371138828673793e-08,
      0.0,
      -1.0,
-     -24.0000057220459
+     -23.71983528137207
     ],
     [
      0.0,
@@ -774,7 +774,7 @@
    "file": "45B_alternator_body",
    "key": "alt_body",
    "qty": 1,
-   "slot": "slot2",
+   "slot": "slot1",
    "note": "rear (slotted) face down, spigot up",
    "lib_name": "45B_alternator_body",
    "M": [
@@ -7352,20 +7352,20 @@
  "finalize": {
   "case": "01_crankcase: genus 0 tris 8798 vol 585308",
   "bank": "03_cylinder_bank: genus 15 tris 15240 vol 335521",
-  "head": "30_cylinder_head: genus 6 tris 33022 vol 499437",
+  "head": "30_cylinder_head: genus 6 tris 33046 vol 497538",
   "valve_cover": "31_valve_cover: genus 1 tris 11094 vol 70857",
   "oil_cap": "31B_oil_cap: genus 0 tris 2332 vol 4044",
   "boot": "32_plug_boot: genus 0 tris 2556 vol 1790",
-  "plate": "34_header_plate: genus 10 tris 6244 vol 19223",
-  "intake_lid": "36_intake_lid: genus 1 tris 33434 vol 197313",
+  "plate": "34_header_plate: genus 10 tris 10372 vol 21583",
+  "intake_lid": "36_intake_lid: genus 1 tris 27400 vol 240110",
   "intake_base": "36B_intake_base: genus 7 tris 17236 vol 128182",
-  "throttle": "36C_throttle_body: genus 4 tris 4356 vol 39218",
-  "primary": "33_header_primary: genus 0 tris 6036 vol 39176",
-  "collector_A": "35_collector_A: genus 0 tris 15328 vol 160007",
-  "collector_B": "35_collector_B: genus 0 tris 15332 vol 165449",
+  "throttle": "36C_throttle_body: genus 2 tris 5872 vol 43033",
+  "primary": "33_header_primary: genus 0 tris 10930 vol 39359",
+  "collector_A": "35_collector_A: genus 0 tris 16080 vol 160743",
+  "collector_B": "35_collector_B: genus 0 tris 16092 vol 166184",
   "pan": "40_oil_pan: genus 19 tris 21822 vol 422788",
   "panel": "41_pan_floor_panel: genus 20 tris 10828 vol 71627",
-  "bellhousing": "42_bellhousing: genus 0 tris 10970 vol 65134",
+  "bellhousing": "42_bellhousing: genus 0 tris 15908 vol 69941",
   "front_cover": "43_front_cover: genus 1 tris 16300 vol 72616",
   "damper": "44_damper: genus 1 tris 8506 vol 51932",
   "accessory": "45_accessory_module: genus 9 tris 17782 vol 55390",

@@ -518,3 +518,47 @@ def text_mesh(name, text, size, depth, col="COL_skin"):
     obj = bpy.data.objects[name]
     cleanup(obj)
     return obj
+
+
+def rounded_path(pts, radii, n=12):
+    """3D line-arc-line path through corner points with the given corner radii (one per inner corner).
+    Returns (points, tangent_points): the sampled path and the arc start/end points of every corner."""
+    pts = [Vector(p) for p in pts]
+    out = [pts[0]]
+    tangents = []
+    for i in range(1, len(pts) - 1):
+        Pp, Q, R = pts[i - 1], pts[i], pts[i + 1]
+        t1, t2 = (Q - Pp).normalized(), (R - Q).normalized()
+        beta = math.acos(max(-1.0, min(1.0, t1.dot(t2))))
+        if beta < 1e-6:
+            out.append(Q)
+            continue
+        r = radii[i - 1]
+        tl = r * math.tan(beta / 2)
+        A, B = Q - t1 * tl, Q + t2 * tl
+        centre = Q + (t2 - t1).normalized() * (r / math.cos(beta / 2))
+        va, vb = A - centre, B - centre
+        axis = va.cross(vb).normalized()
+        out.append(A)
+        for k in range(1, n):
+            out.append(centre + (Matrix.Rotation(beta * k / n, 3, axis) @ va))
+        out.append(B)
+        tangents += [(A, t1), (B, t2)]
+    out.append(pts[-1])
+    return [tuple(p) for p in out], tangents
+
+
+def loft_along(name, points, profile_fn, up=(1, 0, 0), segs_per_corner=8, col="COL_skin"):
+    """Rounded-rectangle loft along a 3D path: profile_fn(f) -> (w, h, r) for f in 0..1 along the path.
+    The profile's width runs along `up` x tangent ... i.e. w across the fixed `up` axis, h across the path normal."""
+    P = [Vector(p) for p in points]
+    rings = []
+    upv = Vector(up)
+    for i, p in enumerate(P):
+        t = (P[min(i + 1, len(P) - 1)] - P[max(i - 1, 0)]).normalized()
+        e1 = (upv - upv.dot(t) * t).normalized()          # width axis
+        e2 = t.cross(e1).normalized()                      # height axis
+        w, h, r = profile_fn(i / (len(P) - 1))
+        ring = rrect_ring(0, 0, w, h, r, 0, segs_per_corner=segs_per_corner)
+        rings.append([tuple(p + e1 * u + e2 * v) for u, v, _ in ring])
+    return loft(name, rings, col)

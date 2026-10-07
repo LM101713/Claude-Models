@@ -1,8 +1,45 @@
-# V8 - status for your approval (front cover, stand, full engine)
+# V8 - status for your approval (Blender skin, first full-engine render set)
 
-**Stopped for your approval.** Nothing printed except what you print from
-`dist/coupon_batch_C1.zip`. Nothing is production-ready: no physical part
-of this engine exists yet.
+**Stopped for your approval of the look.** Nothing printed except what you print from
+`dist/coupon_batch_C1.zip`. Nothing is production-ready: no physical part of this engine exists yet.
+Firmware, plates and BOM are NOT regenerated from the Blender output yet (your instruction: not until the
+look is approved); the part-list comparison in `docs/SKIN_CHECK_REPORT.md` shows what will change.
+
+## Blender skin (this round)
+
+- **Environment**: Blender available here as the `bpy` 5.0.1 Python module on Python 3.11.15 (no Blender
+  binary; `pip install bpy` worked). Headless Cycles on 4 CPU cores. Every render in `renders/skin_round*/` was
+  made here and looked at; nothing is faked. Windows one-command run line and setup: `tools/skin/README.md`.
+- **CAD skin frozen** at commit `c58948a` (local tag `cad-skin-v1`; the proxy refuses tag pushes). Nothing deleted.
+- **What is built in Blender**: every visible part - 01 crankcase, 03 cylinder bank, 30/30B heads, 31 valve
+  cover, 31B oil cap, 32 boot, 33/33B primaries, 34/34B flange plates, 35/35B collectors, 36/36B/36C intake,
+  40 pan, 41 floor panel, 42 bellhousing, 43 front cover, 44 damper, 45 accessory module, **45B alternator body
+  (new part)**, 46 stand plate, 47/47B brackets, 48 plinth, 49 edition plate (reference model of the bought plate).
+  All from `skin/params.json`; mounting features cut in Blender at the parameter positions (128 segments).
+- **What stays in CAD and why** (my recommendation on your "build everything in Blender" message): crank, rods,
+  pistons, rails, end plates, valley beam, bearing seats, bushings, drive, electronics. Porting them would be
+  days of work for nothing visible, and every bearing seat and bushing bore would need its coupon result
+  re-earned. Where to stop: here. The crankcase and banks are rebuilt because their skirt, windows and deck are
+  visible; their bores, pockets and inserts are measured on the STLs. Decision D55.
+- **Checks on the exported STLs** (`docs/SKIN_PRINT_REPORT.md`): 28 parts, all watertight and manifold after
+  export; 260 fit features measured within 0.02 mm, 0 failing; every part fits the 300 x 320 x 320
+  design limit; overhang and thin-wall findings listed per part with diagnostic renders in
+  `renders/skin_print_check/`.
+- **Mesh interference + full rotation** (`docs/SKIN_CHECK_REPORT.md`): Blender skin meshes against the CAD core
+  positioned by the CAD kinematics, exact mesh booleans: 0 interferences, 0 collisions at 15-degree steps,
+  matching the CAD result (0 / 0). Two disagreements were found and resolved on the way: the Blender head had
+  raised port rings inside the flange plate (removed) and the lid's ridges ran below the split into the base
+  (clipped) - both Blender-side errors, now fixed.
+- **Print-driven differences from the frozen CAD skin** (D57, D58): alternator rear body is a separate part
+  45B; pan floor ledge gets long-side fillets; head port counterbore gets +0.2 clearance (CAD was line-to-line);
+  36B intake base and 45 accessory module need supports on hidden undersides either way.
+- **Coupons**: unchanged and still valid (same `fits.py` numbers everywhere; bearing seats are CAD parts).
+
+## Renders to look at
+
+`renders/skin_round1/` (first full set), `renders/skin_round2/` and `renders/skin_round3/` (after the
+critique-and-fix rounds); each `*_vs_ref.png` is the render beside its reference. The ranked critique of every
+round is in `docs/VISUAL_REVIEW.md`, including where a sculptor should take over.
 
 ## What is modelled and checked (every part)
 

@@ -132,6 +132,57 @@ Still open from the print check, for your decision:
 * **primaries**: "low bed adhesion" (14 mm footprint) - the 5 mm brim is
   already in the settings.
 
+## Blender skin - round 1 (`renders/skin_round1/`, first full-engine set)
+
+Everything visible is now built by `tools/skin_blender.py` (see `tools/skin/README.md`); the CAD core
+meshes (crank, rods, pistons, end plates, drive) are imported from `skin/core/`. Same eight angles as the
+reference set; every `*_vs_ref.png` is the render beside its reference at full size.
+
+What I see, ranked by how much it hurts the match to STYLE_ai_01-05:
+
+1. **Lighting, not geometry, is the biggest gap.** The references are a bright soft studio on a light grey
+   sweep; round 1 is a dim grey room (key too weak, exposure 0, world 0.35). Everything reads darker and flatter
+   than it is. Fix for round 2: key x1.6, top light added, world 0.6, AgX exposure +0.4.
+2. **Headers read as plumbing.** The S-curve itself is right, but each pipe is a bare tube: no flange collar
+   at the head, no weld seam at the bends, one flat strip for a flange plate. The references' headers are
+   fabricated: a thick flange per port, a visible weld bead at every tube junction. Fix: raised collars on the
+   flange plate round each pipe hole, a 1.6 mm weld bead ring at both bend tangent points of every primary.
+3. **The windowed block reads as a black void** from the rear and front quarter (ref2, ref3). The windows are
+   your option (c) and stay, but the moving parts behind them are rendered dark steel, so the openings are
+   just holes. Fix: pistons and rods get the satin finish in the renders (they are hidden-slot prints in the
+   BOM; the colour is only the preview) so the windows show machinery, not darkness.
+4. **Intake lid: eight sausages on a slab.** The ridges are constant-section tubes lying on a flat roof; the
+   references' runners swell as they enter the plenum and the plenum has a crown. Fix: tapered ridges (profile
+   grows 0.8 -> 1.15 along the path) and a raised rounded crown along the roof centre. Honest note: this is
+   where a sculptor would do visibly better than a parametric script - see "Where a person should take over".
+5. **Bellhousing is a blank shell.** Reference ref2 shows a ribbed cast bell with bolt bosses round its rim.
+   Fix: 8 radial ribs on the outer face, bosses with recessed hex pockets round the rim (all on faces that
+   point up when the bell prints rear face down).
+6. **Throttle body is a plain can.** Fix: square mounting flange with four recessed bolts at the lid face,
+   throttle shaft boss with a short lever, bore chamfer.
+7. **Alternator body is a black drum.** In every reference the alternator is a silver finned body with a black
+   pulley. Fix: 45B moves to palette slot 1 (satin), and gets 12 cooling slots on both faces.
+8. **Head end faces are flat grey plates** between cover and headers (ref1, ref2). Fix: a shallow recessed
+   panel on each end face with the two bosses standing in it.
+9. **Close-up framing** (ref1, x2, x3) was aimed at the engine's centre and cut the intake off. Fix: named
+   camera targets per view (bank A top, intake, valve cover A).
+10. Collector tails end as a plain cut tube: a rolled lip ring at the tail would read as a slip joint. Low
+    priority, done in round 2 because it is cheap.
+
+What is already right and stays: valve cover rim with hex sockets and recessed panel (reads as a stamped cover,
+closest part to the reference), oil cap, boot glow, pan ribs, stand with four brackets, damper and belt band
+proportions, overall silhouette and bank angle, intake height (lower and wider as you asked).
+
+## Where a person should take over (honest)
+
+The script builds exact cylinders, lofts, bevels and booleans. It cannot do what the references' AI images
+imply a sculptor did: organic casting transitions (runner into plenum, bell into rim), subtly varying wall
+drafts, and the "cast texture" surface. Best placeholders are in place (tapered lofts, bevelled ribs). If you
+want the intake lid and the bellhousing to match the references, a sculptor should take the exported
+`skin/36_intake_lid.stl` and `skin/42_bellhousing.stl` as the exact-fit base (keep every pocket, pillar and
+the split plane untouched) and sculpt the visible outer surfaces only. Everything else is within reach of the
+parametric approach.
+
 ## What still looks off (honest list)
 
 1. **Headers** are smooth printed tubes: no weld beads, no slip joints, no
