@@ -293,3 +293,50 @@ plate) - the hole cutters now go through the pads and the pad corner is
 relieved around the plug boot, which sits inside a square flange's
 footprint; crankcase +106 mm2 and heads +178 mm2 of sub-47 deg faces from
 the horizontal hex heads and bosses (3 mm long, print without support).
+
+## Skin round 3 - full set with the round-2 fixes (`renders/skin_round3/`)
+
+Exposure is back to a studio level (0.55) and the materials now read as
+satin aluminium, matte black and painted steel instead of chalk. The
+valve-cover bolt ears, the oil-cap cross, the runner ridges running into a
+spine, the head end pads, the bell ribs and flange band, and the flange pads
+and weld beads are all present in the renders. Honest ranking of what still
+separates these from STYLE_ai_01..05, worst first:
+
+1. **The lower third is a slab.** Pan, brackets, stand plate and plinth read
+   as one dark block (ref3, ref4). The reference pan is a cast sump with a
+   deep bowl, ribs and a bolt rail; ours is a box. The stand brackets are
+   flat plates. This is the single biggest "3D-printed toy" tell.
+2. **Intake runners are still bumps, not runners.** The ridges are 13 mm
+   radius humps sitting on a flat lid (ref1, x2). The reference runners are
+   tall, full-length tubes that sweep from the plenum down to the heads and
+   hide the lid's flat top entirely. The spine helps but does not fix this.
+3. **Front cover is a plate with grooves** (ref3, ref5). The reference front
+   is a cast cover with a water-pump snout, bosses and a ribbed belt over
+   three pulleys. Our belt is a smooth band, the pulleys are plain discs.
+4. **Headers are short and straight.** Primaries drop vertically into a
+   plain tube collector. The reference primaries are long equal-length sweeps
+   that cross each other before the collector. Scaling the arc radius and
+   length up would do more for the look than any surface detail.
+5. **Aluminium is too light and too even.** The block, heads and intake are
+   a flat light grey with no cast texture, no darkening in the pockets and
+   no colour difference between machined faces and cast faces.
+6. **Nothing is bolted to anything.** Apart from the valve-cover ears and
+   the head end pads there are no visible fasteners on the block, pan, front
+   cover or intake flange. The reference has a bolt every 40 mm.
+7. **Missing kit that the eye expects:** fuel rail along each bank, plug
+   wires out of the boots, dipstick, water pump, a belt with ribs.
+8. **Valve cover is low.** It reads as a lid rather than a cast cover with
+   wall height; the reference cover is roughly twice as tall relative to the
+   head.
+9. **Controls plinth** is a black block with four holes (ref3 lower left);
+   it needs to read as part of the stand (same chamfers, a recessed panel).
+10. **Collector outlets** end in a flat cut; a flared tip or a slip joint
+    would finish them.
+
+This is the full-engine set Liam asked to see before approving the look.
+Items 1 to 4 are shape changes, not surface detail, and are the ones to
+decide on; 5 to 10 are a round of detail on top.
+
+Fasteners and parts this round did not change; see
+`docs/ASSEMBLY_SIMPLIFICATION.md` for the plan to cut them.
