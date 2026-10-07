@@ -56,6 +56,46 @@ exist; the collectors sit close under the sump (12 mm) - the stand brackets
 will have to pass between them and the pan, which is the next design
 constraint.
 
+## Round 4 - front cover, damper, accessories, stand (`renders/v8_round4/`)
+
+Found and fixed for round 5:
+* the accessory module's full back plate (a hull-shaped sheet behind the
+  pulleys) read as a flat shield over the front cover -> slim plate: a disc
+  behind each pulley plus two 14 mm arms, pump snout, alternator body;
+* renders showed the stand, brackets, plinth, damper and accessories in grey
+  -> render colours corrected to the approved palette (matte black);
+* the static check caught: module plate on the cover's cast rim (1213 mm3),
+  cover bottom above the belt at the lowest motor position (220 mm belt),
+  intake ridges intruding into the lid cavity where the base's tongue sits,
+  throttle-body socket tilted the wrong way, stand bracket tabs inside the
+  pan's 45 deg under-cut and ribs, bank B head mirrored but not shifted by
+  the 6.5 mm bank offset. All fixed; static, drive and sweep re-run clear.
+
+## Round 5 - current state (`renders/v8_round5/`)
+
+Full engine on its stand, every part modelled: both banks, S-curve headers
+into tapered collectors, lit boots on both banks, crisp valve covers,
+two-piece hollow intake with pressed-in throttle body, rail-and-sump pan,
+bellhousing, front cover with turning damper, black accessory drive (pump,
+alternator, idler, belt band), stand plate on 4 brackets, controls plinth,
+edition plate. Checks: static CLEAR, drive CLEAR (both belts, both slot
+ends), 15 deg sweep against all fixed parts CLEAR, firmware step table
+cross-checked against the CAD TDCs PASS. Hero render:
+`renders/v8_round5/x5_hero_front_left.png`.
+
+What the round-5 renders still show as off (honest):
+* the front cover is a flat grey slab with a rim; real timing covers are
+  sculpted with a water-pump housing - the pump here is a snout and pulley
+  only (the housing fell to a print-geometry conflict; cheap to add back as
+  a separate boss if you want it);
+* the belt band is a flat loop; it reads as a belt from 1 m, not from 20 cm;
+* the alternator is a plain black can with slots; no fan, no terminals;
+* the block skirt between the heads and the pan rail is still a flat wall;
+* headers are smooth tubes; the collector tails are plain open pipes;
+* the intake ridges are soft humps; the real casting has sharper runner
+  ridges and a flange line - the two-piece split line is hidden under them;
+* colours in the renders are flat approximations of the palette.
+
 ## What still looks off (honest list)
 
 1. **Headers** are smooth printed tubes: no weld beads, no slip joints, no

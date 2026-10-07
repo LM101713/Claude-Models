@@ -77,6 +77,8 @@ def pan():
                       z - P["rib_h"] / 2, z + P["rib_h"] / 2)
             # 45 deg on the rib's top outer edge: no overhang when the pan prints skin-down
             rib = cq.Workplane().add(rib).edges(">Z").edges(">Y" if sgn > 0 else "<Y").chamfer(P["rib_out"] * 0.7).val()
+            for xb in C.STAND["bracket_x"]:                      # ribs stop either side of the stand brackets
+                rib = rib.cut(box(xb - C.STAND["bracket_w"] / 2 - 3.0, xb + C.STAND["bracket_w"] / 2 + 3.0, Y0 - 10, Y1 + 10, ZB - 1, ZT + 1))
             body = body.fuse(rib)
     # interior: rail section + sump, open floor (panel), top skin stays
     body = body.cut(_rbox(IX0, IX1, Y0 + W, Y1 - W, ZSTEP + W, ZS, max(1.0, P["r"] - W)))
@@ -103,6 +105,14 @@ def pan():
     hs = C.HALL_LEAD_SLOT
     hx = C.HALL_X + hs["dx"]
     body = body.cut(box(hx - hs["l"] / 2, hx + hs["l"] / 2, -hs["w"] / 2, hs["w"] / 2, ZS - 1, ZT + 1))
+    # stand bracket bosses with horizontal inserts inside the sump walls
+    try:
+        import stand_v8
+        for boss, hole in stand_v8.pan_bracket_bosses():
+            body = body.fuse(boss.intersect(box(IX0, IX1, IY0 - 1, IY1 + 1, ZF, ZSTEP)))
+            body = body.cut(hole)
+    except ImportError:
+        pass
     # harness hole in the rear wall (inside the bellhousing)
     h = C.HARNESS_HOLE
     body = body.cut(cyl_x(h["d"] / 2, X0 - 1, IX0 + 1, h["y"], h["z"]))
@@ -250,12 +260,17 @@ def drive_check():
     """Motor / belt / pulleys against pan, panel, crankcase, board; motor at
     both slot ends and with the 220 mm belt."""
     import assembly_v8 as A
-    parts = dict((n, s) for n, s, _ in A.engine(0.0) + A.drive_and_base())
+    parts = dict((n, s) for n, s, _ in A.engine(0.0) + A.drive_and_base() + A.styling_parts())
     pairs = [("pan", "motor"), ("pan", "belt"), ("pan", "pulley_20T"), ("pan", "pulley_60T"), ("pan", "crankcase"),
              ("pan", "end_plate_front"), ("pan", "end_plate_rear"), ("pan_panel", "motor"), ("pan_panel", "elec_board"),
              ("pan", "elec_board"), ("motor", "elec_board"), ("crankcase", "motor"), ("belt", "pulley_60T"),
              ("belt", "pulley_20T"), ("bellhousing", "end_plate_rear"), ("bellhousing", "pan"),
-             ("bellhousing", "main_shaft_rear"), ("bellhousing", "crankcase")]
+             ("bellhousing", "main_shaft_rear"), ("bellhousing", "crankcase"),
+             ("front_cover", "pulley_60T"), ("front_cover", "belt"), ("front_cover", "pulley_20T"),
+             ("front_cover", "end_plate_front"), ("front_cover", "pan"), ("front_cover", "main_shaft_front"),
+             ("front_cover", "damper"), ("front_cover", "accessory"), ("accessory", "damper"),
+             ("damper", "pulley_60T"), ("accessory", "head_A"), ("accessory", "valve_cover_A"), ("accessory", "intake_base"),
+             ("accessory", "intake_lid")]
     bad = []
     for a, b in pairs:
         v = parts[a].intersect(parts[b]).Volume()

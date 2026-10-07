@@ -31,6 +31,16 @@ def libs():
             _LIBS["base"] = pan_v8.build_all()
         except ImportError:
             _LIBS["base"] = {}
+        try:
+            import front_v8
+            _LIBS["front"] = front_v8.build_all()
+        except ImportError:
+            _LIBS["front"] = {}
+        try:
+            import stand_v8
+            _LIBS["stand"] = stand_v8.build_all()
+        except ImportError:
+            _LIBS["stand"] = {}
         b = C.BEARING_608
         _LIBS["b608"] = cyl_x(b["od"] / 2, 0, b["w"]).cut(cyl_x(b["id"] / 2, -1, b["w"] + 1))
     return _LIBS
@@ -46,10 +56,17 @@ def drive_and_base(with_base=True, with_covers=True):
     """Hidden drive (motor, belt, pulleys at the REAR inside the bellhousing),
     oil pan = motor + electronics bay, stand. Built by pan_v8 when it exists."""
     L = libs()
-    if not L["base"]:
-        return []
-    import pan_v8
-    return pan_v8.placed(L["base"], with_base=with_base, with_covers=with_covers)
+    out = []
+    if L["base"]:
+        import pan_v8
+        out += pan_v8.placed(L["base"], with_base=with_base, with_covers=with_covers)
+    if L["front"] and with_covers:
+        import front_v8
+        out += front_v8.placed(L["front"])
+    if L["stand"] and with_base:
+        import stand_v8
+        out += stand_v8.placed(L["stand"])
+    return out
 
 
 def styling_parts(covers=True):
@@ -86,7 +103,7 @@ def engine(phi=0.0, with_blocks=True, with_rails=True):
 MOVING = ("crankpin", "segment", "end_web", "main_shaft", "rod_", "piston_")
 STATIC = ("crankcase", "valley_beam", "bank_", "end_plate", "rail_", "head_", "valve_cover", "boot_",
           "header", "collector", "intake", "throttle", "fuel_rail", "pan", "stand", "bracket", "front_cover",
-          "damper", "pulley", "belt", "motor", "bellhousing", "alternator")
+          "damper", "pulley", "belt", "motor", "bellhousing", "alternator", "accessory", "plinth", "edition")
 STATIC_ALL = STATIC + ("elec_", "spacer")
 
 
@@ -110,7 +127,8 @@ def _same_joint(n1, n2):
 # press fits: the crush ribs are meant to overlap the part slightly
 PRESS_FIT_PAIRS = {("head", "rail"): 1.0, ("rail", "valley"): 1.0, ("boot", "head"): 6.0,
                    ("head", "header"): 4.0, ("collector", "header"): 4.0,
-                   ("bearing608", "end"): 5.0}
+                   ("bearing608", "end"): 5.0, ("intake", "throttle"): 4.0,
+                   ("damper", "main"): 6.0}
 
 
 def static_check():

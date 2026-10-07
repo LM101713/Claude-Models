@@ -52,20 +52,40 @@ static void testFiringOrder() {
   CHECK(peaks[0].second == 1 && peaks[0].first == 0, "cylinder 1 must fire at the start of the cycle");
 }
 
-// 2. LED map: three LEDs per cylinder, bank A = 1-5, bank B = 6-10, centre LED in the middle
+// 2. LED map: three head LEDs per cylinder (rear, centre, front), each strip holds one
+//    bank's cylinders in rear-to-front order; a chained boot strip (pos 3) may follow,
+//    with unused pixels marked 255 and cylinder 0.
 static void testLedMap() {
   int count[geo::N_CYL + 1] = {0};
+  int boots[geo::N_CYL + 1] = {0};
+  const int half = geo::N_CYL / 2;
   for (int k = 0; k < geo::LEDS_PER_STRIP; k++) {
-    CHECK(geo::LED_CYL_A[k] >= 1 && geo::LED_CYL_A[k] <= 5, "strip A LED %d -> cylinder %d", k, geo::LED_CYL_A[k]);
-    CHECK(geo::LED_CYL_B[k] >= 6 && geo::LED_CYL_B[k] <= 10, "strip B LED %d -> cylinder %d", k, geo::LED_CYL_B[k]);
-    count[geo::LED_CYL_A[k]]++;
-    count[geo::LED_CYL_B[k]]++;
-    CHECK(geo::LED_POS_A[k] == k % 3 && geo::LED_POS_B[k] == k % 3, "LED %d group position", k);
+    const uint8_t pa = geo::LED_POS_A[k], pb = geo::LED_POS_B[k];
+    if (k < geo::HEAD_LEDS) {
+      CHECK(geo::LED_CYL_A[k] >= 1 && geo::LED_CYL_A[k] <= geo::N_CYL, "strip A LED %d -> cylinder %d", k, geo::LED_CYL_A[k]);
+      CHECK(geo::LED_CYL_B[k] >= 1 && geo::LED_CYL_B[k] <= geo::N_CYL, "strip B LED %d -> cylinder %d", k, geo::LED_CYL_B[k]);
+      CHECK(pa == k % geo::LEDS_PER_CYL && pb == k % geo::LEDS_PER_CYL, "LED %d group position", k);
+      count[geo::LED_CYL_A[k]]++;
+      count[geo::LED_CYL_B[k]]++;
+    } else {
+      CHECK((pa == 3 && geo::LED_CYL_A[k] >= 1) || (pa == 255 && geo::LED_CYL_A[k] == 0), "boot pixel A %d", k);
+      CHECK((pb == 3 && geo::LED_CYL_B[k] >= 1) || (pb == 255 && geo::LED_CYL_B[k] == 0), "boot pixel B %d", k);
+      if (pa == 3) boots[geo::LED_CYL_A[k]]++;
+      if (pb == 3) boots[geo::LED_CYL_B[k]]++;
+    }
   }
   for (int c = 1; c <= geo::N_CYL; c++) CHECK(count[c] == geo::LEDS_PER_CYL, "cylinder %d has %d LEDs", c, count[c]);
-  // data enters at the rear: rear-most cylinders first
-  CHECK(geo::LED_CYL_A[0] == 5 && geo::LED_CYL_A[geo::LEDS_PER_STRIP - 1] == 1, "strip A order");
-  CHECK(geo::LED_CYL_B[0] == 10 && geo::LED_CYL_B[geo::LEDS_PER_STRIP - 1] == 6, "strip B order");
+  if (geo::LEDS_PER_STRIP > geo::HEAD_LEDS)
+    for (int c = 1; c <= geo::N_CYL; c++) CHECK(boots[c] == 1, "cylinder %d has %d boot LEDs", c, boots[c]);
+  // the two strips hold disjoint banks, half the cylinders each
+  int onA[geo::N_CYL + 1] = {0};
+  for (int k = 0; k < geo::HEAD_LEDS; k++) onA[geo::LED_CYL_A[k]] = 1;
+  int nA = 0;
+  for (int c = 1; c <= geo::N_CYL; c++) nA += onA[c];
+  CHECK(nA == half, "strip A holds %d cylinders", nA);
+  for (int k = 0; k < geo::HEAD_LEDS; k++) CHECK(!onA[geo::LED_CYL_B[k]], "cylinder %d on both strips", geo::LED_CYL_B[k]);
+  // data enters at the rear: the first head LED belongs to a rear cylinder, the last to a front one
+  CHECK(geo::LED_CYL_A[0] != geo::LED_CYL_A[geo::HEAD_LEDS - 1], "strip A order");
 }
 
 // 3. flash envelope: 0..1, starts at 0, peaks early, fades to exactly 0

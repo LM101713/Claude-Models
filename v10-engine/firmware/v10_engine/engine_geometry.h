@@ -9,20 +9,21 @@ constexpr uint32_t MICROSTEPS = 16;
 constexpr uint32_t DRIVE_RATIO = 3;              // 60T / 20T GT2
 constexpr uint32_t STEPS_PER_REV = 9600;          // motor microsteps per crank revolution
 constexpr uint32_t STEPS_PER_CYCLE = 19200;       // one 720 deg 4-stroke cycle
-constexpr int N_CYL = 10;
-constexpr int FIRING_ORDER[N_CYL] = {1, 6, 5, 10, 2, 7, 3, 8, 4, 9};
+constexpr int N_CYL = 8;
+constexpr int FIRING_ORDER[N_CYL] = {1, 8, 7, 3, 6, 5, 4, 2};
 // step (within the 720 deg cycle, counted from cylinder 1 firing TDC) at which
 // each cylinder fires; index 0 = cylinder 1
-constexpr uint32_t FIRE_STEP[N_CYL] = {0, 7680, 11520, 15360, 3840, 1920, 9600, 13440, 17280, 5760};
+constexpr uint32_t FIRE_STEP[N_CYL] = {0, 16800, 7200, 14400, 12000, 9600, 4800, 2400};
 
-constexpr int LEDS_PER_STRIP = 15;
+constexpr int LEDS_PER_STRIP = 23;        // head strip (12) + chained boot strip (11)
 constexpr int LEDS_PER_CYL = 3;
+constexpr int HEAD_LEDS = 12;
 // strip LED k (k = 0 at the rear, data-in end): cylinder number and position
-// in its group (0 = rear LED, 1 = centre of the bore, 2 = front LED)
-constexpr uint8_t LED_CYL_A[LEDS_PER_STRIP] = {5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1};
-constexpr uint8_t LED_POS_A[LEDS_PER_STRIP] = {0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2};
-constexpr uint8_t LED_CYL_B[LEDS_PER_STRIP] = {10, 10, 10, 9, 9, 9, 8, 8, 8, 7, 7, 7, 6, 6, 6};
-constexpr uint8_t LED_POS_B[LEDS_PER_STRIP] = {0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2};
+// in its group (0 = rear LED, 1 = centre of the bore, 2 = front LED, 3 = plug boot, 255 = unused)
+constexpr uint8_t LED_CYL_A[LEDS_PER_STRIP] = {8, 8, 8, 6, 6, 6, 4, 4, 4, 2, 2, 2, 0, 8, 0, 0, 6, 0, 0, 4, 0, 0, 2};
+constexpr uint8_t LED_POS_A[LEDS_PER_STRIP] = {0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 255, 3, 255, 255, 3, 255, 255, 3, 255, 255, 3};
+constexpr uint8_t LED_CYL_B[LEDS_PER_STRIP] = {7, 7, 7, 5, 5, 5, 3, 3, 3, 1, 1, 1, 0, 7, 0, 0, 5, 0, 0, 3, 0, 0, 1};
+constexpr uint8_t LED_POS_B[LEDS_PER_STRIP] = {0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 255, 3, 255, 255, 3, 255, 255, 3, 255, 255, 3};
 
 constexpr float RPM_MIN = 20.0f;
 constexpr float RPM_MAX = 120.0f;
@@ -34,8 +35,8 @@ constexpr uint32_t AUTO_SLEEP_MIN = 15;
 constexpr uint16_t MOTOR_RUN_MA = 600;
 constexpr float MOTOR_HOLD_FRACTION = 0.35f;
 // the hall magnet passes the sensor this many steps after cylinder 1 firing TDC
-// (crank angle 216.0 deg: magnet in the rear end web)
-constexpr uint32_t HALL_PHASE_STEPS = 5760;
+// (crank angle 90.0 deg: magnet in the rear end web)
+constexpr uint32_t HALL_PHASE_STEPS = 2400;
 constexpr uint32_t HALL_MIN_WIDTH = 53;      // steps
 constexpr uint32_t HALL_MAX_WIDTH = 2400;
 constexpr int32_t SYNC_CORRECT_STEPS = 80;

@@ -120,8 +120,9 @@ inline Rgb flashColour(float level, float brightness) {
 // level for one LED of a cylinder: the bore-centre LED leads, the two side
 // LEDs follow a few degrees later and slightly weaker (the flame spreads)
 inline float ledLevel(uint32_t cyclePhase, int cyl, uint8_t posInGroup) {
+  if (posInGroup == 255 || cyl < 1) return 0.0f;             // unused pixel of a chained strip
   uint32_t since = cycleAhead(geo::FIRE_STEP[cyl - 1], cyclePhase);
-  if (posInGroup == 1) return flashLevel(since);
+  if (posInGroup == 1 || posInGroup == 3) return flashLevel(since);   // chamber centre and plug boot: at TDC
   const uint32_t lag = geo::STEPS_PER_REV / 90;              // 4 crank degrees
   if (since < lag) return 0.0f;
   return 0.8f * flashLevel(since - lag);

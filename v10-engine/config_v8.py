@@ -211,7 +211,7 @@ CAM_END_GAP = 9.0              # cams stop short of the head ends (loom turns th
 # 10 mm wide, IP30. CYL_PITCH = 3 LED pitches, so a 15-LED piece puts 3 LEDs
 # over every bore. It lies LEDs-down in a groove in the head's deck face and
 # lights the combustion chamber directly. Lead wires leave at the rear end.
-LED_STRIP = dict(pitch=1000.0 / 60.0, n=15, w=10.0, t=2.1)
+LED_STRIP = dict(pitch=1000.0 / 60.0, n=12, w=10.0, t=2.1)   # V8: 3 LEDs per bore x 4 bores per bank
 LED_GROOVE = dict(w=11.0, d=2.6,       # strip groove in the head deck face (LED face 0.5 mm above the deck)
                   end_wall=1.6)        # closed 1.6 mm short of both end faces: clean ends, no light leak
 LED_WIRE_GROOVE = dict(w=4.4, d=3.8)   # lead pocket at each groove end, across the strip and on to the
@@ -388,31 +388,48 @@ EXH_TAIL_MARGIN = 8.0           # collector tail ends this far inside the stand 
 EXH_FLANGE_PLATE = dict(t=4.0, z0=0.5, z1=33.0, end_inset=6.0)   # one flange bar per bank over the ports
 PLUG_BOOT = dict(d=10.0, l=14.0, shaft_d=9.0, shaft_l=8.0, dx=15.0, z=8.0)  # boot per cylinder, below and
                                 # ahead of its port, lit by a strip in the outboard face behind the flange plate
-BOOT_STRIP = dict(w=11.0, d=2.6, n=11)     # strip groove in the outboard face under the flange plate
+BOOT_STRIP = dict(w=11.0, d=2.6, n=11, first_boot_led=1)   # strip groove in the outboard face under the flange plate;
+                                # the strip is chained after the head strip on the same data line; LED
+                                # first_boot_led (from the rear) sits under the rear boot, then every 3rd LED
 VC = dict(x_inset=8.0, y0=-31.0, y1=17.0, h=29.0, wall=3.0, r=4.0, chamfer=1.5, rim_h=5.0, rim_t=2.5,
           boss_d=6.0, boss_h=2.0, bolt_d=3.6, bolt_pitch=28.0, panel_inset=5.0, panel_depth=0.8,
           cap_d=27.0, cap_h=7.0, cap_x=-40.0, cap_y=-14.0)   # valve cover: crisp 1.5 mm edge, 5 mm bolt rim
 VC_MAGNET_Y = -7.0              # cover magnets: 4 along this line in the head top
-INTAKE = dict(                  # ENGINE frame, provisional - a low, wide single-plane plenum (STYLE_ai_04/05)
-    sections=[(100.0, 84.0, 170.0), (112.0, 112.0, 180.0), (152.0, 156.0, 188.0)],   # (z, width y, length x)
-    r=18.0, top_fillet=10.0,
-    runner_w=22.0, runner_h=16.0, runner_r=5.0, port_depth=3.0, port_z=20.0,
-    stub_len=30.0,                                   # runner stub from the head pocket into the plenum body
-    ridge=[(56.0, 122.0), (80.0, 140.0), (50.0, 150.0)], ridge_r=13.0,   # cosmetic runner ridge (|y|, z):
-                                                     # out of the flank, over the top edge, onto the top
-    tb_d=44.0, tb_l=34.0, tb_z=132.0, tb_tilt=10.0, tb_bore=38.0,
-    rail_d=8.0, rail_y=70.0, rail_z=114.0, inj_d=9.0)
+INTAKE = dict(                  # ENGINE frame - low, wide single-plane plenum (STYLE_ai_04/05), two printed pieces
+    sections=[(100.0, 84.0, 170.0), (112.0, 112.0, 180.0), (152.0, 156.0, 188.0)],   # outer envelope (z, width y, length x)
+    r=18.0, top_fillet=10.0, wall=3.0, split_z=118.0,                                 # lid above split_z, base below
+    tongue_w=1.5, tongue_h=3.0,                                                       # base tongue inside the lid wall
+    magnet_xy=[(70.0, 34.0), (70.0, -34.0), (-70.0, 34.0), (-70.0, -34.0)], pillar_r=4.8,   # 4 x 6x3 lid magnets
+    rib_pitch=40.0, rib_t=3.0,                                                        # roof stiffening ribs inside the lid
+    runner_w=22.0, runner_h=16.0, runner_r=5.0, port_depth=3.0, port_z=20.0,         # stubs into the head pockets
+    ridge=[(56.0, 122.0), (80.0, 140.0), (50.0, 150.0)], ridge_r=13.0,               # cosmetic runner ridge (|y|, z)
+    rail_z=127.0, rail_r=4.0, rail_out=2.0, inj_r=4.5, inj_l=7.0,                    # fuel rail molded as a rib on the flank
+    tb_d=44.0, tb_l=34.0, tb_z=132.0, tb_tilt=10.0, tb_bore=38.0, tb_bore_depth=12.0, tb_blade_deg=70.0,
+    tb_spigot_d=14.0, tb_spigot_l=9.0)                                                # throttle body: separate, pressed in
 PAN = dict(w=160.0, z_step=-60.0, w_sump=128.0, z_bot=-102.0, wall=3.5, skin=4.0, floor=6.0, ledge=11.0,
            rabbet_overlap=6.0, panel_t=3.0, r=8.0, flange_h=6.0, flange_out=3.0,
            rib_z=(-70.0, -80.0, -90.0), rib_out=3.0, rib_h=4.0, bottom_chamfer=6.0, panel_screw_inset=3.0)
-           # oil pan = motor + electronics bay: full-width rail section down to z_step, narrower sump below   # oil pan = motor + electronics bay; x = the end plates' outer faces
+           # oil pan = motor + electronics bay: full-width rail section down to z_step, narrower sump below
 PAN_SCREWS = [(sx * 94.0, sy * 40.0) for sx in (-1, 1) for sy in (-1, 1)]   # M3x8 up through the pan skin into
 BASE_INSERTS = PAN_SCREWS                                                   # crankcase floor inserts (hidden)
 BELL = dict(depth=22.0, r_top=44.0, half_w_bot=60.0, z_bot=-92.0, wall=3.0, hub_r=22.0, hub_h=4.0,
             bolt_r=36.0, n_bolts=8)   # cosmetic bellhousing on the rear end plate (3 magnets, same pattern as the V10 cover)
 HARNESS_HOLE = dict(y=28.0, z=-46.0, d=12.0)   # LED harness enters the pan through its rear wall, inside the bell
-STAND = dict(l=300.0, w=240.0, t=12.0)   # display stand plate footprint (x, y) and thickness - the whole
-                                # engine incl. bellhousing, damper and collector tails stays inside l
+FRONT_COVER = dict(wall=3.0, outline=[(-86.0, 46.0), (-32.0, 50.0), (18.0, 52.0), (56.0, 26.0)],   # (z, half width)
+                   r=10.0, rim=2.0, shaft_clear=1.5, bolt_r=2.0, n_bolts=8,
+                   module_magnets=[(16.0, 44.0), (-16.0, 44.0), (36.0, 24.0)])   # (y, z) magnets for the accessory module (inside pump / idler discs)
+DAMPER = dict(d=72.0, t=13.0, gap=1.2, hub_h=1.0, hub_d=24.0, groove_r=30.0, groove_w=1.6, groove_d=1.0, n_holes=6, hole_r=2.0)
+ACCESSORY = dict(plate_t=2.5, pulley_t=12.0, pulley_x0=6.0, band_w=6.0, band_t=2.0, band_x0=9.0, band_gap=1.2,
+                 pulleys=[("pump", 0.0, 62.0, 24.0), ("alt", -70.0, 70.0, 12.0), ("idler", 46.0, 26.0, 11.0)],   # (name, y, z, r)
+                 alt_body=dict(r=24.0, x0=108.0, x1=148.0), pump_snout_r=16.0, idler_boss_r=6.0,
+                 plate_margin=5.0, arm_w=14.0, arms=[("pump", "alt"), ("pump", "idler")])
+STAND = dict(l=300.0, w=240.0, t=12.0, x_offset=9.0, z_top=-132.0, chamfer=3.0,     # display stand plate: footprint,
+             cutout=(190.0, 90.0), feet_d=20.0, feet_inset=18.0,                       # thickness, centre shifted +x so the
+             bracket_x=(-70.0, 70.0), bracket_tab_z=-90.0, bracket_tab_h=24.0, bracket_t=6.0, bracket_w=30.0,   # bell and the damper both stay
+             foot_y=100.0, channel_w=10.0, channel_d=6.0)                               # inside the plate (300 x 240)
+PLINTH = dict(x0=122.0, depth=37.0, y=(-115.0, -5.0), h=30.0, wall=3.0, face_t=2.5,   # controls box on the front-right
+              controls=[("dc_jack", -100.0), ("power", -78.0), ("speed", -46.0), ("start", -22.0)],   # (name, y) on its front face
+              controls_z=15.0, tie_slots=((-60.0, 8.0),))
 HEADER_SCREW_X_INSET = 8.0      # flange-plate screws from the plate ends (M3x8 into head inserts)
 
 # ===========================================================================
@@ -532,6 +549,10 @@ MOTOR_FACE_X = MOTOR_PLATE_X1 - MOTOR_PLATE_T      # motor mounting face
 BASE_BOTTOM_Z = BASE_TOP_Z - BASE_H
 COVER_X0 = END_PLATE_OUTER_X
 COVER_X1 = max(PULLEY_HUB_X + PULLEY_MAX_W, SHAFT_END_X) + 1.5 + COVER_WALL
+# V8: the FRONT main shaft (M02F) is longer - it carries the harmonic damper outside the front cover
+DAMPER_X0 = COVER_X1 + DAMPER["gap"]
+SHAFT_END_X_FRONT = DAMPER_X0 + DAMPER["t"] - 1.0
+SHAFT_JOURNAL_L_FRONT = SHAFT_END_X_FRONT - (FLANGE_OUTER_X + SHAFT_SHOULDER_L)
 
 
 def hole(nominal, fit=None):

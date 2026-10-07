@@ -37,6 +37,89 @@ drive.py: cover = cover.cut(crush_x(C.MAGNET["d"], x0 - 0.5, x0 + C.MAGNET["h"] 
 drive.py: flanges = cyl_x(fl, p["hub_len"], p["hub_len"] + 1.0).fuse(cyl_x(fl, p["width"] - 1.0, p["width"]))
 drive.py: inner = cq.Workplane("YZ").workplane(offset=x0 - 1).polyline(ring(-0.29)).close().extrude(C.BELT_W + 2).val()
 drive.py: zb = C.BASE_TOP_Z - 1.0
+exterior_v8.py: PLATE_SCREW_Z = DECK + FP["z1"] - 5.0
+exterior_v8.py: ang = math.degrees(math.acos(max(-1.0, min(1.0, a.dot(b)))))
+exterior_v8.py: assert r_tail < k * r1 - 0.3, "tail bore would break through the inboard flat"
+exterior_v8.py: base = cq.Vector(it["sections"][-1][2] / 2 - 6.0, 0, it["tb_z"])
+exterior_v8.py: beta = math.acos(max(-1.0, min(1.0, t1.dot(t2))))
+exterior_v8.py: blade = box(-1.0, 1.0, -it["tb_bore"] / 2, it["tb_bore"] / 2, -1.5, 1.5)
+exterior_v8.py: bolt = cyl_z(vc["bolt_d"] / 2, zb - 0.5, zb + 1.6, x, yb)
+exterior_v8.py: cap = cyl_z(vc["cap_d"] / 2, z1 - pd - 0.5, z1 + vc["cap_h"], cx, cy)
+exterior_v8.py: cb = cyl_z(C.EXH_PRIMARY_D / 2 + C.CLEARANCE, -0.3, r1 + 2.0)
+exterior_v8.py: cover = cover.cut(crush_z(C.MAGNET["d"], z0 - 0.5, z0 + C.MAGNET["h"] + C.MAGNET_DEPTH_CLEAR, xc, C.VC_MAGNET_Y,
+exterior_v8.py: cq.Vector(0, 0, -0.3), cq.Vector(0, 0, -1))
+exterior_v8.py: cx, cy = (X1 - 40.0 if vc["cap_x"] < 0 else X0 + 40.0), vc["cap_y"]
+exterior_v8.py: for yb in (y0 - rt / 2 + 0.3, y1 + rt / 2 - 0.3):
+exterior_v8.py: for yb in (ym - 10.0, ym + 10.0):
+exterior_v8.py: groove = box(-0.6, 0.6, vc["cap_d"] / 2 - 0.7, vc["cap_d"] / 2 + 1, z1 + 1.0, z1 + vc["cap_h"] - 1.6)
+exterior_v8.py: head = head.cut(cq.Solid.makeCylinder(C.EXH_PORT_D / 2, C.EXH_PORT_DEPTH + 1.0, cq.Vector(xc, YO - 1.0, PORT_Z),
+exterior_v8.py: head = head.cut(cq.Solid.makeCylinder(INS_D / 2, C.INSERT_DEPTH + 1.0, cq.Vector(xs, YO - 1.0, PLATE_SCREW_Z),
+exterior_v8.py: head = head.cut(cyl_z(C.HEAD_VALVE_R, DECK - 1, DECK + 0.4, xc, yv))
+exterior_v8.py: heads += [(x0 - rt / 2 + 0.3, yb), (x1 + rt / 2 - 0.3, yb)]
+exterior_v8.py: n = int((x1 - x0 - 16.0) // vc["bolt_pitch"])
+exterior_v8.py: nose = cq.Solid.makeCone(r0, r0 - 4.0, 5.0, cq.Vector(x_front, yc, zt - r0), cq.Vector(1, 0, 0))
+exterior_v8.py: pe = block.to_bank(cq.Vertex.makeVertex(xl, YV - it["port_depth"] + 0.5, DECK + it["port_z"]), bank)
+exterior_v8.py: plate = plate.cut(_ybore(C.hole(C.M3_CBORE) / 2, xs, PLATE_SCREW_Z, FP["t"] - C.SCREW_FLOOR + 1.0 + 1.0,
+exterior_v8.py: rail = cyl_x(it["rail_d"] / 2, min(xs) - 12.0, max(xs) + 12.0, sgn * it["rail_y"], it["rail_z"])
+exterior_v8.py: return cq.Solid.makeCylinder(r, depth + 2.0, cq.Vector(x, YO - depth - 1.0, z), cq.Vector(0, 1, 0))
+exterior_v8.py: return cq.Solid.makeCylinder(r, depth, cq.Vector(x, YO - FP["t"] - 1.0, z), cq.Vector(0, 1, 0))
+exterior_v8.py: return math.degrees(math.acos(max(-1.0, min(1.0, a.dot(b)))))
+exterior_v8.py: rim = _rrect_prism(xm, ym, x1 - x0 + 2 * rt, y1 - y0 + 2 * rt, vc["r"] + rt, z0 + 1.0, z0 + 1.0 + rh)
+exterior_v8.py: seat = cq.Solid.makeCone(C.EXH_PRIMARY_D / 2 + C.CLEARANCE, C.EXH_SPIGOT_D / 2 + C.CLEARANCE, cone_l + 0.3,
+exterior_v8.py: sock = crush_z(C.EXH_SPIGOT_D, 0, C.EXH_SPIGOT_L + C.EXH_PORT_DEPTH + 0.5, 0, 0, "trumpet_14", entry="lo")
+exterior_v8.py: sock = crush_z(pb["shaft_d"], 0, pb["shaft_l"] + bs["d"] + 0.5, 0, 0, "boot_9", entry="lo")
+exterior_v8.py: sp_col = cq.Solid.makeCylinder(C.EXH_SPIGOT_D / 2, C.EXH_SPIGOT_L + cone_l0 + 0.3, (g["p3"] - g["t3"] * 0.3).toTuple(),
+exterior_v8.py: sp_head = cq.Solid.makeCylinder(C.EXH_SPIGOT_D / 2, C.EXH_SPIGOT_L + 0.3, (g["p0"] + g["t1"] * 0.3).toTuple(),
+exterior_v8.py: t1 = (_bank_pt(YO - 10.0, PORT_Z) - p0).normalized()
+exterior_v8.py: tb = tb.cut(cq.Solid.makeCylinder(it["tb_bore"] / 2, 12.0, base + d * (it["tb_l"] - 11.9), d))
+exterior_v8.py: vc["y1"] - vc["y0"] + 2 * C.CLEARANCE, vc["r"] + C.CLEARANCE, TOP - 1.0, TOP + 1)
+exterior_v8.py: xb = [x0 + 8.0 + i * (x1 - x0 - 16.0) / n for i in range(n + 1)]
+exterior_v8.py: z0, z1 = TOP - 1.0, TOP - 1.0 + h
+exterior_v8.py: zb = z0 + 1.0 + rh
+front_v8.py: a = math.radians(i * 360.0 / DM["n_holes"] + 30.0)
+front_v8.py: body = body.cut(box(AC["alt_body"]["x0"] - 1, AC["alt_body"]["x0"] + 2.0, -1.2, 1.2, boss_r * 0.45, boss_r * 0.8)
+front_v8.py: cover = cover.cut(crush_x(C.MAGNET["d"], X0 - 0.5, X0 + C.MAGNET["h"] + C.MAGNET_DEPTH_CLEAR, y, z, "magnet_6", entry="lo"))
+front_v8.py: cover = cover.cut(crush_x(C.MAGNET["d"], X1 - C.MAGNET["h"] - C.MAGNET_DEPTH_CLEAR, X1 + 0.5, y, z, "magnet_6", entry="hi"))
+front_v8.py: d = d.cut(box(x1 - 3.0, x1 + 3, -0.8, 0.8, DM["d"] / 2 - 1.5, DM["d"] / 2 + 1))
+front_v8.py: d = d.cut(cyl_x(DM["hole_r"], x1 - 2.0, x1 + 3, 0.6 * DM["d"] / 2 * math.cos(a), 0.6 * DM["d"] / 2 * math.sin(a)))
+front_v8.py: groove = cyl_x(r + 1, bx0, bx0 + AC["band_w"], y, z).cut(cyl_x(r - 1.0, bx0 - 1, bx0 + AC["band_w"] + 1, y, z))
+front_v8.py: mod = mod.cut(crush_x(C.MAGNET["d"], px0 - 0.5, px0 + C.MAGNET["h"] + C.MAGNET_DEPTH_CLEAR, y, z, "magnet_6", entry="lo"))
+front_v8.py: mod = mod.fuse(cyl_x(C.COVER_PILLAR_R + 0.5, px0, px1 + 2.0, y, z))
+front_v8.py: p = wire.positionAt(i / FC["n_bolts"] + 0.03)
+front_v8.py: plate = plate.cut(cyl_x(DM["d"] / 2 + 3.0, px0 - 1, px1 + 1))
+front_v8.py: px0, px1 = X1 + 0.3, X1 + 0.3 + t
+intake_v8.py: L = (SPLIT + 2.0 - pe.z) / up_in.z
+intake_v8.py: base = base.cut(cyl_z(6.0, Z0 - 1, Z0 + W + 1, -40.0, 0.0))
+intake_v8.py: base = base.cut(envelope(Z0 + W, SPLIT + 1.0, W))
+intake_v8.py: blade = box(-1.2, 1.2, -IT["tb_bore"] / 2 + 0.3, IT["tb_bore"] / 2 - 0.3, -IT["tb_bore"] / 2 + 0.3, IT["tb_bore"] / 2 - 0.3)
+intake_v8.py: boss = cq.Solid.makeCylinder(IT["inj_r"], IT["inj_l"], cq.Vector(xc, yr, IT["rail_z"]), cq.Vector(0, -sgn * 0.5, -0.87))
+intake_v8.py: lid = outer.cut(envelope(SPLIT - 1.0, ZTOP - W, W))
+intake_v8.py: p = p.cut(crush_z(C.MAGNET["d"], z_to - 0.5, z_to + C.MAGNET["h"] + C.MAGNET_DEPTH_CLEAR, x, y, "magnet_6", entry="lo"))
+intake_v8.py: p = p.cut(crush_z(C.MAGNET["d"], z_to - C.MAGNET["h"] - C.MAGNET_DEPTH_CLEAR, z_to + 0.5, x, y, "magnet_6", entry="hi"))
+intake_v8.py: pe = block.to_bank(cq.Vertex.makeVertex(xl, YV - IT["port_depth"] + 0.5, DECK + IT["port_z"]), bank)
+intake_v8.py: rail = cyl_x(IT["rail_r"], min(xs) - 12.0, max(xs) + 12.0, yr, IT["rail_z"])
+intake_v8.py: sock = crush_z(IT["tb_spigot_d"], -(IT["tb_spigot_l"] + 0.5), 2.0, 0, 0, "trumpet_14", entry="hi")
+intake_v8.py: spig = cq.Solid.makeCylinder(IT["tb_spigot_d"] / 2, IT["tb_spigot_l"] + 2.0, (base + axis * 1.9).toTuple(), (axis * -1).toTuple())
+intake_v8.py: tongue = tongue.cut(envelope(SPLIT - 1.0, SPLIT + IT["tongue_h"] + 1.0, W + C.CLEARANCE + IT["tongue_w"]))
+pan_v8.py: a = math.radians(i * 360.0 / b["n_bolts"] + 22.5)
+pan_v8.py: bell = bell.cut(crush_x(C.MAGNET["d"], x1 - C.MAGNET["h"] - C.MAGNET_DEPTH_CLEAR, x1 + 0.5, y, z, "magnet_6", entry="hi"))
+pan_v8.py: board = box(cx - b["w"] / 2, cx + b["w"] / 2, cy - b["h"] / 2, cy + b["h"] / 2, z0, z0 + 1.6)
+pan_v8.py: body = body.cut(cyl_z(C.hole(C.M3_CBORE) / 2, ZS - 1, ZT - 2.5, x, y))
+pan_v8.py: body = body.cut(cyl_z(INS / 2, ZB + P["panel_t"] - 0.5, ZF + 8.0 - 2.0, x, y))
+pan_v8.py: body = body.fuse(cyl_z(4.5, ZF - 0.3, ZF + 8.0, x, y).intersect(box(IX0, IX1, IY0, IY1, ZB, ZS)))
+pan_v8.py: for yc in (-20.0, 20.0):
+pan_v8.py: p = p.cut(box(x - 1.2, x + 1.2, yc - 12, yc + 12, ZB - 1, ZB + P["panel_t"] + 1))
+pan_v8.py: parts = box(cx - b["w"] / 2 + 6, cx + b["w"] / 2 - 6, cy - b["h"] / 2 + 4, cy + b["h"] / 2 - 4, z0 + 1.6, z0 + 1.6 + BOARD_STACK)
+pan_v8.py: return (IX0 + P["ledge"] + 8.0 + b["w"] / 2, 0.0)
+pan_v8.py: sump = _rbox(X0, X1, SY0, SY1, ZB, ZSTEP + 6.0, P["r"])
+partnum.py: for u in (-0.5, -0.25, 0.0, 0.25, 0.5):
+partnum.py: for v in (-0.5, 0.0, 0.5):
+partnum.py: w, h = 0.75 * size * len(label) + 0.6, size + 0.6
+render_v8_bank.py: "ref1_closeup_34_above": ((0.55, -1.0, 0.75), 2.0, "STYLE_ai_01.png"),
+render_v8_bank.py: "ref2_rear_left_34": ((-1.0, -0.9, 0.45), 1.0, "STYLE_ai_02.png"),
+render_v8_bank.py: "ref4_side_left": ((0.0, -1.0, 0.12), 1.0, "STYLE_ai_04.png"),
+render_v8_bank.py: "x1_bankA_low_34": ((0.7, -1.0, 0.35), 1.3, None),
+render_v8_bank.py: "x2_bankA_headers": ((0.2, -1.0, -0.25), 1.4, None),
 rods_pistons.py: body = body.cut(cyl_z(rp + 1.0, top - 0.6, top + 1.0).cut(keep))
 rods_pistons.py: cq.Solid.makeCone(ro, ro - 1.6, 1.6, cq.Vector(0, C.RAIL_OFFSET, C.LUG_TOP - 0.6), cq.Vector(0, 0, 1))))
 rods_pistons.py: for x in (-9.5, 9.5):
@@ -50,6 +133,18 @@ rods_pistons.py: lug = lug.cut(cyl_z(ro + 1.0, C.LUG_TOP - 0.6, C.LUG_TOP + 1.0,
 rods_pistons.py: lug = lug.fuse(box(-3.0, 3.0, rp - C.PISTON_WALL_T + 0.5, C.RAIL_OFFSET, C.LUG_BOTTOM, C.LUG_TOP))
 rods_pistons.py: ring = cyl_z(rp + 1, zg - 0.4, zg + 0.4).cut(cyl_z(rp - 0.45, zg - 0.5, zg + 0.5))
 rods_pistons.py: z0, z1 = rb + 2.0, L - rs - 1.5
+stand_v8.py: A, B = (yf - 14.0, ZT + t / 2), (y_wall + t / 2, z_tab - 14.0)
+stand_v8.py: for dx in (-30.0, 30.0):
+stand_v8.py: for dx in (-8.0, 8.0):
+stand_v8.py: for text, size, dz in (("358 ci  V8  -  90 DEG  CROSS-PLANE", 5.0, 5.5), (f"{order}      No. {number:02d} / 50", 3.6, -6.0)):
+stand_v8.py: hole = cyl_y(INS / 2, min(yw + sgn * 1, yw - sgn * (C.INSERT_DEPTH + 0.5)), max(yw + sgn * 1, yw - sgn * (C.INSERT_DEPTH + 0.5)),
+stand_v8.py: pl = cq.Plane(origin=(face - 0.12, EDITION_Y, zc + dz), xDir=(0, 1, 0), normal=(1, 0, 0))
+stand_v8.py: pl = cq.Plane(origin=(x1 - 0.5, y, zc - 13.0), xDir=(0, -1, 0), normal=(1, 0, 0))
+stand_v8.py: pl = pl.cut(box(dx - 1.5, dx + 1.5, ya, yb, ZB - 1, ZB + ch_d + 2))
+stand_v8.py: pl = pl.cut(cyl_z(ST["feet_d"] / 2 + 0.5, ZB - 1, ZB + 0.4, x, y).cut(cyl_z(ST["feet_d"] / 2 - 0.3, ZB - 2, ZB + 1, x, y)))
+stand_v8.py: rec = (cq.Workplane("YZ", origin=(X1 - e["depth"], EDITION_Y, zc)).placeSketch(sk).extrude(e["depth"] + 0.5, taper=-45).val())
+stand_v8.py: ya, yb = sorted((yw + sgn * (t - C.SCREW_FLOOR + 1.5), yw + sgn * (t + 6)))
+stand_v8.py: yf, y_wall, z_tab = ST["foot_y"], SY1 + 0.2, ST["bracket_tab_z"]
 styling.py: (rb - 3.0, H), (rb - 5.5, H - 2.5), (t["bore"] / 2 + 3.0, H - 6.0), (t["bore"] / 2, zb),
 styling.py: (t["bore"] / 2, 2.0), (ro - 2.5, 0.0), (ro - 2.5, -spl)]
 styling.py: (t["top_od"] / 2 + 1.0, zb + 4.0), (rb - 2.5, zb + 8.0), (rb - 0.6, H - 1.2), (rb, H - 0.4), (rb - 0.4, H),
@@ -79,3 +174,19 @@ styling.py: xa = CYL_X[-1] - C.WINDOW_HALF_W - 4.0
 styling.py: xb = CYL_X[0] + C.WINDOW_HALF_W + 4.0
 styling.py: zb = C.BASE_TOP_Z - 1.0
 styling.py: zc = TOP + 0.5
+v8_mockup.py: "ref1_closeup_34_above": ((0.55, -1.0, 0.75), (0, 0, 1)),
+v8_mockup.py: "ref2_rear_left_34": ((-1.0, -0.9, 0.45), (0, 0, 1)),
+v8_mockup.py: "ref4_side_left": ((0.0, -1.0, 0.12), (0, 0, 1)),
+v8_mockup.py: PAN_L, PAN_W, PAN_D = BLOCK_L - 10.0, inch(11.5), inch(7.5)
+v8_mockup.py: cap = cyl(OIL_CAP_D / 2, OIL_CAP_H, (VC_L / 2 - inch(4.0), -VC_W / 2 + inch(1.4), DECK_H + HEAD_H + VC_H - 0.5), (0, 0, 1))
+v8_mockup.py: col_y = sign * (PAN_W / 2 + 34.0)
+v8_mockup.py: col_z = -CASE_R - 18.0
+v8_mockup.py: f = box(x - 14, x + 14, min(yo, yo + sign * 4.0) - 0.5, max(yo, yo + sign * 4.0) + 0.5,
+v8_mockup.py: p3 = (x - 14 + (i - 1.5) * 4, col_y + sign * 2, col_z + COLLECTOR_D / 2 + 4)
+v8_mockup.py: rib = box(x - 1.5, x + 1.5, s * PAN_W / 2 - (2.5 if s > 0 else -0.5) - (0 if s > 0 else 2.0),
+v8_mockup.py: tail = cyl(COLLECTOR_D / 2, 55.0, (x_c0, col_y, col_z), (-1, 0, -0.15))
+v8_mockup.py: tb = tb.cut(cyl(TB_D / 2 - 3.0, TB_L + 2, (PLENUM_L / 2 - 2, 0, zp0 + PLENUM_H * 0.55),
+v8_mockup.py: x = X_REAR + 24.0 + BORE_PITCH * (i + 0.5)
+v8_mockup.py: x_c0 = X_REAR + 24.0 + BORE_PITCH * 0.5 - 30
+v8_mockup.py: yo = sign * (HEAD_W / 2 + 4.0)
+v8_mockup.py: z_valley = DECK_H * math.cos(math.radians(45)) + 6.0

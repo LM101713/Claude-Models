@@ -234,20 +234,21 @@ def pin_rings():
     return move(ring, x_j1, ya, za), move(ring, -x_j1 - sl, yb, zb)
 
 
-def main_shaft():
+def main_shaft(journal_l=None):
     """Main shaft, local frame: flange face that seats on the end web at x=0,
     spigot into the web at x<0, shaft running to +X. Crankpin access notch
-    at angle 0."""
+    at angle 0. journal_l: override the journal length (V8 front shaft)."""
+    journal_l = C.SHAFT_JOURNAL_L if journal_l is None else journal_l
     x = 0.0
     part = cyl_x(C.SHAFT_SPIGOT_D / 2, -C.SHAFT_SPIGOT_L, 0.01)
     part = part.fuse(cyl_x(C.SHAFT_FLANGE_D / 2, 0.0, C.SHAFT_FLANGE_T))
     x = C.SHAFT_FLANGE_T
     part = part.fuse(cyl_x(C.SHAFT_SHOULDER_D / 2, x - 0.01, x + C.SHAFT_SHOULDER_L))
     x += C.SHAFT_SHOULDER_L
-    part = part.fuse(cyl_x(C.SHAFT_D / 2, x - 0.01, x + C.SHAFT_JOURNAL_L))
+    part = part.fuse(cyl_x(C.SHAFT_D / 2, x - 0.01, x + journal_l))
     # flat for pulley grub screws on the outboard part, at angle 0
     x_flat0 = x + C.BEARING_608["w"] + 1.0
-    flat = box(x_flat0, x + C.SHAFT_JOURNAL_L + 1, -5, 5, C.SHAFT_D / 2 - C.SHAFT_FLAT_DEPTH, 10)
+    flat = box(x_flat0, x + journal_l + 1, -5, 5, C.SHAFT_D / 2 - C.SHAFT_FLAT_DEPTH, 10)
     part = part.cut(flat)
     for a in C.SHAFT_FLANGE_BOLT_ANGLES:
         y, z = polar(C.SHAFT_FLANGE_PCD / 2, a)
@@ -279,7 +280,7 @@ def placed_parts(parts, phi=0.0):
     # front end web + shaft
     ew = rot_x(parts["end"], C.THROW_PIN_A[0] + phi)
     out.append(("end_web_front", move(ew, C.WEB_FACE_X)))
-    sh = rot_x(parts["shaft"], C.THROW_PIN_A[0] + phi)
+    sh = rot_x(parts.get("shaft_front", parts["shaft"]), C.THROW_PIN_A[0] + phi)
     out.append(("main_shaft_front", move(sh, C.END_WEB_OUTER_X)))
     # rear: mirror by 180 deg about Z (angle psi -> -psi), then set the angle
     ew_r = rot_x(rot_z(parts["end"], 180), C.THROW_PIN_B[-1] + phi)
@@ -299,6 +300,7 @@ def build_all():
         "rings": pin_rings(),
         "ring": spacer_ring(),
         "shaft": main_shaft(),
+        **({"shaft_front": main_shaft(C.SHAFT_JOURNAL_L_FRONT)} if hasattr(C, "SHAFT_JOURNAL_L_FRONT") else {}),
     }
 
 

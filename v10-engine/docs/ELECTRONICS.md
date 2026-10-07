@@ -25,6 +25,27 @@ how the flames look. That is what the first-unit bring-up (section 8) and the
 
 ---
 
+## 0. V8 differences (read this first for the stock-car V8)
+
+The electronics are the V10's. What changes for the V8:
+
+* **LEDs per bank are one chained run on one data pin**: the head strip
+  (12 LEDs, 3 over every bore, in the deck groove) and then the plug-boot
+  strip (11 LEDs in the outboard-face groove under the flange plate; LEDs 1,
+  4, 7, 10 from the rear sit under the four boots, the other 7 stay dark).
+  Join head strip DOUT to boot strip DIN with a 60 mm 3-wire lead down the
+  rear end of the head. `engine_geometry.h` is generated with
+  `LEDS_PER_STRIP = 23`, `HEAD_LEDS = 12`; pixel map pos 3 = boot, 255 = dark.
+* Strip lengths: cut 2 x 12 and 2 x 11 LEDs (0.8 m of 60/m strip per engine).
+* **Firing order** comes from `FIRING_ORDER` in `config_v8.py` (1-8-7-3-6-5-4-2);
+  `tools/check_firmware.py` proves each cylinder's LED fires at its CAD TDC.
+* **Controls** (jack, rocker, pot, start) sit in the stand's front-right
+  plinth, not in the base: 4 leads run in the underside channel of the stand
+  plate into the pan (`docs/V8_STAND_CONTROLS.md`). The board sits on the pan's
+  floor panel, components up; the hall sensor stays in the crankcase floor
+  pocket with its leads straight down into the pan.
+* Power budget: 24 head LEDs + 8 boot LEDs = 32 lit pixels (V10: 30), same cap.
+
 ## 1. Controller choice: ESP32, not an Arduino Nano
 
 **Correction:** an earlier message in this project said an Arduino Nano would be

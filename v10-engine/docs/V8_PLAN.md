@@ -10,12 +10,13 @@ rendered from the same angles as the five reference images.
 * Moving core rebuilt and verified (6 deg full-rotation sweep clear) - commit
   `503802e`.
 * Bank A approved as the direction (`docs/V8_BANK_A_REVIEW.md`).
-* Critique rounds 1-3 (`docs/VISUAL_REVIEW.md`, `renders/v8_round1..3/`):
-  S-curve headers, tapered collector, crisp valve cover, lower/wider intake
-  (provisional), both banks, oil pan = motor + electronics bay, bellhousing.
-  **Waiting for approval** before the front cover, damper, stand, edition
-  plate and the real (hollow, two-piece) intake.
-* Decisions from your answers and mine: `docs/DECISIONS.md` D26-D42.
+* Critique rounds 1-5 (`docs/VISUAL_REVIEW.md`, `renders/v8_round1..5/`):
+  every part of the engine and stand is modelled and checked. **Waiting for
+  approval** of the front cover, stand and the full engine before the
+  motion-test prints and the plates for engine #1 are released.
+* Decisions from your answers and mine: `docs/DECISIONS.md` D26-D51.
+* Print-now package for the coupons (incl. the T9 boot and T10 header flex
+  test): `dist/coupon_batch_C1.zip`.
 
 ## 0. The reference images
 

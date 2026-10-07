@@ -54,7 +54,8 @@ SETTINGS = [
     ("T1", "PLA", 0.20, 2, 10, 3, 2, 0),        # coupons: PLA first, re-run T3-T6 in ASA before production
     ("T2", "PLA", 0.20, 2, 10, 3, 2, 0),
     ("T4d", "PLA", 0.20, 3, 10, 3, 2, 3),       # tall thin bar: 3 mm brim
-    ("T9b", "PLA", 0.16, 2, 0, 3, 2, 3),        # translucent boot: 2 walls, no infill (glow), brim (10 mm footprint)
+    ("T9b", "PLA", 0.20, 2, 0, 3, 2, 3),        # translucent boot: 2 walls, no infill (glow), brim (10 mm footprint)
+    ("T10", "PLA", 0.20, 4, 15, 5, 4, 5),       # header flex-test primary: production walls/infill in PLA, 5 mm brim (tall, 14 mm base)
     ("T", "PLA", 0.20, 3, 10, 3, 2, 0),         # crush-rib coupons keep 3 walls like the real parts
     ("01_", "ASA", L["case"], 4, 25, 5, 4, 0),       # crankcase: carries the crank and the engine weight
     ("02_", "ASA", L["beam"], 4, 25, 5, 4, 0),       # valley beam: carries the banks' valley side + rails
@@ -81,6 +82,38 @@ SETTINGS = [
     ("P2_", "PETG", 0.16, 4, 100, 5, 5, 0),
     ("", "ASA", 0.20, 4, 25, 5, 4, 0),
 ]
+if C.VARIANT == "v8":
+    SETTINGS = [
+        ("T1", "PLA", 0.20, 2, 10, 3, 2, 0), ("T2", "PLA", 0.20, 2, 10, 3, 2, 0),
+        ("T4d", "PLA", 0.20, 3, 10, 3, 2, 3),
+        ("T9b", "PLA", 0.20, 2, 0, 3, 2, 3),            # translucent boot: 2 walls, no infill (glow), brim
+        ("T10", "PLA", 0.20, 4, 15, 5, 4, 5),           # header flex-test primary, 5 mm brim
+        ("T", "PLA", 0.20, 3, 10, 3, 2, 0),
+        ("01_", "ASA", L["case"], 4, 25, 5, 4, 0), ("02_", "ASA", L["beam"], 4, 25, 5, 4, 0),
+        ("03_", "ASA", L["bank"], 4, 25, 5, 4, 0), ("04_", "ASA", L["plate"], 4, 25, 5, 4, 0),
+        ("05_", "ASA", L["crank"], 5, 40, 6, 5, 0), ("06_", "ASA", L["crank"], 5, 40, 6, 5, 0),
+        ("07_", "ASA", L["crank"], 5, 40, 6, 5, 0), ("08_", "ASA", L["crank"], 5, 40, 6, 5, 0),
+        ("09_", "ASA", L["rod"], 4, 40, 6, 5, 0),       # con-rod
+        ("10_", "ASA", L["piston"], 4, 25, 6, 5, 0),    # piston
+        ("30", "ASA", L["head"], 4, 25, 5, 4, 0),       # heads (A and mirror B)
+        ("31_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),  # valve cover
+        ("32_", "PETG", 0.16, 2, 0, 3, 2, 3),           # translucent boots (5th filament), brim
+        ("33", "ASA", L["exhaust"], 4, 15, 5, 4, 5),    # primaries: production walls, standing, 5 mm brim
+        ("34", "ASA", L["cosmetic"], 3, 20, 5, 4, 0),   # flange plates
+        ("35", "ASA", L["exhaust"], 3, 10, 5, 4, 0),    # collectors
+        ("36", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),   # intake lid / base / throttle body
+        ("40_", "ASA", L["base"], 4, 20, 5, 4, 0),      # pan: carries the engine on the brackets
+        ("41_", "ASA", L["panel"], 3, 15, 4, 3, 0),     # floor panel
+        ("42_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),  # bellhousing
+        ("43_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),  # front cover
+        ("44_", "ASA", L["cosmetic"], 4, 25, 5, 4, 0),  # damper (turns on the shaft)
+        ("45_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),  # accessory module
+        ("46_", "ASA", L["base"], 4, 15, 5, 4, 0),      # stand plate
+        ("47", "ASA", L["base"], 4, 40, 5, 4, 0),       # brackets: carry the engine
+        ("48_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),  # plinth
+        ("P1_", "PETG", 0.12, 4, 100, 5, 5, 3), ("P2", "PETG", 0.16, 4, 100, 5, 5, 0),
+    ]
+
 
 OVERHANG_NZ = -0.74      # normals pointing down more than ~42 deg from vertical walls
 BRIDGE_NZ = -0.985       # essentially flat ceilings

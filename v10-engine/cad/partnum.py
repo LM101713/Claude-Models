@@ -11,6 +11,8 @@ boss. If no spot is found the part is exported unlabelled and reported.
 
 import cadquery as cq
 
+from common import C
+
 DEPTH = 0.5
 FACES = {        # name: (outward normal, text x direction)
     "+z": ((0, 0, 1), (1, 0, 0)), "-z": ((0, 0, -1), (1, 0, 0)),   # not used: bed face
@@ -119,9 +121,42 @@ def engrave(shape, label, faces, sizes, scan, grid=3.0):
     return shape, None
 
 
+SPEC_V8 = {
+    "01_": ("01", ("+x", "-x"), (5.0, 3.5), 1.0),       # crankcase: end face (under an end plate)
+    "02_": ("02", ("+z",), (4.0, 3.0, 2.2), 4.0),        # valley beam: bank B land
+    "03_": ("03", ("+z",), (5.0, 3.5, 2.5), 8.0),        # bank: mounting face
+    "04_": ("04", ("+z",), (4.0, 3.0), 8.0),             # end plate: inner face
+    "05_": ("05", ("+z",), (3.5, 2.5), 6.0),             # end web
+    "09_": ("09", ("+z",), (2.2, 1.8), 2.0),             # con-rod: flute floor
+    "10_": ("10", ("+z",), (2.5, 1.8), 20.0),            # piston: crown underside
+    "30_": ("30A", ("+z",), (4.0, 3.0, 2.5), 40.0),      # head A: top, under the valve cover
+    "30B": ("30B", ("+z",), (4.0, 3.0, 2.5), 40.0),      # head B (mirror)
+    "31_": ("31", ("+z",), (4.0, 3.0, 2.2), 18.0),       # valve cover: inside (printed top-down)
+    "33_": ("33A", ("+z",), (2.2, 1.8), 1.0),            # primary: head-spigot end face (inside its socket)
+    "33B": ("33B", ("+z",), (2.2, 1.8), 1.0),
+    "34_": ("34A", ("+x", "-x"), (2.5, 2.0), 1.0),       # flange plate: end face
+    "34B": ("34B", ("+x", "-x"), (2.5, 2.0), 1.0),
+    "35_": ("35A", ("+x", "-x"), (2.5, 2.0), 1.0),       # collector: tail / nose end face
+    "35B": ("35B", ("+x", "-x"), (2.5, 2.0), 1.0),
+    "36_": ("36A", ("+z",), (4.0, 3.0, 2.2), 30.0),      # intake lid: inside the roof (printed upside down)
+    "36B": ("36B", ("+z",), (4.0, 3.0, 2.2), 30.0),      # intake base: floor inside
+    "40_": ("40", ("+z",), (5.0, 3.5), 60.0),            # pan: inside of the skin (printed skin-down)
+    "41_": ("41", ("+z",), (5.0, 3.5), 1.0),             # floor panel: inside face
+    "42_": ("42", ("+z",), (4.0, 3.0, 2.2), 25.0),       # bellhousing: inside the rear face
+    "43_": ("43", ("+z",), (4.0, 3.0, 2.2), 25.0),       # front cover: inside the front wall
+    "46_": ("46", ("+y", "-y"), (5.0, 3.5), 1.0),        # stand plate: cut-out wall
+    "47_": ("47", ("+y", "-y"), (3.0, 2.2), 1.0),        # bracket: a side face (tab side, against the pan)
+    "47B": ("47m", ("+y", "-y"), (3.0, 2.2), 1.0),
+    "48_": ("48", ("+z",), (4.0, 3.0), 20.0),            # plinth: inside the roof (printed upside down)
+}
+# not labelled on purpose (no hidden flat face): 32 boots, 36C throttle body, 44 damper, 45 accessory module
+
+
 def label_part(name, shape):
     """Engrave the part number if `name` has a SPEC entry. Returns (shape, note)."""
-    for prefix, (label, faces, sizes, scan) in SPEC.items():
+    spec = SPEC_V8 if getattr(C, "VARIANT", "v10") == "v8" else SPEC
+    # longest matching prefix wins (30B before 30_)
+    for prefix, (label, faces, sizes, scan) in sorted(spec.items(), key=lambda kv: -len(kv[0])):
         if name.startswith(prefix):
             return engrave(shape, label, faces, sizes, scan)
     return shape, "n/a"

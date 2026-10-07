@@ -37,6 +37,73 @@ R = os.path.join(ROOT, "renders")
 
 
 def parts():
+    if C.VARIANT == "v8":
+        return parts_v8()
+    return parts_v10()
+
+
+def parts_v8():
+    """Stock-car V8 part table: (file name, shape in print orientation, qty per engine, preview colour)."""
+    import exterior_v8 as E
+    import intake_v8 as I
+    import pan_v8 as PV
+    import front_v8 as F
+    import stand_v8 as S
+    L = assembly.libs()
+    cr, mp, bl, st, bs, fr, sd = L["crank"], L["rp"], L["block"], L["style"], L["base"], L["front"], L["stand"]
+    segs = [(f"{6 + i:02d}_crank_segment_{t:.0f}", crank.print_segment(cr["segA" if i == 0 else ("segB" if i == 1 else f"seg{i}")]),
+             sum(1 for d in C.SEGMENT_DELTA if abs(d - t) < 1e-6), "crank") for i, t in enumerate(C.SEGMENT_TYPES)]
+    return [
+        ("01_crankcase", bl["case"], 1, "case"),
+        ("02_valley_beam", block.print_beam(bl["beam"]), 1, "case"),
+        ("03_cylinder_bank", block.print_bank(bl["bank"]), 2, "block"),
+        ("04_end_plate", block.print_plate(bl["plate"]), 2, "case"),
+        ("05_crank_end_web", crank.print_end_web(cr["end"]), 2, "crank"),
+        *segs,
+        ("09_conrod", rp.print_rod(mp["rod"]), C.N_CYL, "rod"),
+        ("10_piston", rp.print_piston(mp["piston"]), C.N_CYL, "piston"),
+        # exterior
+        ("30_cylinder_head_A", E.print_head(st["head"]), 1, "block"),
+        ("30B_cylinder_head_B", E.print_head(st["head"].mirror("XZ")), 1, "block"),
+        ("31_valve_cover", E.print_valve_cover(st["valve_cover"]), 2, "carbon"),
+        ("32_plug_boot", E.print_boot(st["boot"]), C.N_CYL, "white"),
+        ("33_header_primary_A", E.print_primary(st["primary"]), 4, "steel"),
+        ("33B_header_primary_B", E.print_primary(st["primary"].mirror("XZ")), 4, "steel"),
+        ("34_header_plate_A", E.print_plate(st["plate"]), 1, "steel"),
+        ("34B_header_plate_B", E.print_plate(st["plate"].mirror("XZ")), 1, "steel"),
+        ("35_collector_A", E.print_collector(st["collector_A"]), 1, "steel"),
+        ("35B_collector_B", E.print_collector(st["collector_B"]), 1, "steel"),
+        ("36_intake_lid", I.print_lid(st["intake_lid"]), 1, "block"),
+        ("36B_intake_base", I.print_base(st["intake_base"]), 1, "block"),
+        ("36C_throttle_body", I.print_throttle(st["throttle"]), 1, "steel"),
+        # pan, bell, front, stand
+        ("40_oil_pan", PV.print_pan(bs["pan"]), 1, "carbon"),
+        ("41_pan_floor_panel", PV.print_panel(bs["panel"]), 1, "case"),
+        ("42_bellhousing", PV.print_bell(bs["bellhousing"]), 1, "block"),
+        ("43_front_cover", F.print_cover(fr["front_cover"]), 1, "block"),
+        ("44_damper", F.print_damper(fr["damper"]), 1, "carbon"),
+        ("45_accessory_module", F.print_module(fr["accessory"]), 1, "carbon"),
+        ("46_stand_plate", S.print_plate(sd["stand_plate"]), 1, "carbon"),
+        ("47_bracket", S.print_bracket(sd["bracket"]), 2, "carbon"),
+        ("47B_bracket_mirror", S.print_bracket(sd["bracket_m"]), 2, "carbon"),
+        ("48_controls_plinth", S.print_plinth(sd["plinth"]), 1, "carbon"),
+        # test coupons (print FIRST, in PLA; see docs/TEST_CHECKLIST.md)
+        *[(n, shp, q, "white") for n, (shp, q) in coupons.build_all().items()],
+        # printable stand-ins so the mechanism can be tested before the CNC parts arrive
+        ("P1_proto_crankpin", crank.print_pin(cr["pin"]), C.N_THROWS, "orange"),
+        ("P2_proto_main_shaft", crank.print_shaft(cr["shaft"]), 1, "orange"),
+        ("P2F_proto_main_shaft_front", crank.print_shaft(cr["shaft_front"]), 1, "orange"),
+        # machined / cut steel parts (STEP for the machine shop)
+        ("M01_crankpin", cr["pin"], C.N_THROWS, "steel"),
+        ("M02R_main_shaft_rear", cr["shaft"], 1, "steel"),
+        ("M02F_main_shaft_front", cr["shaft_front"], 1, "steel"),
+        ("M03_guide_rail", mp["rail"], C.N_CYL, "steel"),
+        ("M04_pulley_spacer", drive.spacer(), 1, "steel"),
+        ("M06_bearing_spacer_ring", cr["ring"], 2 * C.N_THROWS, "steel"),
+    ]
+
+
+def parts_v10():
     L = assembly.libs()
     cr, mp, bl, st, bs = L["crank"], L["rp"], L["block"], L["style"], L["base"]
     # (file name, shape in print orientation, qty per engine, preview colour)
@@ -99,7 +166,8 @@ def main(check=False, stl_only=False, only=None):
         if note is None:
             print(f"  WARNING {name}: no flat hidden spot found for its part number", flush=True)
         export(shape, name)
-        ok, line = check_printable_size(shape, name)
+        # the stand plate is the one part that uses the single-nozzle bed (325 x 320), not the 300 mm cube
+        ok, line = check_printable_size(shape, name, limit=max(C.PRINTER["bed"]) if name.startswith("46_") else 300.0)
         report.append(f"{line}   x{qty}")
         if not ok:
             raise SystemExit(line)
@@ -114,7 +182,7 @@ def main(check=False, stl_only=False, only=None):
     # assembly previews of the finished engine
     full = [(s, c) for _, s, c in assembly.full(0.0)]
     render.render(full, os.path.join(R, "01_engine_iso.png"), view="iso", size=(1600, 1100),
-                  title="V10 display engine - covers on")
+                  title=f"{C.VARIANT.upper()} display engine - covers on")
     render.render(full, os.path.join(R, "02_engine_front.png"), view="front", size=(1400, 1000),
                   title="front: 90 deg V, belt drive under the front cover")
     render.render(full, os.path.join(R, "03_engine_rear.png"), view=((-1.0, 0.75, 0.45), (0, 0, 1)),

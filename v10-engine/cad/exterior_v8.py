@@ -269,9 +269,15 @@ def primary_pipe():
     pipe = prof.circle(C.EXH_PRIMARY_D / 2).sweep(cq.Workplane().add(path), transition="round").val()
     sp_head = cq.Solid.makeCylinder(C.EXH_SPIGOT_D / 2, C.EXH_SPIGOT_L + 0.3, (g["p0"] + g["t1"] * 0.3).toTuple(),
                                     (g["t1"] * -1).toTuple())
-    sp_col = cq.Solid.makeCylinder(C.EXH_SPIGOT_D / 2, C.EXH_SPIGOT_L + 0.3, (g["p3"] - g["t3"] * 0.3).toTuple(),
+    cone_l0 = (C.EXH_PRIMARY_D - C.EXH_SPIGOT_D) / 2
+    sp_col = cq.Solid.makeCylinder(C.EXH_SPIGOT_D / 2, C.EXH_SPIGOT_L + cone_l0 + 0.3, (g["p3"] - g["t3"] * 0.3).toTuple(),
                                    g["t3"].toTuple())
-    return safe_clean(pipe.fuse(sp_head).fuse(sp_col))
+    # 45 deg cone from the tube to the collector spigot: the pipe prints standing on that
+    # spigot, so the tube's end face must not be a floating ring (it sits inside the saddle counterbore)
+    cone_l = (C.EXH_PRIMARY_D - C.EXH_SPIGOT_D) / 2
+    cone = cq.Solid.makeCone(C.EXH_PRIMARY_D / 2, C.EXH_SPIGOT_D / 2, cone_l, (g["p3"] - g["t3"] * 0.3).toTuple(),
+                             g["t3"].toTuple())
+    return safe_clean(pipe.fuse(sp_head).fuse(sp_col).fuse(cone))
 
 
 def _rotate_vec(shape, a, b):
@@ -332,7 +338,7 @@ def collector(bank):
     yc, zt = -C.EXH_COLLECTOR_Y, C.EXH_COLLECTOR_TOP_Z
     r0, r1 = C.EXH_COLLECTOR_R
     x_front = max(xs) + C.EXH_X_JOG + C.EXH_COLLECTOR_FRONT_MARGIN
-    x_rear = -C.STAND["l"] / 2 + C.EXH_TAIL_MARGIN
+    x_rear = C.STAND.get("x_offset", 0.0) - C.STAND["l"] / 2 + C.EXH_TAIL_MARGIN   # inside the stand plate
     assert x_rear < min(xs) + C.EXH_X_JOG - r1, "collector tail too short for the last socket"
     def ring(x, r):
         return cq.Wire.makeCircle(r, cq.Vector(x, yc, zt - r), cq.Vector(1, 0, 0))
@@ -353,8 +359,11 @@ def collector(bank):
     for x in xs:
         mouth = cq.Vector(x + C.EXH_X_JOG, yc, zt - sad)                # = pipe end p3 for this cylinder
         cb = cyl_z(C.EXH_PRIMARY_D / 2 + C.CLEARANCE, -0.3, r1 + 2.0)       # saddle counterbore for the tube
-        sock = crush_z(C.EXH_SPIGOT_D, -(C.EXH_SPIGOT_L + 0.5), 0.01, 0, 0, "trumpet_14", entry="hi")
-        cut = _rotate_vec(cb.fuse(sock), (0, 0, -1), g["t3"]).translate(mouth)   # socket depth along the pipe end
+        cone_l = (C.EXH_PRIMARY_D - C.EXH_SPIGOT_D) / 2                      # conical seat for the pipe's spigot cone
+        seat = cq.Solid.makeCone(C.EXH_PRIMARY_D / 2 + C.CLEARANCE, C.EXH_SPIGOT_D / 2 + C.CLEARANCE, cone_l + 0.3,
+                                 cq.Vector(0, 0, -0.3), cq.Vector(0, 0, -1))
+        sock = crush_z(C.EXH_SPIGOT_D, -(C.EXH_SPIGOT_L + cone_l + 0.5), -cone_l + 0.01, 0, 0, "trumpet_14", entry="hi")
+        cut = _rotate_vec(cb.fuse(seat).fuse(sock), (0, 0, -1), g["t3"]).translate(mouth)   # along the pipe end
         tube = tube.cut(cut)
     out = safe_clean(tube)
     return out if bank == "A" else out.mirror("XZ")
@@ -422,26 +431,36 @@ def intake():
 
 # ---------------------------------------------------------------------------
 def build_all():
-    return {"head": cylinder_head(), "valve_cover": valve_cover(), "boot": plug_boot(), "primary": primary_pipe(),
-            "plate": flange_plate(), "collector_A": collector("A"), "collector_B": collector("B"),
-            "intake": intake()}
+    import intake_v8
+    lib = {"head": cylinder_head(), "valve_cover": valve_cover(), "boot": plug_boot(), "primary": primary_pipe(),
+           "plate": flange_plate(), "collector_A": collector("A"), "collector_B": collector("B")}
+    lib.update(intake_v8.build_all())
+    return lib
 
 
 def placed(lib, banks=("A", "B"), with_intake=True):
-    """(name, shape, colour) in the engine frame."""
+    """(name, shape, colour) in the engine frame. Bank B's head and flange
+    plate are MIRROR parts (30B / 34B): the plug boots sit ahead of their
+    ports on both banks (a rotated head would put bank B's boots behind the
+    ports, under the swept pipes). Valve cover and boots are one part each."""
     out = []
     boot0 = lib["boot"].rotate((0, 0, 0), (1, 0, 0), 90)               # local +Z -> -y' (outboard)
     for bank in banks:
-        tb = lambda s: block.to_bank(s, bank)
-        out.append((f"head_{bank}", tb(lib["head"]), "block"))
-        out.append((f"valve_cover_{bank}", tb(lib["valve_cover"]), "carbon"))
-        out.append((f"header_plate_{bank}", tb(lib["plate"]), "steel"))
+        tA = lambda s: block.to_bank(s, "A")
+        # bank B = bank A mirrored in y, then shifted forward by the bank offset (its bores sit there)
+        mir = (lambda s: s) if bank == "A" else (lambda s: s.mirror("XZ").translate((C.BANK_OFFSET, 0, 0)))
+        out.append((f"head_{bank}", mir(tA(lib["head"])), "block"))
+        out.append((f"valve_cover_{bank}", block.to_bank(lib["valve_cover"], bank), "carbon"))
+        out.append((f"header_plate_{bank}", mir(tA(lib["plate"])), "steel"))
         xs = C.BANK_A_CYL_X if bank == "A" else C.BANK_B_CYL_X
         pipe = lib["primary"] if bank == "A" else lib["primary"].mirror("XZ")
         for i, xc in enumerate(xs):
-            out.append((f"boot_{bank}{i+1}", tb(move(boot0, BOOT_X[i], YO, BOOT_Z)), "white"))
+            xl = C.BANK_A_CYL_X[i] if bank == "A" else -xc                 # bank-local x of this cylinder
+            boot = tA(move(boot0, xl + C.PLUG_BOOT["dx"], YO, BOOT_Z))
+            out.append((f"boot_{bank}{i+1}", mir(boot), "white"))
             out.append((f"header_{bank}{i+1}", move(pipe, xc), "steel"))
         out.append((f"collector_{bank}", lib[f"collector_{bank}"], "steel"))
     if with_intake:
-        out.append(("intake", lib["intake"], "block"))
+        import intake_v8
+        out += intake_v8.placed(lib)
     return out

@@ -53,6 +53,10 @@ def cyl_x(r, x0, x1, y=0.0, z=0.0):
     return cq.Solid.makeCylinder(r, x1 - x0, cq.Vector(x0, y, z), cq.Vector(1, 0, 0))
 
 
+def cyl_y(r, y0, y1, x=0.0, z=0.0):
+    return cq.Solid.makeCylinder(r, y1 - y0, cq.Vector(x, y0, z), cq.Vector(0, 1, 0))
+
+
 def cyl_z(r, z0, z1, x=0.0, y=0.0):
     return cq.Solid.makeCylinder(r, z1 - z0, cq.Vector(x, y, z0), cq.Vector(0, 0, 1))
 

@@ -1,6 +1,6 @@
-# Hardware needed to run the 15 coupons (and nothing else)
+# Hardware needed to run the coupons (and nothing else)
 
-This is the minimum shopping list to print and test coupons T1-T8
+This is the minimum shopping list to print and test coupons T1-T10
 (`docs/COUPON_PRINT_GUIDE.md`). It deliberately contains **nothing for the
 engine itself** - no motor, electronics, pulleys, belts, steel parts or ASA.
 Quantities include spares: pressing bearings and magnets in and out of
@@ -25,6 +25,21 @@ Nothing has been ordered; this is a list for you.
 Everything above is the same part number as the engine, so **none of it is
 wasted**: the survivors go straight into engine #1.
 
+## New for the V8 coupons T9 (lit plug boot) and T10 (header flex test)
+
+Nothing below is assumed bought. T10 needs nothing but PLA.
+
+| Item | Exact size / spec | Used by | Needed | Buy | Notes |
+|---|---|---|---|---|---|
+| Addressable LED strip | **WS2812B, 5 V, 60 LEDs/m, 10 mm wide, black PCB, IP20 (no silicone sleeve)** | T9 (one LED under the boot) | 1 LED | **1 m reel** | the engine's own strip type: the heads use 12 LEDs per bank and the boot strips 11 per bank, so the metre is used up later |
+| Something to light one WS2812B LED | any of: the **ESP32 dev board** from `PROTO_BOM.md` (needed anyway) + 3 jumper wires, **or** a cheap "WS2812 USB mini controller / tester" with a USB-A plug | T9 | 1 | **1** | a 5 V USB phone charger powers one LED; no PSU needed for the coupon |
+| Jumper wires | Dupont female-female, 10-20 cm | T9 | 3 | **1 pack (40)** | strip pads: 5V, DIN, GND |
+| Translucent filament | **PETG, natural / clear (not "white")**, 1.75 mm; "transparent" or "natural" in the colour name | T9b boots (2), later 16 boots | 5 g | **1 spool** | this is the 5th palette slot you approved for the boots; PLA natural also glows but ASA is the match for the rest of the engine - test what you can buy, the boot is the only part in it |
+| Solder + iron (or the strip's clip connector) | any | T9 | - | - | tin the three pads on the strip end; or buy the strip with a pre-soldered JST lead |
+
+What T9 proves: boot glow (even / hot spot), boot press fit (`boot_9`), and
+that the LED-under-the-flange-plate idea reads from 1 m away. Takes 10 min.
+
 ## Things to measure with
 
 | Item | Spec | Why |
@@ -47,7 +62,7 @@ wasted**: the survivors go straight into engine #1.
 
 | Material | Amount | For |
 |---|---|---|
-| **PLA**, any brand, 0.4 mm nozzle | **1 spool (1 kg)** | all 15 coupons (about 100 g) plus the ASA-comparison pair of coupons printed again in PLA if a fit looks odd |
+| **PLA**, any brand, 0.4 mm nozzle | **1 spool (1 kg)** | all 18 coupon parts incl. the T10 header (about 150 g) plus the ASA-comparison pair of coupons printed again in PLA if a fit looks odd |
 | **ASA** (the production material) | **1 spool** - optional at this stage | the mandatory re-run of T3, T3b, T4, T4d, T5, T5b, T6 before production values are locked (about 55 g); the rest of the spool is used by the motion test |
 | **PETG** | **1 spool** - optional | the printed crankpin P1 that T5 needs (about 1.2 g), and the motion-test pins/shafts/rods later |
 

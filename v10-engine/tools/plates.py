@@ -39,12 +39,12 @@ EXPORT_GROUPS = ("C", "M")     # only coupons + motion test until a real engine 
 
 # (plate name, description, [(part file name, qty), ...])
 PLATES = [
-    ("C1_coupons", "fit coupons T1-T9 - PRINT FIRST (PLA; T9b boot in the translucent filament)", [
+    ("C1_coupons", "fit coupons T1-T10 - PRINT FIRST (PLA; T9b boots in the translucent filament)", [
         ("T1_hole_ladder", 1), ("T1b_test_peg", 2), ("T1c_peg_captive", 1), ("T2_insert_ladder", 1),
         ("T3_608_seats", 1), ("T3b_686_seats", 1), ("T4_piston_guide", 1), ("T4b_test_lug", 1),
         ("T4c_lug_slots", 1), ("T4d_wrist_pins", 1),
         ("T5_dpin_sockets", 1), ("T5b_magnets", 1), ("T6_end_plate_seat", 1),
-        ("T7_crank_vblock", 2), ("T8_belt_feeler", 1), ("T9_boot_glow", 1), ("T9b_boot", 2)]),
+        ("T7_crank_vblock", 2), ("T8_belt_feeler", 1), ("T9_boot_glow", 1), ("T9b_boot", 2), ("T10_header_flex", 1)]),
     ("M1_crank", "motion test: crank webs + segments, printed shafts", [
         ("05_crank_end_web", 2), ("06_crank_segment_54", 2), ("07_crank_segment_198", 2), ("P2_proto_main_shaft", 2)]),
     ("M2_rods_pins", "motion test: 10 con-rods, 5 printed crankpins", [("08_conrod", 10), ("P1_proto_split_crankpin", 5)]),
@@ -62,6 +62,37 @@ PLATES = [
     ("F8_exhausts_coils", "exhaust headers A + B, 10 coil packs", [("14_exhaust_bank_A", 1), ("15_exhaust_bank_B", 1), ("16_coil_pack", 10)]),
     ("F9_trumpets", "10 intake trumpets", [("13_intake_trumpet", 10)]),
 ]
+
+if C.VARIANT == "v8":
+    PLATES = [
+        ("C1_coupons", "fit coupons T1-T10 - PRINT FIRST (PLA; T9b boots in the translucent filament)", [
+            ("T1_hole_ladder", 1), ("T1b_test_peg", 2), ("T1c_peg_captive", 1), ("T2_insert_ladder", 1),
+            ("T3_608_seats", 1), ("T3b_686_seats", 1), ("T4_piston_guide", 1), ("T4b_test_lug", 1),
+            ("T4c_lug_slots", 1), ("T4d_wrist_pins", 1), ("T5_dpin_sockets", 1), ("T5b_magnets", 1),
+            ("T6_end_plate_seat", 1), ("T7_crank_vblock", 2), ("T8_belt_feeler", 1), ("T9_boot_glow", 1),
+            ("T9b_boot", 2), ("T10_header_flex", 1)]),
+        ("M1_crank", "motion test: crank webs + 3 segments, printed shafts", [
+            ("05_crank_end_web", 2), ("06_crank_segment_90", 1), ("07_crank_segment_180", 1), ("08_crank_segment_270", 1),
+            ("P2_proto_main_shaft", 1), ("P2F_proto_main_shaft_front", 1)]),
+        ("M2_rods_pins", "motion test: 8 con-rods, 4 printed crankpins", [("09_conrod", 8), ("P1_proto_crankpin", 4)]),
+        ("M3_pistons", "motion test: 8 pistons", [("10_piston", 8)]),
+        ("M4_bank_head", "motion test: one bank + head A", [("03_cylinder_bank", 1), ("30_cylinder_head_A", 1)]),
+        ("M5_crankcase", "motion test: crankcase", [("01_crankcase", 1)]),
+        ("M6_beam_plates", "motion test: valley beam + 2 end plates", [("02_valley_beam", 1), ("04_end_plate", 2)]),
+        ("F1_bank_head_B", "second bank + head B (mirror)", [("03_cylinder_bank", 1), ("30B_cylinder_head_B", 1)]),
+        ("F2_covers_boots_tb", "2 valve covers, throttle body", [("31_valve_cover", 2), ("36C_throttle_body", 1)]),
+        ("F2b_boots", "8 translucent boots (5th filament)", [("32_plug_boot", 8)]),
+        ("F3_primaries_plates", "8 header primaries (4 + 4 mirror), 2 flange plates", [
+            ("33_header_primary_A", 4), ("33B_header_primary_B", 4), ("34_header_plate_A", 1), ("34B_header_plate_B", 1)]),
+        ("F4_collectors", "2 collectors (mirror pair)", [("35_collector_A", 1), ("35B_collector_B", 1)]),
+        ("F5_intake_lid", "intake lid", [("36_intake_lid", 1)]),
+        ("F6_intake_base", "intake base", [("36B_intake_base", 1)]),
+        ("F7_pan", "oil pan", [("40_oil_pan", 1)]),
+        ("F8_panel_bell_damper", "pan floor panel, bellhousing, damper", [("41_pan_floor_panel", 1), ("42_bellhousing", 1), ("44_damper", 1)]),
+        ("F9_front", "front cover + accessory module", [("43_front_cover", 1), ("45_accessory_module", 1)]),
+        ("F10_stand_plate", "stand plate (single-nozzle mode)", [("46_stand_plate", 1)]),
+        ("F11_brackets_plinth", "4 brackets + controls plinth", [("47_bracket", 2), ("47B_bracket_mirror", 2), ("48_controls_plinth", 1)]),
+    ]
 
 
 def load(name):

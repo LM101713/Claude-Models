@@ -23,7 +23,9 @@ COLOURS = {                                     # approved palette, approximated
     "header": (0.84, 0.84, 0.82), "collector": (0.84, 0.84, 0.82), "boot": (0.98, 0.80, 0.40),
     "intake": (0.70, 0.71, 0.73), "crankcase": (0.70, 0.71, 0.73), "valley": (0.70, 0.71, 0.73),
     "bank": (0.70, 0.71, 0.73), "end": (0.70, 0.71, 0.73),
-    "pan": (0.11, 0.11, 0.12), "bellhousing": (0.70, 0.71, 0.73),
+    "pan": (0.11, 0.11, 0.12), "bellhousing": (0.70, 0.71, 0.73), "front_cover": (0.70, 0.71, 0.73),
+    "damper": (0.11, 0.11, 0.12), "accessory": (0.11, 0.11, 0.12), "stand": (0.11, 0.11, 0.12),
+    "bracket": (0.11, 0.11, 0.12), "plinth": (0.11, 0.11, 0.12), "edition": (0.80, 0.81, 0.84),
 }
 HIDDEN = ("motor", "pulley", "belt", "spacer", "elec")      # inside the pan / the future front cover
 
@@ -36,6 +38,7 @@ VIEWS = {
     "x1_bankA_low_34": ((0.7, -1.0, 0.35), 1.3, None),
     "x2_bankA_headers": ((0.2, -1.0, -0.25), 1.4, None),
     "x3_top": ((0.0, 0.0, 1.0), 1.0, None),
+    "x5_hero_front_left": ((1.0, 0.75, 0.42), 1.0, None),
 }
 
 
