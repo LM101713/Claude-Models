@@ -173,6 +173,15 @@ What is already right and stays: valve cover rim with hex sockets and recessed p
 closest part to the reference), oil cap, boot glow, pan ribs, stand with four brackets, damper and belt band
 proportions, overall silhouette and bank angle, intake height (lower and wider as you asked).
 
+### Correction found after round 1
+
+The round-1 renders contain a mistake of mine: the un-placed library parts (every part in its build frame)
+were still linked in the scene and rendered. The black "roof" on the intake with a white disc in it is the
+library valve cover and oil cap sitting in bank-local coordinates on top of the lid, and there is one stray
+primary pipe beside bank A. Fixed before round 2 (library objects are hidden from the render); the round-1
+images are kept as they were so the record is honest. Points 1, 2, 5-10 of the critique stand; point 4
+(intake "slab") was partly this bug - the real roof was never visible in round 1.
+
 ## Where a person should take over (honest)
 
 The script builds exact cylinders, lofts, bevels and booleans. It cannot do what the references' AI images

@@ -64,7 +64,7 @@ def build(scene_bbox, floor_z):
     sc.cycles.use_denoising = True
     sc.view_settings.view_transform = 'AgX'
     sc.view_settings.look = 'AgX - Base Contrast'
-    sc.view_settings.exposure = 0.4
+    sc.view_settings.exposure = 0.25
     sc.render.film_transparent = False
     return floor
 

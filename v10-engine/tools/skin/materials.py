@@ -26,7 +26,8 @@ def _principled(name, base, metallic=0.0, roughness=0.5, transmission=0.0, emiss
 
 
 def satin_alu():
-    return _principled("satin_aluminium", (0.62, 0.63, 0.65), metallic=1.0, roughness=0.42)
+    # cast / bead-blasted aluminium: not a mirror (flat faces reflected the dark sky and went black)
+    return _principled("satin_aluminium", (0.66, 0.67, 0.69), metallic=0.75, roughness=0.58)
 
 
 def matte_black():

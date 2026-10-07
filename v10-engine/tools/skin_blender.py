@@ -165,6 +165,13 @@ def place_all(phi=0.0, with_core=False):
             U.set_material(o, M.satin_alu() if f.startswith(("piston", "rod_", "bush")) else M.dark_steel())
             U.shade(o)
             named.append((o.name, o, "core"))
+    # the library objects stay in the file for the exports but must not render (they sit in their build frames)
+    for o in LIB.values():
+        o.hide_render = True
+        o.hide_viewport = True
+    for _, o, _ in named:
+        o.hide_render = False
+        o.hide_viewport = False
     PLACED[:] = named
     return named
 
