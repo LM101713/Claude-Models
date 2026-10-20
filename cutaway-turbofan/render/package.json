@@ -1,0 +1,10 @@
+{
+  "name": "cutaway-turbofan-render",
+  "private": true,
+  "type": "module",
+  "description": "three.js render studio for the Cutaway Turbofan",
+  "dependencies": {
+    "playwright-core": "^1.55.0",
+    "three": "0.170.0"
+  }
+}

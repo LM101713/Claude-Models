@@ -1,0 +1,248 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Cutaway Turbofan Studio</title>
+<style>
+html,body{margin:0;background:#1d222c;overflow:hidden;font-family:"DejaVu Sans",Verdana,sans-serif}
+canvas{display:block}
+#ov{position:absolute;left:0;top:0;pointer-events:none}
+.lab{position:absolute;color:#fff;font-weight:800;letter-spacing:1px;white-space:nowrap;transform:translate(-50%,-100%);text-align:center}
+.lab small{display:block;font-weight:600;letter-spacing:0;color:#cfd6e4}
+#title{position:absolute;left:48px;top:30px;color:#fff;display:none}
+#title .t1{font-size:50px;font-weight:800;letter-spacing:1px}
+#title .t2{font-size:22px;font-weight:600;color:#cfd6e4;margin-top:6px}
+</style>
+<script type="importmap">
+{"imports":{"three":"/three/build/three.module.js","three/addons/":"/three/examples/jsm/"}}
+</script>
+</head>
+<body>
+<svg id="ov"></svg>
+<div id="title"><div class="t1">How a jet engine works</div>
+<div class="t2">Blue: cold air. Orange: burning fuel heats the core air, and the hot gas spins the turbine.</div></div>
+<script type="module">
+// Render studio for the Cutaway Turbofan.
+// Query: ?glb=&parts=&view=hero|side|front|rear|flow&angle=<rotor deg>&phase=<0..1>&w=&h=
+import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+
+const q = new URLSearchParams(location.search);
+const W = +(q.get("w") || 1600), H = +(q.get("h") || 1200);
+const view = q.get("view") || "hero";
+const angle = THREE.MathUtils.degToRad(+(q.get("angle") || 0));
+const phase = +(q.get("phase") || 0);
+const flow = view === "flow" || q.get("flow") === "1";
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1);
+renderer.setSize(W, H);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+THREE.Object3D.DEFAULT_UP.set(0, 0, 1);
+
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.55;
+const BG = new THREE.Color("#1d222c");
+scene.background = BG;
+
+function floorTexture() {
+  const c = document.createElement("canvas"); c.width = c.height = 1024;
+  const g = c.getContext("2d");
+  const grd = g.createRadialGradient(512, 512, 10, 512, 512, 512);
+  grd.addColorStop(0, "#4a5263"); grd.addColorStop(0.45, "#333a49"); grd.addColorStop(1, "#1d222c");
+  g.fillStyle = grd; g.fillRect(0, 0, 1024, 1024);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+
+// air paths in the cut-away quarter: (x, r) points, drawn at phi from the top towards the viewer
+const PHI = THREE.MathUtils.degToRad(view === "flow" ? 32 : 48);
+const BYPASS = [[-45, 57], [0, 57], [30, 55], [60, 54.5], [118, 53], [175, 50]];
+const CORE = [[-45, 29], [0, 29], [30, 27], [56, 27.5], [72, 26], [100, 24], [126, 22.2], [133, 21.5],
+              [145, 18.5], [156, 20], [166, 20.5], [198, 24.5], [222, 22.5], [275, 21]];
+const HOT = [[-45, "#56a8ff"], [70, "#56a8ff"], [126, "#ffd166"], [136, "#ff4d1f"], [158, "#ff3a12"],
+             [200, "#ff8a3d"], [275, "#ffc58a"]];
+function tempColor(x) {
+  for (let i = 0; i < HOT.length - 1; i++) {
+    const [x0, c0] = HOT[i], [x1, c1] = HOT[i + 1];
+    if (x <= x1) return new THREE.Color(c0).lerp(new THREE.Color(c1), Math.max(0, (x - x0) / (x1 - x0)));
+  }
+  return new THREE.Color(HOT[HOT.length - 1][1]);
+}
+
+async function main() {
+  const meta = await (await fetch(q.get("parts"))).json();
+  const AX = meta.axis_height;
+  const gltf = await new GLTFLoader().loadAsync(q.get("glb"));
+  const root = new THREE.Group();
+  root.add(gltf.scene);
+  const rotor = new THREE.Group();          // spins about the engine axis
+  rotor.position.set(0, 0, AX);
+  const meshes = [];
+  gltf.scene.traverse(o => { if (o.isMesh) meshes.push(o); });
+  for (const o of meshes) {
+    const i = +o.name.replace(/\D/g, "") || +o.parent.name.replace(/\D/g, "") || 0;
+    const p = meta.parts[i];
+    o.geometry = o.geometry.toNonIndexed(); o.geometry.computeVertexNormals();
+    const col = new THREE.Color(p.color);
+    let mat;
+    if (p.kind === "rotor") mat = new THREE.MeshPhysicalMaterial({ color: col, roughness: 0.32, metalness: 0.75, clearcoat: 0.2 });
+    else if (p.name === "Flame liner") mat = new THREE.MeshPhysicalMaterial({ color: col, roughness: 0.4, metalness: 0.2, emissive: new THREE.Color("#ff4a00"), emissiveIntensity: 0.35 });
+    else if (p.kind === "stand") mat = new THREE.MeshPhysicalMaterial({ color: col, roughness: p.name === "Labels" ? 0.5 : 0.62, metalness: 0.05, clearcoat: 0.15 });
+    else mat = new THREE.MeshPhysicalMaterial({ color: col, roughness: 0.38, metalness: 0.35, clearcoat: 0.4, clearcoatRoughness: 0.3 });
+    mat.side = THREE.DoubleSide;
+    o.material = mat;
+    o.castShadow = o.receiveShadow = true;
+    if (view === "flow" && p.kind === "stand") o.visible = false;
+    if (p.rotor) {
+      o.updateMatrixWorld(true);
+      const m = o.matrixWorld.clone();
+      o.parent.remove(o);
+      o.matrix.copy(m); o.matrix.decompose(o.position, o.quaternion, o.scale);
+      o.position.z -= AX;
+      rotor.add(o);
+    }
+  }
+  rotor.rotation.x = angle;
+  root.add(rotor);
+  scene.add(root);
+  root.updateMatrixWorld(true);
+  const box = new THREE.Box3();
+  root.traverse(o => { if (o.isMesh && o.visible) box.expandByObject(o); });
+  const size = box.getSize(new THREE.Vector3()), ctr = box.getCenter(new THREE.Vector3());
+  const R = Math.max(size.x, size.y) / 2;
+
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(R * 16, R * 16),
+    new THREE.MeshStandardMaterial({ map: floorTexture(), roughness: 0.95 }));
+  floor.position.set(ctr.x, ctr.y + R * 0.4, view === "flow" ? -0.05 : box.min.z - 0.05);
+  floor.receiveShadow = true;
+  scene.add(floor);
+  scene.fog = new THREE.Fog(BG, R * 5, R * 12);
+
+  const key = new THREE.DirectionalLight("#fff4e6", 2.4);
+  key.position.set(ctr.x - R * 1.4, ctr.y - R * 2.2, R * 3.0);
+  key.target.position.copy(ctr);
+  key.castShadow = true;
+  key.shadow.mapSize.set(4096, 4096);
+  const sc = key.shadow.camera; sc.left = sc.bottom = -R * 2; sc.right = sc.top = R * 2; sc.near = 1; sc.far = R * 10;
+  key.shadow.bias = -0.0003; key.shadow.radius = 3;
+  scene.add(key, key.target);
+  const rimA = new THREE.DirectionalLight("#ffb070", 1.6); rimA.position.set(ctr.x + R * 2.5, ctr.y + R * 2, R * 1.2);
+  const rimB = new THREE.DirectionalLight("#7fb4ff", 1.4); rimB.position.set(ctr.x - R * 2.6, ctr.y + R * 1.6, R * 1.0);
+  const fill = new THREE.HemisphereLight("#d6ddff", "#2a2016", 0.5);
+  // a light inside the cut-away so the core reads
+  const inner = new THREE.PointLight("#fff1e0", 1.2, 0, 0); inner.position.set(140, -120, AX + 120);
+  scene.add(rimA, rimB, fill, inner);
+
+  const P = (x, r, phi = PHI) => new THREE.Vector3(x, -r * Math.sin(phi), AX + r * Math.cos(phi));
+  const flowG = new THREE.Group();
+  scene.add(flowG);
+  function buildFlow(ph) {
+    flowG.clear();
+    if (!flow) return;
+    for (const [path, cold] of [[BYPASS, true], [CORE, false]]) {
+      const curve = new THREE.CatmullRomCurve3(path.map(([x, r]) => P(x, r)), false, "centripetal");
+      const L = curve.getLength(), step = 13;
+      for (let s = (ph * step) % step; s < L - 4; s += step) {
+        const u = s / L, pt = curve.getPointAt(u), tg = curve.getTangentAt(u);
+        const col = cold ? new THREE.Color("#56a8ff") : tempColor(pt.x);
+        const cone = new THREE.Mesh(new THREE.ConeGeometry(2.6, 7.5, 18),
+          new THREE.MeshBasicMaterial({ color: col, depthTest: false, transparent: true, opacity: 0.95 }));
+        cone.position.copy(pt);
+        cone.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), tg);
+        cone.renderOrder = 10;
+        flowG.add(cone);
+      }
+      const tube = new THREE.Mesh(new THREE.TubeGeometry(curve, 300, 0.8, 8),
+        new THREE.MeshBasicMaterial({ color: cold ? "#56a8ff" : "#dfe5ef", depthTest: false, transparent: true, opacity: 0.5 }));
+      tube.renderOrder = 9;
+      flowG.add(tube);
+    }
+  }
+  buildFlow(phase);
+
+  const cam = new THREE.PerspectiveCamera(28, W / H, 1, 6000);
+  const look = new THREE.Vector3(ctr.x - 5, -16, AX * 0.45);
+  let dir, dist = R * 3.7;
+  if (view === "side") { dir = new THREE.Vector3(0, -1, 0.18); dist = R * 3.4; }
+  else if (view === "front") { dir = new THREE.Vector3(-1, -0.75, 0.42); dist = R * 3.0; look.x -= 20; }
+  else if (view === "rear") { dir = new THREE.Vector3(1, -0.9, 0.5); dist = R * 3.1; }
+  else if (view === "top") { dir = new THREE.Vector3(0, -0.35, 1); dist = R * 3.6; }
+  else { dir = new THREE.Vector3(-0.42, -1, 0.72); }
+  if (view === "flow") { dir = new THREE.Vector3(-0.06, -1, 0.3); dist = 560; look.set(112, 0, AX + 10); }
+  cam.position.copy(look).add(dir.normalize().multiplyScalar(dist));
+  cam.up.set(0, 0, 1);
+  cam.lookAt(look);
+  cam.updateMatrixWorld();
+
+  renderer.render(scene, cam);
+
+  if (view === "flow" && q.get("labels") !== "0") {
+    const ttl = document.getElementById("title");
+    ttl.style.display = "block";
+    ttl.style.left = ttl.style.top = Math.round(W / 50) + "px";
+    ttl.querySelector(".t1").style.fontSize = Math.round(W / 40) + "px";
+    ttl.querySelector(".t2").style.fontSize = Math.round(W / 92) + "px";
+    const svg = document.getElementById("ov");
+    svg.setAttribute("width", W); svg.setAttribute("height", H);
+    const proj = v => { const p = v.clone().project(cam); return [(p.x + 1) / 2 * W, (1 - p.y) / 2 * H]; };
+    const fs = Math.round(W / 60), fsub = Math.round(W / 88);
+    const put = (html, x, y, align) => {
+      const el = document.createElement("div");
+      el.className = "lab"; el.style.left = x + "px"; el.style.top = y + "px"; el.style.fontSize = fs + "px";
+      if (align === "left") { el.style.transform = "translate(0,-50%)"; el.style.textAlign = "left"; }
+      if (align === "below") el.style.transform = "translate(-50%,0)";
+      if (align === "right") { el.style.transform = "translate(-100%,-50%)"; el.style.textAlign = "right"; }
+      el.innerHTML = html; document.body.appendChild(el);
+    };
+    const lead = (x1, y1, x2, y2) => {
+      const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      Object.entries({ x1, y1, x2, y2, stroke: "#ffffff", "stroke-width": 2.5, "stroke-opacity": 0.9 }).forEach(([k, v]) => line.setAttribute(k, v));
+      svg.appendChild(line);
+      const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      Object.entries({ cx: x1, cy: y1, r: 6, fill: "#ffffff", stroke: "#1d222c", "stroke-width": 2 }).forEach(([k, v]) => dot.setAttribute(k, v));
+      svg.appendChild(dot);
+    };
+    // one row of section labels above the engine, spread so they never touch
+    const ROW = [
+      ["1  FAN", "sucks air in", P(42, 62, 0.25)],
+      ["2  COMPRESSOR", "squeezes the core air", P(100, 24)],
+      ["3  COMBUSTOR", "fuel burns: bang!", P(146, 20)],
+      ["4  TURBINE", "hot gas spins it", P(184, 23)],
+      ["5  EXHAUST", "blow: the jet pushes", P(238, 21.5)],
+    ].map(([t, s, a]) => [t, s, proj(a)]);
+    const gapX = W * 0.16, rowY = H * 0.2;
+    const xs = ROW.map(r => r[2][0]);
+    for (let i = 1; i < xs.length; i++) xs[i] = Math.max(xs[i], xs[i - 1] + gapX);
+    const shift = Math.max(0, xs[xs.length - 1] - (W - gapX / 2));
+    ROW.forEach(([t, s, [ax, ay]], i) => {
+      const x = xs[i] - shift;
+      lead(ax, ay, x, rowY + 8);
+      put(`${t}<small style="font-size:${fsub}px">${s}</small>`, x, rowY);
+    });
+    // bypass: label under the start of its arrow, at the intake
+    const [bx, by] = proj(P(-45, 57));
+    put(`BYPASS AIR<small style="font-size:${fsub}px">flows round the core:<br>most of the thrust</small>`, bx - 18, by, "right");
+    const [cx2, cy2] = proj(P(-45, 29));
+    put(`CORE AIR<small style="font-size:${fsub}px">goes through the core</small>`, cx2 - 18, cy2 + 34, "right");
+    // shaft: below the engine
+    const [sx, sy] = proj(new THREE.Vector3(150, -5, AX + 3));
+    const sy2 = H * 0.885;
+    lead(sx, sy, sx, sy2 - 6);
+    put(`SHAFT<small style="font-size:${fsub}px">the turbine turns the compressor and the fan</small>`, sx, sy2, "below");
+  }
+  // animation hook for render.mjs: rotor angle in degrees, flow phase 0..1
+  window.frame = (deg, ph) => { rotor.rotation.x = THREE.MathUtils.degToRad(deg); buildFlow(ph); renderer.render(scene, cam); return true; };
+  document.title = "done";
+}
+main().catch(e => { document.title = "error: " + e.message; console.error(e); });
+</script>
+</body>
+</html>

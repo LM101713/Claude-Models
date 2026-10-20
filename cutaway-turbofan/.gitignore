@@ -1,0 +1,4 @@
+render/node_modules
+models/*.glb
+models/*_parts.json
+__pycache__/
