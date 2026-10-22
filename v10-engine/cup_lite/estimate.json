@@ -1,0 +1,231 @@
+{
+ "total": {
+  "n": 23,
+  "h06": 33.840429888398035,
+  "h08": 28.92651253171344,
+  "g08": 1368.7158955771392,
+  "cup_concept_h08": 30.71896507419722,
+  "q08": 16.0,
+  "by_colour": {
+   "orange ASA": 309.3,
+   "silver ASA": 752.4000000000001,
+   "black ASA": 304.50000000000006,
+   "clear PETG": 2.4
+  }
+ },
+ "parts": [
+  {
+   "file": "l1_block_pan",
+   "qty": 1,
+   "size": [
+    221.0,
+    179.5,
+    149.8
+   ],
+   "h06": 6.42,
+   "h08": 6.02,
+   "g08": 309.3,
+   "print": "pan opening down, hollow",
+   "colour": "orange ASA"
+  },
+  {
+   "file": "l2_top_end",
+   "qty": 1,
+   "size": [
+    219.9,
+    224.2,
+    128.0
+   ],
+   "h06": 11.51,
+   "h08": 9.52,
+   "g08": 457.6,
+   "print": "upright, tree supports under the deck edges and port bosses",
+   "colour": "silver ASA"
+  },
+  {
+   "file": "l3_air_cleaner",
+   "qty": 1,
+   "size": [
+    132.0,
+    132.0,
+    29.0
+   ],
+   "h06": 1.37,
+   "h08": 1.29,
+   "g08": 66.6,
+   "print": "base down, open top",
+   "colour": "black ASA"
+  },
+  {
+   "file": "t02_air_cleaner_lid",
+   "qty": 1,
+   "size": [
+    131.7,
+    131.7,
+    12.0
+   ],
+   "h06": 0.96,
+   "h08": 0.91,
+   "g08": 48.0,
+   "print": "upright, groove underneath",
+   "colour": "silver ASA"
+  },
+  {
+   "file": "t01_valve_cover",
+   "qty": 2,
+   "size": [
+    196.0,
+    58.0,
+    58.3
+   ],
+   "h06": 1.78,
+   "h08": 1.48,
+   "g08": 75.5,
+   "print": "flange down, hollow, 45 deg roof inside",
+   "colour": "black ASA"
+  },
+  {
+   "file": "l4_header_right",
+   "qty": 1,
+   "size": [
+    231.8,
+    42.0,
+    94.0
+   ],
+   "h06": 2.54,
+   "h08": 2.1,
+   "g08": 87.6,
+   "print": "on its port flanges, tree supports",
+   "colour": "silver ASA"
+  },
+  {
+   "file": "l5_header_left",
+   "qty": 1,
+   "size": [
+    231.8,
+    42.0,
+    94.0
+   ],
+   "h06": 2.54,
+   "h08": 2.1,
+   "g08": 87.6,
+   "print": "on its port flanges, tree supports",
+   "colour": "silver ASA"
+  },
+  {
+   "file": "l6_front_drive",
+   "qty": 1,
+   "size": [
+    89.5,
+    174.7,
+    136.4
+   ],
+   "h06": 2.13,
+   "h08": 1.75,
+   "g08": 71.6,
+   "print": "pulley noses down, tree supports under the cover plate",
+   "colour": "silver ASA"
+  },
+  {
+   "file": "k01_crank_pulley",
+   "qty": 1,
+   "size": [
+    37.1,
+    46.0,
+    46.0
+   ],
+   "h06": 0.49,
+   "h08": 0.4,
+   "g08": 17.3,
+   "print": "damper face down",
+   "colour": "black ASA"
+  },
+  {
+   "file": "k02_pulley_water",
+   "qty": 1,
+   "size": [
+    10.1,
+    32.8,
+    32.8
+   ],
+   "h06": 0.11,
+   "h08": 0.1,
+   "g08": 4.3,
+   "print": "flat",
+   "colour": "black ASA"
+  },
+  {
+   "file": "k03_pulley_pump",
+   "qty": 1,
+   "size": [
+    10.1,
+    30.8,
+    30.8
+   ],
+   "h06": 0.1,
+   "h08": 0.09,
+   "g08": 3.7,
+   "print": "flat",
+   "colour": "black ASA"
+  },
+  {
+   "file": "k04_pulley_alt",
+   "qty": 1,
+   "size": [
+    10.1,
+    18.8,
+    18.8
+   ],
+   "h06": 0.06,
+   "h08": 0.05,
+   "g08": 1.3,
+   "print": "flat",
+   "colour": "black ASA"
+  },
+  {
+   "file": "k05_flywheel",
+   "qty": 1,
+   "size": [
+    11.6,
+    110.0,
+    110.0
+   ],
+   "h06": 0.91,
+   "h08": 0.76,
+   "g08": 39.7,
+   "print": "flat",
+   "colour": "black ASA"
+  },
+  {
+   "file": "k06_distributor",
+   "qty": 1,
+   "size": [
+    40.0,
+    40.0,
+    100.0
+   ],
+   "h06": 0.76,
+   "h08": 0.61,
+   "g08": 20.6,
+   "print": "upright",
+   "colour": "black ASA"
+  },
+  {
+   "file": "k07_plug_boot",
+   "qty": 8,
+   "size": [
+    6.6,
+    10.4,
+    13.4
+   ],
+   "h06": 0.05,
+   "h08": 0.04,
+   "g08": 0.3,
+   "print": "upright",
+   "colour": "clear PETG"
+  }
+ ],
+ "q04": 8.456100091848004,
+ "t_layer": 3.267957629999932,
+ "fit_err": 0.17029658982783574
+}

@@ -1,0 +1,184 @@
+{
+ "parts": [
+  {
+   "file": "l1_block_pan",
+   "qty": 1,
+   "path": "cup_lite/stl/l1_block_pan.stl",
+   "ok": true,
+   "msg": "block_exp: genus 9 tris 30424 vol 327230",
+   "size": [
+    221.0,
+    179.5,
+    149.8
+   ]
+  },
+  {
+   "file": "l2_top_end",
+   "qty": 1,
+   "path": "cup_lite/stl/l2_top_end.stl",
+   "ok": true,
+   "msg": "top_end_exp: genus 21 tris 31400 vol 1357586",
+   "size": [
+    219.9,
+    224.2,
+    128.0
+   ]
+  },
+  {
+   "file": "l3_air_cleaner",
+   "qty": 1,
+   "path": "cup_lite/stl/l3_air_cleaner.stl",
+   "ok": true,
+   "msg": "air_cleaner_exp: genus 1 tris 4768 vol 70436",
+   "size": [
+    132.0,
+    132.0,
+    29.0
+   ]
+  },
+  {
+   "file": "t02_air_cleaner_lid",
+   "qty": 1,
+   "path": "cup_lite/stl/t02_air_cleaner_lid.stl",
+   "ok": true,
+   "msg": "air_lid_exp: genus 0 tris 4420 vol 50791",
+   "size": [
+    131.7,
+    131.7,
+    12.0
+   ]
+  },
+  {
+   "file": "t01_valve_cover",
+   "qty": 2,
+   "path": "cup_lite/stl/t01_valve_cover.stl",
+   "ok": true,
+   "msg": "valve_cover_A_exp: genus 0 tris 11792 vol 165140",
+   "size": [
+    196.0,
+    58.0,
+    58.3
+   ]
+  },
+  {
+   "file": "l4_header_right",
+   "qty": 1,
+   "path": "cup_lite/stl/l4_header_right.stl",
+   "ok": true,
+   "msg": "header_A_exp: genus 0 tris 29788 vol 163059",
+   "size": [
+    231.8,
+    42.0,
+    94.0
+   ]
+  },
+  {
+   "file": "l5_header_left",
+   "qty": 1,
+   "path": "cup_lite/stl/l5_header_left.stl",
+   "ok": true,
+   "msg": "header_B_exp: genus 0 tris 29788 vol 163059",
+   "size": [
+    231.8,
+    42.0,
+    94.0
+   ]
+  },
+  {
+   "file": "l6_front_drive",
+   "qty": 1,
+   "path": "cup_lite/stl/l6_front_drive.stl",
+   "ok": true,
+   "msg": "front_drive_exp: genus 4 tris 8718 vol 121620",
+   "size": [
+    89.5,
+    174.7,
+    136.4
+   ]
+  },
+  {
+   "file": "k01_crank_pulley",
+   "qty": 1,
+   "path": "cup_lite/stl/k01_crank_pulley.stl",
+   "ok": true,
+   "msg": "crank_pulley_exp: genus 0 tris 3960 vol 31162",
+   "size": [
+    37.1,
+    46.0,
+    46.0
+   ]
+  },
+  {
+   "file": "k02_pulley_water",
+   "qty": 1,
+   "path": "cup_lite/stl/k02_pulley_water.stl",
+   "ok": true,
+   "msg": "pulley_wp_exp: genus 1 tris 2136 vol 4542",
+   "size": [
+    10.1,
+    32.8,
+    32.8
+   ]
+  },
+  {
+   "file": "k03_pulley_pump",
+   "qty": 1,
+   "path": "cup_lite/stl/k03_pulley_pump.stl",
+   "ok": true,
+   "msg": "pulley_ds_exp: genus 1 tris 2136 vol 3961",
+   "size": [
+    10.1,
+    30.8,
+    30.8
+   ]
+  },
+  {
+   "file": "k04_pulley_alt",
+   "qty": 1,
+   "path": "cup_lite/stl/k04_pulley_alt.stl",
+   "ok": true,
+   "msg": "pulley_alt_exp: genus 1 tris 1496 vol 1411",
+   "size": [
+    10.1,
+    18.8,
+    18.8
+   ]
+  },
+  {
+   "file": "k05_flywheel",
+   "qty": 1,
+   "path": "cup_lite/stl/k05_flywheel.stl",
+   "ok": true,
+   "msg": "flywheel_exp: genus 0 tris 4208 vol 65773",
+   "size": [
+    11.6,
+    110.0,
+    110.0
+   ]
+  },
+  {
+   "file": "k06_distributor",
+   "qty": 1,
+   "path": "cup_lite/stl/k06_distributor.stl",
+   "ok": true,
+   "msg": "distributor_exp: genus 0 tris 2764 vol 50129",
+   "size": [
+    40.0,
+    40.0,
+    100.0
+   ]
+  },
+  {
+   "file": "k07_plug_boot",
+   "qty": 8,
+   "path": "cup_lite/stl/k07_plug_boot.stl",
+   "ok": true,
+   "msg": "boot_A0_exp: genus 0 tris 124 vol 328",
+   "size": [
+    6.6,
+    10.4,
+    13.4
+   ]
+  }
+ ]
+}

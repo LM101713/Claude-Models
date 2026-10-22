@@ -55,6 +55,8 @@ CUP = dict(
     plinth_z=(-98.0, -80.0),
 )
 C = CUP
+SHELL_WALL = 2.6        # heads, intake, covers; cup_lite.py thins it for the 0.8 mm nozzle
+PAN_WALL = 2.4
 HEAD_TOP = C["deck"] + C["head_h"]
 
 
@@ -219,7 +221,7 @@ def build_head():
     prof = [(-hh, d), (hh, d), (hh, top - 5), (hh - 5, top), (-hh + 5, top), (-hh, top - 5)]
     hx = C["head_x"]
     head = U.prism("head", prof, -hx, hx)
-    U.boolean(head, shell_cavity("head_cav", prof, 2.6, -hx, hx, d, top - 2.6))
+    U.boolean(head, shell_cavity("head_cav", prof, SHELL_WALL, -hx, hx, d, top - SHELL_WALL))
     U.bevel_edges(head, 6.0, 4, lambda c, t: abs(t.x) < 0.1 and abs(abs(c.x) - hx) < 0.01 and c.z > d + 1)
     # end faces: accessory bosses and a lifting-eye pad so the ends do not read as flat blocks
     for sx in (1, -1):
@@ -274,7 +276,7 @@ def build_cover():
         U.union([flange, U.cylinder("br_nip", 4.4, top + 6.5, top + 11.0, x, 0.0, segs=48)])
         U.union([flange, U.cylinder("br_lip", 5.0, top + 9.0, top + 10.0, x, 0.0, segs=48)])
     U.bevel(flange, 0.6, segments=2, angle_deg=40)
-    w = 2.6
+    w = SHELL_WALL
     cav = U.loft("cover_cav", [U.rrect_ring(0, 0.0, 2 * hx - 6 - 2 * w, 54.0 - 2 * w, 7.0, z0 - 1.0),
                                U.rrect_ring(0, 0.0, 2 * hx - 6 - 2 * w, 54.0 - 2 * w, 7.0, z0 + 2.0),
                                U.rrect_ring(0, 0.0, 2 * hx - 40, 6.0, 2.9, z0 + 2.0 + (54.0 - 2 * w - 6.0) / 2)])
@@ -311,7 +313,7 @@ def intake_outline():
 def build_intake():
     x0, x1 = INTAKE_X
     body = U.prism("intake", intake_outline(), x0, x1)
-    U.boolean(body, shell_cavity("intake_cav", intake_outline(), 2.6, x0, x1, C["valley_z"] + 0.3, 128.0))
+    U.boolean(body, shell_cavity("intake_cav", intake_outline(), SHELL_WALL, x0, x1, C["valley_z"] + 0.3, 128.0))
     U.bevel_edges(body, 3.0, 2, lambda c, t: abs(t.x) < 0.1 and (abs(c.x - x0) < 0.01 or abs(c.x - x1) < 0.01) and c.z > 100)
     # plenum
     pz0, pz1 = PLENUM_Z
@@ -598,7 +600,7 @@ def build_pan():
         for s in (1, -1):
             U.union([pan, hexagon("pan_bolt", 2.3, 0, 1.6, (x, s * (C["side_y"] + 2.0), rz - 4.0), (0, 0, -1))])
     U.bevel(pan, 0.5, segments=2, angle_deg=40)
-    w = 2.4
+    w = PAN_WALL
     U.boolean(pan, U.loft("pan_cav", [U.rrect_ring(0, 0, 2 * bx - 4 - 2 * w, 2 * C["side_y"] - 6 - 2 * w, 10, rz + 1.0),
                                       U.rrect_ring(0, 0, 2 * bx - 4 - 2 * w, 2 * C["side_y"] - 6 - 2 * w, 10, rz - 4.1),
                                       U.rrect_ring(0, 0, 2 * bx - 10 - 2 * w, 2 * C["side_y"] - 12 - 2 * w, 10, pz + 3.0)]))
