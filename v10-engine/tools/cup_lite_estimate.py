@@ -44,6 +44,7 @@ ORIENT = {
     "k05_flywheel": (12, None, "flat", "black ASA"),
     "k06_distributor": (100, None, "upright", "black ASA"),
     "k07_plug_boot": (13, None, "upright", "clear PETG"),
+    "k08_control_pod": (28, None, "open bottom down", "black ASA"),
 }
 
 

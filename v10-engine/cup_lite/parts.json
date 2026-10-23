@@ -17,7 +17,7 @@
    "qty": 1,
    "path": "cup_lite/stl/l2_top_end.stl",
    "ok": true,
-   "msg": "top_end_exp: genus 21 tris 31400 vol 1357586",
+   "msg": "top_end_exp: genus 29 tris 32972 vol 1357952",
    "size": [
     219.9,
     224.2,
@@ -166,6 +166,18 @@
     40.0,
     40.0,
     100.0
+   ]
+  },
+  {
+   "file": "k08_control_pod",
+   "qty": 1,
+   "path": "cup_lite/stl/k08_control_pod.stl",
+   "ok": true,
+   "msg": "pod_exp: genus 2 tris 476 vol 9003",
+   "size": [
+    38.0,
+    40.0,
+    28.0
    ]
   },
   {

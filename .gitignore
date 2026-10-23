@@ -2,3 +2,4 @@ __pycache__/
 *.pyc
 *.blend1
 gemscale_export/
+v10-engine/cup_lite/slice/

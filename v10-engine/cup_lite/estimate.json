@@ -1,15 +1,15 @@
 {
  "total": {
-  "n": 23,
-  "h06": 33.840429888398035,
-  "h08": 28.92651253171344,
-  "g08": 1368.7158955771392,
+  "n": 24,
+  "h06": 34.117065057609956,
+  "h08": 29.169722925215314,
+  "g08": 1378.3905187816506,
   "cup_concept_h08": 30.71896507419722,
   "q08": 16.0,
   "by_colour": {
    "orange ASA": 309.3,
-   "silver ASA": 752.4000000000001,
-   "black ASA": 304.50000000000006,
+   "silver ASA": 753.6,
+   "black ASA": 313.00000000000006,
    "clear PETG": 2.4
   }
  },
@@ -36,9 +36,9 @@
     224.2,
     128.0
    ],
-   "h06": 11.51,
-   "h08": 9.52,
-   "g08": 457.6,
+   "h06": 11.54,
+   "h08": 9.54,
+   "g08": 458.8,
    "print": "upright, tree supports under the deck edges and port bosses",
    "colour": "silver ASA"
   },
@@ -208,6 +208,20 @@
    "h08": 0.61,
    "g08": 20.6,
    "print": "upright",
+   "colour": "black ASA"
+  },
+  {
+   "file": "k08_control_pod",
+   "qty": 1,
+   "size": [
+    38.0,
+    40.0,
+    28.0
+   ],
+   "h06": 0.25,
+   "h08": 0.22,
+   "g08": 8.5,
+   "print": "open bottom down",
    "colour": "black ASA"
   },
   {

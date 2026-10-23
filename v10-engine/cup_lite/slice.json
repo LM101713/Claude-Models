@@ -1,0 +1,240 @@
+{
+ "parts": [
+  {
+   "file": "l1_block_pan",
+   "qty": 1,
+   "size_as_printed": [
+    221.0,
+    179.5,
+    149.8
+   ],
+   "supports": false,
+   "h18": 5.14,
+   "g18": 321.2,
+   "h28": 3.58,
+   "g28": 321.2
+  },
+  {
+   "file": "l2_top_end",
+   "qty": 1,
+   "size_as_printed": [
+    219.9,
+    224.2,
+    128.0
+   ],
+   "supports": true,
+   "h18": 8.05,
+   "g18": 491.9,
+   "h28": 5.87,
+   "g28": 491.9
+  },
+  {
+   "file": "l3_air_cleaner",
+   "qty": 1,
+   "size_as_printed": [
+    132.0,
+    132.0,
+    29.0
+   ],
+   "supports": false,
+   "h18": 1.07,
+   "g18": 70.5,
+   "h28": 0.76,
+   "g28": 70.5
+  },
+  {
+   "file": "l4_header_right",
+   "qty": 1,
+   "size_as_printed": [
+    231.8,
+    72.6,
+    77.2
+   ],
+   "supports": true,
+   "h18": 2.16,
+   "g18": 115.6,
+   "h28": 1.74,
+   "g28": 115.6
+  },
+  {
+   "file": "l5_header_left",
+   "qty": 1,
+   "size_as_printed": [
+    231.8,
+    72.6,
+    77.2
+   ],
+   "supports": true,
+   "h18": 2.14,
+   "g18": 114.2,
+   "h28": 1.72,
+   "g28": 114.2
+  },
+  {
+   "file": "l6_front_drive",
+   "qty": 1,
+   "size_as_printed": [
+    136.4,
+    174.7,
+    89.5
+   ],
+   "supports": true,
+   "h18": 1.71,
+   "g18": 92.7,
+   "h28": 1.39,
+   "g28": 92.7
+  },
+  {
+   "file": "t01_valve_cover",
+   "qty": 2,
+   "size_as_printed": [
+    196.0,
+    62.2,
+    44.0
+   ],
+   "supports": false,
+   "h18": 1.36,
+   "g18": 87.8,
+   "h28": 0.95,
+   "g28": 87.8
+  },
+  {
+   "file": "t02_air_cleaner_lid",
+   "qty": 1,
+   "size_as_printed": [
+    131.7,
+    131.7,
+    12.0
+   ],
+   "supports": false,
+   "h18": 0.72,
+   "g18": 45.6,
+   "h28": 0.54,
+   "g28": 45.6
+  },
+  {
+   "file": "k01_crank_pulley",
+   "qty": 1,
+   "size_as_printed": [
+    46.0,
+    46.0,
+    37.1
+   ],
+   "supports": false,
+   "h18": 0.32,
+   "g18": 17.7,
+   "h28": 0.25,
+   "g28": 17.7
+  },
+  {
+   "file": "k02_pulley_water",
+   "qty": 1,
+   "size_as_printed": [
+    32.8,
+    32.8,
+    10.1
+   ],
+   "supports": false,
+   "h18": 0.08,
+   "g18": 4.6,
+   "h28": 0.07,
+   "g28": 4.6
+  },
+  {
+   "file": "k03_pulley_pump",
+   "qty": 1,
+   "size_as_printed": [
+    30.8,
+    30.8,
+    10.1
+   ],
+   "supports": false,
+   "h18": 0.08,
+   "g18": 4.1,
+   "h28": 0.06,
+   "g28": 4.1
+  },
+  {
+   "file": "k04_pulley_alt",
+   "qty": 1,
+   "size_as_printed": [
+    18.8,
+    18.8,
+    10.1
+   ],
+   "supports": false,
+   "h18": 0.04,
+   "g18": 1.4,
+   "h28": 0.04,
+   "g28": 1.4
+  },
+  {
+   "file": "k05_flywheel",
+   "qty": 1,
+   "size_as_printed": [
+    110.0,
+    110.0,
+    11.6
+   ],
+   "supports": false,
+   "h18": 0.66,
+   "g18": 41.5,
+   "h28": 0.5,
+   "g28": 41.5
+  },
+  {
+   "file": "k06_distributor",
+   "qty": 1,
+   "size_as_printed": [
+    40.0,
+    40.0,
+    100.0
+   ],
+   "supports": false,
+   "h18": 0.46,
+   "g18": 22.3,
+   "h28": 0.42,
+   "g28": 22.3
+  },
+  {
+   "file": "k07_plug_boot",
+   "qty": 8,
+   "size_as_printed": [
+    6.6,
+    10.4,
+    13.4
+   ],
+   "supports": false,
+   "h18": 0.03,
+   "g18": 0.3,
+   "h28": 0.03,
+   "g28": 0.3
+  },
+  {
+   "file": "k08_control_pod",
+   "qty": 1,
+   "size_as_printed": [
+    38.0,
+    40.0,
+    28.0
+   ],
+   "supports": false,
+   "h18": 0.16,
+   "g18": 9.4,
+   "h28": 0.13,
+   "g28": 9.4
+  }
+ ],
+ "total": {
+  "18": {
+   "hours": 25.772500000000004,
+   "grams": 1530.99
+  },
+  "28": {
+   "hours": 19.20277777777778,
+   "grams": 1530.99
+  }
+ },
+ "profile": "tools/slicer_cup_lite/asa_08.ini",
+ "slicer": "PrusaSlicer 2.7.2 CLI"
+}

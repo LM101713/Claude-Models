@@ -62,11 +62,9 @@ def build_l1():
     U.boolean(blk, U.rrect_prism("pan_open", 0, 0, 2 * BX - 10 - 2 * w - 0.2, 2 * C["side_y"] - 12 - 2 * w - 0.2, 9.5,
                                   C["pan_z"] - 2, C["rail_z"] + 2))
     # four insert bosses on the pan walls for the base-plate screws (M3 heat-set, 4.0 mm hole)
-    iy = C["side_y"] - 6 - w - 1.0 - 2.0
-    for x in (-70.0, 70.0):
-        for s in (1, -1):
-            U.union([blk, U.cylinder("ins_boss", 5.0, C["pan_z"], C["pan_z"] + 10.0, x, s * iy, segs=48)])
-            U.boolean(blk, U.cylinder("base_ins", 2.0, C["pan_z"] - 1, C["pan_z"] + 7.0, x, s * iy, segs=32))
+    for x, y in INSERT_XY:
+        U.union([blk, U.cylinder("ins_boss", 5.0, C["pan_z"], C["pan_z"] + 10.0, x, y, segs=48)])
+        U.boolean(blk, U.cylinder("base_ins", 2.0, C["pan_z"] - 1, C["pan_z"] + 7.0, x, y, segs=32))
     # N20 sleeves front and rear, on 45 deg gussets so they print without support. The front motor's
     # gearbox face sits on the inside of the front wall; the rear one goes through the rear wall into the
     # flywheel boss so its short shaft reaches the flywheel hub.
@@ -133,6 +131,11 @@ def head_lite():
     for i in range(4):   # light path: plug sockets run through into the hollow head
         o = Vector(((1.5 - i) * C["pitch"] + 14.0, hh - 1.0, d + 11.0)) + pdir * 4.2
         U.boolean(h, CC.cyl_dir("led_light", 1.8, 0.0, 9.0, o, -pdir, segs=24))
+        # locating ring on the inside wall for a 10 mm round WS2812B pixel board, glued in place
+        t_in = (o.y - (hh - WALL)) / pdir.y
+        ring = CC.cyl_dir("pixel_ring", 6.6, t_in - 0.6, t_in + 1.6, o, -pdir, segs=32)
+        U.boolean(ring, CC.cyl_dir("pixel_seat", 5.15, t_in - 1.0, t_in + 2.0, o, -pdir, segs=32))
+        U.union([h, ring])
     return h
 
 
@@ -253,10 +256,68 @@ def _d_bore(name, x0, x1, sx):
 
 
 # ---------------------------------------------------------------- base plate (bought) + assembly
+PLATE = dict(w=300.0, d=230.0, r=12.0)
+POD = dict(x=(112.0, 150.0), y=(-110.0, -70.0), h=28.0)     # control pod, front left on the plate
+INSERT_XY = [(x, s * (C["side_y"] - 6 - WALL - 3.0)) for x in (-70.0, 70.0) for s in (1, -1)]
+PLATE_HOLES = ([("screw_csk_M3", x, y, 3.4) for x, y in INSERT_XY]
+               + [("wire_pod", sum(POD["x"]) / 2, sum(POD["y"]) / 2, 10.0), ("wire_engine", 40.0, -30.0, 10.0)])
+
+
 def build_plate():
-    pl = U.rrect_prism("plate", 0, 0, 300.0, 230.0, 12.0, PLATE_Z[0], PLATE_Z[1] - 0.01)
+    pl = U.rrect_prism("plate", 0, 0, PLATE["w"], PLATE["d"], PLATE["r"], PLATE_Z[0], PLATE_Z[1] - 0.01)
     U.bevel(pl, 1.0, segments=3, angle_deg=40)
+    for _, x, y, dia in PLATE_HOLES:
+        U.boolean(pl, U.cylinder("plate_hole", dia / 2, PLATE_Z[0] - 1, PLATE_Z[1] + 1, x, y, segs=32))
     return pl
+
+
+def build_pod():
+    """Control pod: a hollow wedge glued to the plate, start button on the sloped face, USB-C power
+    socket in the back. Open bottom; its wires drop through the plate."""
+    (x0, x1), (y0, y1), h = POD["x"], POD["y"], POD["h"]
+    z0 = PLATE_Z[1]
+    prof = [(x0, z0), (x1, z0), (x1, z0 + 14.0), (x1 - 18.0, z0 + h), (x0, z0 + h)]
+    pod = _xz_prism("pod", prof, -y1, -y0)          # _xz_prism extrudes along -Y
+    w = 2.0
+    inner = [(x0 + w, z0 - 1.0), (x1 - w, z0 - 1.0), (x1 - w, z0 + 13.2), (x1 - 18.6, z0 + h - w), (x0 + w, z0 + h - w)]
+    U.boolean(pod, _xz_prism("pod_cav", inner, -(y1 - w), -(y0 + w)))
+    U.bevel(pod, 0.8, segments=2, angle_deg=40)
+    sx, sz = x1 - 9.0, z0 + 21.0                     # centre of the sloped face
+    nrm = Vector((14.0, 0.0, 18.0)).normalized()
+    U.boolean(pod, CC.cyl_dir("button_hole", 8.1, -4.0, 4.0, (sx, (y0 + y1) / 2, sz), nrm, segs=48))
+    U.boolean(pod, U.box("usb_c_slot", x0 - 1, x0 + w + 1, (y0 + y1) / 2 - 4.7, (y0 + y1) / 2 + 4.7, z0 + 8.0, z0 + 11.6))
+    return pod
+
+
+def write_plate_dxf(path):
+    """Laser-cut drawing of the base plate (mm, R12 DXF: outline + holes), for a quote."""
+    w, d, r = PLATE["w"], PLATE["d"], PLATE["r"]
+    ents = []
+
+    def line(a, b):
+        ents.append(f"0\nLINE\n8\nCUT\n10\n{a[0]:.3f}\n20\n{a[1]:.3f}\n30\n0\n11\n{b[0]:.3f}\n21\n{b[1]:.3f}\n31\n0")
+
+    def arc(c, rad, a0, a1):
+        ents.append(f"0\nARC\n8\nCUT\n10\n{c[0]:.3f}\n20\n{c[1]:.3f}\n30\n0\n40\n{rad:.3f}\n50\n{a0}\n51\n{a1}")
+
+    def circle(c, rad, layer="CUT"):
+        ents.append(f"0\nCIRCLE\n8\n{layer}\n10\n{c[0]:.3f}\n20\n{c[1]:.3f}\n30\n0\n40\n{rad:.3f}")
+    hx, hy = w / 2, d / 2
+    line((-hx + r, -hy), (hx - r, -hy))
+    arc((hx - r, -hy + r), r, 270, 360)
+    line((hx, -hy + r), (hx, hy - r))
+    arc((hx - r, hy - r), r, 0, 90)
+    line((hx - r, hy), (-hx + r, hy))
+    arc((-hx + r, hy - r), r, 90, 180)
+    line((-hx, hy - r), (-hx, -hy + r))
+    arc((-hx + r, -hy + r), r, 180, 270)
+    for name, x, y, dia in PLATE_HOLES:
+        circle((x, y), dia / 2)
+        if name.startswith("screw_csk"):
+            circle((x, y), 3.3, "COUNTERSINK_90DEG_6.6_BOTTOM")
+    body = "\n".join(ents)
+    with open(path, "w") as f:
+        f.write(f"0\nSECTION\n2\nENTITIES\n{body}\n0\nENDSEC\n0\nEOF\n")
 
 
 def build_all():
@@ -293,6 +354,12 @@ def build_all():
     for name, o, stl, q in build_kit():
         add(name, o, stl, q)
     add("plate", build_plate())
+    add("pod", build_pod(), "k08_control_pod")
+    (x0, x1), (y0, y1) = POD["x"], POD["y"]       # bought 16 mm metal button (render only)
+    nrm = Vector((14.0, 0.0, 18.0)).normalized()
+    c = Vector((x1 - 9.0, (y0 + y1) / 2, PLATE_Z[1] + 21.0))
+    add("button_body", CC.cyl_dir("button_body", 9.5, 0.0, 1.6, c, nrm, segs=48))
+    add("button_cap", CC.cyl_dir("button_cap", 6.2, 1.5, 2.6, c, nrm, segs=48))
     add("belt", CC.build_belt())
     for o in CC.build_wires():
         add(o.name, o, "k07_plug_boot" if o.name == "boot_A0" else None, 8 if o.name == "boot_A0" else 1)
@@ -321,6 +388,7 @@ def export(placed):
         print(("OK  " if ok else "BAD ") + msg, rows[-1]["size"], flush=True)
         U.delete(o)
     json.dump(dict(parts=rows), open(os.path.join(ROOT, "cup_lite", "parts.json"), "w"), indent=1)
+    write_plate_dxf(os.path.join(ROOT, "cup_lite", "base_plate_300x230x6.dxf"))
     return rows
 
 
@@ -337,7 +405,7 @@ def materials(palette):
         ("air_lid", P.machined_alu), ("valve_cover", P.wrinkle_black),
         ("distributor", P.wrinkle_black), ("header", P.stainless_heat), ("front_drive", P.cast_alu),
         ("crank_pulley", P.anodised_black), ("pulley", P.anodised_black), ("flywheel", P.dark_steel),
-        ("plate", P.powder_black), ("belt", lambda: rubber), ("wire_tb", lambda: rubber), ("wire", lambda: wire),
+        ("plate", P.powder_black), ("pod", P.wrinkle_black), ("button_body", P.machined_alu), ("button_cap", P.machined_alu), ("belt", lambda: rubber), ("wire_tb", lambda: rubber), ("wire", lambda: wire),
         ("boot", P.boot_glow), ("oil_line", lambda: hose), ("oil_fit", P.anodised_black),
     ]
 
