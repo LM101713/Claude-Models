@@ -3,3 +3,4 @@ __pycache__/
 *.blend1
 gemscale_export/
 v10-engine/cup_lite/slice/
+v10-engine/firmware_cup/.pio/
