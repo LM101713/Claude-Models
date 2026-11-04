@@ -1,0 +1,648 @@
+{
+  "params": {
+    "spool_bore": 55.0,
+    "spool_width": 67.0,
+    "length_margin": 3.0,
+    "body_od": 46.0,
+    "wall": 2.0,
+    "socket_bore": null,
+    "rim_chamfer": 0.6,
+    "mouth_chamfer": 0.5,
+    "collar_extra": 1.0,
+    "lug_count": 3,
+    "lug_width_deg": 14.0,
+    "lug_radial": 1.2,
+    "lug_tip_height": 2.0,
+    "flank_deg": 45.0,
+    "fit_radial": 0.2,
+    "lug_tip_clear": 0.25,
+    "bearing_play": 0.2,
+    "inner_play": 0.5,
+    "slot_clear": 0.3,
+    "stop_clear": 0.3,
+    "lip": 2.0,
+    "travel_deg": 90.0,
+    "detent_interference": 0.25,
+    "detent_halfwidth_deg": 6.0,
+    "plug_wall": 1.6,
+    "plug_tip_gap": 0.4,
+    "head_height": 5.5,
+    "face_thickness": 2.4,
+    "head_wall": 2.2,
+    "neck_od": null,
+    "base_chamfer": 0.8,
+    "head_top_chamfer": 0.4,
+    "flute_count": 24,
+    "flute_radius": 1.0,
+    "flute_depth": 0.45,
+    "index_flute_depth": 0.9,
+    "face_slot_count": 20,
+    "face_slot_width": 1.2,
+    "face_slot_r_in": 10.8,
+    "face_slot_r_out": 18.2,
+    "window_aperture": 14.0,
+    "window_diameter": 18.0,
+    "window_thickness": 1.2,
+    "window_radial_clear": 0.1,
+    "window_seat_depth": 1.4,
+    "window_ribs": 6,
+    "window_rib_interference": 0.15,
+    "film_thickness": 0.5,
+    "vent_width": 1.2,
+    "vent_rows": 2,
+    "vent_per_row": 40,
+    "vent_row_gap": 2.0,
+    "vent_margin": 0.8,
+    "label_sector_deg": 72.0,
+    "label_angle_deg": 180.0,
+    "brand_text": "DRYDOCK",
+    "text_height": 4.2,
+    "text_letter_width": 2.75,
+    "text_tracking": 1.15,
+    "text_stroke": 0.72,
+    "text_depth": 0.45,
+    "lock_mark_depth": 0.6,
+    "lock_mark_width": 1.6,
+    "lock_mark_length": 3.0,
+    "adapter_thickness": 3.6,
+    "adapter_axial_play": 0.3,
+    "adapter_radial_clear": 0.2,
+    "adapter_arms": 3,
+    "arm_thickness": 1.5,
+    "arm_length": 10.5,
+    "arm_root": 3.0,
+    "bump_height": 0.7,
+    "bump_width": 3.6,
+    "preload": 0.55,
+    "arm_gap_min": 1.0,
+    "bump_chamfer": 0.45,
+    "adapter_sizes": [
+      52.0,
+      53.5,
+      55.0,
+      56.5,
+      58.0,
+      60.0
+    ],
+    "stl_tolerance": 0.01,
+    "stl_angular": 0.1
+  },
+  "derived": {
+    "R_o": 23.0,
+    "R_i": 21.0,
+    "R_s": 19.5,
+    "R_p": 19.3,
+    "R_pi": 17.7,
+    "R_lt": 20.5,
+    "R_g": 20.75,
+    "tanf": 0.9999999999999999,
+    "tip_half": 1.0,
+    "z_c": 4.2,
+    "groove_end": 6.7,
+    "collar": 7.7,
+    "taper": 1.5,
+    "collar_total": 9.2,
+    "plug_len": 7.3,
+    "neck_len": 3.9,
+    "R_neck": 21.0,
+    "cap_out": 9.4,
+    "L_total": 64.0,
+    "L_body": 45.2,
+    "R_hi": 20.8,
+    "ang_slot": 0.8384748221426681,
+    "ang_stop": 0.8384748221426681,
+    "lug_half": 7.0,
+    "web_deg": 14.323050355714663,
+    "R_win": 9.0,
+    "R_rec": 9.1,
+    "R_ap": 7.0
+  },
+  "parameter_warnings": [],
+  "parts": {
+    "DD001_A_body": {
+      "volume_mm3": 12855.769731432369,
+      "bbox": [
+        46.0,
+        46.0,
+        45.20000000000003
+      ],
+      "est_grams": 16.816632385686685,
+      "est_minutes": 45.85256577144123
+    },
+    "DD001_B_cap_x2": {
+      "volume_mm3": 7430.9507449964585,
+      "bbox": [
+        45.963762711373974,
+        45.9703823656051,
+        16.7000001
+      ],
+      "est_grams": 9.720426669529866,
+      "est_minutes": 27.76983581665486
+    },
+    "DD001_C_window_x2_clear": {
+      "volume_mm3": 300.32997449787706,
+      "bbox": [
+        18.0,
+        18.0,
+        1.2
+      ],
+      "est_grams": 0.392861639640673,
+      "est_minutes": 4.001099914992924
+    },
+    "DD001_C2_film_window_retainer_x2_optional": {
+      "volume_mm3": 85.4513201776424,
+      "bbox": [
+        18.0,
+        18.0,
+        0.8499999999999999
+      ],
+      "est_grams": 0.11177887192437402,
+      "est_minutes": 3.2848377339254746
+    },
+    "DD001_E_coupler_expansion": {
+      "volume_mm3": 2794.0381946327534,
+      "bbox": [
+        39.8,
+        38.6,
+        14.6
+      ],
+      "est_grams": 3.654881362399105,
+      "est_minutes": 12.313460648775845
+    },
+    "DD001_T_fit_gauge_socket": {
+      "volume_mm3": 3732.3267606166805,
+      "bbox": [
+        46.0,
+        46.0,
+        9.200000000000006
+      ],
+      "est_grams": 4.88225663556268,
+      "est_minutes": 15.441089202055602
+    },
+    "DD001_D_adapter_flush_x2": {
+      "volume_mm3": 876.814320826707,
+      "bbox": [
+        46.0,
+        46.0,
+        3.6
+      ],
+      "est_grams": 1.1469608130734155,
+      "est_minutes": 5.92271440275569
+    },
+    "DD001_D_adapter_52mm_x2": {
+      "volume_mm3": 1185.3250365940917,
+      "bbox": [
+        49.509292800760605,
+        48.85,
+        3.6000000000000085
+      ],
+      "est_grams": 1.5505236803687314,
+      "est_minutes": 6.95108345531364
+    },
+    "DD001_D_adapter_53.5mm_x2": {
+      "volume_mm3": 1233.0359705179515,
+      "bbox": [
+        50.27126824755412,
+        49.618232273857046,
+        3.6000000000000085
+      ],
+      "est_grams": 1.6129343530345324,
+      "est_minutes": 7.110119901726505
+    },
+    "DD001_D_adapter_55mm_x2": {
+      "volume_mm3": 1279.5779321167643,
+      "bbox": [
+        51.64178803514578,
+        50.81284846089279,
+        3.6000000000000085
+      ],
+      "est_grams": 1.6738158930019393,
+      "est_minutes": 7.265259773722548
+    },
+    "DD001_D_adapter_56.5mm_x2": {
+      "volume_mm3": 1325.0405519274912,
+      "bbox": [
+        53.008022410052305,
+        52.00296669409623,
+        3.6000000000000036
+      ],
+      "est_grams": 1.7332855459763514,
+      "est_minutes": 7.416801839758304
+    },
+    "DD001_D_adapter_58mm_x2": {
+      "volume_mm3": 1369.5247843407108,
+      "bbox": [
+        54.37214701586417,
+        53.18899440550153,
+        3.6000000000000036
+      ],
+      "est_grams": 1.791475370396084,
+      "est_minutes": 7.565082614469036
+    },
+    "DD001_D_adapter_60mm_x2": {
+      "volume_mm3": 1427.413333032765,
+      "bbox": [
+        56.185704846038405,
+        54.764619540653385,
+        3.6000000000000156
+      ],
+      "est_grams": 1.86719938094016,
+      "est_minutes": 7.75804444344255
+    }
+  },
+  "mesh_checks": {
+    "DD001_A_body": {
+      "watertight": true,
+      "bodies": 1,
+      "volume_cm3": 12.85892941906942,
+      "overhang_area_mm2": 10.214881267885632,
+      "largest_overhang_patch_mm2": 1.0802416189952029,
+      "overhang_patch_min_extent_mm": 1.5238056182861328,
+      "wall_p1": 0.9925168046266652,
+      "wall_p5": 1.9989010105121048,
+      "wall_median": 2.2486099743775827
+    },
+    "DD001_B_cap_x2": {
+      "watertight": true,
+      "bodies": 1,
+      "volume_cm3": 7.431856231745402,
+      "overhang_area_mm2": 0.0,
+      "largest_overhang_patch_mm2": 0.0,
+      "overhang_patch_min_extent_mm": 0.0,
+      "wall_p1": 1.0000000192092884,
+      "wall_p5": 1.5995018619362107,
+      "wall_median": 2.4630997963694363
+    },
+    "DD001_C2_film_window_retainer_x2_optional": {
+      "watertight": true,
+      "bodies": 1,
+      "volume_cm3": 0.0854159141071523,
+      "overhang_area_mm2": 0.0,
+      "largest_overhang_patch_mm2": 0.0,
+      "overhang_patch_min_extent_mm": 0.0,
+      "wall_p1": 0.8500000238418579,
+      "wall_p5": 0.8500000238418579,
+      "wall_median": 0.8500000238418579
+    },
+    "DD001_C_window_x2_clear": {
+      "watertight": true,
+      "bodies": 1,
+      "volume_cm3": 0.30020553153255314,
+      "overhang_area_mm2": 0.0,
+      "largest_overhang_patch_mm2": 0.0,
+      "overhang_patch_min_extent_mm": 0.0,
+      "wall_p1": 1.2000000476837158,
+      "wall_p5": 1.2000000476837158,
+      "wall_median": 1.2000000476837158
+    },
+    "DD001_D_adapter_52mm_x2": {
+      "watertight": true,
+      "bodies": 1,
+      "volume_cm3": 1.1853895356675619,
+      "overhang_area_mm2": 0.0,
+      "largest_overhang_patch_mm2": 0.0,
+      "overhang_patch_min_extent_mm": 0.0,
+      "wall_p1": 1.4998810446528437,
+      "wall_p5": 1.4998819341458702,
+      "wall_median": 1.8041145632046196
+    },
+    "DD001_D_adapter_53.5mm_x2": {
+      "watertight": true,
+      "bodies": 1,
+      "volume_cm3": 1.2330718757658015,
+      "overhang_area_mm2": 0.0,
+      "largest_overhang_patch_mm2": 0.0,
+      "overhang_patch_min_extent_mm": 0.0,
+      "wall_p1": 1.4998733936369317,
+      "wall_p5": 1.49987429847274,
+      "wall_median": 1.8051204852832106
+    },
+    "DD001_D_adapter_55mm_x2": {
+      "watertight": true,
+      "bodies": 1,
+      "volume_cm3": 1.2795845292566448,
+      "overhang_area_mm2": 0.0,
+      "largest_overhang_patch_mm2": 0.0,
+      "overhang_patch_min_extent_mm": 0.0,
+      "wall_p1": 1.4998798713590356,
+      "wall_p5": 1.4998808531962509,
+      "wall_median": 1.8061675340914705
+    },
+    "DD001_D_adapter_56.5mm_x2": {
+      "watertight": true,
+      "bodies": 1,
+      "volume_cm3": 1.3251311920445277,
+      "overhang_area_mm2": 0.0,
+      "largest_overhang_patch_mm2": 0.0,
+      "overhang_patch_min_extent_mm": 0.0,
+      "wall_p1": 1.49987069954107,
+      "wall_p5": 1.4998717939528978,
+      "wall_median": 1.8065646639692976
+    },
+    "DD001_D_adapter_58mm_x2": {
+      "watertight": true,
+      "bodies": 1,
+      "volume_cm3": 1.3694986196496037,
+      "overhang_area_mm2": 0.0,
+      "largest_overhang_patch_mm2": 0.0,
+      "overhang_patch_min_extent_mm": 0.0,
+      "wall_p1": 1.4998773263745429,
+      "wall_p5": 1.4998786416035526,
+      "wall_median": 2.1942590282337315
+    },
+    "DD001_D_adapter_60mm_x2": {
+      "watertight": true,
+      "bodies": 1,
+      "volume_cm3": 1.4273597943927916,
+      "overhang_area_mm2": 0.0,
+      "largest_overhang_patch_mm2": 0.0,
+      "overhang_patch_min_extent_mm": 0.0,
+      "wall_p1": 1.499885475153329,
+      "wall_p5": 1.4998865386089237,
+      "wall_median": 2.495096089774757
+    },
+    "DD001_D_adapter_flush_x2": {
+      "watertight": true,
+      "bodies": 1,
+      "volume_cm3": 0.8764508619449812,
+      "overhang_area_mm2": 0.0,
+      "largest_overhang_patch_mm2": 0.0,
+      "overhang_patch_min_extent_mm": 0.0,
+      "wall_p1": 1.4539801138338664,
+      "wall_p5": 1.6748570176719741,
+      "wall_median": 1.799440753243391
+    },
+    "DD001_E_coupler_expansion": {
+      "watertight": true,
+      "bodies": 1,
+      "volume_cm3": 2.792844790399354,
+      "overhang_area_mm2": 0.0,
+      "largest_overhang_patch_mm2": 0.0,
+      "overhang_patch_min_extent_mm": 0.0,
+      "wall_p1": 1.2695549851278058,
+      "wall_p5": 1.5937287789192638,
+      "wall_median": 1.5995028377842644
+    },
+    "DD001_T_fit_gauge_socket": {
+      "watertight": true,
+      "bodies": 1,
+      "volume_cm3": 3.7303900254998568,
+      "overhang_area_mm2": 1.2579987486956554,
+      "largest_overhang_patch_mm2": 0.41933339133586855,
+      "overhang_patch_min_extent_mm": 0.8587856292724609,
+      "wall_p1": 2.245954841123937,
+      "wall_p5": 2.2477025942757547,
+      "wall_median": 3.4975322428636844
+    }
+  },
+  "validation": {
+    "fits": {
+      "cap_unlocked_seated": 0.0,
+      "cap_locked_seated": 0.0,
+      "insertion_path": [
+        [
+          -9,
+          0.0
+        ],
+        [
+          -7,
+          0.0
+        ],
+        [
+          -5,
+          0.0
+        ],
+        [
+          -3,
+          0.0
+        ],
+        [
+          -2,
+          0.0
+        ],
+        [
+          -1,
+          0.0
+        ],
+        [
+          -0.5,
+          0.0
+        ]
+      ],
+      "rotation_sweep": [
+        [
+          0,
+          0.0
+        ],
+        [
+          10,
+          0.0
+        ],
+        [
+          20,
+          0.0
+        ],
+        [
+          30,
+          0.0
+        ],
+        [
+          40,
+          0.0
+        ],
+        [
+          50,
+          0.0
+        ],
+        [
+          60,
+          0.0
+        ],
+        [
+          65,
+          0.0
+        ],
+        [
+          70,
+          0.7491338514376122
+        ],
+        [
+          72.5,
+          1.9936348580661447
+        ],
+        [
+          75,
+          2.214597523076763
+        ],
+        [
+          77.5,
+          2.214276910181445
+        ],
+        [
+          80,
+          2.182798574056303
+        ],
+        [
+          82.5,
+          1.276624141416421
+        ],
+        [
+          85,
+          0.04224073456869221
+        ],
+        [
+          87.5,
+          0.0
+        ],
+        [
+          90,
+          0.0
+        ],
+        [
+          91.0,
+          0.3307346009217781
+        ],
+        [
+          91.83847482214267,
+          2.4586039741729686
+        ],
+        [
+          94.0,
+          9.19921142417287
+        ]
+      ],
+      "pull_locked": [
+        [
+          -0.15000000000000002,
+          0.0
+        ],
+        [
+          -0.35,
+          2.1056808011563386
+        ],
+        [
+          -0.8,
+          8.422723204625214
+        ]
+      ],
+      "pull_unlocked_minus0p8": 0.0,
+      "top_cap_locked_seated": 0.0,
+      "top_cap_pull_0p4": 2.807574401541729,
+      "adapter_vs_cap": 0.0,
+      "adapter_vs_body": 0.0,
+      "window_vs_cap": 0.29589113812010853,
+      "coupler_vs_bodyA": 0.0,
+      "coupler_vs_bodyB": 0.0
+    },
+    "plug_ring_compliance_mm_per_N_free": 0.02025038880550317,
+    "detent_force_per_lug_N_free_ring": 12.345441976504715,
+    "detent_ramp_deg": 19.8721758192439,
+    "detent_torque_Nm_free_ring": 0.5165770327701853,
+    "lug_radial_engagement_mm": 1.0,
+    "pull_off_N_free_ring_lower_bound": 246.9088395300943,
+    "adapter_arms": {
+      "52.0": {
+        "free_contact_dia": 53.1,
+        "k_N_per_mm": 3.2646073040147408,
+        "F_nominal_N": 1.7955340172081076,
+        "F_max_N": 3.2646073040147408,
+        "strain_nominal_pct": 0.817965496728138,
+        "strain_max_pct": 1.4872099940511598,
+        "fits_bores": [
+          51.1,
+          52.8
+        ],
+        "axial_retention_N": 2.6933010258121612,
+        "gap_under_arm": 1.3500000000000014
+      },
+      "53.5": {
+        "free_contact_dia": 54.6,
+        "k_N_per_mm": 3.2646073040147408,
+        "F_nominal_N": 1.7955340172081076,
+        "F_max_N": 3.2646073040147408,
+        "strain_nominal_pct": 0.817965496728138,
+        "strain_max_pct": 1.4872099940511598,
+        "fits_bores": [
+          52.6,
+          54.3
+        ],
+        "axial_retention_N": 2.6933010258121612,
+        "gap_under_arm": 2.1000000000000014
+      },
+      "55.0": {
+        "free_contact_dia": 56.1,
+        "k_N_per_mm": 3.2646073040147408,
+        "F_nominal_N": 1.7955340172081076,
+        "F_max_N": 3.2646073040147408,
+        "strain_nominal_pct": 0.817965496728138,
+        "strain_max_pct": 1.4872099940511598,
+        "fits_bores": [
+          54.1,
+          55.8
+        ],
+        "axial_retention_N": 2.6933010258121612,
+        "gap_under_arm": 2.8500000000000014
+      },
+      "56.5": {
+        "free_contact_dia": 57.6,
+        "k_N_per_mm": 3.2646073040147408,
+        "F_nominal_N": 1.7955340172081076,
+        "F_max_N": 3.2646073040147408,
+        "strain_nominal_pct": 0.817965496728138,
+        "strain_max_pct": 1.4872099940511598,
+        "fits_bores": [
+          55.6,
+          57.3
+        ],
+        "axial_retention_N": 2.6933010258121612,
+        "gap_under_arm": 3.6000000000000014
+      },
+      "58.0": {
+        "free_contact_dia": 59.1,
+        "k_N_per_mm": 3.2646073040147408,
+        "F_nominal_N": 1.7955340172081076,
+        "F_max_N": 3.2646073040147408,
+        "strain_nominal_pct": 0.817965496728138,
+        "strain_max_pct": 1.4872099940511598,
+        "fits_bores": [
+          57.1,
+          58.8
+        ],
+        "axial_retention_N": 2.6933010258121612,
+        "gap_under_arm": 4.350000000000001
+      },
+      "60.0": {
+        "free_contact_dia": 61.1,
+        "k_N_per_mm": 3.2646073040147408,
+        "F_nominal_N": 1.7955340172081076,
+        "F_max_N": 3.2646073040147408,
+        "strain_nominal_pct": 0.817965496728138,
+        "strain_max_pct": 1.4872099940511598,
+        "fits_bores": [
+          59.1,
+          60.8
+        ],
+        "axial_retention_N": 2.6933010258121612,
+        "gap_under_arm": 5.350000000000001
+      }
+    }
+  },
+  "capacity": {
+    "cavity_ml": 72.54977311745591,
+    "fill_to_line_ml": 54.822137512131185,
+    "fill_line_z": 36.0,
+    "body_vent_area_mm2": 858.0000000000009,
+    "face_vent_area_mm2": 340.79999999999995,
+    "window_view_area_mm2": 307.8760800517997
+  },
+  "body_info": {
+    "length": 45.2,
+    "vent_slots": 65,
+    "vent_slot_length": 11.600000000000001,
+    "vent_open_area_mm2": 858.0000000000009,
+    "vent_band": [
+      10.0,
+      35.2
+    ]
+  }
+}
