@@ -18,7 +18,7 @@
 
 ## 2. PETG process settings (all estimated)
 
-| Setting | Fit-test & structural parts | Window (clear) |
+| Setting | Fit-test & structural parts | Window / blank* |
 |---|---|---|
 | Layer height | **0.20 mm** (the clearances were computed for 0.20 mm layer steps) | 0.20 mm (6 layers) |
 | First layer | 0.20 mm | 0.20 mm |
@@ -35,6 +35,13 @@
 | XY hole / contour compensation | **0** (the clearances already allow for FDM deviation; double compensation loosens the fit) | 0 |
 | Slicer scaling | 100 %; do not pre-scale for shrinkage | 100 % |
 
+\* **Window is optional as an indicator.** Without clear filament, print the window in PETG
+HF with the same settings as the other parts. It becomes an opaque blank that seals the
+face. It must still be fitted.
+
+**Filament actually used for the first test: Bambu PETG HF**, with the system PETG HF profile
+temperatures, for every part.
+
 ## 3. Orientation and supports
 
 Every STL is exported **already in print orientation**. Import it and do not rotate it.
@@ -44,7 +51,7 @@ Every STL is exported **already in print orientation**. Import it and do not rot
 | T1 double fit gauge | upright, either end down | none | slit ceilings are 14.6 mm bridges (normal for PETG) |
 | T2 detent tuning rings (1 dot / 3 dots) | mouth down | none | |
 | B cap | **face down** on the plate | none | 45° internal funnel and lug flanks; the window ledge is a 45° cone |
-| C window | flat, grip bar up | none | clear / translucent PETG |
+| C window / blank | flat, grip bar up | none | PETG HF (opaque blank) or clear PETG (indicator) |
 | D adapter (55 mm) | flat | none | orange PETG; the spring arms become solid perimeters with 4 walls |
 | A body (full cartridge) | upright, either end down | none | |
 | E coupler | upright | none | expansion only |

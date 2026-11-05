@@ -16,8 +16,8 @@ silica-gel cartridge for the spool hub, on a Bambu Lab H2C.
 2. **Open `PRINT_FILES/3mf/DD011_plate4_fit_test.3mf` in Bambu Studio.**
    - Choose the H2C and a PETG profile when asked.
    - Press **Arrange**.
-   - Assign filaments: charcoal for the gauge, rings and cap; clear for the window; orange
-     for the adapter.
+   - Assign filaments. A single filament for everything is fine: PETG HF was the setup used.
+     Colour doesn't affect fit.
    - Check the settings against `DOCUMENTATION/PRINTING_GUIDE.md`, then slice.
 
    It is a plain 3MF (geometry + colours), not a Bambu project file, so no settings come
@@ -57,8 +57,22 @@ drydock_v1.1_physical_test/
 | Double gauge (2 dots): both body sockets, printed as on the real body, plus a vent row | bayonet fit in both print orientations, click, stop, pull-out, bead containment |
 | Detent rings 0.20 mm (1 dot) and 0.40 mm (3 dots) | brackets the 0.30 mm nominal click |
 | Cap | mates with all three |
-| Window | twist-lock install, removal, 20 N push-in |
+| Window (**optional indicator**, see below) | twist-lock install, removal, 20 N push-in |
 | 55 mm adapter | fit and hold in the real spool bore |
+
+## Window = optional indicator
+
+The window part is **always printed and fitted**, because it closes the Ø14 mm hole in each
+cap face. Only its *transparency* is optional:
+
+- **No clear filament (default for this test round):** print the window in the same PETG HF
+  as everything else. It becomes an opaque **blank**: the same twist-lock, the same
+  retention, no colour view. Check bead condition by opening a cap.
+- **Indicator wanted later:** print it in clear or translucent PETG, or use the clear-sheet
+  carrier (`DD011_C2_film_window_retainer_x2_optional.stl`).
+
+**Never run the cartridge without a window or blank.** The 14 mm hole would let the beads
+out.
 
 ## Regenerating after a test
 

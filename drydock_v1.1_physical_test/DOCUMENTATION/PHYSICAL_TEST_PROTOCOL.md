@@ -175,7 +175,9 @@ Change **one** value at a time.
 
 ---
 
-## D. Indicator window (cap + window)
+## D. Window / blank (cap + window part)
+
+The window is optional as an indicator. With an opaque PETG HF blank, run D1–D3 (they test the mechanics) and mark D4 **N/A**.
 
 1. **Install** from the inside of the cap. Ears into the three notches, seat on the lip, turn
    60° clockwise (seen from inside) using the grip bar. Note the effort and any binding.
@@ -283,7 +285,7 @@ itself; colour difference obvious.
 | D1 | Window installs and removes by hand | | ☐ | ☐ | |
 | D2 | Window resists 20 N push-in | | ☐ | ☐ | |
 | D3 | Window resists 20 N push-out | | ☐ | ☐ | |
-| D4 | Colour change readable | | ☐ | ☐ | |
+| D4 | Colour change readable (N/A with an opaque blank) | | ☐ | ☐ | |
 | E1 | No whole beads escape (60 s shake + 20 taps) | gauge / full | ☐ | ☐ | count: |
 | E2 | All vent and tongue slits open | | ☐ | ☐ | |
 | E3 | No beads in the grooves after re-capping | | ☐ | ☐ | |
