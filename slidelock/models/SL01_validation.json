@@ -1,0 +1,1024 @@
+{
+ "params": {
+  "APEX_R": 0.25,
+  "ARC_SEG": 10,
+  "BRAND": "ODD LAYER",
+  "CARR_L": 30.0,
+  "CEIL_RAIL_Y": [
+   5.6,
+   8.6
+  ],
+  "CLEAR_SIDE": 0.2,
+  "CLEAR_Z": 0.2,
+  "CORNER_N": 4.0,
+  "CORNER_R": 12.0,
+  "CORNER_SEG": 48,
+  "CREST_R": 0.2,
+  "DENSITY": {
+   "PETG": 1.27,
+   "PLA": 1.24
+  },
+  "EDGE_R": 3.0,
+  "END_DEPTH": 0.9,
+  "END_FLANK_IN": 55.0,
+  "END_FLANK_OUT": 60.0,
+  "END_OVERSHOOT": 0.25,
+  "E_MODULUS": {
+   "PETG": 2000.0,
+   "PLA": 3000.0
+  },
+  "FIT_LID": 0.15,
+  "FLAG_GAP_TO_STOP": 1.2,
+  "FLAG_SLOT_IN": 1.0,
+  "FLAG_SLOT_OUT": 0.6,
+  "FLAG_SLOT_TOOL": 1.2,
+  "FLAG_T": 1.4,
+  "FLAG_TOP": 8.0,
+  "FLAG_Y": [
+   -7.6,
+   6.6
+  ],
+  "FLOOR": 2.4,
+  "FLOOR_RAIL_Y": [
+   3.5,
+   7.0
+  ],
+  "H": 13.0,
+  "HANGER_BOTTOM": 4.6,
+  "HANGER_T": 2.2,
+  "HANGER_Y": [
+   -8.5,
+   8.5
+  ],
+  "HOOK": 0.8,
+  "HOOK_Y": [
+   2.5,
+   6.5
+  ],
+  "HOOK_Z0": 5.7,
+  "KNOB_FILLET": 1.5,
+  "KNOB_H": 3.6,
+  "KNOB_L": 11.0,
+  "KNOB_R": 2.5,
+  "KNOB_SADDLE": 0.9,
+  "KNOB_W": 8.0,
+  "L": 76.0,
+  "LEADIN": 0.5,
+  "LID_SKIN": 2.2,
+  "MARK_DEPTH": 0.4,
+  "MARK_W": 0.6,
+  "MID_DEPTH": 0.7,
+  "MID_FLANK": 35.0,
+  "MODEL": "SLIDELOCK  SL-01",
+  "MU": 0.3,
+  "NOSE_R": 0.6,
+  "NOTCH_FLOOR_MARGIN": 0.15,
+  "NOTCH_ROOF": 1.3,
+  "NOTCH_TOP": 9.2,
+  "PITCH": 5.0,
+  "POCKET_DEPTH": 0.8,
+  "PRELOAD": 0.2,
+  "RAIL_H": 0.4,
+  "ROOT_FILLET": 0.6,
+  "SEAM_CHAMFER": 0.35,
+  "SKIRT": 1.2,
+  "SLOT_CHAMFER": 0.5,
+  "SLOT_CLEAR": 0.5,
+  "SPRING_END_GAP": 0.8,
+  "SPRING_GAP": 1.6,
+  "SPRING_H": 6.0,
+  "SPRING_ROOT_X": 11.0,
+  "SPRING_T": 1.2,
+  "SPRING_WALL_GAP": 0.5,
+  "STOP_T": 2.4,
+  "TEXT_DEPTH": 0.4,
+  "TONGUE_GAP": 0.15,
+  "TOOTH_FLANK": 65.0,
+  "TOOTH_X": 4.5,
+  "TRAVEL": 20.0,
+  "VARIANTS": [
+   [
+    "Soft",
+    1.2,
+    4.2,
+    1
+   ],
+   [
+    "Standard",
+    1.2,
+    6.0,
+    2
+   ],
+   [
+    "Firm",
+    1.4,
+    6.0,
+    3
+   ]
+  ],
+  "W": 30.0,
+  "WALL": 2.6
+ },
+ "derived": {
+  "YC": 12.4,
+  "CEIL": 10.8,
+  "SEAM": 10.0,
+  "FLOOR_RAIL_TOP": 2.8,
+  "CEIL_RAIL_BOT": 10.4,
+  "CZ0": 3.0,
+  "CZ1": 10.200000000000001,
+  "CH": 7.200000000000001,
+  "HALF_TRAVEL": 10.0,
+  "STOP_IN": 25.0,
+  "STOP_OUT": 27.4,
+  "FLAG_X0": 28.599999999999998,
+  "FLAG_X1": 29.999999999999996,
+  "HANGER_X0": 30.199999999999996,
+  "HANGER_X1": 32.4,
+  "TONGUE_TOP": 10.65,
+  "KNOB_TOP": 16.6,
+  "SLOT_W": 9.0,
+  "SLOT_L": 32.0,
+  "SPRING_OUT": 11.9,
+  "TIP_FREE": 13.299999999999999,
+  "PAD_Y": 12.200000000000001,
+  "POSITIONS": [
+   -10.0,
+   -5.0,
+   0.0,
+   5.0,
+   10.0
+  ]
+ },
+ "checks": {
+  "plan_offsets_convex": true,
+  "spring_preload_overlap_pairs_free_state": 68,
+  "tray_x_lid_overlap_pairs": 0,
+  "tray_x_lid_rotated180_overlap_pairs": 0,
+  "frame_x_tray_overlap_pairs": 0,
+  "frame_x_lid_overlap_pairs": 0,
+  "frame_x_tray_overlap_at_full_travel": 0,
+  "clearances_mm": {
+   "pad_to_wall": 0.1999988555908203,
+   "carriage_bottom_to_floor_rail": 0.20000004768371582,
+   "carriage_top_to_ceiling_rail": 0.1999988555908203,
+   "knob_to_slot": 0.5,
+   "carriage_end_on_stop_contact": 0.0,
+   "knob_to_slot_end_at_full_travel": 0.4975912868976593,
+   "lid_skirt_to_tongue": 0.14995168149471283,
+   "lid_ceiling_to_tongue_top": 0.15000057220458984,
+   "lid_hanger_to_tray": 0.09999942779541016,
+   "hook_tip_to_pocket_floor": 0.20000076293945312,
+   "lid_seam_step_contact": 0.0
+  },
+  "clearance_locations": {
+   "pad_to_wall": [
+    6.9,
+    -12.2,
+    9.57
+   ],
+   "carriage_bottom_to_floor_rail": [
+    15.0,
+    -6.85,
+    3.0
+   ],
+   "carriage_top_to_ceiling_rail": [
+    15.0,
+    6.18,
+    10.2
+   ],
+   "knob_to_slot": [
+    3.0,
+    4.0,
+    10.89
+   ],
+   "lid_skirt_to_tongue": [
+    35.32,
+    12.16,
+    10.27
+   ],
+   "lid_ceiling_to_tongue_top": [
+    -27.04,
+    -12.06,
+    10.8
+   ],
+   "lid_hanger_to_tray": [
+    -30.2,
+    4.5,
+    5.6
+   ],
+   "hook_tip_to_pocket_floor": [
+    30.8,
+    4.17,
+    5.87
+   ],
+   "lid_seam_step_contact": [
+    -26.0,
+    13.95,
+    10.0
+   ]
+  },
+  "motion_sweep": {
+   "positions": 201,
+   "overlaps": 0,
+   "min_tooth_wall_gap": 0.00773022323846817,
+   "worst": [
+    -9.98,
+    1
+   ],
+   "frame_overlaps": 0
+  }
+ },
+ "warnings": [],
+ "parts": {
+  "Tray": {
+   "volume_mm3": 10109.999129466332,
+   "nonmanifold_edges": 0,
+   "shells": 1,
+   "bbox": [
+    -38.0,
+    -15.0,
+    0.0,
+    38.0,
+    15.0,
+    10.649999618530273
+   ],
+   "area_mm2": 9311.120410395786,
+   "faces": 5374,
+   "mass_PETG_g_solid": 12.839698894422243
+  },
+  "Lid": {
+   "volume_mm3": 4686.087602262206,
+   "nonmanifold_edges": 0,
+   "shells": 1,
+   "bbox": [
+    -38.0,
+    -15.0,
+    4.599999904632568,
+    38.0,
+    15.0,
+    13.0
+   ],
+   "area_mm2": 5185.538981860504,
+   "faces": 3128,
+   "mass_PETG_g_solid": 5.9513312548730015
+  },
+  "Carriage_Soft": {
+   "volume_mm3": 5132.25618010731,
+   "nonmanifold_edges": 0,
+   "shells": 1,
+   "bbox": [
+    -15.0,
+    -13.300000190734863,
+    3.0,
+    15.0,
+    13.300000190734863,
+    16.237539291381836
+   ],
+   "area_mm2": 2687.298838686198,
+   "faces": 708,
+   "mass_PETG_g_solid": 6.517965348736283
+  },
+  "Carriage_Standard": {
+   "volume_mm3": 5213.054685718709,
+   "nonmanifold_edges": 0,
+   "shells": 1,
+   "bbox": [
+    -15.0,
+    -13.300000190734863,
+    3.0,
+    15.0,
+    13.300000190734863,
+    16.237539291381836
+   ],
+   "area_mm2": 2816.208989676088,
+   "faces": 734,
+   "mass_PETG_g_solid": 6.620579450862761
+  },
+  "Carriage_Firm": {
+   "volume_mm3": 5202.1668805394465,
+   "nonmanifold_edges": 0,
+   "shells": 1,
+   "bbox": [
+    -15.0,
+    -13.300000190734863,
+    3.0,
+    15.0,
+    13.300000190734863,
+    16.237539291381836
+   ],
+   "area_mm2": 2822.707463543862,
+   "faces": 763,
+   "mass_PETG_g_solid": 6.606751938285098
+  }
+ },
+ "detent": {
+  "Soft_PETG": {
+   "k_N_per_mm": 0.9744687993018024,
+   "beam_L_mm": 15.5,
+   "lock_breakaway_N": 3.171313020789296,
+   "tick_breakaway_N": 1.833411613091915,
+   "tick_snap_N": -0.47759520956880797,
+   "lock_snap_N": -0.8388501117460881,
+   "land_drag_N": 0.5262131411680573,
+   "defl_at_stop_mm": 0.3567056929913033,
+   "defl_seated_mid_mm": 0.1999741014746701,
+   "defl_max_mm": 0.8999999970028056
+  },
+  "Soft_PLA": {
+   "k_N_per_mm": 1.4617031989527036,
+   "beam_L_mm": 15.5,
+   "lock_breakaway_N": 4.756969531183945,
+   "tick_breakaway_N": 2.750117419637872,
+   "tick_snap_N": -0.7163928143532119,
+   "lock_snap_N": -1.2582751676191324,
+   "land_drag_N": 0.7893197117520859,
+   "defl_at_stop_mm": 0.3567056929913033,
+   "defl_seated_mid_mm": 0.1999741014746701,
+   "defl_max_mm": 0.8999999970028056
+  },
+  "Standard_PETG": {
+   "k_N_per_mm": 1.3920982847168606,
+   "beam_L_mm": 15.5,
+   "lock_breakaway_N": 4.530447172556137,
+   "tick_breakaway_N": 2.619159447274164,
+   "tick_snap_N": -0.6822788708125829,
+   "lock_snap_N": -1.1983573024944119,
+   "land_drag_N": 0.7517330588115104,
+   "defl_at_stop_mm": 0.3567056929913033,
+   "defl_seated_mid_mm": 0.1999741014746701,
+   "defl_max_mm": 0.8999999970028056
+  },
+  "Standard_PLA": {
+   "k_N_per_mm": 2.088147427075291,
+   "beam_L_mm": 15.5,
+   "lock_breakaway_N": 6.795670758834206,
+   "tick_breakaway_N": 3.9287391709112454,
+   "tick_snap_N": -1.0234183062188742,
+   "lock_snap_N": -1.7975359537416176,
+   "land_drag_N": 1.1275995882172656,
+   "defl_at_stop_mm": 0.3567056929913033,
+   "defl_seated_mid_mm": 0.1999741014746701,
+   "defl_max_mm": 0.8999999970028056
+  },
+  "Firm_PETG": {
+   "k_N_per_mm": 2.2106005169346443,
+   "beam_L_mm": 15.5,
+   "lock_breakaway_N": 7.194182315679422,
+   "tick_breakaway_N": 4.159128196365918,
+   "tick_snap_N": -1.0834335772625736,
+   "lock_snap_N": -1.9029470127573298,
+   "land_drag_N": 1.1937242554275374,
+   "defl_at_stop_mm": 0.3567056929913033,
+   "defl_seated_mid_mm": 0.1999741014746701,
+   "defl_max_mm": 0.8999999970028056
+  },
+  "Firm_PLA": {
+   "k_N_per_mm": 3.3159007754019663,
+   "beam_L_mm": 15.5,
+   "lock_breakaway_N": 10.791273473519132,
+   "tick_breakaway_N": 6.238692294548875,
+   "tick_snap_N": -1.6251503658938602,
+   "lock_snap_N": -2.854420519135994,
+   "land_drag_N": 1.790586383141306,
+   "defl_at_stop_mm": 0.3567056929913033,
+   "defl_seated_mid_mm": 0.1999741014746701,
+   "defl_max_mm": 0.8999999970028056
+  }
+ },
+ "springs": {
+  "Soft": {
+   "t": 1.2,
+   "h": 4.2,
+   "L": 15.5,
+   "strain_working_pct": 0.6742976066597294,
+   "strain_at_overtravel_stop_pct": 1.1987513007284079,
+   "overtravel_stop_mm": 1.6,
+   "k_PETG": 0.9744687993018024,
+   "k_PLA": 1.4617031989527036
+  },
+  "Standard": {
+   "t": 1.2,
+   "h": 6.0,
+   "L": 15.5,
+   "strain_working_pct": 0.6742976066597294,
+   "strain_at_overtravel_stop_pct": 1.1987513007284079,
+   "overtravel_stop_mm": 1.6,
+   "k_PETG": 1.3920982847168606,
+   "k_PLA": 2.088147427075291
+  },
+  "Firm": {
+   "t": 1.4,
+   "h": 6.0,
+   "L": 15.5,
+   "strain_working_pct": 0.7866805411030175,
+   "strain_at_overtravel_stop_pct": 1.2237252861602497,
+   "overtravel_stop_mm": 1.4000000000000001,
+   "k_PETG": 2.2106005169346443,
+   "k_PLA": 3.3159007754019663
+  }
+ },
+ "latch": {
+  "flag_L": 12.1,
+  "flag_t": 1.4,
+  "deflection": 0.6000000000000001,
+  "strain_pct": 0.8605969537599892,
+  "force_N_PETG": 2.602179659633509
+ },
+ "thickness": {
+  "Tray": {
+   "samples": 5341,
+   "min": 1.1156483888626099,
+   "min_at": [
+    -0.03,
+    -12.69,
+    9.88
+   ],
+   "thin_count": 3,
+   "thin_examples": [
+    [
+     1.1156483888626099,
+     [
+      -0.03,
+      -12.69,
+      9.88
+     ]
+    ],
+    [
+     1.1156483888626099,
+     [
+      9.97,
+      -12.69,
+      9.88
+     ]
+    ],
+    [
+     1.1156485080718994,
+     [
+      4.97,
+      -12.69,
+      9.88
+     ]
+    ]
+   ],
+   "engraving_min": 0.2716209590435028
+  },
+  "Lid": {
+   "samples": 3029,
+   "min": 1.0357040166854858,
+   "min_at": [
+    -35.86,
+    12.96,
+    11.21
+   ],
+   "thin_count": 1960,
+   "thin_examples": [
+    [
+     1.0357040166854858,
+     [
+      -35.86,
+      12.96,
+      11.21
+     ]
+    ],
+    [
+     1.0357040166854858,
+     [
+      35.86,
+      -12.96,
+      11.21
+     ]
+    ],
+    [
+     1.0357073545455933,
+     [
+      35.96,
+      12.86,
+      11.21
+     ]
+    ],
+    [
+     1.0357074737548828,
+     [
+      -35.96,
+      -12.86,
+      11.21
+     ]
+    ],
+    [
+     1.0357093811035156,
+     [
+      -36.16,
+      12.64,
+      11.21
+     ]
+    ],
+    [
+     1.0357093811035156,
+     [
+      36.16,
+      -12.64,
+      11.21
+     ]
+    ],
+    [
+     1.035710096359253,
+     [
+      -35.8,
+      -13.01,
+      11.21
+     ]
+    ],
+    [
+     1.035710096359253,
+     [
+      35.8,
+      13.01,
+      11.21
+     ]
+    ],
+    [
+     1.035711407661438,
+     [
+      -35.64,
+      -13.16,
+      11.21
+     ]
+    ],
+    [
+     1.035711407661438,
+     [
+      35.64,
+      13.16,
+      11.21
+     ]
+    ],
+    [
+     1.0357131958007812,
+     [
+      -36.01,
+      12.8,
+      11.21
+     ]
+    ],
+    [
+     1.0357131958007812,
+     [
+      36.01,
+      -12.8,
+      11.21
+     ]
+    ]
+   ],
+   "engraving_min": 2.1989991664886475
+  },
+  "Carriage_Standard": {
+   "samples": 1268,
+   "min": 1.198999285697937,
+   "min_at": [
+    -8.34,
+    -11.9,
+    5.0
+   ],
+   "thin_count": 0,
+   "thin_examples": [],
+   "engraving_min": 1.3705675601959229
+  }
+ },
+ "overhangs": {
+  "Tray": {
+   "flat_down_area": 34.89568444324786,
+   "steep_area": 0,
+   "flat_clusters": [
+    {
+     "area": 13.48,
+     "lo": [
+      -12.53,
+      1.38,
+      0.4
+     ],
+     "hi": [
+      4.24,
+      4.09,
+      0.4
+     ]
+    },
+    {
+     "area": 7.87,
+     "lo": [
+      4.67,
+      1.38,
+      0.4
+     ],
+     "hi": [
+      12.37,
+      4.16,
+      0.4
+     ]
+    },
+    {
+     "area": 7.15,
+     "lo": [
+      -8.65,
+      -3.84,
+      0.4
+     ],
+     "hi": [
+      9.02,
+      -2.39,
+      0.4
+     ]
+    },
+    {
+     "area": 3.2,
+     "lo": [
+      30.27,
+      3.83,
+      5.7
+     ],
+     "hi": [
+      30.53,
+      5.17,
+      5.7
+     ]
+    },
+    {
+     "area": 3.2,
+     "lo": [
+      -30.53,
+      3.83,
+      5.7
+     ],
+     "hi": [
+      -30.27,
+      5.17,
+      5.7
+     ]
+    }
+   ],
+   "steep_clusters": []
+  },
+  "Lid": {
+   "flat_down_area": 26.439991644213862,
+   "steep_area": 0,
+   "flat_clusters": [
+    {
+     "area": 4.0,
+     "lo": [
+      30.47,
+      -5.33,
+      7.4
+     ],
+     "hi": [
+      30.73,
+      -3.67,
+      7.4
+     ]
+    },
+    {
+     "area": 4.0,
+     "lo": [
+      30.47,
+      3.67,
+      7.4
+     ],
+     "hi": [
+      30.73,
+      5.33,
+      7.4
+     ]
+    },
+    {
+     "area": 4.0,
+     "lo": [
+      -30.73,
+      -5.33,
+      7.4
+     ],
+     "hi": [
+      -30.47,
+      -3.67,
+      7.4
+     ]
+    },
+    {
+     "area": 4.0,
+     "lo": [
+      -30.73,
+      3.67,
+      7.4
+     ],
+     "hi": [
+      -30.47,
+      5.33,
+      7.4
+     ]
+    },
+    {
+     "area": 1.44,
+     "lo": [
+      -10.1,
+      -7.2,
+      0.4
+     ],
+     "hi": [
+      -9.9,
+      -6.4,
+      0.4
+     ]
+    },
+    {
+     "area": 1.44,
+     "lo": [
+      -10.1,
+      6.4,
+      0.4
+     ],
+     "hi": [
+      -9.9,
+      7.2,
+      0.4
+     ]
+    },
+    {
+     "area": 1.44,
+     "lo": [
+      9.9,
+      -7.2,
+      0.4
+     ],
+     "hi": [
+      10.1,
+      -6.4,
+      0.4
+     ]
+    },
+    {
+     "area": 1.44,
+     "lo": [
+      9.9,
+      6.4,
+      0.4
+     ],
+     "hi": [
+      10.1,
+      7.2,
+      0.4
+     ]
+    },
+    {
+     "area": 0.78,
+     "lo": [
+      -5.1,
+      -6.47,
+      0.4
+     ],
+     "hi": [
+      -4.9,
+      -6.03,
+      0.4
+     ]
+    },
+    {
+     "area": 0.78,
+     "lo": [
+      -5.1,
+      6.03,
+      0.4
+     ],
+     "hi": [
+      -4.9,
+      6.47,
+      0.4
+     ]
+    },
+    {
+     "area": 0.78,
+     "lo": [
+      4.9,
+      -6.47,
+      0.4
+     ],
+     "hi": [
+      5.1,
+      -6.03,
+      0.4
+     ]
+    },
+    {
+     "area": 0.78,
+     "lo": [
+      4.9,
+      6.03,
+      0.4
+     ],
+     "hi": [
+      5.1,
+      6.47,
+      0.4
+     ]
+    },
+    {
+     "area": 0.78,
+     "lo": [
+      -0.1,
+      -6.47,
+      0.4
+     ],
+     "hi": [
+      0.1,
+      -6.03,
+      0.4
+     ]
+    },
+    {
+     "area": 0.78,
+     "lo": [
+      -0.1,
+      6.03,
+      0.4
+     ],
+     "hi": [
+      0.1,
+      6.47,
+      0.4
+     ]
+    }
+   ],
+   "steep_clusters": []
+  },
+  "Carriage_Standard": {
+   "flat_down_area": 1.8790262927605077,
+   "steep_area": 0,
+   "flat_clusters": [
+    {
+     "area": 1.88,
+     "lo": [
+      -1.74,
+      -0.54,
+      0.4
+     ],
+     "hi": [
+      1.72,
+      0.54,
+      0.4
+     ]
+    }
+   ],
+   "steep_clusters": []
+  }
+ },
+ "files": [
+  "models/stl/SL01_Tray.stl",
+  "models/stl/SL01_Lid.stl",
+  "models/stl/SL01_Carriage_Soft.stl",
+  "models/stl/SL01_Carriage_Standard.stl",
+  "models/stl/SL01_Carriage_Firm.stl",
+  "models/3mf/SL01_full_set.3mf",
+  "models/3mf/SL01_starter_plate.3mf"
+ ],
+ "summary": [
+  {
+   "check": "Tray: one closed manifold shell",
+   "passed": true,
+   "detail": "1 shell(s), 0 non-manifold edges"
+  },
+  {
+   "check": "Lid: one closed manifold shell",
+   "passed": true,
+   "detail": "1 shell(s), 0 non-manifold edges"
+  },
+  {
+   "check": "Carriage_Soft: one closed manifold shell",
+   "passed": true,
+   "detail": "1 shell(s), 0 non-manifold edges"
+  },
+  {
+   "check": "Carriage_Standard: one closed manifold shell",
+   "passed": true,
+   "detail": "1 shell(s), 0 non-manifold edges"
+  },
+  {
+   "check": "Carriage_Firm: one closed manifold shell",
+   "passed": true,
+   "detail": "1 shell(s), 0 non-manifold edges"
+  },
+  {
+   "check": "Tray and lid do not intersect",
+   "passed": true,
+   "detail": "0 intersecting triangle pairs (assembled; seam contact excluded)"
+  },
+  {
+   "check": "Lid also fits turned 180 degrees (fool-proof assembly)",
+   "passed": true,
+   "detail": "0 intersecting triangle pairs"
+  },
+  {
+   "check": "Carriage frame does not intersect the tray at full travel",
+   "passed": true,
+   "detail": "carriage 0.01 mm short of the stop"
+  },
+  {
+   "check": "Carriage frame does not intersect tray or lid (centre)",
+   "passed": true,
+   "detail": "frame = carriage without springs"
+  },
+  {
+   "check": "Full-travel sweep: no rigid-part intersection",
+   "passed": true,
+   "detail": "201 positions, every 0.1 mm over 20 mm"
+  },
+  {
+   "check": "Full-travel sweep: bent springs never cut the wall",
+   "passed": true,
+   "detail": "min tooth-wall gap 0.008 mm (springs bent to the model deflection + 0.06 mm)"
+  },
+  {
+   "check": "Clearance pad_to_wall",
+   "passed": true,
+   "detail": "0.200 mm (design 0.20)"
+  },
+  {
+   "check": "Clearance carriage_bottom_to_floor_rail",
+   "passed": true,
+   "detail": "0.200 mm (design 0.20)"
+  },
+  {
+   "check": "Clearance carriage_top_to_ceiling_rail",
+   "passed": true,
+   "detail": "0.200 mm (design 0.20)"
+  },
+  {
+   "check": "Clearance knob_to_slot",
+   "passed": true,
+   "detail": "0.500 mm (design 0.50)"
+  },
+  {
+   "check": "Designed contact carriage_end_on_stop_contact",
+   "passed": true,
+   "detail": "0.000 mm"
+  },
+  {
+   "check": "Clearance knob_to_slot_end_at_full_travel",
+   "passed": true,
+   "detail": "0.498 mm (design 0.50)"
+  },
+  {
+   "check": "Clearance lid_skirt_to_tongue",
+   "passed": true,
+   "detail": "0.150 mm (design 0.15)"
+  },
+  {
+   "check": "Clearance lid_ceiling_to_tongue_top",
+   "passed": true,
+   "detail": "0.150 mm (design 0.15)"
+  },
+  {
+   "check": "Clearance lid_hanger_to_tray",
+   "passed": true,
+   "detail": "0.100 mm (design 0.10)"
+  },
+  {
+   "check": "Clearance hook_tip_to_pocket_floor",
+   "passed": true,
+   "detail": "0.200 mm (design 0.20)"
+  },
+  {
+   "check": "Designed contact lid_seam_step_contact",
+   "passed": true,
+   "detail": "0.000 mm"
+  },
+  {
+   "check": "Spring Soft: working strain < 0.8 %",
+   "passed": true,
+   "detail": "0.67 % working, 1.20 % at the overtravel stop"
+  },
+  {
+   "check": "Spring Standard: working strain < 0.8 %",
+   "passed": true,
+   "detail": "0.67 % working, 1.20 % at the overtravel stop"
+  },
+  {
+   "check": "Spring Firm: working strain < 0.8 %",
+   "passed": true,
+   "detail": "0.79 % working, 1.22 % at the overtravel stop"
+  },
+  {
+   "check": "Tray: no unsupported overhang steeper than 45 deg",
+   "passed": true,
+   "detail": "0.00 mm2 steep, 34.9 mm2 flat down-facing (bridges / small ledges, see clusters)"
+  },
+  {
+   "check": "Lid: no unsupported overhang steeper than 45 deg",
+   "passed": true,
+   "detail": "0.00 mm2 steep, 26.4 mm2 flat down-facing (bridges / small ledges, see clusters)"
+  },
+  {
+   "check": "Carriage_Standard: no unsupported overhang steeper than 45 deg",
+   "passed": true,
+   "detail": "0.00 mm2 steep, 1.9 mm2 flat down-facing (bridges / small ledges, see clusters)"
+  }
+ ],
+ "all_passed": true,
+ "elapsed_s": 8.397172927856445
+}
