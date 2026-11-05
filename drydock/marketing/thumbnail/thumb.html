@@ -1,0 +1,93 @@
+<!doctype html><html><head><meta charset="utf-8"><title>DRYDOCK thumb</title>
+<style>html,body{margin:0;overflow:hidden;background:transparent}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"/three/build/three.module.js","three/addons/":"/three/examples/jsm/"}}</script>
+</head><body><script type="module">
+// Light-studio render of the REAL DRYDOCK V1.1 assembly (GLB from thumb_scene.py) rising out of a
+// GENERIC spool (simple primitives at the brief's dimensions: 200 mm flanges, 67 mm wide, 55 mm bore).
+import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+const q = new URLSearchParams(location.search);
+const W = +(q.get("w") || 1920), H = +(q.get("h") || 1080);
+const transparent = q.get("bg") === "none";
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1); renderer.setSize(W, H);
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.VSMShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+THREE.Object3D.DEFAULT_UP.set(0, 0, 1);
+const scene = new THREE.Scene();
+const pm = new THREE.PMREMGenerator(renderer);
+scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.85;
+scene.background = transparent ? null : new THREE.Color("#efefed");
+
+function lathe(pts, mat, seg = 160) {             // pts: [r, z]; lathe axis is Y -> rotate to Z
+  const g = new THREE.LatheGeometry(pts.map(([r, z]) => new THREE.Vector2(r, z)), seg);
+  const m = new THREE.Mesh(g, mat); m.rotation.x = Math.PI / 2; m.castShadow = m.receiveShadow = true; return m;
+}
+async function main() {
+  const dims = await (await fetch("/out/dims.json")).json();
+  const meta = await (await fetch("/out/drydock_v11_assembly.json")).json();
+  const gltf = await new GLTFLoader().loadAsync("/out/drydock_v11_assembly.glb");
+  const colors = { charcoal: "#2a2c30", orange: "#ff6a13" };
+  const byName = Object.fromEntries(meta.parts.map(p => [p.name, p]));
+  gltf.scene.traverse(o => {
+    if (!o.isMesh) return;
+    const p = byName[o.name] || byName[o.parent?.name];
+    o.geometry = o.geometry.toNonIndexed(); o.geometry.computeVertexNormals();
+    const k = p ? p.kind : "charcoal";
+    o.material = k === "orange"
+      ? new THREE.MeshPhysicalMaterial({ color: colors.orange, roughness: 0.5, clearcoat: 0.15, clearcoatRoughness: 0.6 })
+      : new THREE.MeshPhysicalMaterial({ color: colors.charcoal, roughness: 0.62, clearcoat: 0.12, clearcoatRoughness: 0.7, sheen: 0.3, sheenColor: new THREE.Color("#555") });
+    o.castShadow = o.receiveShadow = true;
+  });
+  const W_ = dims.width, Rb = dims.bore / 2, Rf = 100, t = 2.4;
+  const lift = +(q.get("lift") || 18);                 // how deep the cartridge sits in the hub (mm)
+  const cart = new THREE.Group(); cart.add(gltf.scene);
+  cart.position.z = W_ - lift + dims.cap_out;          // cartridge bottom face at z = W - lift
+  cart.rotation.z = THREE.MathUtils.degToRad(+(q.get("spin") || 0));
+  scene.add(cart);
+  // generic spool
+  const spoolCol = q.get("spool") || "#1c1d20";
+  const white = new THREE.MeshPhysicalMaterial({ color: spoolCol, roughness: 0.62, clearcoat: 0.18, clearcoatRoughness: 0.5 });
+  const flange = z0 => lathe([[Rb, z0], [Rf - 0.8, z0], [Rf, z0 + 0.8], [Rf, z0 + t - 0.8], [Rf - 0.8, z0 + t], [Rb + 0.6, z0 + t], [Rb, z0 + t - 0.6], [Rb, z0]], white);
+  scene.add(flange(0), flange(W_ - t));
+  scene.add(lathe([[Rb, t], [Rb + 2.2, t], [Rb + 2.2, W_ - t], [Rb, W_ - t], [Rb, t]], white));
+  // wound filament: black PETG with a fine winding texture (1.75 mm pitch)
+  const c = document.createElement("canvas"); c.width = 16; c.height = 512;
+  const g = c.getContext("2d"); g.fillStyle = "#808080"; g.fillRect(0, 0, 16, 512);
+  const turns = Math.round((W_ - 2 * t) / 1.75);
+  for (let i = 0; i < turns; i++) { const y = (i + 0.5) * 512 / turns; const gr = g.createLinearGradient(0, y - 512 / turns / 2, 0, y + 512 / turns / 2);
+    gr.addColorStop(0, "#202020"); gr.addColorStop(0.5, "#ffffff"); gr.addColorStop(1, "#202020"); g.fillStyle = gr; g.fillRect(0, y - 512 / turns / 2, 16, 512 / turns); }
+  const bump = new THREE.CanvasTexture(c);
+  const black = new THREE.MeshPhysicalMaterial({ color: q.get("fil") || "#d9d9d6", roughness: 0.3, clearcoat: 0.6, clearcoatRoughness: 0.25, bumpMap: bump, bumpScale: 0.6 });
+  const fil = new THREE.Mesh(new THREE.CylinderGeometry(84, 84, W_ - 2 * t - 0.2, 220, 1, true), black);
+  fil.rotation.x = Math.PI / 2; fil.position.z = W_ / 2; fil.castShadow = fil.receiveShadow = true; scene.add(fil);
+  // floor: shadow catcher only
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(4000, 4000), new THREE.ShadowMaterial({ opacity: +(q.get("shadow") || 0.22) }));
+  floor.receiveShadow = true; scene.add(floor);
+  // lights: big soft key from upper left-front, fill right, rim back
+  const key = new THREE.DirectionalLight("#ffffff", 2.2); key.position.set(-260, -180, 420); key.castShadow = true;
+  key.shadow.mapSize.set(4096, 4096); key.shadow.radius = 14; key.shadow.blurSamples = 24;
+  Object.assign(key.shadow.camera, { left: -260, right: 260, top: 260, bottom: -260, near: 10, far: 1500 }); key.shadow.bias = -0.0004;
+  scene.add(key);
+  const fill = new THREE.DirectionalLight("#f3f6ff", 0.7); fill.position.set(300, -260, 120); scene.add(fill);
+  const rim = new THREE.DirectionalLight("#ffffff", 1.1); rim.position.set(120, 320, 260); scene.add(rim);
+  scene.add(new THREE.HemisphereLight("#ffffff", "#d8d8d4", 0.35));
+  // camera
+  const fov = +(q.get("fov") || 26);
+  const cam = new THREE.PerspectiveCamera(fov, W / H, 5, 5000);
+  const az = THREE.MathUtils.degToRad(+(q.get("az") || -38)), el = THREE.MathUtils.degToRad(+(q.get("el") || 24));
+  const dist = +(q.get("dist") || 420);
+  const tgt = new THREE.Vector3(+(q.get("tx") || 0), +(q.get("ty") || 0), +(q.get("tz") || 70));
+  cam.position.set(tgt.x + dist * Math.cos(el) * Math.sin(az), tgt.y - dist * Math.cos(el) * Math.cos(az), tgt.z + dist * Math.sin(el));
+  cam.lookAt(tgt);
+  const ox = +(q.get("ox") || 0), oy = +(q.get("oy") || 0);   // shift the product in the frame (px)
+  if (ox || oy) cam.setViewOffset(W, H, -ox, -oy, W, H);
+  renderer.render(scene, cam);
+  document.title = "done";
+}
+main().catch(e => { document.title = "error " + e; console.error(e); });
+</script></body></html>
