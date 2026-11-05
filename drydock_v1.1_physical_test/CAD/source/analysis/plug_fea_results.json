@@ -1,0 +1,9 @@
+{
+ "model": "plug_fea.py: quadratic hex (Hex27) mesh, 54 x 5 x 13 cells, PETG E=2000 MPa nu=0.38",
+ "check_free_ring": {"fea_compliance_mm_per_N": 0.01897, "thin_ring_formula_mm_per_N": 0.02025,
+                      "agreement": "FEA 6 % stiffer than the thin-ring formula (expected: distributed load, plate effect)"},
+ "anchored_plug": {"k_N_per_mm_per_lug": 569.7, "compliance_mm_per_N": 0.001755,
+                   "stiffening_vs_free_ring": 10.8,
+                   "boundary": "neck clamped at z=-3.9 (head treated as rigid): an upper bound on stiffness; a flexible head might lower it by tens of percent, not by 10x"},
+ "runtime_s": {"free_ring": 198, "anchored": 856}
+}

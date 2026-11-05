@@ -1,0 +1,8 @@
+{
+ "geometry": "p001",
+ "vents": "closed (joint gaps only)",
+ "pitch_mm": 0.1,
+ "cap_lift_mm": 0.2,
+ "largest_escaping_bead_mm": "< 0.2 (nothing of 0.2 mm or more gets out)",
+ "smallest_trapped_bead_mm": 0.2
+}
