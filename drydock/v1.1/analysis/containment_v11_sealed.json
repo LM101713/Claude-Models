@@ -1,0 +1,9 @@
+{
+ "geometry": "v11",
+ "vents": "closed (joint gaps only)",
+ "pitch_mm": 0.1,
+ "cap_lift_mm": 0.4,
+ "largest_escaping_bead_mm": 0.47,
+ "smallest_trapped_bead_mm": 0.52,
+ "solid_voxels": 31354803
+}

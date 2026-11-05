@@ -1,0 +1,15 @@
+{
+ "geometry": "p001",
+ "pitch_mm": 0.1,
+ "cap_lift_mm": 0.2,
+ "largest_escaping_bead_mm": 1.32,
+ "smallest_trapped_bead_mm": 1.36,
+ "bottleneck_location": {
+  "r_median": 20.329412190223305,
+  "z_range": [
+   -10.35,
+   55.54999999999976
+  ]
+ },
+ "solid_voxels": 28634182
+}
