@@ -286,7 +286,7 @@ def build(parts, pf, out, render=False, samples=128):
 
     # ---- section through the left roller axis, along its slot ----------------------------
     X = COLL["HF04_Section"]
-    nrm = (D.n[0], 0.0, D.n[1])
+    nrm = (D.u[0], 0.0, D.u[1])  # cut across the slot, through the roller axis
     s_cut = 14.0
     c = centre(s_cut)
     off = nrm[0] * c[0] + nrm[2] * c[1]
@@ -444,14 +444,28 @@ def render_all(sc, cams, out, states):
         for _, p in panels:
             os.remove(p)
     shot(sc, cams["empty"], os.path.join(R, "04_empty.png"), ["HF04_States", "HF04_State_empty", "HF04_Studio"])
-    # section camera: look along -n at the cut face, from the channel side, slightly from the front
-    nrm = Vector((D.n[0], 0.0, D.n[1]))
+    # section camera: look down the ramp at the cut face (normal +u), wall at the bottom of the frame
+    u3 = Vector((D.u[0], 0.0, D.u[1]))
     c = centre(14.0)
-    tgt = Vector((c[0], 9.5, c[1])) + Vector((D.u[0], 0, D.u[1])) * 2.0
+    tgt = Vector((c[0] + 1.5, 13.5, c[1]))
     cam = cams["section"]
-    cam.location = tgt + nrm * 110 + Vector((0, 30, 0))
-    look_at(cam, tgt)
-    cam.data.lens = 105
+    cam.location = tgt + u3 * 150 + Vector((0, 18, 0)) + Vector((D.n[0], 0, D.n[1])) * 12
+    f = (tgt - cam.location).normalized()
+    right = f.cross(Vector((0, 1, 0))).normalized()
+    up = right.cross(f).normalized()
+    from mathutils import Matrix
+
+    cam.matrix_world = Matrix((
+        (right.x, up.x, -f.x, cam.location.x),
+        (right.y, up.y, -f.y, cam.location.y),
+        (right.z, up.z, -f.z, cam.location.z),
+        (0, 0, 0, 1),
+    ))
+    cam.data.lens = 70
+    sec_light = COLL["HF04_Section"].objects.get("Section_Light")
+    if sec_light is None:
+        sec_light = area_light("Section_Light", tuple(cam.location + Vector((0, 40, 0)) + right * 40), tuple(tgt), 150,
+                               2.2e5, coll="HF04_Section")
     shot(sc, cam, os.path.join(R, "05_section.png"), ["HF04_Section", "HF04_Studio"])
     shot(sc, cams["plate"], os.path.join(R, "06_print_plate.png"), ["HF04_Print_Plate", "HF04_Table"])
     shot(sc, cams["variants"], os.path.join(R, "07_variants.png"), ["HF04_Variants", "HF04_Table"])
