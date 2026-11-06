@@ -1,0 +1,3877 @@
+{
+ "status": "CAD only - not printed or physically tested",
+ "mesh": {
+  "upper": {
+   "volume_mm3": 16164.3,
+   "components": 1,
+   "genus": 6,
+   "triangles": 14610,
+   "status": "Error.NoError"
+  },
+  "blade": {
+   "volume_mm3": 13193.4,
+   "components": 1,
+   "genus": 2,
+   "triangles": 32268,
+   "status": "Error.NoError"
+  },
+  "lever": {
+   "volume_mm3": 6560.9,
+   "components": 1,
+   "genus": 2,
+   "triangles": 15678,
+   "status": "Error.NoError"
+  },
+  "bail_a": {
+   "volume_mm3": 1077.9,
+   "components": 1,
+   "genus": 0,
+   "triangles": 2596,
+   "status": "Error.NoError"
+  },
+  "bail_b": {
+   "volume_mm3": 338.8,
+   "components": 1,
+   "genus": 2,
+   "triangles": 5892,
+   "status": "Error.NoError"
+  },
+  "pin_p": {
+   "volume_mm3": 231.0,
+   "components": 1,
+   "genus": 0,
+   "triangles": 892,
+   "status": "Error.NoError"
+  },
+  "pin_h": {
+   "volume_mm3": 348.1,
+   "components": 1,
+   "genus": 0,
+   "triangles": 892,
+   "status": "Error.NoError"
+  },
+  "blade_firm": {
+   "volume_mm3": 13976.6,
+   "components": 1,
+   "genus": 2,
+   "triangles": 32432,
+   "status": "Error.NoError"
+  }
+ },
+ "sweep": {
+  "blade|upper": {
+   "min_gap": 0.346,
+   "at_deg": 10,
+   "where": {
+    "y": [
+     3.35,
+     3.85
+    ],
+    "at": null
+   }
+  },
+  "lever|upper": {
+   "min_gap": 0.0,
+   "at_deg": 0,
+   "where": {
+    "y": [
+     -1.19,
+     1.19
+    ],
+    "at": null
+   }
+  },
+  "bail_a|upper": {
+   "min_gap": 0.917,
+   "at_deg": 0,
+   "where": {
+    "y": [
+     -9.0,
+     -6.35
+    ],
+    "at": null
+   }
+  },
+  "bail_b|upper": {
+   "min_gap": 0.917,
+   "at_deg": 0,
+   "where": {
+    "y": [
+     6.35,
+     9.0
+    ],
+    "at": null
+   }
+  },
+  "pin_p|upper": {
+   "min_gap": 0.247,
+   "at_deg": 104,
+   "where": {
+    "y": [
+     3.35,
+     3.85
+    ],
+    "at": null
+   }
+  },
+  "pin_h|upper": {
+   "min_gap": 0.247,
+   "at_deg": 98,
+   "where": {
+    "y": [
+     6.35,
+     9.0
+    ],
+    "at": null
+   }
+  },
+  "blade|lever": {
+   "min_gap": 0.292,
+   "at_deg": 10,
+   "where": {
+    "y": [
+     -1.0,
+     1.0
+    ],
+    "at": null
+   }
+  },
+  "bail_a|blade": {
+   "min_gap": 0.197,
+   "at_deg": 174,
+   "where": {
+    "y": [
+     -1.0,
+     1.0
+    ],
+    "at": null
+   }
+  },
+  "bail_b|blade": {
+   "min_gap": 1000000000.0,
+   "at_deg": null,
+   "where": null
+  },
+  "blade|pin_p": {
+   "min_gap": 1.941,
+   "at_deg": 10,
+   "where": {
+    "y": [
+     -1.0,
+     1.0
+    ],
+    "at": null
+   }
+  },
+  "bail_a|lever|body": {
+   "min_gap": 1.192,
+   "at_deg": 92,
+   "where": {
+    "y": [
+     -9.0,
+     -6.35
+    ],
+    "at": null
+   }
+  },
+  "bail_a|lever": {
+   "min_gap": 0.247,
+   "at_deg": 168,
+   "where": {
+    "y": [
+     -1.3,
+     1.3
+    ],
+    "at": null
+   }
+  },
+  "bail_b|lever": {
+   "min_gap": 1.192,
+   "at_deg": 92,
+   "where": {
+    "y": [
+     6.35,
+     9.0
+    ],
+    "at": null
+   }
+  },
+  "lever|pin_h": {
+   "min_gap": 49.38,
+   "at_deg": 0,
+   "where": {
+    "y": [
+     6.0,
+     9.0
+    ],
+    "at": null
+   }
+  },
+  "bail_a|pin_p": {
+   "min_gap": 3.501,
+   "at_deg": 106,
+   "where": {
+    "y": [
+     -6.0,
+     6.0
+    ],
+    "at": null
+   }
+  },
+  "bail_a|pin_h": {
+   "min_gap": 110.82,
+   "at_deg": 0,
+   "where": {
+    "y": [
+     -9.0,
+     -6.35
+    ],
+    "at": null
+   }
+  },
+  "bail_b|pin_p": {
+   "min_gap": 1000000000.0,
+   "at_deg": null,
+   "where": null
+  },
+  "bail_b|pin_h": {
+   "min_gap": 110.82,
+   "at_deg": 0,
+   "where": {
+    "y": [
+     6.35,
+     9.0
+    ],
+    "at": null
+   }
+  },
+  "pin_h|pin_p": {
+   "min_gap": 113.343,
+   "at_deg": 74,
+   "where": {
+    "y": [
+     -6.0,
+     6.0
+    ],
+    "at": null
+   }
+  }
+ },
+ "sweep_degs": [
+  0.0,
+  190.0,
+  96
+ ],
+ "sweep_firm_blade": {
+  "blade|upper": {
+   "min_gap": 0.346,
+   "at_deg": 10,
+   "where": {
+    "y": [
+     3.35,
+     3.85
+    ],
+    "at": null
+   }
+  },
+  "blade|lever": {
+   "min_gap": 0.292,
+   "at_deg": 10,
+   "where": {
+    "y": [
+     -1.0,
+     1.0
+    ],
+    "at": null
+   }
+  },
+  "bail_a|blade": {
+   "min_gap": 0.197,
+   "at_deg": 174,
+   "where": {
+    "y": [
+     -1.0,
+     1.0
+    ],
+    "at": null
+   }
+  },
+  "bail_b|blade": {
+   "min_gap": 1000000000.0,
+   "at_deg": null,
+   "where": null
+  },
+  "blade|pin_p": {
+   "min_gap": 1.941,
+   "at_deg": 10,
+   "where": {
+    "y": [
+     -1.0,
+     1.0
+    ],
+    "at": null
+   }
+  }
+ },
+ "lock_fit": {
+  "ridge_flank_and_top": {
+   "min_gap": 0.45,
+   "where": {
+    "y": [
+     -1.0,
+     1.0
+    ],
+    "at": null
+   }
+  },
+  "bar_face_lands": {
+   "min_gap": 0.0,
+   "where": {
+    "y": [
+     2.84,
+     3.35
+    ],
+    "at": null
+   }
+  }
+ },
+ "detent_sweep": [
+  [
+   0.0,
+   0.2927692307692302
+  ],
+  [
+   0.25,
+   -0.000732421875
+  ],
+  [
+   0.5,
+   -0.29296875
+  ],
+  [
+   0.75,
+   -0.5145263671875
+  ],
+  [
+   1.0,
+   -0.5145263671875
+  ],
+  [
+   1.25,
+   -0.29425048828125
+  ],
+  [
+   1.5,
+   -0.01556396484375
+  ],
+  [
+   1.75,
+   0.2653569421913229
+  ],
+  [
+   2.0,
+   0.5465165243205865
+  ],
+  [
+   2.25,
+   0.5867866348944242
+  ],
+  [
+   2.5,
+   0.5580610863879737
+  ],
+  [
+   2.75,
+   0.5341672929997382
+  ],
+  [
+   3.0,
+   0.6088566167874822
+  ],
+  [
+   3.25,
+   0.7839932697308754
+  ],
+  [
+   3.5,
+   1.008537185330682
+  ],
+  [
+   3.75,
+   1.2562659505001106
+  ],
+  [
+   4.0,
+   1.515851383824483
+  ],
+  [
+   4.25,
+   1.7821159873570627
+  ],
+  [
+   4.5,
+   1000000000.0
+  ],
+  [
+   4.75,
+   1000000000.0
+  ],
+  [
+   5.0,
+   1000000000.0
+  ],
+  [
+   5.25,
+   1000000000.0
+  ],
+  [
+   5.5,
+   1000000000.0
+  ],
+  [
+   5.75,
+   1000000000.0
+  ],
+  [
+   6.0,
+   1000000000.0
+  ],
+  [
+   6.25,
+   1000000000.0
+  ],
+  [
+   6.5,
+   1000000000.0
+  ],
+  [
+   6.75,
+   1000000000.0
+  ],
+  [
+   7.0,
+   1000000000.0
+  ],
+  [
+   7.25,
+   1000000000.0
+  ],
+  [
+   7.5,
+   1000000000.0
+  ],
+  [
+   7.75,
+   1000000000.0
+  ],
+  [
+   8.0,
+   1000000000.0
+  ]
+ ],
+ "detent": {
+  "PLA": {
+   "finger_k_N_per_mm": 2.25,
+   "finger_force_N": 0.9,
+   "push_N": 3.34,
+   "thumb_N": 3.56,
+   "finger_stress_MPa": 10.0
+  },
+  "PETG": {
+   "finger_k_N_per_mm": 1.43,
+   "finger_force_N": 0.57,
+   "push_N": 2.12,
+   "thumb_N": 2.25,
+   "finger_stress_MPa": 6.3
+  }
+ },
+ "lock_3d_overlaps_mm3": {
+  "blade|pin_h": 1.093,
+  "lever|pin_p": 0.718,
+  "bail_a|bail_b": 0.349
+ },
+ "lock_3d_contacts_mm": {
+  "upper|lever": 0.0056
+ },
+ "print": {
+  "upper": {
+   "file": "TC03_UpperJaw.stl",
+   "size_mm": [
+    126.6,
+    18.0,
+    22.7
+   ],
+   "fits_220": true,
+   "orientation": "upside down: top face on the bed, clamp face up",
+   "overhangs": [
+    {
+     "z": 3.5,
+     "area_mm2": 102.05,
+     "span": 9.2,
+     "length": 18.3,
+     "at": [
+      46.9,
+      0.0
+     ]
+    },
+    {
+     "z": 0.5,
+     "area_mm2": 53.54,
+     "span": 6.21,
+     "length": 16.8,
+     "at": [
+      105.4,
+      0.0
+     ]
+    },
+    {
+     "z": 5.3,
+     "area_mm2": 6.05,
+     "span": 2.28,
+     "length": 2.65,
+     "at": [
+      118.0,
+      -4.7
+     ]
+    },
+    {
+     "z": 5.3,
+     "area_mm2": 6.05,
+     "span": 2.28,
+     "length": 2.65,
+     "at": [
+      118.0,
+      4.7
+     ]
+    },
+    {
+     "z": 12.3,
+     "area_mm2": 4.07,
+     "span": 1.53,
+     "length": 2.65,
+     "at": [
+      118.0,
+      -4.7
+     ]
+    },
+    {
+     "z": 12.3,
+     "area_mm2": 4.07,
+     "span": 1.53,
+     "length": 2.65,
+     "at": [
+      118.0,
+      4.7
+     ]
+    },
+    {
+     "z": 5.1,
+     "area_mm2": 3.55,
+     "span": 1.34,
+     "length": 2.65,
+     "at": [
+      113.4,
+      -4.7
+     ]
+    },
+    {
+     "z": 5.1,
+     "area_mm2": 3.55,
+     "span": 1.34,
+     "length": 2.65,
+     "at": [
+      113.4,
+      4.7
+     ]
+    },
+    {
+     "z": 0.5,
+     "area_mm2": 3.32,
+     "span": 1.99,
+     "length": 2.04,
+     "at": [
+      12.1,
+      0.0
+     ]
+    },
+    {
+     "z": 21.3,
+     "area_mm2": 3.15,
+     "span": 1.53,
+     "length": 2.05,
+     "at": [
+      -0.0,
+      -7.4
+     ]
+    }
+   ],
+   "thin_lt_1p2": [
+    {
+     "y": [
+      1.99,
+      2.05
+     ],
+     "area": 3.71,
+     "at": [
+      52.0,
+      7.2
+     ]
+    },
+    {
+     "y": [
+      -2.05,
+      -1.99
+     ],
+     "area": 3.71,
+     "at": [
+      52.0,
+      7.2
+     ]
+    },
+    {
+     "y": [
+      1.83,
+      1.99
+     ],
+     "area": 3.29,
+     "at": [
+      52.0,
+      7.2
+     ]
+    },
+    {
+     "y": [
+      -1.99,
+      -1.83
+     ],
+     "area": 3.29,
+     "at": [
+      52.0,
+      7.2
+     ]
+    },
+    {
+     "y": [
+      1.62,
+      1.79
+     ],
+     "area": 2.47,
+     "at": [
+      52.0,
+      7.2
+     ]
+    },
+    {
+     "y": [
+      -1.79,
+      -1.62
+     ],
+     "area": 2.47,
+     "at": [
+      52.0,
+      7.2
+     ]
+    },
+    {
+     "y": [
+      1.4,
+      1.59
+     ],
+     "area": 1.65,
+     "at": [
+      52.0,
+      7.2
+     ]
+    },
+    {
+     "y": [
+      -1.59,
+      -1.4
+     ],
+     "area": 1.65,
+     "at": [
+      52.0,
+      7.2
+     ]
+    },
+    {
+     "y": [
+      3.35,
+      3.85
+     ],
+     "area": 0.55,
+     "at": [
+      119.0,
+      -4.7
+     ]
+    },
+    {
+     "y": [
+      -3.85,
+      -3.35
+     ],
+     "area": 0.55,
+     "at": [
+      119.0,
+      -4.7
+     ]
+    },
+    {
+     "y": [
+      3.85,
+      4.85
+     ],
+     "area": 0.55,
+     "at": [
+      119.0,
+      -4.7
+     ]
+    },
+    {
+     "y": [
+      -4.85,
+      -3.85
+     ],
+     "area": 0.55,
+     "at": [
+      119.0,
+      -4.7
+     ]
+    }
+   ]
+  },
+  "blade": {
+   "file": "TC03_Blade_Standard.stl",
+   "size_mm": [
+    127.0,
+    17.6,
+    12.0
+   ],
+   "fits_220": true,
+   "orientation": "on its side (either side face on the bed)",
+   "overhangs": [],
+   "thin_lt_1p2": []
+  },
+  "lever": {
+   "file": "TC03_Lever.stl",
+   "size_mm": [
+    74.1,
+    18.0,
+    18.4
+   ],
+   "fits_220": true,
+   "orientation": "upside down: top face on the bed",
+   "overhangs": [
+    {
+     "z": 8.9,
+     "area_mm2": 19.08,
+     "span": 1.59,
+     "length": 12.0,
+     "at": [
+      116.5,
+      -0.0
+     ]
+    },
+    {
+     "z": 17.1,
+     "area_mm2": 9.88,
+     "span": 1.65,
+     "length": 6.0,
+     "at": [
+      118.0,
+      -0.0
+     ]
+    },
+    {
+     "z": 0.3,
+     "area_mm2": 2.54,
+     "span": 0.16,
+     "length": 16.8,
+     "at": [
+      48.9,
+      -0.0
+     ]
+    },
+    {
+     "z": 0.3,
+     "area_mm2": 1.41,
+     "span": 0.13,
+     "length": 12.0,
+     "at": [
+      117.6,
+      0.0
+     ]
+    },
+    {
+     "z": 15.3,
+     "area_mm2": 0.46,
+     "span": 0.08,
+     "length": 6.0,
+     "at": [
+      115.8,
+      0.0
+     ]
+    },
+    {
+     "z": 15.3,
+     "area_mm2": 0.45,
+     "span": 0.07,
+     "length": 6.0,
+     "at": [
+      120.2,
+      -0.0
+     ]
+    }
+   ],
+   "thin_lt_1p2": [
+    {
+     "y": [
+      1.3,
+      1.4
+     ],
+     "area": 2.86,
+     "at": [
+      52.0,
+      6.2
+     ]
+    },
+    {
+     "y": [
+      -1.4,
+      -1.3
+     ],
+     "area": 2.86,
+     "at": [
+      52.0,
+      6.2
+     ]
+    },
+    {
+     "y": [
+      1.4,
+      1.5
+     ],
+     "area": 2.34,
+     "at": [
+      52.0,
+      6.2
+     ]
+    },
+    {
+     "y": [
+      -1.5,
+      -1.4
+     ],
+     "area": 2.34,
+     "at": [
+      52.0,
+      6.2
+     ]
+    },
+    {
+     "y": [
+      1.5,
+      1.6
+     ],
+     "area": 1.82,
+     "at": [
+      52.0,
+      6.2
+     ]
+    },
+    {
+     "y": [
+      -1.6,
+      -1.5
+     ],
+     "area": 1.82,
+     "at": [
+      52.0,
+      6.2
+     ]
+    },
+    {
+     "y": [
+      1.6,
+      1.7
+     ],
+     "area": 1.3,
+     "at": [
+      52.0,
+      6.2
+     ]
+    },
+    {
+     "y": [
+      -1.7,
+      -1.6
+     ],
+     "area": 1.3,
+     "at": [
+      52.0,
+      6.2
+     ]
+    },
+    {
+     "y": [
+      1.7,
+      1.8
+     ],
+     "area": 0.78,
+     "at": [
+      52.0,
+      6.2
+     ]
+    },
+    {
+     "y": [
+      -1.8,
+      -1.7
+     ],
+     "area": 0.78,
+     "at": [
+      52.0,
+      6.2
+     ]
+    },
+    {
+     "y": [
+      3.0,
+      4.6
+     ],
+     "area": 0.43,
+     "at": [
+      117.3,
+      3.7
+     ]
+    },
+    {
+     "y": [
+      -4.6,
+      -3.0
+     ],
+     "area": 0.43,
+     "at": [
+      117.3,
+      3.7
+     ]
+    }
+   ]
+  },
+  "bail_a": {
+   "file": "TC03_BailA_Pegs.stl",
+   "size_mm": [
+    10.5,
+    26.4,
+    18.0
+   ],
+   "fits_220": true,
+   "orientation": "flat, pegs pointing up",
+   "overhangs": [],
+   "thin_lt_1p2": []
+  },
+  "bail_b": {
+   "file": "TC03_BailB.stl",
+   "size_mm": [
+    10.5,
+    26.4,
+    2.7
+   ],
+   "fits_220": true,
+   "orientation": "flat",
+   "overhangs": [],
+   "thin_lt_1p2": []
+  },
+  "pin_p": {
+   "file": "TC03_Pin_Lever_12mm.stl",
+   "size_mm": [
+    5.0,
+    5.0,
+    12.0
+   ],
+   "fits_220": true,
+   "orientation": "standing on one end",
+   "overhangs": [],
+   "thin_lt_1p2": []
+  },
+  "pin_h": {
+   "file": "TC03_Pin_Hinge_18mm.stl",
+   "size_mm": [
+    5.0,
+    5.0,
+    18.0
+   ],
+   "fits_220": true,
+   "orientation": "standing on one end",
+   "overhangs": [],
+   "thin_lt_1p2": []
+  },
+  "blade_firm": {
+   "file": "TC03_Blade_Firm.stl",
+   "size_mm": [
+    127.0,
+    17.6,
+    12.0
+   ],
+   "fits_220": true,
+   "orientation": "on its side; use instead of Standard with PETG",
+   "overhangs": [],
+   "thin_lt_1p2": []
+  }
+ },
+ "plate": {
+  "extent_mm": [
+   137.1,
+   77.9
+  ],
+  "positions": {
+   "TC03_Blade_Standard": [
+    104.9,
+    79.8
+   ],
+   "TC03_UpperJaw": [
+    104.8,
+    105.6
+   ],
+   "TC03_Lever": [
+    78.5,
+    131.6
+   ],
+   "TC03_BailA_Pegs": [
+    128.8,
+    135.8
+   ],
+   "TC03_BailB": [
+    147.3,
+    135.8
+   ],
+   "TC03_Pin_Lever_12mm": [
+    163.0,
+    125.1
+   ],
+   "TC03_Pin_Hinge_18mm": [
+    176.0,
+    125.1
+   ]
+  }
+ },
+ "mechanics": {
+  "geometry": {
+   "H": [
+    0.0,
+    -10.226906779661016
+   ],
+   "P": [
+    118.0,
+    -1.2269067796610162
+   ],
+   "K": [
+    118.0,
+    -10.226906779661016
+   ],
+   "Q": [
+    116.52399048983109,
+    7.1439591209427515
+   ],
+   "L_LINK": 17.433461681802264
+  },
+  "clamp": [
+   {
+    "case": "PLA, Standard blade",
+    "slop": 0.4,
+    "bag": 0.0,
+    "clamp_N": 6.9,
+    "link_N": 3.71,
+    "q_end": 0.613,
+    "q_quarter": 0.0,
+    "q_mid": 0.0,
+    "bow_MPa": 6.7,
+    "bar_MPa": 1.2,
+    "upper_MPa": 0.8,
+    "bar_drop": 1.65
+   },
+   {
+    "case": "PLA, Standard blade",
+    "slop": 0.4,
+    "bag": 0.3,
+    "clamp_N": 8.75,
+    "link_N": 4.59,
+    "q_end": 0.052,
+    "q_quarter": 0.071,
+    "q_mid": 0.101,
+    "bow_MPa": 7.9,
+    "bar_MPa": 1.6,
+    "upper_MPa": 0.8,
+    "bar_drop": 1.92
+   },
+   {
+    "case": "PLA, Standard blade",
+    "slop": 0.4,
+    "bag": 0.6,
+    "clamp_N": 10.41,
+    "link_N": 5.4,
+    "q_end": 0.065,
+    "q_quarter": 0.088,
+    "q_mid": 0.121,
+    "bow_MPa": 9.3,
+    "bar_MPa": 1.8,
+    "upper_MPa": 1.0,
+    "bar_drop": 2.21
+   },
+   {
+    "case": "PLA, Standard blade",
+    "slop": 0.4,
+    "bag": 1.0,
+    "clamp_N": 12.62,
+    "link_N": 6.48,
+    "q_end": 0.082,
+    "q_quarter": 0.11,
+    "q_mid": 0.147,
+    "bow_MPa": 11.2,
+    "bar_MPa": 2.1,
+    "upper_MPa": 1.2,
+    "bar_drop": 2.6
+   },
+   {
+    "case": "PLA, Standard blade",
+    "slop": 0.4,
+    "bag": 1.5,
+    "clamp_N": 15.38,
+    "link_N": 7.83,
+    "q_end": 0.102,
+    "q_quarter": 0.137,
+    "q_mid": 0.179,
+    "bow_MPa": 13.5,
+    "bar_MPa": 2.5,
+    "upper_MPa": 1.4,
+    "bar_drop": 3.08
+   },
+   {
+    "case": "PLA, Standard blade",
+    "slop": 0.4,
+    "bag": 2.0,
+    "clamp_N": 18.15,
+    "link_N": 9.18,
+    "q_end": 0.123,
+    "q_quarter": 0.165,
+    "q_mid": 0.211,
+    "bow_MPa": 15.8,
+    "bar_MPa": 3.0,
+    "upper_MPa": 1.7,
+    "bar_drop": 3.57
+   },
+   {
+    "case": "PLA, Standard blade",
+    "slop": 1.0,
+    "bag": 0.0,
+    "clamp_N": 5.38,
+    "link_N": 2.62,
+    "q_end": 0.549,
+    "q_quarter": 0.0,
+    "q_mid": 0.0,
+    "bow_MPa": 4.9,
+    "bar_MPa": 0.8,
+    "upper_MPa": 0.6,
+    "bar_drop": 1.65
+   },
+   {
+    "case": "PLA, Standard blade",
+    "slop": 1.0,
+    "bag": 0.3,
+    "clamp_N": 7.19,
+    "link_N": 3.51,
+    "q_end": 0.054,
+    "q_quarter": 0.072,
+    "q_mid": 0.084,
+    "bow_MPa": 6.2,
+    "bar_MPa": 1.2,
+    "upper_MPa": 0.7,
+    "bar_drop": 1.93
+   },
+   {
+    "case": "PLA, Standard blade",
+    "slop": 1.0,
+    "bag": 0.6,
+    "clamp_N": 8.85,
+    "link_N": 4.32,
+    "q_end": 0.067,
+    "q_quarter": 0.088,
+    "q_mid": 0.103,
+    "bow_MPa": 7.6,
+    "bar_MPa": 1.4,
+    "upper_MPa": 0.8,
+    "bar_drop": 2.22
+   },
+   {
+    "case": "PLA, Standard blade",
+    "slop": 1.0,
+    "bag": 1.0,
+    "clamp_N": 11.06,
+    "link_N": 5.4,
+    "q_end": 0.083,
+    "q_quarter": 0.11,
+    "q_mid": 0.129,
+    "bow_MPa": 9.6,
+    "bar_MPa": 1.8,
+    "upper_MPa": 1.0,
+    "bar_drop": 2.61
+   },
+   {
+    "case": "PLA, Standard blade",
+    "slop": 1.0,
+    "bag": 1.5,
+    "clamp_N": 13.82,
+    "link_N": 6.75,
+    "q_end": 0.104,
+    "q_quarter": 0.138,
+    "q_mid": 0.162,
+    "bow_MPa": 12.0,
+    "bar_MPa": 2.2,
+    "upper_MPa": 1.3,
+    "bar_drop": 3.09
+   },
+   {
+    "case": "PLA, Standard blade",
+    "slop": 1.0,
+    "bag": 2.0,
+    "clamp_N": 16.59,
+    "link_N": 8.1,
+    "q_end": 0.125,
+    "q_quarter": 0.165,
+    "q_mid": 0.194,
+    "bow_MPa": 14.3,
+    "bar_MPa": 2.7,
+    "upper_MPa": 1.6,
+    "bar_drop": 3.58
+   },
+   {
+    "case": "PLA, Standard blade",
+    "slop": 1.4,
+    "bag": 0.0,
+    "clamp_N": 4.38,
+    "link_N": 1.89,
+    "q_end": 0.498,
+    "q_quarter": 0.0,
+    "q_mid": 0.0,
+    "bow_MPa": 4.4,
+    "bar_MPa": 0.8,
+    "upper_MPa": 0.5,
+    "bar_drop": 1.65
+   },
+   {
+    "case": "PLA, Standard blade",
+    "slop": 1.4,
+    "bag": 0.3,
+    "clamp_N": 6.15,
+    "link_N": 2.79,
+    "q_end": 0.055,
+    "q_quarter": 0.072,
+    "q_mid": 0.072,
+    "bow_MPa": 5.7,
+    "bar_MPa": 1.2,
+    "upper_MPa": 0.6,
+    "bar_drop": 1.94
+   },
+   {
+    "case": "PLA, Standard blade",
+    "slop": 1.4,
+    "bag": 0.6,
+    "clamp_N": 7.81,
+    "link_N": 3.6,
+    "q_end": 0.068,
+    "q_quarter": 0.088,
+    "q_mid": 0.092,
+    "bow_MPa": 7.1,
+    "bar_MPa": 1.4,
+    "upper_MPa": 0.7,
+    "bar_drop": 2.23
+   },
+   {
+    "case": "PLA, Standard blade",
+    "slop": 1.4,
+    "bag": 1.0,
+    "clamp_N": 10.02,
+    "link_N": 4.68,
+    "q_end": 0.084,
+    "q_quarter": 0.11,
+    "q_mid": 0.118,
+    "bow_MPa": 9.0,
+    "bar_MPa": 1.8,
+    "upper_MPa": 0.9,
+    "bar_drop": 2.62
+   },
+   {
+    "case": "PLA, Standard blade",
+    "slop": 1.4,
+    "bag": 1.5,
+    "clamp_N": 12.79,
+    "link_N": 6.03,
+    "q_end": 0.105,
+    "q_quarter": 0.138,
+    "q_mid": 0.15,
+    "bow_MPa": 11.4,
+    "bar_MPa": 2.2,
+    "upper_MPa": 1.2,
+    "bar_drop": 3.1
+   },
+   {
+    "case": "PLA, Standard blade",
+    "slop": 1.4,
+    "bag": 2.0,
+    "clamp_N": 15.55,
+    "link_N": 7.38,
+    "q_end": 0.126,
+    "q_quarter": 0.165,
+    "q_mid": 0.182,
+    "bow_MPa": 13.8,
+    "bar_MPa": 2.7,
+    "upper_MPa": 1.5,
+    "bar_drop": 3.59
+   },
+   {
+    "case": "PETG, Standard blade",
+    "slop": 0.4,
+    "bag": 0.0,
+    "clamp_N": 4.38,
+    "link_N": 2.36,
+    "q_end": 0.469,
+    "q_quarter": 0.0,
+    "q_mid": 0.0,
+    "bow_MPa": 4.3,
+    "bar_MPa": 0.8,
+    "upper_MPa": 0.5,
+    "bar_drop": 1.65
+   },
+   {
+    "case": "PETG, Standard blade",
+    "slop": 0.4,
+    "bag": 0.3,
+    "clamp_N": 5.65,
+    "link_N": 2.97,
+    "q_end": 0.038,
+    "q_quarter": 0.045,
+    "q_mid": 0.062,
+    "bow_MPa": 5.1,
+    "bar_MPa": 1.0,
+    "upper_MPa": 0.5,
+    "bar_drop": 1.92
+   },
+   {
+    "case": "PETG, Standard blade",
+    "slop": 0.4,
+    "bag": 0.6,
+    "clamp_N": 6.73,
+    "link_N": 3.5,
+    "q_end": 0.046,
+    "q_quarter": 0.055,
+    "q_mid": 0.074,
+    "bow_MPa": 6.0,
+    "bar_MPa": 1.2,
+    "upper_MPa": 0.6,
+    "bar_drop": 2.22
+   },
+   {
+    "case": "PETG, Standard blade",
+    "slop": 0.4,
+    "bag": 1.0,
+    "clamp_N": 8.16,
+    "link_N": 4.19,
+    "q_end": 0.057,
+    "q_quarter": 0.07,
+    "q_mid": 0.09,
+    "bow_MPa": 7.2,
+    "bar_MPa": 1.4,
+    "upper_MPa": 0.8,
+    "bar_drop": 2.61
+   },
+   {
+    "case": "PETG, Standard blade",
+    "slop": 0.4,
+    "bag": 1.5,
+    "clamp_N": 9.94,
+    "link_N": 5.07,
+    "q_end": 0.071,
+    "q_quarter": 0.088,
+    "q_mid": 0.11,
+    "bow_MPa": 8.7,
+    "bar_MPa": 1.6,
+    "upper_MPa": 0.9,
+    "bar_drop": 3.09
+   },
+   {
+    "case": "PETG, Standard blade",
+    "slop": 0.4,
+    "bag": 2.0,
+    "clamp_N": 11.73,
+    "link_N": 5.94,
+    "q_end": 0.085,
+    "q_quarter": 0.105,
+    "q_mid": 0.13,
+    "bow_MPa": 10.2,
+    "bar_MPa": 1.9,
+    "upper_MPa": 1.1,
+    "bar_drop": 3.58
+   },
+   {
+    "case": "PETG, Standard blade",
+    "slop": 1.0,
+    "bag": 0.0,
+    "clamp_N": 3.42,
+    "link_N": 1.66,
+    "q_end": 0.421,
+    "q_quarter": 0.0,
+    "q_mid": 0.0,
+    "bow_MPa": 3.1,
+    "bar_MPa": 0.6,
+    "upper_MPa": 0.4,
+    "bar_drop": 1.65
+   },
+   {
+    "case": "PETG, Standard blade",
+    "slop": 1.0,
+    "bag": 0.3,
+    "clamp_N": 4.65,
+    "link_N": 2.27,
+    "q_end": 0.036,
+    "q_quarter": 0.046,
+    "q_mid": 0.052,
+    "bow_MPa": 4.0,
+    "bar_MPa": 0.8,
+    "upper_MPa": 0.4,
+    "bar_drop": 1.93
+   },
+   {
+    "case": "PETG, Standard blade",
+    "slop": 1.0,
+    "bag": 0.6,
+    "clamp_N": 5.72,
+    "link_N": 2.79,
+    "q_end": 0.045,
+    "q_quarter": 0.057,
+    "q_mid": 0.064,
+    "bow_MPa": 4.9,
+    "bar_MPa": 0.9,
+    "upper_MPa": 0.5,
+    "bar_drop": 2.23
+   },
+   {
+    "case": "PETG, Standard blade",
+    "slop": 1.0,
+    "bag": 1.0,
+    "clamp_N": 7.15,
+    "link_N": 3.49,
+    "q_end": 0.056,
+    "q_quarter": 0.071,
+    "q_mid": 0.079,
+    "bow_MPa": 6.2,
+    "bar_MPa": 1.2,
+    "upper_MPa": 0.7,
+    "bar_drop": 2.62
+   },
+   {
+    "case": "PETG, Standard blade",
+    "slop": 1.0,
+    "bag": 1.5,
+    "clamp_N": 8.94,
+    "link_N": 4.36,
+    "q_end": 0.07,
+    "q_quarter": 0.089,
+    "q_mid": 0.099,
+    "bow_MPa": 7.7,
+    "bar_MPa": 1.5,
+    "upper_MPa": 0.8,
+    "bar_drop": 3.1
+   },
+   {
+    "case": "PETG, Standard blade",
+    "slop": 1.0,
+    "bag": 2.0,
+    "clamp_N": 10.73,
+    "link_N": 5.23,
+    "q_end": 0.084,
+    "q_quarter": 0.107,
+    "q_mid": 0.119,
+    "bow_MPa": 9.3,
+    "bar_MPa": 1.8,
+    "upper_MPa": 1.0,
+    "bar_drop": 3.59
+   },
+   {
+    "case": "PETG, Standard blade",
+    "slop": 1.4,
+    "bag": 0.0,
+    "clamp_N": 2.78,
+    "link_N": 1.2,
+    "q_end": 0.384,
+    "q_quarter": 0.0,
+    "q_mid": 0.0,
+    "bow_MPa": 2.8,
+    "bar_MPa": 0.5,
+    "upper_MPa": 0.3,
+    "bar_drop": 1.65
+   },
+   {
+    "case": "PETG, Standard blade",
+    "slop": 1.4,
+    "bag": 0.3,
+    "clamp_N": 3.98,
+    "link_N": 1.8,
+    "q_end": 0.036,
+    "q_quarter": 0.047,
+    "q_mid": 0.045,
+    "bow_MPa": 3.7,
+    "bar_MPa": 0.8,
+    "upper_MPa": 0.4,
+    "bar_drop": 1.94
+   },
+   {
+    "case": "PETG, Standard blade",
+    "slop": 1.4,
+    "bag": 0.6,
+    "clamp_N": 5.05,
+    "link_N": 2.32,
+    "q_end": 0.044,
+    "q_quarter": 0.058,
+    "q_mid": 0.057,
+    "bow_MPa": 4.6,
+    "bar_MPa": 0.9,
+    "upper_MPa": 0.5,
+    "bar_drop": 2.23
+   },
+   {
+    "case": "PETG, Standard blade",
+    "slop": 1.4,
+    "bag": 1.0,
+    "clamp_N": 6.48,
+    "link_N": 3.02,
+    "q_end": 0.055,
+    "q_quarter": 0.072,
+    "q_mid": 0.072,
+    "bow_MPa": 5.8,
+    "bar_MPa": 1.2,
+    "upper_MPa": 0.6,
+    "bar_drop": 2.62
+   },
+   {
+    "case": "PETG, Standard blade",
+    "slop": 1.4,
+    "bag": 1.5,
+    "clamp_N": 8.27,
+    "link_N": 3.89,
+    "q_end": 0.069,
+    "q_quarter": 0.09,
+    "q_mid": 0.092,
+    "bow_MPa": 7.4,
+    "bar_MPa": 1.4,
+    "upper_MPa": 0.8,
+    "bar_drop": 3.11
+   },
+   {
+    "case": "PETG, Standard blade",
+    "slop": 1.4,
+    "bag": 2.0,
+    "clamp_N": 10.05,
+    "link_N": 4.76,
+    "q_end": 0.083,
+    "q_quarter": 0.108,
+    "q_mid": 0.112,
+    "bow_MPa": 8.9,
+    "bar_MPa": 1.7,
+    "upper_MPa": 0.9,
+    "bar_drop": 3.6
+   },
+   {
+    "case": "PETG, Firm blade",
+    "slop": 0.4,
+    "bag": 0.0,
+    "clamp_N": 6.36,
+    "link_N": 3.42,
+    "q_end": 0.687,
+    "q_quarter": 0.0,
+    "q_mid": 0.0,
+    "bow_MPa": 4.7,
+    "bar_MPa": 1.1,
+    "upper_MPa": 0.7,
+    "bar_drop": 1.64
+   },
+   {
+    "case": "PETG, Firm blade",
+    "slop": 0.4,
+    "bag": 0.3,
+    "clamp_N": 8.15,
+    "link_N": 4.27,
+    "q_end": 0.052,
+    "q_quarter": 0.064,
+    "q_mid": 0.096,
+    "bow_MPa": 5.6,
+    "bar_MPa": 1.4,
+    "upper_MPa": 0.8,
+    "bar_drop": 1.91
+   },
+   {
+    "case": "PETG, Firm blade",
+    "slop": 0.4,
+    "bag": 0.6,
+    "clamp_N": 9.7,
+    "link_N": 5.03,
+    "q_end": 0.063,
+    "q_quarter": 0.079,
+    "q_mid": 0.115,
+    "bow_MPa": 6.5,
+    "bar_MPa": 1.6,
+    "upper_MPa": 0.9,
+    "bar_drop": 2.2
+   },
+   {
+    "case": "PETG, Firm blade",
+    "slop": 0.4,
+    "bag": 1.0,
+    "clamp_N": 11.76,
+    "link_N": 6.04,
+    "q_end": 0.079,
+    "q_quarter": 0.099,
+    "q_mid": 0.139,
+    "bow_MPa": 7.9,
+    "bar_MPa": 1.9,
+    "upper_MPa": 1.1,
+    "bar_drop": 2.58
+   },
+   {
+    "case": "PETG, Firm blade",
+    "slop": 0.4,
+    "bag": 1.5,
+    "clamp_N": 14.34,
+    "link_N": 7.29,
+    "q_end": 0.098,
+    "q_quarter": 0.125,
+    "q_mid": 0.17,
+    "bow_MPa": 9.5,
+    "bar_MPa": 2.3,
+    "upper_MPa": 1.4,
+    "bar_drop": 3.06
+   },
+   {
+    "case": "PETG, Firm blade",
+    "slop": 0.4,
+    "bag": 2.0,
+    "clamp_N": 16.92,
+    "link_N": 8.55,
+    "q_end": 0.117,
+    "q_quarter": 0.15,
+    "q_mid": 0.201,
+    "bow_MPa": 11.1,
+    "bar_MPa": 2.7,
+    "upper_MPa": 1.6,
+    "bar_drop": 3.55
+   },
+   {
+    "case": "PETG, Firm blade",
+    "slop": 1.0,
+    "bag": 0.0,
+    "clamp_N": 4.96,
+    "link_N": 2.41,
+    "q_end": 0.618,
+    "q_quarter": 0.0,
+    "q_mid": 0.0,
+    "bow_MPa": 3.4,
+    "bar_MPa": 0.7,
+    "upper_MPa": 0.5,
+    "bar_drop": 1.64
+   },
+   {
+    "case": "PETG, Firm blade",
+    "slop": 1.0,
+    "bag": 0.3,
+    "clamp_N": 6.7,
+    "link_N": 3.27,
+    "q_end": 0.05,
+    "q_quarter": 0.066,
+    "q_mid": 0.08,
+    "bow_MPa": 4.4,
+    "bar_MPa": 1.0,
+    "upper_MPa": 0.6,
+    "bar_drop": 1.92
+   },
+   {
+    "case": "PETG, Firm blade",
+    "slop": 1.0,
+    "bag": 0.6,
+    "clamp_N": 8.25,
+    "link_N": 4.03,
+    "q_end": 0.062,
+    "q_quarter": 0.081,
+    "q_mid": 0.098,
+    "bow_MPa": 5.4,
+    "bar_MPa": 1.3,
+    "upper_MPa": 0.8,
+    "bar_drop": 2.21
+   },
+   {
+    "case": "PETG, Firm blade",
+    "slop": 1.0,
+    "bag": 1.0,
+    "clamp_N": 10.31,
+    "link_N": 5.04,
+    "q_end": 0.077,
+    "q_quarter": 0.101,
+    "q_mid": 0.123,
+    "bow_MPa": 6.7,
+    "bar_MPa": 1.6,
+    "upper_MPa": 1.0,
+    "bar_drop": 2.6
+   },
+   {
+    "case": "PETG, Firm blade",
+    "slop": 1.0,
+    "bag": 1.5,
+    "clamp_N": 12.89,
+    "link_N": 6.29,
+    "q_end": 0.096,
+    "q_quarter": 0.126,
+    "q_mid": 0.154,
+    "bow_MPa": 8.4,
+    "bar_MPa": 2.0,
+    "upper_MPa": 1.2,
+    "bar_drop": 3.08
+   },
+   {
+    "case": "PETG, Firm blade",
+    "slop": 1.0,
+    "bag": 2.0,
+    "clamp_N": 15.46,
+    "link_N": 7.55,
+    "q_end": 0.115,
+    "q_quarter": 0.152,
+    "q_mid": 0.185,
+    "bow_MPa": 10.1,
+    "bar_MPa": 2.4,
+    "upper_MPa": 1.5,
+    "bar_drop": 3.56
+   },
+   {
+    "case": "PETG, Firm blade",
+    "slop": 1.4,
+    "bag": 0.0,
+    "clamp_N": 4.03,
+    "link_N": 1.74,
+    "q_end": 0.559,
+    "q_quarter": 0.0,
+    "q_mid": 0.0,
+    "bow_MPa": 3.1,
+    "bar_MPa": 0.7,
+    "upper_MPa": 0.5,
+    "bar_drop": 1.65
+   },
+   {
+    "case": "PETG, Firm blade",
+    "slop": 1.4,
+    "bag": 0.3,
+    "clamp_N": 5.73,
+    "link_N": 2.61,
+    "q_end": 0.049,
+    "q_quarter": 0.067,
+    "q_mid": 0.069,
+    "bow_MPa": 4.0,
+    "bar_MPa": 1.1,
+    "upper_MPa": 0.5,
+    "bar_drop": 1.93
+   },
+   {
+    "case": "PETG, Firm blade",
+    "slop": 1.4,
+    "bag": 0.6,
+    "clamp_N": 7.28,
+    "link_N": 3.36,
+    "q_end": 0.06,
+    "q_quarter": 0.082,
+    "q_mid": 0.088,
+    "bow_MPa": 5.0,
+    "bar_MPa": 1.3,
+    "upper_MPa": 0.7,
+    "bar_drop": 2.22
+   },
+   {
+    "case": "PETG, Firm blade",
+    "slop": 1.4,
+    "bag": 1.0,
+    "clamp_N": 9.34,
+    "link_N": 4.37,
+    "q_end": 0.076,
+    "q_quarter": 0.102,
+    "q_mid": 0.112,
+    "bow_MPa": 6.3,
+    "bar_MPa": 1.6,
+    "upper_MPa": 0.9,
+    "bar_drop": 2.61
+   },
+   {
+    "case": "PETG, Firm blade",
+    "slop": 1.4,
+    "bag": 1.5,
+    "clamp_N": 11.92,
+    "link_N": 5.63,
+    "q_end": 0.095,
+    "q_quarter": 0.128,
+    "q_mid": 0.143,
+    "bow_MPa": 8.0,
+    "bar_MPa": 2.0,
+    "upper_MPa": 1.1,
+    "bar_drop": 3.09
+   },
+   {
+    "case": "PETG, Firm blade",
+    "slop": 1.4,
+    "bag": 2.0,
+    "clamp_N": 14.49,
+    "link_N": 6.89,
+    "q_end": 0.114,
+    "q_quarter": 0.153,
+    "q_mid": 0.174,
+    "bow_MPa": 9.7,
+    "bar_MPa": 2.4,
+    "upper_MPa": 1.4,
+    "bar_drop": 3.57
+   },
+   {
+    "case": "PLA, Firm blade",
+    "slop": 0.4,
+    "bag": 0.0,
+    "clamp_N": 10.0,
+    "link_N": 5.39,
+    "q_end": 0.899,
+    "q_quarter": 0.0,
+    "q_mid": 0.0,
+    "bow_MPa": 7.4,
+    "bar_MPa": 1.6,
+    "upper_MPa": 1.2,
+    "bar_drop": 1.64
+   },
+   {
+    "case": "PLA, Firm blade",
+    "slop": 0.4,
+    "bag": 0.3,
+    "clamp_N": 12.58,
+    "link_N": 6.58,
+    "q_end": 0.072,
+    "q_quarter": 0.103,
+    "q_mid": 0.153,
+    "bow_MPa": 8.6,
+    "bar_MPa": 2.2,
+    "upper_MPa": 1.2,
+    "bar_drop": 1.89
+   },
+   {
+    "case": "PLA, Firm blade",
+    "slop": 0.4,
+    "bag": 0.6,
+    "clamp_N": 14.96,
+    "link_N": 7.75,
+    "q_end": 0.089,
+    "q_quarter": 0.126,
+    "q_mid": 0.183,
+    "bow_MPa": 10.1,
+    "bar_MPa": 2.5,
+    "upper_MPa": 1.4,
+    "bar_drop": 2.18
+   },
+   {
+    "case": "PLA, Firm blade",
+    "slop": 0.4,
+    "bag": 1.0,
+    "clamp_N": 18.14,
+    "link_N": 9.3,
+    "q_end": 0.112,
+    "q_quarter": 0.157,
+    "q_mid": 0.222,
+    "bow_MPa": 12.1,
+    "bar_MPa": 3.0,
+    "upper_MPa": 1.7,
+    "bar_drop": 2.57
+   },
+   {
+    "case": "PLA, Firm blade",
+    "slop": 0.4,
+    "bag": 1.5,
+    "clamp_N": 22.12,
+    "link_N": 11.24,
+    "q_end": 0.14,
+    "q_quarter": 0.197,
+    "q_mid": 0.271,
+    "bow_MPa": 14.6,
+    "bar_MPa": 3.6,
+    "upper_MPa": 2.1,
+    "bar_drop": 3.05
+   },
+   {
+    "case": "PLA, Firm blade",
+    "slop": 0.4,
+    "bag": 2.0,
+    "clamp_N": 26.09,
+    "link_N": 13.19,
+    "q_end": 0.169,
+    "q_quarter": 0.236,
+    "q_mid": 0.319,
+    "bow_MPa": 17.2,
+    "bar_MPa": 4.2,
+    "upper_MPa": 2.5,
+    "bar_drop": 3.53
+   },
+   {
+    "case": "PLA, Firm blade",
+    "slop": 1.0,
+    "bag": 0.0,
+    "clamp_N": 7.81,
+    "link_N": 3.8,
+    "q_end": 0.802,
+    "q_quarter": 0.0,
+    "q_mid": 0.0,
+    "bow_MPa": 5.4,
+    "bar_MPa": 1.1,
+    "upper_MPa": 0.8,
+    "bar_drop": 1.64
+   },
+   {
+    "case": "PLA, Firm blade",
+    "slop": 1.0,
+    "bag": 0.3,
+    "clamp_N": 10.33,
+    "link_N": 5.05,
+    "q_end": 0.074,
+    "q_quarter": 0.102,
+    "q_mid": 0.127,
+    "bow_MPa": 6.8,
+    "bar_MPa": 1.6,
+    "upper_MPa": 1.0,
+    "bar_drop": 1.91
+   },
+   {
+    "case": "PLA, Firm blade",
+    "slop": 1.0,
+    "bag": 0.6,
+    "clamp_N": 12.72,
+    "link_N": 6.22,
+    "q_end": 0.091,
+    "q_quarter": 0.125,
+    "q_mid": 0.156,
+    "bow_MPa": 8.3,
+    "bar_MPa": 2.0,
+    "upper_MPa": 1.2,
+    "bar_drop": 2.2
+   },
+   {
+    "case": "PLA, Firm blade",
+    "slop": 1.0,
+    "bag": 1.0,
+    "clamp_N": 15.9,
+    "link_N": 7.77,
+    "q_end": 0.114,
+    "q_quarter": 0.157,
+    "q_mid": 0.195,
+    "bow_MPa": 10.4,
+    "bar_MPa": 2.5,
+    "upper_MPa": 1.5,
+    "bar_drop": 2.59
+   },
+   {
+    "case": "PLA, Firm blade",
+    "slop": 1.0,
+    "bag": 1.5,
+    "clamp_N": 19.87,
+    "link_N": 9.71,
+    "q_end": 0.142,
+    "q_quarter": 0.196,
+    "q_mid": 0.244,
+    "bow_MPa": 13.0,
+    "bar_MPa": 3.1,
+    "upper_MPa": 1.9,
+    "bar_drop": 3.07
+   },
+   {
+    "case": "PLA, Firm blade",
+    "slop": 1.0,
+    "bag": 2.0,
+    "clamp_N": 23.85,
+    "link_N": 11.66,
+    "q_end": 0.171,
+    "q_quarter": 0.235,
+    "q_mid": 0.293,
+    "bow_MPa": 15.6,
+    "bar_MPa": 3.8,
+    "upper_MPa": 2.3,
+    "bar_drop": 3.55
+   },
+   {
+    "case": "PLA, Firm blade",
+    "slop": 1.4,
+    "bag": 0.0,
+    "clamp_N": 6.35,
+    "link_N": 2.74,
+    "q_end": 0.728,
+    "q_quarter": 0.0,
+    "q_mid": 0.0,
+    "bow_MPa": 4.8,
+    "bar_MPa": 1.1,
+    "upper_MPa": 0.8,
+    "bar_drop": 1.65
+   },
+   {
+    "case": "PLA, Firm blade",
+    "slop": 1.4,
+    "bag": 0.3,
+    "clamp_N": 8.84,
+    "link_N": 4.03,
+    "q_end": 0.075,
+    "q_quarter": 0.101,
+    "q_mid": 0.109,
+    "bow_MPa": 6.1,
+    "bar_MPa": 1.6,
+    "upper_MPa": 0.8,
+    "bar_drop": 1.93
+   },
+   {
+    "case": "PLA, Firm blade",
+    "slop": 1.4,
+    "bag": 0.6,
+    "clamp_N": 11.23,
+    "link_N": 5.2,
+    "q_end": 0.092,
+    "q_quarter": 0.125,
+    "q_mid": 0.139,
+    "bow_MPa": 7.7,
+    "bar_MPa": 2.0,
+    "upper_MPa": 1.1,
+    "bar_drop": 2.21
+   },
+   {
+    "case": "PLA, Firm blade",
+    "slop": 1.4,
+    "bag": 1.0,
+    "clamp_N": 14.41,
+    "link_N": 6.75,
+    "q_end": 0.115,
+    "q_quarter": 0.156,
+    "q_mid": 0.178,
+    "bow_MPa": 9.8,
+    "bar_MPa": 2.5,
+    "upper_MPa": 1.4,
+    "bar_drop": 2.6
+   },
+   {
+    "case": "PLA, Firm blade",
+    "slop": 1.4,
+    "bag": 1.5,
+    "clamp_N": 18.38,
+    "link_N": 8.69,
+    "q_end": 0.144,
+    "q_quarter": 0.195,
+    "q_mid": 0.226,
+    "bow_MPa": 12.4,
+    "bar_MPa": 3.1,
+    "upper_MPa": 1.7,
+    "bar_drop": 3.08
+   },
+   {
+    "case": "PLA, Firm blade",
+    "slop": 1.4,
+    "bag": 2.0,
+    "clamp_N": 22.36,
+    "link_N": 10.64,
+    "q_end": 0.172,
+    "q_quarter": 0.234,
+    "q_mid": 0.275,
+    "bow_MPa": 15.0,
+    "bar_MPa": 3.8,
+    "upper_MPa": 2.1,
+    "bar_drop": 3.56
+   }
+  ],
+  "stroke": {
+   "PLA_bag0.5": [
+    [
+     0.0,
+     4.04926860697142,
+     -3.0966119462668344,
+     -0.04994535397204572
+    ],
+    [
+     1.0,
+     4.081087666164798,
+     -2.8056778398571507,
+     -0.045252868384792755
+    ],
+    [
+     2.0,
+     4.10952689227944,
+     -2.508778399646905,
+     -0.040464167736240404
+    ],
+    [
+     3.0,
+     4.134596485372753,
+     -2.206606741910438,
+     -0.035590431321136096
+    ],
+    [
+     4.0,
+     4.156305435270318,
+     -1.8998448513673953,
+     -0.030642658893022506
+    ],
+    [
+     5.0,
+     4.174661521308326,
+     -1.5891650609277603,
+     -0.02563169453109291
+    ],
+    [
+     6.0,
+     4.189671312793547,
+     -1.2752315256471445,
+     -0.02056825041366362
+    ],
+    [
+     7.0,
+     4.201340170157296,
+     -0.9587016858818247,
+     -0.015462930417448785
+    ],
+    [
+     8.0,
+     4.209672246784965,
+     -0.6402277244575605,
+     -0.010326253620283233
+    ],
+    [
+     9.0,
+     4.214670491505301,
+     -0.32045801553839676,
+     -0.005168677669974141
+    ],
+    [
+     10.0,
+     4.2163366517327185,
+     -3.856579609497023e-05,
+     -6.220289692737134e-07
+    ],
+    [
+     11.0,
+     4.214671277257774,
+     0.3203855517853663,
+     0.005167508899763973
+    ],
+    [
+     12.0,
+     4.209673724689008,
+     0.6401687697841639,
+     0.010325302738454258
+    ],
+    [
+     13.0,
+     4.20134216255053,
+     0.9586636067250057,
+     0.015462316237500093
+    ],
+    [
+     14.0,
+     4.189673577049577,
+     1.2752192520334555,
+     0.02056805245215251
+    ],
+    [
+     15.0,
+     4.174663778529072,
+     1.5891801594983923,
+     0.025631938056425684
+    ],
+    [
+     16.0,
+     4.156307408626632,
+     1.899884645227868,
+     0.03064330072948174
+    ],
+    [
+     17.0,
+     4.134597948168001,
+     2.206663492217194,
+     0.03559134664866442
+    ],
+    [
+     18.0,
+     4.109527725823792,
+     2.5088385637882706,
+     0.04046513812561727
+    ],
+    [
+     19.0,
+     4.081087927566992,
+     2.8057214201044527,
+     0.0452535712920073
+    ],
+    [
+     20.0,
+     4.04926860697142,
+     3.0966119459431516,
+     0.04994535396682503
+    ],
+    [
+     21.0,
+     4.014058696395732,
+     3.380796984650222,
+     0.054528983623390676
+    ],
+    [
+     22.0,
+     3.9754460191039014,
+     3.6575489814162845,
+     0.058992725506714264
+    ],
+    [
+     23.0,
+     3.933417302375333,
+     3.926124636874976,
+     0.06332459091733832
+    ],
+    [
+     24.0,
+     3.8879581916643065,
+     4.185763573805279,
+     0.06751231570653676
+    ],
+    [
+     25.0,
+     3.8390532658708603,
+     4.435687014466539,
+     0.0715433389430087
+    ],
+    [
+     26.0,
+     3.78668605379116,
+     4.675096476283157,
+     0.07540478187553479
+    ],
+    [
+     27.0,
+     3.7308390518200136,
+     4.903172483460549,
+     0.0790834271525895
+    ],
+    [
+     28.0,
+     3.671493742978118,
+     5.11907329963063,
+     0.0825656983811392
+    ],
+    [
+     29.0,
+     3.6086306173466767,
+     5.321933683234337,
+     0.08583764005216672
+    ],
+    [
+     30.0,
+     3.5422291939921315,
+     5.5108636719906166,
+     0.08888489793533252
+    ],
+    [
+     31.0,
+     3.4722680444791694,
+     5.684947394841972,
+     0.091692699916806
+    ],
+    [
+     32.0,
+     3.398724817981937,
+     5.843241921912593,
+     0.09424583745020312
+    ],
+    [
+     33.0,
+     3.321576268295924,
+     5.984776152911313,
+     0.09652864762760183
+    ],
+    [
+     34.0,
+     3.2407982825635817,
+     6.108549750527068,
+     0.09852499597624303
+    ],
+    [
+     35.0,
+     3.1563659120273617,
+     6.213532125635962,
+     0.10021826009090261
+    ],
+    [
+     36.0,
+     3.0682534048233983,
+     6.298661478373694,
+     0.10159131416731763
+    ],
+    [
+     37.0,
+     2.97643424093435,
+     6.362843904411813,
+     0.1026265145872873
+    ],
+    [
+     38.0,
+     2.8808811694047836,
+     6.404952571400513,
+     0.10330568663549215
+    ],
+    [
+     39.0,
+     2.7815662479247756,
+     6.42382697562719,
+     0.10361011251011597
+    ],
+    [
+     40.0,
+     2.6784608848874925,
+     6.418272285286616,
+     0.10352052073042929
+    ],
+    [
+     41.0,
+     2.571535884024222,
+     6.3870587816224,
+     0.10301707712294193
+    ],
+    [
+     42.0,
+     2.4607614917240657,
+     6.328921406079067,
+     0.1020793775174043
+    ],
+    [
+     43.0,
+     2.3461074471380647,
+     6.242559423407214,
+     0.10068644231301958
+    ],
+    [
+     44.0,
+     2.2275430351722267,
+     6.126636212745239,
+     0.09881671310879417
+    ],
+    [
+     45.0,
+     2.1050371424631233,
+     5.97977919818087,
+     0.09644805158356241
+    ],
+    [
+     46.0,
+     1.9786443958193498,
+     5.8008322881413745,
+     0.09356181109905443
+    ],
+    [
+     47.0,
+     1.8560031261642884,
+     5.611565269714192,
+     0.09050911725345472
+    ],
+    [
+     48.0,
+     1.7412543204713178,
+     5.42565346174377,
+     0.08751053970554468
+    ],
+    [
+     49.0,
+     1.6338778274530552,
+     5.243369685812773,
+     0.08457047880343183
+    ],
+    [
+     50.0,
+     1.5327202125525756,
+     5.062730549499552,
+     0.08165694434676697
+    ],
+    [
+     51.0,
+     1.4366477788296284,
+     4.8814125106712485,
+     0.07873245984953627
+    ],
+    [
+     52.0,
+     1.3447384160711011,
+     4.697423737096734,
+     0.0757648989854312
+    ],
+    [
+     53.0,
+     1.2561066287036387,
+     4.508570151154431,
+     0.07271887340571663
+    ],
+    [
+     54.0,
+     1.1701665116457451,
+     4.313436447273402,
+     0.0695715556011839
+    ],
+    [
+     55.0,
+     1.0868078806931898,
+     4.112192890990368,
+     0.06632569179016723
+    ],
+    [
+     56.0,
+     1.0064331506141826,
+     3.9069686275593014,
+     0.06301562302515003
+    ],
+    [
+     57.0,
+     0.9295673869617451,
+     3.7005526951506065,
+     0.05968633379275172
+    ],
+    [
+     58.0,
+     0.8568101662962402,
+     3.496261870499383,
+     0.05639132049192553
+    ],
+    [
+     59.0,
+     0.7887426668505944,
+     3.297593382643763,
+     0.05318699004264134
+    ],
+    [
+     60.0,
+     0.7259854846363343,
+     3.1084671633187066,
+     0.05013656715030172
+    ],
+    [
+     61.0,
+     0.668925943373217,
+     2.9320540849570373,
+     0.04729119491866189
+    ],
+    [
+     62.0,
+     0.6178068924095145,
+     2.771058473801203,
+     0.04469449151292263
+    ],
+    [
+     63.0,
+     0.572576164286829,
+     2.6269547784998637,
+     0.042370238362901026
+    ],
+    [
+     64.0,
+     0.5330546033687433,
+     2.5006239452420096,
+     0.04033264427809693
+    ],
+    [
+     65.0,
+     0.4986587704745461,
+     2.390956522285621,
+     0.03856381487557453
+    ],
+    [
+     66.0,
+     0.4688378418533364,
+     2.2967802534794814,
+     0.03704484279805615
+    ],
+    [
+     67.0,
+     0.4429038530169432,
+     2.216023720618584,
+     0.035742318074493296
+    ],
+    [
+     68.0,
+     0.4203014250503306,
+     2.147018597233265,
+     0.03462933221343976
+    ],
+    [
+     69.0,
+     0.40037886054565847,
+     2.0873721839161505,
+     0.03366729328897017
+    ],
+    [
+     70.0,
+     0.3828446428417878,
+     2.0363417328503246,
+     0.03284422149758588
+    ],
+    [
+     71.0,
+     0.3671762309311387,
+     1.991814922394846,
+     0.032126047135400744
+    ],
+    [
+     72.0,
+     0.353119326280422,
+     1.9529471635449072,
+     0.03149914779911141
+    ],
+    [
+     73.0,
+     0.3404422621101692,
+     1.9189176981897633,
+     0.030950285454673602
+    ],
+    [
+     74.0,
+     0.3288277797571801,
+     1.8883191232010816,
+     0.03045676005163035
+    ],
+    [
+     75.0,
+     0.3182002471013803,
+     1.861025035079626,
+     0.030016532823864937
+    ],
+    [
+     76.0,
+     0.3084451153293526,
+     1.8366470687718734,
+     0.029623339818901185
+    ],
+    [
+     77.0,
+     0.2993774524231246,
+     1.814323189729972,
+     0.029263277253709228
+    ],
+    [
+     78.0,
+     0.2909171164377121,
+     1.7937603677119083,
+     0.028931618834063037
+    ],
+    [
+     79.0,
+     0.28298348893487685,
+     1.774629653305508,
+     0.028623058924282387
+    ],
+    [
+     80.0,
+     0.2754961239470023,
+     1.7565699888514965,
+     0.028331774013733813
+    ],
+    [
+     81.0,
+     0.26847254035286083,
+     1.7398220628894328,
+     0.028061646175636012
+    ],
+    [
+     82.0,
+     0.26187178329225497,
+     1.7242492850002822,
+     0.02781047233871423
+    ],
+    [
+     83.0,
+     0.2555342892955568,
+     1.708905077378742,
+     0.02756298511901197
+    ],
+    [
+     84.0,
+     0.24943321441009939,
+     1.6936786199894114,
+     0.02731739709660341
+    ],
+    [
+     85.0,
+     0.24376093955649145,
+     1.6799595553758382,
+     0.027096121860900615
+    ],
+    [
+     86.0,
+     0.2381718315547328,
+     1.6654534964734093,
+     0.026862153168925956
+    ],
+    [
+     87.0,
+     0.23292979917708187,
+     1.6520504672357317,
+     0.026645975277995674
+    ],
+    [
+     88.0,
+     0.2277849965270456,
+     1.6380514048136423,
+     0.026420183948607134
+    ],
+    [
+     89.0,
+     0.22291256791926115,
+     1.6247567424587244,
+     0.026205753910624588
+    ],
+    [
+     90.0,
+     0.2180935242722002,
+     1.610624665469216,
+     0.025977817184987356
+    ]
+   ],
+   "PLA_bag2.0": [
+    [
+     0.0,
+     8.098537220039368,
+     -6.193223897195888,
+     -0.09989070801928851
+    ],
+    [
+     1.0,
+     8.130356279232618,
+     -5.589480625938913,
+     -0.09015291332159538
+    ],
+    [
+     2.0,
+     8.158795505347415,
+     -4.980770406784825,
+     -0.08033500656104557
+    ],
+    [
+     3.0,
+     8.183865098440522,
+     -4.367674563888263,
+     -0.07044636393368167
+    ],
+    [
+     4.0,
+     8.20557404833814,
+     -3.7507632321625155,
+     -0.06049618116391154
+    ],
+    [
+     5.0,
+     8.223930134376115,
+     -3.13059690380973,
+     -0.05049349844854403
+    ],
+    [
+     6.0,
+     8.238939925861333,
+     -2.507727968847719,
+     -0.040447225303995464
+    ],
+    [
+     7.0,
+     8.250608783225163,
+     -1.8827022401600038,
+     -0.03036616516387103
+    ],
+    [
+     8.0,
+     8.258940859852983,
+     -1.2560604729196012,
+     -0.02025903988580002
+    ],
+    [
+     9.0,
+     8.26393910457316,
+     -0.6283398740943635,
+     -0.010134514098296186
+    ],
+    [
+     10.0,
+     8.265605264800527,
+     -7.560346186133168e-05,
+     -1.219410675182769e-06
+    ],
+    [
+     11.0,
+     8.263939890325721,
+     0.628197732992777,
+     0.010132221499883501
+    ],
+    [
+     12.0,
+     8.258942337756993,
+     1.2559445937750984,
+     0.020257170867340295
+    ],
+    [
+     13.0,
+     8.250610775618433,
+     1.882627021988818,
+     0.03036495196756158
+    ],
+    [
+     14.0,
+     8.238942190117493,
+     2.507703166848453,
+     0.04044682527174924
+    ],
+    [
+     15.0,
+     8.223932391596978,
+     3.130625813987589,
+     0.05049396474173531
+    ],
+    [
+     16.0,
+     8.205576021694513,
+     3.750840916268671,
+     0.06049743413336566
+    ],
+    [
+     17.0,
+     8.183866561235956,
+     4.367786128723406,
+     0.07044816336650654
+    ],
+    [
+     18.0,
+     8.158796338891744,
+     4.980889351465063,
+     0.08033692502363005
+    ],
+    [
+     19.0,
+     8.130356540634862,
+     5.5895672683398985,
+     0.09015431077967578
+    ],
+    [
+     20.0,
+     8.098537220039368,
+     6.193223896548523,
+     0.09989070800884715
+    ],
+    [
+     21.0,
+     8.063327309463576,
+     6.7912491360825715,
+     0.10953627638842857
+    ],
+    [
+     22.0,
+     8.024714632171738,
+     7.38301732384534,
+     0.11908092457815064
+    ],
+    [
+     23.0,
+     7.982685915443396,
+     7.967885792878067,
+     0.1285142869819043
+    ],
+    [
+     24.0,
+     7.937226804732202,
+     8.545193440482214,
+     0.13782570065293892
+    ],
+    [
+     25.0,
+     7.888321878938655,
+     9.114259298093701,
+     0.14700418222731776
+    ],
+    [
+     26.0,
+     7.835954666859039,
+     9.674381116087014,
+     0.15603840509817765
+    ],
+    [
+     27.0,
+     7.780107664887813,
+     10.224833955844085,
+     0.16491667670716267
+    ],
+    [
+     28.0,
+     7.720762356045829,
+     10.764868796308619,
+     0.17362691606949385
+    ],
+    [
+     29.0,
+     7.657899230414753,
+     11.293711154932351,
+     0.18215663153116696
+    ],
+    [
+     30.0,
+     7.59149780706007,
+     11.810559732238687,
+     0.1904928989070756
+    ],
+    [
+     31.0,
+     7.521536657547161,
+     12.31458507200153,
+     0.1986223398709924
+    ],
+    [
+     32.0,
+     7.447993431049927,
+     12.804928254321483,
+     0.20653110087615295
+    ],
+    [
+     33.0,
+     7.3708448813638405,
+     13.280699616578742,
+     0.21420483252546357
+    ],
+    [
+     34.0,
+     7.290066895631626,
+     13.740977510457729,
+     0.22162866952351176
+    ],
+    [
+     35.0,
+     7.205634525095183,
+     14.184807102581086,
+     0.228787211331953
+    ],
+    [
+     36.0,
+     7.1175220178913845,
+     14.611199220081831,
+     0.23566450354970694
+    ],
+    [
+     37.0,
+     7.025702854002277,
+     15.01912925338607,
+     0.24224402021590435
+    ],
+    [
+     38.0,
+     6.93014978247255,
+     15.407536118058312,
+     0.24850864706545664
+    ],
+    [
+     39.0,
+     6.830834860992674,
+     15.775321288441962,
+     0.2544406659426123
+    ],
+    [
+     40.0,
+     6.727729497955498,
+     16.121347906653032,
+     0.2600217404298876
+    ],
+    [
+     41.0,
+     6.620804497092083,
+     16.44443998128503,
+     0.2652329029239521
+    ],
+    [
+     42.0,
+     6.510030104791979,
+     16.743381682054206,
+     0.2700545432589388
+    ],
+    [
+     43.0,
+     6.395376060206031,
+     17.016916739927396,
+     0.27446639903108705
+    ],
+    [
+     44.0,
+     6.276811648240253,
+     17.26374796692383,
+     0.27844754785361014
+    ],
+    [
+     45.0,
+     6.154305755531027,
+     17.48253690816476,
+     0.28197640174459293
+    ],
+    [
+     46.0,
+     6.027826929500217,
+     17.671903629501585,
+     0.28503070370163847
+    ],
+    [
+     47.0,
+     5.897343440576749,
+     17.830426666958076,
+     0.2875875268864206
+    ],
+    [
+     48.0,
+     5.7628233476689585,
+     17.956643138283567,
+     0.2896232764239285
+    ],
+    [
+     49.0,
+     5.624234566962496,
+     18.04904904076054,
+     0.2911136942058152
+    ],
+    [
+     50.0,
+     5.48154494411584,
+     18.10609974328771,
+     0.29203386682722116
+    ],
+    [
+     51.0,
+     5.334722329905882,
+     18.12621068705807,
+     0.29235823688803336
+    ],
+    [
+     52.0,
+     5.183734659326671,
+     18.107758315312882,
+     0.29206061798891747
+    ],
+    [
+     53.0,
+     5.028550034507926,
+     18.049081241269423,
+     0.2911142135688617
+    ],
+    [
+     54.0,
+     4.869136810635634,
+     17.9484816705425,
+     0.2894916398474597
+    ],
+    [
+     55.0,
+     4.705463686019187,
+     17.804227096807328,
+     0.28716495317431173
+    ],
+    [
+     56.0,
+     4.537499795446334,
+     17.614552280543446,
+     0.2841056819442491
+    ],
+    [
+     57.0,
+     4.365214807152849,
+     17.37766152954072,
+     0.28028486337968905
+    ],
+    [
+     58.0,
+     4.188579023306551,
+     17.091731292199658,
+     0.275673085358059
+    ],
+    [
+     59.0,
+     4.0075634839513,
+     16.754913079535317,
+     0.2702405335408922
+    ],
+    [
+     60.0,
+     3.827560075914902,
+     16.388543660168466,
+     0.2643313493575559
+    ],
+    [
+     61.0,
+     3.655453367998973,
+     16.022680965195295,
+     0.25843033814831123
+    ],
+    [
+     62.0,
+     3.4913370190522595,
+     15.659746031333855,
+     0.25257654889248154
+    ],
+    [
+     63.0,
+     3.3347319138431333,
+     15.299606379873408,
+     0.24676784483666786
+    ],
+    [
+     64.0,
+     3.1847914338013674,
+     14.940243775469689,
+     0.24097167379789822
+    ],
+    [
+     65.0,
+     3.0407073236287,
+     14.579506945948323,
+     0.23515333783787618
+    ],
+    [
+     66.0,
+     2.9016248170049077,
+     14.214711330378632,
+     0.22926953758675214
+    ],
+    [
+     67.0,
+     2.7669047488623884,
+     13.843922364650776,
+     0.22328907039759316
+    ],
+    [
+     68.0,
+     2.6358539267145864,
+     13.464687633568834,
+     0.2171723811865941
+    ],
+    [
+     69.0,
+     2.5079850333999625,
+     13.075361144847703,
+     0.21089292169109197
+    ],
+    [
+     70.0,
+     2.38277253332465,
+     12.67391157280381,
+     0.20441792859360983
+    ],
+    [
+     71.0,
+     2.2601347362648543,
+     12.260516109387133,
+     0.19775025982882471
+    ],
+    [
+     72.0,
+     2.140329715255111,
+     11.837219136340703,
+     0.1909228892958178
+    ],
+    [
+     73.0,
+     2.023715776372158,
+     11.406762472191824,
+     0.18398003987406167
+    ],
+    [
+     74.0,
+     1.910794801581466,
+     10.972887895919056,
+     0.17698206283740414
+    ],
+    [
+     75.0,
+     1.801981752750447,
+     10.53906521184062,
+     0.16998492277162291
+    ],
+    [
+     76.0,
+     1.6977041869639342,
+     10.109038087050296,
+     0.16304900140403703
+    ],
+    [
+     77.0,
+     1.5985150443991651,
+     9.687512839432598,
+     0.15625020708762255
+    ],
+    [
+     78.0,
+     1.504825388097326,
+     9.278574511354394,
+     0.14965442760249023
+    ],
+    [
+     79.0,
+     1.4170280160582625,
+     8.886383959455584,
+     0.14332877353960619
+    ],
+    [
+     80.0,
+     1.3353680274916468,
+     8.514339031553444,
+     0.1373280488960233
+    ],
+    [
+     81.0,
+     1.2600906219779526,
+     8.16595046359626,
+     0.13170887844510099
+    ],
+    [
+     82.0,
+     1.1911248007733999,
+     7.842754420729455,
+     0.12649603904402346
+    ],
+    [
+     83.0,
+     1.1283099009419495,
+     7.545658642884642,
+     0.1217041716594297
+    ],
+    [
+     84.0,
+     1.0714544025891148,
+     7.275291778003224,
+     0.11734341577424555
+    ],
+    [
+     85.0,
+     1.020166853596951,
+     7.030819034813905,
+     0.11340030701312749
+    ],
+    [
+     86.0,
+     0.9739696643526609,
+     6.810634038317865,
+     0.10984893610190104
+    ],
+    [
+     87.0,
+     0.9321832836331642,
+     6.611493397221932,
+     0.1066369902777731
+    ],
+    [
+     88.0,
+     0.8946396170162869,
+     6.433547879794043,
+     0.1037669012870007
+    ],
+    [
+     89.0,
+     0.8606258096387185,
+     6.27289703759984,
+     0.10117575867096516
+    ],
+    [
+     90.0,
+     0.8297367753967281,
+     6.1276212613856496,
+     0.09883260099009113
+    ]
+   ],
+   "PETG_bag0.5": [
+    [
+     0.0,
+     2.6167268512905233,
+     -2.001099066106143,
+     -0.03227579138880876
+    ],
+    [
+     1.0,
+     2.637494341984636,
+     -1.8132321658772457,
+     -0.029245680094794287
+    ],
+    [
+     2.0,
+     2.6560559015862117,
+     -1.621465401935389,
+     -0.026152667773151433
+    ],
+    [
+     3.0,
+     2.6724181874132764,
+     -1.4262518749803872,
+     -0.023004062499683665
+    ],
+    [
+     4.0,
+     2.686587066896491,
+     -1.2280374208017197,
+     -0.019807055174221287
+    ],
+    [
+     5.0,
+     2.6985676174106077,
+     -1.0272615756393146,
+     -0.016568735090956688
+    ],
+    [
+     6.0,
+     2.7083641265749443,
+     -0.8243585377673165,
+     -0.013296105447859943
+    ],
+    [
+     7.0,
+     2.7159800930069755,
+     -0.6197581220588898,
+     -0.00999609874288532
+    ],
+    [
+     8.0,
+     2.721418227515468,
+     -0.413886710641242,
+     -0.006675592107116806
+    ],
+    [
+     9.0,
+     2.7246804547260566,
+     -0.20716819814445755,
+     -0.003341422550717057
+    ],
+    [
+     10.0,
+     2.7257679151316436,
+     -2.493192984814888e-05,
+     -4.021279007765948e-07
+    ],
+    [
+     11.0,
+     2.724680967566746,
+     0.20712135248681393,
+     0.0033406669755937732
+    ],
+    [
+     12.0,
+     2.7214191921057926,
+     0.4138485997287313,
+     0.006674977414979537
+    ],
+    [
+     13.0,
+     2.715981393391307,
+     0.6197335084000557,
+     0.009995701748387995
+    ],
+    [
+     14.0,
+     2.7083656043972977,
+     0.8243506079308552,
+     0.013295977547271859
+    ],
+    [
+     15.0,
+     2.698569090641088,
+     1.027271340973351,
+     0.01656889259634437
+    ],
+    [
+     16.0,
+     2.6865883548559726,
+     1.2280631487567095,
+     0.01980747014123725
+    ],
+    [
+     17.0,
+     2.672419142142635,
+     1.4262885607732436,
+     0.023004654206020058
+    ],
+    [
+     18.0,
+     2.656056445619463,
+     1.6215042902606844,
+     0.026153295004204588
+    ],
+    [
+     19.0,
+     2.637494512595311,
+     1.8132603317391138,
+     0.029246134382888932
+    ],
+    [
+     20.0,
+     2.6167268512905233,
+     2.0010990658969723,
+     0.032275791385435036
+    ],
+    [
+     21.0,
+     2.593746238137227,
+     2.184554368553682,
+     0.035234747879898096
+    ],
+    [
+     22.0,
+     2.568544725696768,
+     2.3631507257422153,
+     0.038115334286164766
+    ],
+    [
+     23.0,
+     2.54111365118765,
+     2.536402355529976,
+     0.04090971541177381
+    ],
+    [
+     24.0,
+     2.5114436457698486,
+     2.703812338483041,
+     0.04360987642714582
+    ],
+    [
+     25.0,
+     2.47952464448381,
+     2.8648717550658143,
+     0.04620760895267442
+    ],
+    [
+     26.0,
+     2.4453458969936825,
+     3.019058835068438,
+     0.04869449733981352
+    ],
+    [
+     27.0,
+     2.4088959791414646,
+     3.1658381174827994,
+     0.05106190512069032
+    ],
+    [
+     28.0,
+     2.3701628053658093,
+     3.30465962414635,
+     0.053300961679779844
+    ],
+    [
+     29.0,
+     2.329133642038838,
+     3.434958048278938,
+     0.05540254916578932
+    ],
+    [
+     30.0,
+     2.2857951217760237,
+     3.5561519620395394,
+     0.05735728971031515
+    ],
+    [
+     31.0,
+     2.240133258773475,
+     3.667643042077802,
+     0.059155532936738746
+    ],
+    [
+     32.0,
+     2.192133465234132,
+     3.7688153200026684,
+     0.06078734387101078
+    ],
+    [
+     33.0,
+     2.1417805689421106,
+     3.8590344578628795,
+     0.06224249125585289
+    ],
+    [
+     34.0,
+     2.089058832048754,
+     3.937647053198666,
+     0.06351043634191397
+    ],
+    [
+     35.0,
+     2.0339519711343645,
+     4.0039799778874325,
+     0.06458032222399085
+    ],
+    [
+     36.0,
+     1.9764431786123735,
+     4.057339753538625,
+     0.06544096376675201
+    ],
+    [
+     37.0,
+     1.9165151455418936,
+     4.0970119694954565,
+     0.06608083821766865
+    ],
+    [
+     38.0,
+     1.8541500859173774,
+     4.1222607467050185,
+     0.06648807655975836
+    ],
+    [
+     39.0,
+     1.789329762504113,
+     4.132328253997913,
+     0.06665045570964376
+    ],
+    [
+     40.0,
+     1.7220355142868367,
+     4.126434280966079,
+     0.06655539162848514
+    ],
+    [
+     41.0,
+     1.6522482856039393,
+     4.103775874779041,
+     0.06618993346417808
+    ],
+    [
+     42.0,
+     1.579948657030266,
+     4.063527046247354,
+     0.06554075881044119
+    ],
+    [
+     43.0,
+     1.5051168780793684,
+     4.004838551638032,
+     0.06459417018771019
+    ],
+    [
+     44.0,
+     1.4277329017904061,
+     3.9268377580685607,
+     0.06333609287207356
+    ],
+    [
+     45.0,
+     1.3477764212622323,
+     3.8286285999838316,
+     0.061752074193287605
+    ],
+    [
+     46.0,
+     1.2654182816594168,
+     3.7098526858913696,
+     0.059836333643409186
+    ],
+    [
+     47.0,
+     1.1834167633531765,
+     3.5780222108539896,
+     0.057710035658935316
+    ],
+    [
+     48.0,
+     1.1115939986644856,
+     3.4636662525409143,
+     0.05586558471840184
+    ],
+    [
+     49.0,
+     1.045192246453605,
+     3.354185514252501,
+     0.05409976635891131
+    ],
+    [
+     50.0,
+     0.9823713278308345,
+     3.244872281079156,
+     0.05233664969482509
+    ],
+    [
+     51.0,
+     0.9219789523920696,
+     3.1326812731013454,
+     0.05052711730808621
+    ],
+    [
+     52.0,
+     0.8631528906785388,
+     3.0151550881273033,
+     0.048631533679472636
+    ],
+    [
+     53.0,
+     0.8054796258500433,
+     2.8911250967750144,
+     0.0466310499479841
+    ],
+    [
+     54.0,
+     0.7488955009560939,
+     2.760558533229525,
+     0.044525137632734274
+    ],
+    [
+     55.0,
+     0.6936807807276305,
+     2.6247041687859243,
+     0.04233393820622459
+    ],
+    [
+     56.0,
+     0.6401879766924974,
+     2.4852066321065456,
+     0.04008397793720235
+    ],
+    [
+     57.0,
+     0.5887851334979401,
+     2.3439187338013596,
+     0.03780514086776386
+    ],
+    [
+     58.0,
+     0.53985497700073,
+     2.202908469032315,
+     0.035530781758585726
+    ],
+    [
+     59.0,
+     0.49393802287191174,
+     2.06506738396985,
+     0.03330753845112661
+    ],
+    [
+     60.0,
+     0.4514674583816311,
+     1.9330576153175318,
+     0.031178348634153738
+    ],
+    [
+     61.0,
+     0.41289283732899157,
+     1.809802927114941,
+     0.029190369792176468
+    ],
+    [
+     62.0,
+     0.378540053226058,
+     1.6978713495315354,
+     0.02738502176663767
+    ],
+    [
+     63.0,
+     0.34852631753989205,
+     1.5990237323880878,
+     0.02579070536109819
+    ],
+    [
+     64.0,
+     0.3226636463885174,
+     1.5136543898488335,
+     0.0244137804814328
+    ],
+    [
+     65.0,
+     0.30063543501865736,
+     1.4414792173493418,
+     0.023249664795957126
+    ],
+    [
+     66.0,
+     0.28195556088754664,
+     1.3812664140874327,
+     0.0222784905497973
+    ],
+    [
+     67.0,
+     0.26602633409592297,
+     1.3310353085666604,
+     0.02146831142849452
+    ],
+    [
+     68.0,
+     0.2523717307951846,
+     1.2891862057529853,
+     0.020793325899241696
+    ],
+    [
+     69.0,
+     0.24058550890310226,
+     1.2542907446542824,
+     0.020230495881520684
+    ],
+    [
+     70.0,
+     0.23028957310459056,
+     1.2249048723060187,
+     0.019756530198484175
+    ],
+    [
+     71.0,
+     0.22120848719082906,
+     1.1999860792451869,
+     0.01935461418137398
+    ],
+    [
+     72.0,
+     0.21309334970123694,
+     1.178525279975272,
+     0.019008472257665675
+    ],
+    [
+     73.0,
+     0.20585773671425586,
+     1.160326135309376,
+     0.018714937666280258
+    ],
+    [
+     74.0,
+     0.1992847262912213,
+     1.14440805425713,
+     0.018458194423502095
+    ],
+    [
+     75.0,
+     0.19326662467379224,
+     1.1303386161377527,
+     0.01823126800222182
+    ],
+    [
+     76.0,
+     0.1877348390939882,
+     1.1178735690469865,
+     0.018030218855596556
+    ],
+    [
+     77.0,
+     0.18262012719333204,
+     1.1067364258615309,
+     0.01785058751389566
+    ],
+    [
+     78.0,
+     0.17785320802446236,
+     1.0966217448157898,
+     0.017687447497028868
+    ],
+    [
+     79.0,
+     0.1733652946489759,
+     1.0871983870724031,
+     0.017535457856006503
+    ],
+    [
+     80.0,
+     0.169140323365088,
+     1.0784428168031364,
+     0.017394238980695746
+    ],
+    [
+     81.0,
+     0.16522971150795748,
+     1.0707623846691,
+     0.01727036104305
+    ],
+    [
+     82.0,
+     0.16144198652994046,
+     1.0629867271061118,
+     0.0171449472113889
+    ],
+    [
+     83.0,
+     0.15787163378058322,
+     1.0557786091465533,
+     0.017028687244299248
+    ],
+    [
+     84.0,
+     0.15447011145294026,
+     1.048868835748097,
+     0.01691723928625963
+    ],
+    [
+     85.0,
+     0.1511790122499615,
+     1.0419004236843503,
+     0.016804845543295973
+    ],
+    [
+     86.0,
+     0.14806092482854424,
+     1.0353389959556096,
+     0.016699016063800157
+    ],
+    [
+     87.0,
+     0.14503819491712275,
+     1.0286808236918585,
+     0.016591626188578363
+    ],
+    [
+     88.0,
+     0.14210156837798163,
+     1.021883255072672,
+     0.016481987985043096
+    ],
+    [
+     89.0,
+     0.13933500117550757,
+     1.0155797168977792,
+     0.016380318014480307
+    ],
+    [
+     90.0,
+     0.13653140340152425,
+     1.0082869111471953,
+     0.016262692115277342
+    ]
+   ]
+  },
+  "opening": [
+   [
+    0,
+    0.0,
+    0.0
+   ],
+   [
+    10,
+    -0.06,
+    -0.02
+   ],
+   [
+    20,
+    0.0,
+    0.0
+   ],
+   [
+    30,
+    0.19,
+    0.05
+   ],
+   [
+    40,
+    0.5,
+    0.14
+   ],
+   [
+    50,
+    0.96,
+    0.26
+   ],
+   [
+    60,
+    1.57,
+    0.43
+   ],
+   [
+    70,
+    2.35,
+    0.65
+   ],
+   [
+    80,
+    3.29,
+    0.91
+   ],
+   [
+    90,
+    4.4,
+    1.21
+   ],
+   [
+    100,
+    5.66,
+    1.56
+   ],
+   [
+    110,
+    7.05,
+    1.94
+   ],
+   [
+    120,
+    8.51,
+    2.34
+   ],
+   [
+    130,
+    9.99,
+    2.75
+   ],
+   [
+    140,
+    11.42,
+    3.14
+   ],
+   [
+    150,
+    12.73,
+    3.5
+   ],
+   [
+    160,
+    13.85,
+    3.81
+   ],
+   [
+    170,
+    14.74,
+    4.06
+   ],
+   [
+    180,
+    15.34,
+    4.22
+   ],
+   [
+    190,
+    15.6,
+    4.29
+   ]
+  ],
+  "dead_centre_deg": 10.0
+ },
+ "strength": [
+  {
+   "item": "pins and pegs, double shear at 60 N link force",
+   "stress_MPa": 1.53,
+   "allow_MPa": 15.0,
+   "SF": 9.8
+  },
+  {
+   "item": "nose cheek bending (each), 30 N",
+   "stress_MPa": 6.37,
+   "allow_MPa": 20.0,
+   "SF": 3.1
+  },
+  {
+   "item": "bail plate net section, 30 N",
+   "stress_MPa": 3.06,
+   "allow_MPa": 20.0,
+   "SF": 6.5
+  },
+  {
+   "item": "integral peg bending across layers",
+   "stress_MPa": 1.83,
+   "allow_MPa": 15.0,
+   "SF": 8.2
+  },
+  {
+   "item": "lever arm root, 25 N at the thumb pad",
+   "stress_MPa": 18.33,
+   "allow_MPa": 25.0,
+   "SF": 1.4
+  },
+  {
+   "item": "bearing, Q peg in the lever web, 60 N",
+   "stress_MPa": 2.0,
+   "allow_MPa": 10.0,
+   "SF": 5.0
+  }
+ ],
+ "elapsed_s": 58.0
+}
