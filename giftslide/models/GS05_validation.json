@@ -1,0 +1,1452 @@
+{
+ "passed": true,
+ "n_ok": 120,
+ "n": 120,
+ "checks": [
+  {
+   "group": "A solids",
+   "name": "tray: valid closed solid, one body",
+   "value": "11.68 cm3",
+   "limit": "manifold, 1 body",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "A solids",
+   "name": "lid: valid closed solid, one body",
+   "value": "14.56 cm3",
+   "limit": "manifold, 1 body",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "A solids",
+   "name": "lid_star: valid closed solid, one body",
+   "value": "14.53 cm3",
+   "limit": "manifold, 1 body",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "A solids",
+   "name": "star_inlay: valid closed solid, one body",
+   "value": "0.03 cm3",
+   "limit": "manifold, 1 body",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "A solids",
+   "name": "lid_loose: valid closed solid, one body",
+   "value": "14.51 cm3",
+   "limit": "manifold, 1 body",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "A solids",
+   "name": "lid_snug: valid closed solid, one body",
+   "value": "14.61 cm3",
+   "limit": "manifold, 1 body",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "A solids",
+   "name": "coupon_tray: valid closed solid, one body",
+   "value": "5.06 cm3",
+   "limit": "manifold, 1 body",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "A solids",
+   "name": "coupon_lid: valid closed solid, one body",
+   "value": "3.37 cm3",
+   "limit": "manifold, 1 body",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "A solids",
+   "name": "coupon_lid_loose: valid closed solid, one body",
+   "value": "3.33 cm3",
+   "limit": "manifold, 1 body",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "A solids",
+   "name": "coupon_lid_snug: valid closed solid, one body",
+   "value": "3.38 cm3",
+   "limit": "manifold, 1 body",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "B build volume",
+   "name": "tray: size",
+   "value": "91.6 x 65.0 x 7.20 mm",
+   "limit": "<= 180 x 180 x 180",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "B build volume",
+   "name": "lid: size",
+   "value": "89.2 x 61.6 x 2.80 mm",
+   "limit": "<= 180 x 180 x 180",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "B build volume",
+   "name": "lid_star: size",
+   "value": "89.2 x 61.6 x 2.80 mm",
+   "limit": "<= 180 x 180 x 180",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "B build volume",
+   "name": "star_inlay: size",
+   "value": "11.2 x 10.7 x 0.60 mm",
+   "limit": "<= 180 x 180 x 180",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "B build volume",
+   "name": "lid_loose: size",
+   "value": "89.2 x 61.4 x 2.80 mm",
+   "limit": "<= 180 x 180 x 180",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "B build volume",
+   "name": "lid_snug: size",
+   "value": "89.2 x 61.8 x 2.80 mm",
+   "limit": "<= 180 x 180 x 180",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "B build volume",
+   "name": "coupon_tray: size",
+   "value": "46.0 x 65.0 x 7.20 mm",
+   "limit": "<= 180 x 180 x 180",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "B build volume",
+   "name": "coupon_lid: size",
+   "value": "43.6 x 61.6 x 2.80 mm",
+   "limit": "<= 180 x 180 x 180",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "B build volume",
+   "name": "coupon_lid_loose: size",
+   "value": "43.6 x 61.4 x 2.80 mm",
+   "limit": "<= 180 x 180 x 180",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "B build volume",
+   "name": "coupon_lid_snug: size",
+   "value": "43.6 x 61.8 x 2.80 mm",
+   "limit": "<= 180 x 180 x 180",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "B build volume",
+   "name": "tray + lid on one A1 mini plate (side by side, 6 mm gap)",
+   "value": "91.6 x 132.6 mm",
+   "limit": "<= 180 x 180",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "C assembly",
+   "name": "lid body (without bumps) vs tray, 126 positions 0..62 mm",
+   "value": "0.0000 mm3",
+   "limit": "0 (no collision)",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "C assembly",
+   "name": "tight print (tray -0.15, lid +0.05): lid body vs tray at closed / mid / open",
+   "value": "0.0000 mm3",
+   "limit": "0",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "C assembly",
+   "name": "very tight print + Loose lid: lid body vs tray at closed / mid / open",
+   "value": "0.0000 mm3",
+   "limit": "0",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "C assembly",
+   "name": "very loose print + Snug lid: lid body vs tray at closed / mid / open",
+   "value": "0.0000 mm3",
+   "limit": "0",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "C assembly",
+   "name": "as sliced (0.2 mm layers): lid and tray never share a layer region",
+   "value": "0.0000 mm2",
+   "limit": "0",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "C assembly",
+   "name": "as sliced: smallest in-layer gap, lid to tray",
+   "value": "0.25 mm",
+   "limit": ">= 0.10 mm",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "C assembly",
+   "name": "bump overlap in 3-D equals the 1-D detent model (10 positions)",
+   "value": "max error 0.023 mm",
+   "limit": "<= 0.03 mm",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "C assembly",
+   "name": "closed: bump parked, beam unloaded (no creep while stored)",
+   "value": "0.000 mm",
+   "limit": "0",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "C assembly",
+   "name": "open: bump against the stop, beam unloaded",
+   "value": "0.000 mm",
+   "limit": "0",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "C assembly",
+   "name": "card sits in the pocket without touching the tray",
+   "value": "0.0000 mm3",
+   "limit": "0",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "C assembly",
+   "name": "card clear of the lid at closed / mid / open",
+   "value": "0.0000 mm3",
+   "limit": "0",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "C assembly",
+   "name": "headroom over the card (folded notes)",
+   "value": "2.44 mm",
+   "limit": ">= 2.0 mm (4 notes folded in quarters)",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "C assembly",
+   "name": "card face uncovered at the open stop",
+   "value": "72 %",
+   "limit": ">= 65 %",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "C assembly",
+   "name": "push hole is under the uncovered part of the card",
+   "value": "hole x 8..24",
+   "limit": "< lid edge at x 64.4",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "C assembly",
+   "name": "lid still engaged in the grooves at the open stop",
+   "value": "27.2 mm",
+   "limit": ">= 25 mm",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "D section",
+   "name": "lateral clearance, land to groove face (per side)",
+   "value": "0.25 mm",
+   "limit": "0.20..0.30",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "D section",
+   "name": "normal gap, lid bevel to lip underside",
+   "value": "0.21 mm",
+   "limit": ">= 0.18",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "D section",
+   "name": "dovetail overlap (lid edge under the lip, per side)",
+   "value": "0.60 mm",
+   "limit": ">= 0.5 mm",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "D section",
+   "name": "shadow gap at the lid edge (hides the flexure slot)",
+   "value": "1.50 mm",
+   "limit": "1.0..2.0",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "D section",
+   "name": "beam top clears the lip tip",
+   "value": "0.25 mm",
+   "limit": ">= 0.2",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "D section",
+   "name": "bump top under the relief-track ceiling",
+   "value": "0.35 mm",
+   "limit": ">= 0.25",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "D section",
+   "name": "relief-track ceiling overhang (printed, unsupported)",
+   "value": "0.45 mm",
+   "limit": "<= 0.5",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "D section",
+   "name": "wall behind the relief track",
+   "value": "1.60 mm",
+   "limit": ">= 1.2 (3 lines)",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "D section",
+   "name": "flexure beam width (at the land)",
+   "value": "1.30 mm",
+   "limit": ">= 1.2 (3 lines)",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "D section",
+   "name": "flexure slot width",
+   "value": "0.80 mm",
+   "limit": ">= 0.6 (prints open)",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "D section",
+   "name": "ledge the lid rides on (per side)",
+   "value": "2.66 mm",
+   "limit": ">= 2.0",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "D section",
+   "name": "floor under the debossed message / logo",
+   "value": "0.80 mm",
+   "limit": ">= 0.8",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "D section",
+   "name": "message and logo debosses do not stack",
+   "value": "4.9 mm apart",
+   "limit": "> 1 mm",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "nominal: opening click (break-away)",
+   "value": "3.6 N",
+   "limit": "1.5..7 N",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "nominal: open stop",
+   "value": "11.8 N",
+   "limit": ">= 5 N and > 2x click",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "nominal: worst beam strain",
+   "value": "0.45 %",
+   "limit": "<= 1.0 %",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "nominal: lid clearance / running drag",
+   "value": "c 0.25 mm, 0.04 N",
+   "limit": "c >= 0.05, drag <= 0.6 N",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "nominal: slot room left at full deflection",
+   "value": "0.45 mm",
+   "limit": ">= 0.15",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "tight (tray -0.15, lid +0.05): opening click (break-away)",
+   "value": "5.7 N",
+   "limit": "1.5..7 N",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "tight (tray -0.15, lid +0.05): open stop",
+   "value": "18.8 N",
+   "limit": ">= 5 N and > 2x click",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "tight (tray -0.15, lid +0.05): worst beam strain",
+   "value": "0.71 %",
+   "limit": "<= 1.0 %",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "tight (tray -0.15, lid +0.05): lid clearance / running drag",
+   "value": "c 0.05 mm, 0.28 N",
+   "limit": "c >= 0.05, drag <= 0.6 N",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "tight (tray -0.15, lid +0.05): slot room left at full deflection",
+   "value": "0.25 mm",
+   "limit": ">= 0.15",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "tight lid (tray -0.05, lid +0.10): opening click (break-away)",
+   "value": "5.2 N",
+   "limit": "1.5..7 N",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "tight lid (tray -0.05, lid +0.10): open stop",
+   "value": "17.0 N",
+   "limit": ">= 5 N and > 2x click",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "tight lid (tray -0.05, lid +0.10): worst beam strain",
+   "value": "0.64 %",
+   "limit": "<= 1.0 %",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "tight lid (tray -0.05, lid +0.10): lid clearance / running drag",
+   "value": "c 0.10 mm, 0.16 N",
+   "limit": "c >= 0.05, drag <= 0.6 N",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "tight lid (tray -0.05, lid +0.10): slot room left at full deflection",
+   "value": "0.30 mm",
+   "limit": ">= 0.15",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "loose (tray +0.10, lid -0.05): opening click (break-away)",
+   "value": "2.1 N",
+   "limit": "1.5..7 N",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "loose (tray +0.10, lid -0.05): open stop",
+   "value": "6.6 N",
+   "limit": ">= 5 N and > 2x click",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "loose (tray +0.10, lid -0.05): worst beam strain",
+   "value": "0.26 %",
+   "limit": "<= 1.0 %",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "loose (tray +0.10, lid -0.05): lid clearance / running drag",
+   "value": "c 0.40 mm, 0.04 N",
+   "limit": "c >= 0.05, drag <= 0.6 N",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "loose (tray +0.10, lid -0.05): slot room left at full deflection",
+   "value": "0.60 mm",
+   "limit": ">= 0.15",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "very tight (tray -0.20, lid +0.10) + Loose lid: opening click (break-away)",
+   "value": "5.7 N",
+   "limit": "1.5..7 N",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "very tight (tray -0.20, lid +0.10) + Loose lid: open stop",
+   "value": "18.8 N",
+   "limit": ">= 5 N and > 2x click",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "very tight (tray -0.20, lid +0.10) + Loose lid: worst beam strain",
+   "value": "0.71 %",
+   "limit": "<= 1.0 %",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "very tight (tray -0.20, lid +0.10) + Loose lid: lid clearance / running drag",
+   "value": "c 0.05 mm, 0.28 N",
+   "limit": "c >= 0.05, drag <= 0.6 N",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "very tight (tray -0.20, lid +0.10) + Loose lid: slot room left at full deflection",
+   "value": "0.25 mm",
+   "limit": ">= 0.15",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "very loose (tray +0.15, lid -0.10) + Snug lid: opening click (break-away)",
+   "value": "2.1 N",
+   "limit": "1.5..7 N",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "very loose (tray +0.15, lid -0.10) + Snug lid: open stop",
+   "value": "6.6 N",
+   "limit": ">= 5 N and > 2x click",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "very loose (tray +0.15, lid -0.10) + Snug lid: worst beam strain",
+   "value": "0.26 %",
+   "limit": "<= 1.0 %",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "very loose (tray +0.15, lid -0.10) + Snug lid: lid clearance / running drag",
+   "value": "c 0.40 mm, 0.04 N",
+   "limit": "c >= 0.05, drag <= 0.6 N",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "very loose (tray +0.15, lid -0.10) + Snug lid: slot room left at full deflection",
+   "value": "0.60 mm",
+   "limit": ">= 0.15",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "nominal: travel to the open stop",
+   "value": "62.4 mm",
+   "limit": "62 +/- 1",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "nominal: closing click",
+   "value": "2.9 N",
+   "limit": "1..6 N",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "nominal: snap-in force when fitting the lid",
+   "value": "2.3 N",
+   "limit": "<= 8 N",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "nominal geometry, E 2.5-3.5 GPa, mu 0.20-0.45: opening click",
+   "value": "2.5..5.6 N",
+   "limit": "1.5..7 N",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "retention vs the lid's own weight",
+   "value": "21 x",
+   "limit": ">= 10 x (survives being shaken)",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "Loose lid on a nominal tray: opening click / stop",
+   "value": "2.6 / 8.3 N",
+   "limit": "click >= 1.5 N, stop >= 5 N",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "Snug lid on a nominal tray: clearance / opening click",
+   "value": "c 0.15 mm, 4.7 N",
+   "limit": "c >= 0.05, click <= 7 N",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "fit coupon: lid body vs tray over its travel",
+   "value": "0.0000 mm3",
+   "limit": "0",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "fit coupon: same click / stop as the full part",
+   "value": "3.6 / 11.8 N (full: 3.6 / 11.8)",
+   "limit": "within 0.2 N",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "E detent",
+   "name": "fit coupon: travel to its stop",
+   "value": "12.4 mm",
+   "limit": "12 +/- 1",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "F print",
+   "name": "tray: unsupported flat overhangs wider than 0.7 mm",
+   "value": "0",
+   "limit": "0 (no supports)",
+   "ok": true,
+   "note": "z=0.40 w=1.08; z=5.95 w=0.45; z=7.18 w=0.00"
+  },
+  {
+   "group": "F print",
+   "name": "tray: widest bridge over the debossed logo",
+   "value": "1.08 mm",
+   "limit": "<= 3 mm",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "F print",
+   "name": "lid: unsupported flat overhangs wider than 0.7 mm",
+   "value": "0",
+   "limit": "0 (no supports)",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "F print",
+   "name": "lid_star: unsupported flat overhangs wider than 0.7 mm",
+   "value": "0",
+   "limit": "0 (no supports)",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "F print",
+   "name": "coupon_tray: unsupported flat overhangs wider than 0.7 mm",
+   "value": "0",
+   "limit": "0 (no supports)",
+   "ok": true,
+   "note": "z=5.95 w=0.45"
+  },
+  {
+   "group": "F print",
+   "name": "coupon_lid: unsupported flat overhangs wider than 0.7 mm",
+   "value": "0",
+   "limit": "0 (no supports)",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G budget",
+   "name": "filament, tray + lid (estimate)",
+   "value": "24.5 g",
+   "limit": "<= 35 g",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G budget",
+   "name": "print time, tray + lid on one plate incl. start (estimate)",
+   "value": "32 min",
+   "limit": "<= 90 min",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G budget",
+   "name": "fit coupon plate: tray + Standard, Loose and Snug lids (estimate)",
+   "value": "28 min, 15 g",
+   "limit": "<= 35 min",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/stl/GS05_A_Tray.stl",
+   "value": "11.68 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/stl/GS05_A_Tray_Plain_alt.stl",
+   "value": "11.72 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/stl/GS05_B_Lid.stl",
+   "value": "14.56 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/stl/GS05_B_Lid_Star_alt.stl",
+   "value": "14.53 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/stl/GS05_B_Lid_Loose_alt.stl",
+   "value": "14.51 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/stl/GS05_B_Lid_Snug_alt.stl",
+   "value": "14.61 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/stl/GS05_C_Star_Inlay_multicolour.stl",
+   "value": "0.03 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/stl/GS05_T_Coupon_Tray.stl",
+   "value": "5.06 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/stl/GS05_T_Coupon_Lid_STD.stl",
+   "value": "3.37 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/stl/GS05_T_Coupon_Lid_LOOSE.stl",
+   "value": "3.33 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/stl/GS05_T_Coupon_Lid_SNUG.stl",
+   "value": "3.38 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/3mf/GS05_fit_coupon_first.3mf : GS05_T_Coupon_Tray",
+   "value": "5.06 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/3mf/GS05_fit_coupon_first.3mf : GS05_T_Coupon_Lid_STD",
+   "value": "3.37 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/3mf/GS05_fit_coupon_first.3mf : GS05_T_Coupon_Lid_LOOSE",
+   "value": "3.33 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/3mf/GS05_fit_coupon_first.3mf : GS05_T_Coupon_Lid_SNUG",
+   "value": "3.38 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/3mf/GS05_gift_slide_plate.3mf : GS05_A_Tray",
+   "value": "11.68 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/3mf/GS05_gift_slide_plate.3mf : GS05_B_Lid",
+   "value": "14.56 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/3mf/GS05_lid_fit_variants.3mf : GS05_B_Lid_Loose",
+   "value": "14.51 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/3mf/GS05_lid_fit_variants.3mf : GS05_B_Lid_Snug",
+   "value": "14.61 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/3mf/GS05_star_lid_two_colour.3mf : GS05_A_Tray",
+   "value": "11.68 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/3mf/GS05_star_lid_two_colour.3mf : GS05_B_Lid_Star",
+   "value": "14.53 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "H files",
+   "name": "re-read models/3mf/GS05_star_lid_two_colour.3mf : GS05_C_Star_Inlay",
+   "value": "0.03 cm3",
+   "limit": "closed solid, on the 180 mm plate",
+   "ok": true,
+   "note": ""
+  }
+ ],
+ "data": {
+  "sliced_gap": 0.25,
+  "bump_crosscheck": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.6,
+    0.0,
+    0.0
+   ],
+   [
+    1.4,
+    0.3442840576171875,
+    0.3500000000000014
+   ],
+   [
+    2.0,
+    0.3482666015625,
+    0.3500000000000014
+   ],
+   [
+    2.6,
+    0.345428466796875,
+    0.3500000000000014
+   ],
+   [
+    3.2,
+    0.12645721435546875,
+    0.14923715567343432
+   ],
+   [
+    30.0,
+    0.0,
+    0.0
+   ],
+   [
+    61.0,
+    0.0,
+    0.0
+   ],
+   [
+    62.3,
+    0.0,
+    0.0
+   ],
+   [
+    62.8,
+    0.34600067138671875,
+    0.3500000000000014
+   ]
+  ],
+  "exposed": 0.7153589074121964,
+  "detent": {
+   "nominal": {
+    "k": 4.125720328346811,
+    "I": 0.3341833465960917,
+    "d_r1": 0.3500000000000014,
+    "d_stop": 0.3500000000000014,
+    "d_entry": 0.3500000000000014,
+    "F_open_r1": 3.6423551312161844,
+    "F_close_r1": 2.868933157462695,
+    "F_stop": 11.790323757641335,
+    "F_insert": 2.338731185362485,
+    "F_run": 0.03531599999999999,
+    "travel_to_stop": 62.35600000000006,
+    "strain_r1": 0.004490377988174171,
+    "strain_max": 0.004490377988174171,
+    "clear": 0.25,
+    "run_clear": 0.09999999999999998,
+    "slot_room": 0.4499999999999986
+   },
+   "tight (tray -0.15, lid +0.05)": {
+    "k": 4.125720328386111,
+    "I": 0.33418334659927496,
+    "d_r1": 0.5500000000000007,
+    "d_stop": 0.5500000000000007,
+    "d_entry": 0.5500000000000007,
+    "F_open_r1": 5.731925674184616,
+    "F_close_r1": 4.501986286649826,
+    "F_stop": 18.77112253641846,
+    "F_insert": 3.6654172983785265,
+    "F_run": 0.28285921970317174,
+    "travel_to_stop": 62.30000000000006,
+    "strain_r1": 0.00705630826713111,
+    "strain_max": 0.00705630826713111,
+    "clear": 0.05,
+    "run_clear": -0.09999999999999998,
+    "slot_room": 0.24999999999999933
+   },
+   "tight lid (tray -0.05, lid +0.10)": {
+    "k": 4.125720328442252,
+    "I": 0.33418334660382243,
+    "d_r1": 0.5000000000000036,
+    "d_stop": 0.5000000000000036,
+    "d_entry": 0.5000000000000036,
+    "F_open_r1": 5.209533038521577,
+    "F_close_r1": 4.0937230044150015,
+    "F_stop": 17.025922841983604,
+    "F_insert": 3.3337457701749034,
+    "F_run": 0.1590876098532785,
+    "travel_to_stop": 62.30000000000006,
+    "strain_r1": 0.006414825697392714,
+    "strain_max": 0.006414825697392714,
+    "clear": 0.1,
+    "run_clear": -0.04999999999999993,
+    "slot_room": 0.2999999999999965
+   },
+   "loose (tray +0.10, lid -0.05)": {
+    "k": 4.125720328419796,
+    "I": 0.33418334660200344,
+    "d_r1": 0.1999999999999993,
+    "d_stop": 0.1999999999999993,
+    "d_entry": 0.1999999999999993,
+    "F_open_r1": 2.0751772240665733,
+    "F_close_r1": 1.6441433106327321,
+    "F_stop": 6.55472467380755,
+    "F_insert": 1.3437166006495118,
+    "F_run": 0.03531599999999999,
+    "travel_to_stop": 62.44400000000006,
+    "strain_r1": 0.0025659302789569263,
+    "strain_max": 0.0025659302789569263,
+    "clear": 0.39999999999999997,
+    "run_clear": 0.25,
+    "slot_room": 0.6000000000000008
+   },
+   "very tight (tray -0.20, lid +0.10) + Loose lid": {
+    "k": 4.125720328346811,
+    "I": 0.3341833465960917,
+    "d_r1": 0.5500000000000007,
+    "d_stop": 0.5500000000000007,
+    "d_entry": 0.5500000000000007,
+    "F_open_r1": 5.731925674130353,
+    "F_close_r1": 4.50198628660728,
+    "F_stop": 18.771122536239996,
+    "F_insert": 3.6654172983439484,
+    "F_run": 0.2828592197008138,
+    "travel_to_stop": 62.30000000000006,
+    "strain_r1": 0.007056308267130821,
+    "strain_max": 0.007056308267130821,
+    "clear": 0.04999999999999999,
+    "run_clear": -0.09999999999999998,
+    "slot_room": 0.24999999999999933
+   },
+   "very loose (tray +0.15, lid -0.10) + Snug lid": {
+    "k": 4.125720328346811,
+    "I": 0.3341833465960917,
+    "d_r1": 0.20000000000000284,
+    "d_stop": 0.20000000000000284,
+    "d_entry": 0.20000000000000284,
+    "F_open_r1": 2.075177224030525,
+    "F_close_r1": 1.6441433106043009,
+    "F_stop": 6.554724673692346,
+    "F_insert": 1.3437166006263936,
+    "F_run": 0.03531599999999999,
+    "travel_to_stop": 62.44400000000006,
+    "strain_r1": 0.002565930278956695,
+    "strain_max": 0.002565930278956695,
+    "clear": 0.4,
+    "run_clear": 0.2500000000000001,
+    "slot_room": 0.5999999999999972
+   }
+  },
+  "beam": {
+   "A": 2.552500000000002,
+   "I": 0.3341833465960917,
+   "c": 0.6928011753182979,
+   "L": 36.0,
+   "k": 4.125720328346811,
+   "strain_per_mm": 0.012829651394783294
+  },
+  "spread": {
+   "(2500, 0.2)": {
+    "k": 3.438100273622343,
+    "I": 0.3341833465960917,
+    "d_r1": 0.3500000000000014,
+    "d_stop": 0.3500000000000014,
+    "d_entry": 0.3500000000000014,
+    "F_open_r1": 2.5086075678444364,
+    "F_close_r1": 1.977373398287281,
+    "F_stop": 6.869113470253689,
+    "F_insert": 1.598364901386805,
+    "F_run": 0.023544000000000002,
+    "travel_to_stop": 62.35600000000006,
+    "strain_r1": 0.004490377988174172,
+    "strain_max": 0.004490377988174172,
+    "clear": 0.25,
+    "run_clear": 0.09999999999999998,
+    "slot_room": 0.4499999999999986
+   },
+   "(2500, 0.45)": {
+    "k": 3.438100273622343,
+    "I": 0.3341833465960917,
+    "d_r1": 0.3500000000000014,
+    "d_stop": 0.3500000000000014,
+    "d_entry": 0.3500000000000014,
+    "F_open_r1": 4.039707450693781,
+    "F_close_r1": 3.1324113874955235,
+    "F_stop": 22.961687168357688,
+    "F_insert": 2.553734154029507,
+    "F_run": 0.052974,
+    "travel_to_stop": 62.35600000000006,
+    "strain_r1": 0.004490377988174172,
+    "strain_max": 0.004490377988174172,
+    "clear": 0.25,
+    "run_clear": 0.09999999999999998,
+    "slot_room": 0.4499999999999986
+   },
+   "(3500, 0.2)": {
+    "k": 4.81334038307128,
+    "I": 0.3341833465960917,
+    "d_r1": 0.3500000000000014,
+    "d_stop": 0.3500000000000014,
+    "d_entry": 0.3500000000000014,
+    "F_open_r1": 3.5026329949822106,
+    "F_close_r1": 2.758905157602193,
+    "F_stop": 9.607341258355163,
+    "F_insert": 2.228293261941527,
+    "F_run": 0.023544000000000002,
+    "travel_to_stop": 62.35600000000006,
+    "strain_r1": 0.004490377988174171,
+    "strain_max": 0.004490377988174171,
+    "clear": 0.25,
+    "run_clear": 0.09999999999999998,
+    "slot_room": 0.4499999999999986
+   },
+   "(3500, 0.45)": {
+    "k": 4.81334038307128,
+    "I": 0.3341833465960917,
+    "d_r1": 0.3500000000000014,
+    "d_stop": 0.3500000000000014,
+    "d_entry": 0.3500000000000014,
+    "F_open_r1": 5.634400830971292,
+    "F_close_r1": 4.364186342493731,
+    "F_stop": 32.12517243570076,
+    "F_insert": 3.5540382156413095,
+    "F_run": 0.052974,
+    "travel_to_stop": 62.35600000000006,
+    "strain_r1": 0.004490377988174171,
+    "strain_max": 0.004490377988174171,
+    "clear": 0.25,
+    "run_clear": 0.09999999999999998,
+    "slot_room": 0.4499999999999986
+   }
+  },
+  "unfixed_extremes": {
+   "very tight, Standard lid": {
+    "k": 4.125720328442252,
+    "I": 0.33418334660382243,
+    "d_r1": 0.6500000000000021,
+    "d_stop": 0.6500000000000021,
+    "d_entry": 0.6500000000000021,
+    "F_open_r1": 6.776710945743555,
+    "F_close_r1": 5.31851285130167,
+    "F_stop": 22.261521926053902,
+    "F_insert": 4.3287603549339595,
+    "F_run": 0.5304024394130837,
+    "travel_to_stop": 62.30000000000006,
+    "strain_r1": 0.008339273406610495,
+    "strain_max": 0.008339273406610495,
+    "clear": -0.05000000000000002,
+    "run_clear": -0.19999999999999996,
+    "slot_room": 0.1499999999999979
+   },
+   "very loose, Standard lid": {
+    "k": 4.125720328459095,
+    "I": 0.33418334660518667,
+    "d_r1": 0.10000000000000142,
+    "d_stop": 0.10000000000000142,
+    "d_entry": 0.10000000000000142,
+    "F_open_r1": 1.0303919526004761,
+    "F_close_r1": 0.8276167460535817,
+    "F_stop": 3.064325284475411,
+    "F_insert": 0.6803735441532041,
+    "F_run": 0.03531599999999999,
+    "travel_to_stop": 62.50000000000006,
+    "strain_r1": 0.001282965139478532,
+    "strain_max": 0.001282965139478532,
+    "clear": 0.5,
+    "run_clear": 0.35,
+    "slot_room": 0.6999999999999986
+   }
+  },
+  "overhang_tray": [
+   [
+    0.4000000059604645,
+    107.36098090457976,
+    1.080758050084114
+   ],
+   [
+    5.949999809265137,
+    57.62941424817109,
+    0.4499988257884979
+   ],
+   [
+    7.179999828338623,
+    7.902417564764619e-08,
+    0.0
+   ]
+  ],
+  "overhang_lid": [],
+  "overhang_lid_star": [],
+  "overhang_coupon_tray": [
+   [
+    5.949999809265137,
+    12.62952355028392,
+    0.44999878853559494
+   ]
+  ],
+  "overhang_coupon_lid": [],
+  "estimate": {
+   "tray": {
+    "name": "tray",
+    "layers": 36,
+    "print_min": 16.57790314517332,
+    "grams": 12.456711568267462,
+    "metres": 4.176531340639395,
+    "solid_cm3": 11.678890953217325
+   },
+   "lid": {
+    "name": "lid",
+    "layers": 14,
+    "print_min": 11.9160150549928,
+    "grams": 12.035666605498587,
+    "metres": 4.0353618615850495,
+    "solid_cm3": 14.559602019152893
+   },
+   "coupon_tray": {
+    "name": "coupon_tray",
+    "layers": 36,
+    "print_min": 8.394764587367213,
+    "grams": 5.07015044322996,
+    "metres": 1.6999383915936535,
+    "solid_cm3": 5.061491699330047
+   },
+   "coupon_lid": {
+    "name": "coupon_lid",
+    "layers": 14,
+    "print_min": 5.2404049255545555,
+    "grams": 3.2079108390216957,
+    "metres": 1.0755599568734635,
+    "solid_cm3": 3.3653108308687663
+   }
+  },
+  "coupon_plate": {
+   "minutes": 28.115979364030878,
+   "grams": 14.693882960295046
+  }
+ },
+ "files": [
+  {
+   "file": "models/stl/GS05_A_Tray.stl",
+   "tris": 4358,
+   "vol": 11678.89021113995,
+   "ok": true
+  },
+  {
+   "file": "models/stl/GS05_A_Tray_Plain_alt.stl",
+   "tris": 3798,
+   "vol": 11723.739449988636,
+   "ok": true
+  },
+  {
+   "file": "models/stl/GS05_B_Lid.stl",
+   "tris": 1254,
+   "vol": 14559.601980920948,
+   "ok": true
+  },
+  {
+   "file": "models/stl/GS05_B_Lid_Star_alt.stl",
+   "tris": 2114,
+   "vol": 14528.848567076378,
+   "ok": true
+  },
+  {
+   "file": "models/stl/GS05_B_Lid_Loose_alt.stl",
+   "tris": 1238,
+   "vol": 14509.844328557136,
+   "ok": true
+  },
+  {
+   "file": "models/stl/GS05_B_Lid_Snug_alt.stl",
+   "tris": 1262,
+   "vol": 14609.34091942578,
+   "ok": true
+  },
+  {
+   "file": "models/stl/GS05_C_Star_Inlay_multicolour.stl",
+   "tris": 856,
+   "vol": 30.75341384456945,
+   "ok": true
+  },
+  {
+   "file": "models/stl/GS05_T_Coupon_Tray.stl",
+   "tris": 1840,
+   "vol": 5061.4912047707285,
+   "ok": true
+  },
+  {
+   "file": "models/stl/GS05_T_Coupon_Lid_STD.stl",
+   "tris": 1844,
+   "vol": 3365.310817859636,
+   "ok": true
+  },
+  {
+   "file": "models/stl/GS05_T_Coupon_Lid_LOOSE.stl",
+   "tris": 2004,
+   "vol": 3334.786819170855,
+   "ok": true
+  },
+  {
+   "file": "models/stl/GS05_T_Coupon_Lid_SNUG.stl",
+   "tris": 1980,
+   "vol": 3384.94551804771,
+   "ok": true
+  },
+  {
+   "file": "models/3mf/GS05_fit_coupon_first.3mf : GS05_T_Coupon_Tray",
+   "tris": 1828,
+   "vol": 5061.492663602456,
+   "ok": true
+  },
+  {
+   "file": "models/3mf/GS05_fit_coupon_first.3mf : GS05_T_Coupon_Lid_STD",
+   "tris": 1836,
+   "vol": 3365.31084147212,
+   "ok": true
+  },
+  {
+   "file": "models/3mf/GS05_fit_coupon_first.3mf : GS05_T_Coupon_Lid_LOOSE",
+   "tris": 2004,
+   "vol": 3334.7864312500515,
+   "ok": true
+  },
+  {
+   "file": "models/3mf/GS05_fit_coupon_first.3mf : GS05_T_Coupon_Lid_SNUG",
+   "tris": 1972,
+   "vol": 3384.945679602218,
+   "ok": true
+  },
+  {
+   "file": "models/3mf/GS05_gift_slide_plate.3mf : GS05_A_Tray",
+   "tris": 4346,
+   "vol": 11678.891186560984,
+   "ok": true
+  },
+  {
+   "file": "models/3mf/GS05_gift_slide_plate.3mf : GS05_B_Lid",
+   "tris": 1246,
+   "vol": 14559.603833508743,
+   "ok": true
+  },
+  {
+   "file": "models/3mf/GS05_lid_fit_variants.3mf : GS05_B_Lid_Loose",
+   "tris": 1238,
+   "vol": 14509.846683930124,
+   "ok": true
+  },
+  {
+   "file": "models/3mf/GS05_lid_fit_variants.3mf : GS05_B_Lid_Snug",
+   "tris": 1254,
+   "vol": 14609.343642149963,
+   "ok": true
+  },
+  {
+   "file": "models/3mf/GS05_star_lid_two_colour.3mf : GS05_A_Tray",
+   "tris": 4346,
+   "vol": 11678.891186560984,
+   "ok": true
+  },
+  {
+   "file": "models/3mf/GS05_star_lid_two_colour.3mf : GS05_B_Lid_Star",
+   "tris": 2106,
+   "vol": 14528.850464830826,
+   "ok": true
+  },
+  {
+   "file": "models/3mf/GS05_star_lid_two_colour.3mf : GS05_C_Star_Inlay",
+   "tris": 856,
+   "vol": 30.75336867791705,
+   "ok": true
+  }
+ ]
+}
