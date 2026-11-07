@@ -2,6 +2,30 @@
 
 3D-printable models and the procedural Blender scripts that generate them.
 
+## BK-01 Bookmarks (customer commission)
+
+[![BK-01 Bookmarks](bookmarks/renders/01_hero.png)](bookmarks/)
+
+A **book-shaped bookmark holder**, recreated from a customer's reference photo: a miniature
+pink hardcover standing upright with an open top, rounded spine, hinge grooves, page lines
+on the fore-edge, a raised nameplate with white "Bookmarks" lettering and a meadow of
+flowers in relief. It is exactly 79.0 × 44.5 × 84.3 mm (3.11 × 1.75 × 3.32 in) with the
+decoration included. The compartment is 69.45 × 38.7 × 81.9 mm, behind 2 mm walls. It
+prints upright in one piece with no supports. Six colour regions are independently
+assignable, and there are ready 4-, 3- and 2-colour Bambu H2C projects; the 2-colour one
+needs no flushing on the two-nozzle H2C. A parametric generator (manifold3d + shapely
+geometry, Blender project and renders) runs 13 checks on the exported files: envelope,
+manifoldness, colour separation, compartment fit with real bookmark sizes, wall thickness,
+overhangs, detail size, lettering, stability and colour-change load. CAD-validated only:
+not yet printed.
+
+- Generator: [`bookmarks/bookmarks.py`](bookmarks/bookmarks.py) + [`bookmarks/bk/`](bookmarks/bk)
+- Reference analysis, design decisions, files: [`bookmarks/README.md`](bookmarks/README.md)
+- Print settings and colour plans: [`bookmarks/PRINT_SETTINGS.md`](bookmarks/PRINT_SETTINGS.md)
+- Drawing: [`bookmarks/docs/BK01_drawing.pdf`](bookmarks/docs/BK01_drawing.pdf)
+- Validation report: [`bookmarks/models/BK01_validation_report.md`](bookmarks/models/BK01_validation_report.md)
+- Print files: [`bookmarks/models/`](bookmarks/models/)
+
 ## Odd Layer HF-04 HOLDFAST
 
 [![HOLDFAST HF-04](holdfast/renders/01_hero.png)](holdfast/)

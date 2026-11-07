@@ -1,0 +1,674 @@
+{
+ "params": {
+  "envelope": [
+   79.0,
+   44.5,
+   84.3
+  ],
+  "front_plane": 42.7,
+  "cavity": {
+   "x": [
+    6.0,
+    75.45
+   ],
+   "y": [
+    2.0,
+    40.7
+   ],
+   "z": [
+    2.4,
+    84.3
+   ],
+   "w": 69.45,
+   "d": 38.7,
+   "h": 81.89999999999999
+  }
+ },
+ "checks": [
+  {
+   "name": "Overall envelope = customer dimensions (decoration included)",
+   "ok": true,
+   "measured": [
+    79.0,
+    44.5,
+    84.3
+   ],
+   "target": [
+    79.0,
+    44.5,
+    84.3
+   ],
+   "max_error": 0.0,
+   "min_corner": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "Every region and the full part are closed 2-manifolds; the full part is ONE body",
+   "ok": true,
+   "rows": [
+    {
+     "part": "body",
+     "status": "NoError",
+     "triangles": 54986,
+     "volume": 55286.24,
+     "genus": 0,
+     "bodies": 1,
+     "min_body": 55286.24
+    },
+    {
+     "part": "pages",
+     "status": "NoError",
+     "triangles": 29712,
+     "volume": 2267.96,
+     "genus": -1,
+     "bodies": 2,
+     "min_body": 45.65
+    },
+    {
+     "part": "lettering",
+     "status": "NoError",
+     "triangles": 33980,
+     "volume": 275.35,
+     "genus": -3,
+     "bodies": 9,
+     "min_body": 16.9
+    },
+    {
+     "part": "petals",
+     "status": "NoError",
+     "triangles": 85000,
+     "volume": 257.79,
+     "genus": -13,
+     "bodies": 18,
+     "min_body": 3.19
+    },
+    {
+     "part": "centres",
+     "status": "NoError",
+     "triangles": 19650,
+     "volume": 49.37,
+     "genus": -5,
+     "bodies": 6,
+     "min_body": 6.3
+    },
+    {
+     "part": "foliage",
+     "status": "NoError",
+     "triangles": 35670,
+     "volume": 383.6,
+     "genus": 0,
+     "bodies": 5,
+     "min_body": 3.92
+    },
+    {
+     "part": "FULL (single colour)",
+     "status": "NoError",
+     "triangles": 351944,
+     "volume": 58521.97,
+     "genus": 0,
+     "bodies": 1,
+     "min_body": 58521.97
+    }
+   ]
+  },
+  {
+   "name": "Colour regions are disjoint and tile the part exactly",
+   "ok": true,
+   "max_overlap_mm3": 0.000196,
+   "overlapping_pairs": [
+    [
+     "body",
+     "foliage",
+     0.0
+    ],
+    [
+     "petals",
+     "foliage",
+     0.0002
+    ]
+   ],
+   "sum_of_regions": 58520.29,
+   "full_volume": 58521.97,
+   "mismatch_pct": 0.00286
+  },
+  {
+   "name": "No tiny colour islands (every island >= 2 mm3) and none floating (full part is one body)",
+   "ok": true,
+   "rows": [
+    {
+     "part": "body",
+     "islands": 1,
+     "smallest_mm3": 55286.24,
+     "smallest_dims": [
+      43.7,
+      79.0,
+      84.3
+     ]
+    },
+    {
+     "part": "pages",
+     "islands": 2,
+     "smallest_mm3": 45.65,
+     "smallest_dims": [
+      0.6,
+      3.61,
+      38.2
+     ]
+    },
+    {
+     "part": "lettering",
+     "islands": 9,
+     "smallest_mm3": 16.9,
+     "smallest_dims": [
+      1.4,
+      3.97,
+      6.16
+     ]
+    },
+    {
+     "part": "petals",
+     "islands": 18,
+     "smallest_mm3": 3.19,
+     "smallest_dims": [
+      1.2,
+      2.0,
+      3.03
+     ]
+    },
+    {
+     "part": "centres",
+     "islands": 6,
+     "smallest_mm3": 6.3,
+     "smallest_dims": [
+      1.5,
+      2.4,
+      2.4
+     ]
+    },
+    {
+     "part": "foliage",
+     "islands": 5,
+     "smallest_mm3": 3.92,
+     "smallest_dims": [
+      0.9,
+      2.75,
+      3.85
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Compartment is genuinely hollow, open and takes real bookmarks",
+   "ok": true,
+   "floor": 2.35,
+   "stations": {
+    "5.4": {
+     "width": 69.45,
+     "depth": 38.7,
+     "area": 2682.3
+    },
+    "20.0": {
+     "width": 69.45,
+     "depth": 38.7,
+     "area": 2682.3
+    },
+    "42.0": {
+     "width": 69.45,
+     "depth": 38.7,
+     "area": 2682.3
+    },
+    "70.0": {
+     "width": 69.45,
+     "depth": 38.7,
+     "area": 2682.3
+    },
+    "82.8": {
+     "width": 69.45,
+     "depth": 38.7,
+     "area": 2682.3
+    }
+   },
+   "usable": {
+    "width": 69.45,
+    "depth": 38.7,
+    "height": 81.9,
+    "volume_ml": 219.7
+   },
+   "gauge_interference": 0.0,
+   "prop_interference": {
+    "fabric_floral": 0.0,
+    "wood_engraved": 0.0,
+    "leather_strap": 0.0,
+    "card_classic": 0.0
+   },
+   "props": [
+    [
+     "fabric_floral",
+     [
+      50.8,
+      1.6,
+      165.0
+     ]
+    ],
+    [
+     "wood_engraved",
+     [
+      40.0,
+      3.2,
+      150.0
+     ]
+    ],
+    [
+     "leather_strap",
+     [
+      25.0,
+      2.6,
+      140.0
+     ]
+    ],
+    [
+     "card_classic",
+     [
+      50.8,
+      0.6,
+      152.4
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "Opening is unobstructed: no lip or ledge overhangs the cavity",
+   "ok": true,
+   "hidden_area_mm2": 0.0,
+   "opening_w": 70.45,
+   "opening_d": 39.7
+  },
+  {
+   "name": "Wall thickness >= 1.95 mm everywhere below the rim lead-in",
+   "ok": true,
+   "min_wall": 2.0,
+   "at_z": 4.9,
+   "named": {
+    "front": 2.0,
+    "front_plain_strip": 2.0,
+    "back": 2.0,
+    "spine_side": 4.154,
+    "fore_edge_to_page_grooves": 2.0
+   },
+   "note": "Above z = H-1.5 the opening has a 0.5 mm lead-in and the top edge a 0.5 mm chamfer, so the cover rim narrows to ~1.0 mm in its last 0.5 mm by design."
+  },
+  {
+   "name": "No supports needed: every layer is carried by the one below at <= 45 deg",
+   "ok": true,
+   "worst_unsupported_mm2": 0.097,
+   "at_z": 40.1,
+   "total_unsupported_mm2": 0.491,
+   "tolerance_mm": 0.26
+  },
+  {
+   "name": "Coloured detail is resolvable by a 0.4 mm nozzle",
+   "ok": true,
+   "rows": [
+    {
+     "part": "lettering",
+     "area_mm2": 218.8,
+     "pct_under_0p8": 0.38,
+     "pct_under_0p5": 0.09,
+     "gaps_under_0p6_mm2": 2.7
+    },
+    {
+     "part": "petals",
+     "area_mm2": 272.0,
+     "pct_under_0p8": 1.14,
+     "pct_under_0p5": 0.36,
+     "gaps_under_0p6_mm2": 2.61
+    },
+    {
+     "part": "centres",
+     "area_mm2": 36.6,
+     "pct_under_0p8": 0.04,
+     "pct_under_0p5": 0.02,
+     "gaps_under_0p6_mm2": -0.0
+    },
+    {
+     "part": "foliage",
+     "area_mm2": 553.0,
+     "pct_under_0p8": 0.93,
+     "pct_under_0p5": 0.41,
+     "gaps_under_0p6_mm2": 7.95
+    }
+   ],
+   "note": "'Under 0.8/0.5' = share of the region's front-face area in features narrower than 2 / 1.25 line widths: the tapered tips of petals, leaves and grass. The slicer prints them with Arachne's narrower lines or drops the last fraction of a millimetre of a tip. Pages: a 0.8 mm (2-line) skin with 0.5 mm grooves, read from the side."
+  },
+  {
+   "name": "Lettering is bold enough to print and read",
+   "ok": true,
+   "text": "Bookmarks",
+   "font": "Bubblegum Sans (SIL OFL 1.1)",
+   "text_w": 51.63,
+   "text_h": 9.74,
+   "min_stroke": 1.25,
+   "strokes": [
+    [
+     "B",
+     1.5
+    ],
+    [
+     "o",
+     1.45
+    ],
+    [
+     "o",
+     1.45
+    ],
+    [
+     "k",
+     1.45
+    ],
+    [
+     "m",
+     1.25
+    ],
+    [
+     "a",
+     1.35
+    ],
+    [
+     "r",
+     1.35
+    ],
+    [
+     "k",
+     1.45
+    ],
+    [
+     "s",
+     1.5
+    ]
+   ],
+   "inside_plate": true,
+   "letter_relief": 0.8,
+   "white_depth": 1.4
+  },
+  {
+   "name": "Stable on the bed and on the desk",
+   "ok": true,
+   "footprint_mm2": 3179.4,
+   "centre_of_mass": [
+    34.52,
+    22.47,
+    37.51
+   ],
+   "tipping_angle_deg": 28.4,
+   "solid_volume_cm3": 58.52,
+   "solid_mass_g": 74.3
+  },
+  {
+   "name": "Colour regions are independently assignable; colour-change load measured",
+   "ok": true,
+   "z_ranges": {
+    "body": [
+     0.0,
+     84.2
+    ],
+    "pages": [
+     0.0,
+     83.4
+    ],
+    "lettering": [
+     56.2,
+     65.8
+    ],
+    "petals": [
+     26.8,
+     48.8
+    ],
+    "centres": [
+     34.0,
+     46.8
+    ],
+    "foliage": [
+     12.0,
+     43.4
+    ]
+   },
+   "layers": 421,
+   "plans": {
+    "FULL": {
+     "filaments": 4,
+     "layers_with_2plus": 417,
+     "max_in_one_layer": 4,
+     "changes_one_nozzle": 624,
+     "flushes_two_nozzles": 207,
+     "nozzle_map": {
+      "left": [
+       1,
+       3
+      ],
+      "right": [
+       4,
+       2
+      ]
+     },
+     "slot_layers": {
+      "1": 421,
+      "2": 158,
+      "3": 49,
+      "4": 417
+     }
+    },
+    "TRIO": {
+     "filaments": 3,
+     "layers_with_2plus": 417,
+     "max_in_one_layer": 3,
+     "changes_one_nozzle": 466,
+     "flushes_two_nozzles": 49,
+     "nozzle_map": {
+      "left": [
+       1,
+       3
+      ],
+      "right": [
+       2
+      ]
+     },
+     "slot_layers": {
+      "1": 421,
+      "2": 417,
+      "3": 49
+     }
+    },
+    "DUO": {
+     "filaments": 2,
+     "layers_with_2plus": 417,
+     "max_in_one_layer": 2,
+     "changes_one_nozzle": 417,
+     "flushes_two_nozzles": 0,
+     "nozzle_map": {
+      "left": [
+       1
+      ],
+      "right": [
+       2
+      ]
+     },
+     "slot_layers": {
+      "1": 421,
+      "2": 417
+     }
+    }
+   },
+   "grams": {
+    "body": 70.21,
+    "pages": 2.88,
+    "lettering": 0.35,
+    "petals": 0.33,
+    "centres": 0.06,
+    "foliage": 0.49
+   }
+  },
+  {
+   "name": "Exported files re-read from disk: watertight, correct volumes, correct filament slots",
+   "ok": true,
+   "rows": [
+    {
+     "file": "models/stl/BK01_Bookmarks_single_colour.stl",
+     "triangles": 346524,
+     "watertight": true,
+     "winding": true,
+     "volume": 58521.98,
+     "extents": [
+      79.0,
+      44.5,
+      84.3
+     ],
+     "ok": true
+    },
+    {
+     "file": "models/stl/BK01_region1_body.stl",
+     "triangles": 54980,
+     "watertight": true,
+     "winding": true,
+     "volume": 55286.25,
+     "extents": [
+      79.0,
+      43.7,
+      84.3
+     ],
+     "ok": true
+    },
+    {
+     "file": "models/stl/BK01_region2_pages.stl",
+     "triangles": 29712,
+     "watertight": true,
+     "winding": true,
+     "volume": 2267.96,
+     "extents": [
+      74.004,
+      38.2,
+      83.5
+     ],
+     "ok": true
+    },
+    {
+     "file": "models/stl/BK01_region3_lettering.stl",
+     "triangles": 33972,
+     "watertight": true,
+     "winding": true,
+     "volume": 275.35,
+     "extents": [
+      51.634,
+      1.4,
+      9.736
+     ],
+     "ok": true
+    },
+    {
+     "file": "models/stl/BK01_region4_petals.stl",
+     "triangles": 84392,
+     "watertight": true,
+     "winding": true,
+     "volume": 257.79,
+     "extents": [
+      53.964,
+      1.2,
+      22.028
+     ],
+     "ok": true
+    },
+    {
+     "file": "models/stl/BK01_region5_centres.stl",
+     "triangles": 19516,
+     "watertight": true,
+     "winding": true,
+     "volume": 49.37,
+     "extents": [
+      41.197,
+      1.5,
+      12.897
+     ],
+     "ok": true
+    },
+    {
+     "file": "models/stl/BK01_region6_foliage.stl",
+     "triangles": 35178,
+     "watertight": true,
+     "winding": true,
+     "volume": 383.6,
+     "extents": [
+      53.298,
+      0.9,
+      31.49
+     ],
+     "ok": true
+    },
+    {
+     "file": "models/3mf/BK01_Bookmarks_4colour.3mf",
+     "triangles": 257750,
+     "watertight": true,
+     "winding": true,
+     "volume": 58520.32,
+     "extents": [
+      79.0,
+      44.5,
+      84.3
+     ],
+     "part_extruders": [
+      1,
+      4,
+      2,
+      2,
+      3,
+      1
+     ],
+     "ok": true
+    },
+    {
+     "file": "models/3mf/BK01_Bookmarks_3colour.3mf",
+     "triangles": 257750,
+     "watertight": true,
+     "winding": true,
+     "volume": 58520.32,
+     "extents": [
+      79.0,
+      44.5,
+      84.3
+     ],
+     "part_extruders": [
+      1,
+      2,
+      2,
+      2,
+      3,
+      1
+     ],
+     "ok": true
+    },
+    {
+     "file": "models/3mf/BK01_Bookmarks_2colour.3mf",
+     "triangles": 257750,
+     "watertight": true,
+     "winding": true,
+     "volume": 58520.32,
+     "extents": [
+      79.0,
+      44.5,
+      84.3
+     ],
+     "part_extruders": [
+      1,
+      2,
+      2,
+      2,
+      1,
+      1
+     ],
+     "ok": true
+    }
+   ]
+  }
+ ]
+}
