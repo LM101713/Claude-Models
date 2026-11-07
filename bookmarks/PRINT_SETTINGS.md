@@ -12,7 +12,7 @@ The files open standing on the bed with the open top up and the front cover faci
 
 - **No supports.** The cavity is open at the top and widens upward (a 45° lead-in at the
   rim). The front relief is built in 0.2 mm steps so every underside is at 45°. Measured on
-  the solid: the worst unsupported area in any layer is 0.09 mm², which is slicer noise.
+  the solid: the worst unsupported area in any layer is 0.10 mm², which is slicer noise.
 - **The front gets the cleanest finish.** The relief stands on a vertical wall, so the
   lettering and flowers come out crisp with layer lines running across them, the same as
   the reference product. Printed lying on its back, the front would be a top surface, but
@@ -30,7 +30,7 @@ H2C with a 0.4 mm nozzle. Change only these:
 | Layer height | **0.16 mm** (0.20 works) | Smoother letter curves and relief steps. 0.20 mm is about 20 % faster and still clean. |
 | Wall loops | **5** | Makes the 2.0 mm walls solid perimeter: stiffest and cleanest, with no infill in the walls. |
 | Top / bottom shell layers | top 5 / bottom 5 | The floor is 2.4 mm. |
-| Sparse infill | 15 % gyroid | Only reaches the floor and the 6 mm spine wall. |
+| Sparse infill | 15 % gyroid | Only reaches the floor and the 4–6 mm spine-side wall. |
 | Seam position | **Back** | Puts the seam on the plain back cover (+Y). |
 | Supports | **Off** | None needed (see above). |
 | Brim | None (Auto is fine) | Large flat footprint. |
@@ -91,7 +91,7 @@ import the six region STLs from `models/stl/` together as one multi-part object.
    petals.
 2. Check that the preview shows no support anywhere.
 3. After printing, stand a 2 × 6 in card bookmark and a 3 mm wooden bookmark in the
-   compartment. Both should drop in freely: the opening is 70.4 × 39.6 mm.
+   compartment. Both should drop in freely: the opening is 70.45 × 39.7 mm.
 4. Look at the lettering head-on from 50 cm away and confirm "Bookmarks" reads cleanly.
    If the white looks pink-tinged, raise the flush volume for pink→white.
 5. Measure the part: it should be 79.0 × 44.5 × 84.3 mm, ±0.2 mm.

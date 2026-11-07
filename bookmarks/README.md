@@ -11,8 +11,8 @@ a meadow of flowers in relief below it.
 | | |
 |---|---|
 | Envelope | **79.0 × 44.5 × 84.3 mm** (3.11 × 1.75 × 3.32 in), measured on the solid, decoration included |
-| Compartment | 69.45 × 38.7 mm, 81.9 mm deep (2.73 × 1.52 × 3.22 in), about 220 ml. The opening is 70.4 × 39.6 mm. |
-| Walls / floor | 2.0 mm (6.0 mm on the spine side) / 2.4 mm. Rounded R2.5 inside corners and floor fillet. |
+| Compartment | 69.45 × 38.7 mm, 81.9 mm deep (2.73 × 1.52 × 3.22 in), about 220 ml. The opening is 70.45 × 39.7 mm. |
+| Walls / floor | 2.0 mm (4.2–6.0 mm on the spine side) / 2.4 mm. Rounded R2.5 inside corners and floor fillet. |
 | Printing | Upright, no supports, one piece. 6 colour regions: 4-, 3- and 2-colour plans for the Bambu H2C. |
 | Mass | About 74 g PETG |
 | Status | **CAD-validated (13 / 13 checks). Not yet printed.** |
@@ -62,7 +62,7 @@ not enter flat.
 1. **Decoration stays inside the 44.5 mm.** The deepest relief (the lettering) is 1.8 mm,
    so the front cover plane sits 1.8 mm behind the envelope face and the stated
    dimensions hold with the decoration included.
-2. **The spine-side wall is 6.0 mm, not 2.0 mm.** It carries the spine curve and the hinge
+2. **The spine-side wall is 4.2–6.0 mm, not 2.0 mm.** It carries the spine curve and the hinge
    groove without thinning anywhere. The compartment is still 69.45 mm wide, so a 2-inch
    bookmark has 18 mm to spare. Front, back and fore-edge walls are 2.0 mm, measured to
    the bottom of every groove.
@@ -107,7 +107,7 @@ All values are measured on the exported solids. The full numbers are in the
 | Compartment | Hollow from z = 2.4 mm up. 69.45 × 38.7 mm at every height. A 50.8 × 3 × 178 mm gauge and the 4-bookmark prop set show zero interference. |
 | Opening | No ledge overhangs the cavity anywhere (0.000 mm² hidden) |
 | Walls | At least 2.00 mm everywhere below the rim lead-in |
-| Overhangs | Worst unsupported area in any 0.2 mm layer: 0.09 mm². No supports needed. |
+| Overhangs | Worst unsupported area in any 0.2 mm layer: 0.10 mm². No supports needed. |
 | Detail | Under 0.5 % of the lettering and centre area is narrower than 0.5 mm (tapering tips only) |
 | Lettering | Minimum stroke 1.25 mm, 51.6 × 9.7 mm, inside the plate with 1.5 mm margin |
 | Stability | 3,179 mm² footprint, tipping angle 28° |

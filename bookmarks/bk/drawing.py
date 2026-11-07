@@ -154,7 +154,7 @@ def draw_all(result, out):
     label(ax, (TX + P.W / 2, TZ + P.D + 14), "TOP (front cover at the bottom)")
     dim(ax, (TX, TZ), (TX, TZ + P.D), 10)
     note(ax, (TX + P.W + 4, TZ + P.D - 2),
-         "Opening at the page head:\n70.4 x 39.6 (0.5 x 45 deg\nlead-in), cavity below it\n69.45 x 38.7, R2.5 corners.\n"
+         "Opening at the page head:\n70.45 x 39.7 (0.5 x 45 deg\nlead-in), cavity below it\n69.45 x 38.7, R2.5 corners.\n"
          "Page block sits 0.8 below\nthe boards at the head.")
 
     # RIGHT (fore-edge)
@@ -218,7 +218,7 @@ def draw_all(result, out):
     # mini 3D-ish legend of inch equivalents
     note(ax, (300, -10), "Key dimensions\n"
          "Compartment  69.45 x 38.7 x 81.9 deep  [2.73 x 1.52 x 3.22 in]\n"
-         "Walls 2.0 (spine side 6.0), floor 2.4\n"
+         "Walls 2.0 (spine side 4.2-6.0), floor 2.4\n"
          "Fits standard 2 x 6-7 in bookmarks (50.8 wide) with 18 mm to spare\n"
          "Front relief max 1.8 (inside the 44.5 envelope)")
 
