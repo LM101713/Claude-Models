@@ -85,16 +85,17 @@ def export_all(C):
         v, t = X.read_stl(os.path.join(HERE, rel))
         back = X.manifold_from_arrays(v, t)
         ok = back.status().name == "NoError" and abs(back.volume() - m.volume()) < 0.01 * m.volume() + 0.5
-        files.append(dict(file=rel, tris=len(t), vol=back.volume(), ok=ok))
+        files.append(dict(file=rel, tris=len(t), vol=back.volume(), ok=ok, limit="closed solid, volume matches the model"))
     for f in sorted(os.listdir(TMF)):
         objs = X.read_3mf(os.path.join(TMF, f))
         for name, back in objs.items():
             bb = back.bounding_box()
             on_plate = bb[0] >= 0 and bb[1] >= 0 and bb[3] <= 180 and bb[4] <= 180 and abs(bb[2]) < 1e-3 + (0.0 if "Inlay" not in name else 3)
             ok = back.status().name == "NoError" and back.volume() > 0 and on_plate
-            files.append(dict(file=f"models/3mf/{f} : {name}", tris=back.num_tri(), vol=back.volume(), ok=ok))
+            files.append(dict(file=f"models/3mf/{f} : {name}", tris=back.num_tri(), vol=back.volume(), ok=ok,
+                              limit="closed solid, on the 180 mm plate"))
     for f in files:
-        C.add("H files", f"re-read {f['file']}", f"{f['vol'] / 1000:.2f} cm3", "closed solid, on the 180 mm plate", f["ok"])
+        C.add("H files", f"re-read {f['file']}", f"{f['vol'] / 1000:.2f} cm3", f["limit"], f["ok"])
     return files
 
 

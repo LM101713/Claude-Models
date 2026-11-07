@@ -791,7 +791,7 @@
    "group": "H files",
    "name": "re-read models/stl/GS05_A_Tray.stl",
    "value": "11.68 cm3",
-   "limit": "closed solid, on the 180 mm plate",
+   "limit": "closed solid, volume matches the model",
    "ok": true,
    "note": ""
   },
@@ -799,7 +799,7 @@
    "group": "H files",
    "name": "re-read models/stl/GS05_A_Tray_Plain_alt.stl",
    "value": "11.72 cm3",
-   "limit": "closed solid, on the 180 mm plate",
+   "limit": "closed solid, volume matches the model",
    "ok": true,
    "note": ""
   },
@@ -807,7 +807,7 @@
    "group": "H files",
    "name": "re-read models/stl/GS05_B_Lid.stl",
    "value": "14.56 cm3",
-   "limit": "closed solid, on the 180 mm plate",
+   "limit": "closed solid, volume matches the model",
    "ok": true,
    "note": ""
   },
@@ -815,7 +815,7 @@
    "group": "H files",
    "name": "re-read models/stl/GS05_B_Lid_Star_alt.stl",
    "value": "14.53 cm3",
-   "limit": "closed solid, on the 180 mm plate",
+   "limit": "closed solid, volume matches the model",
    "ok": true,
    "note": ""
   },
@@ -823,7 +823,7 @@
    "group": "H files",
    "name": "re-read models/stl/GS05_B_Lid_Loose_alt.stl",
    "value": "14.51 cm3",
-   "limit": "closed solid, on the 180 mm plate",
+   "limit": "closed solid, volume matches the model",
    "ok": true,
    "note": ""
   },
@@ -831,7 +831,7 @@
    "group": "H files",
    "name": "re-read models/stl/GS05_B_Lid_Snug_alt.stl",
    "value": "14.61 cm3",
-   "limit": "closed solid, on the 180 mm plate",
+   "limit": "closed solid, volume matches the model",
    "ok": true,
    "note": ""
   },
@@ -839,7 +839,7 @@
    "group": "H files",
    "name": "re-read models/stl/GS05_C_Star_Inlay_multicolour.stl",
    "value": "0.03 cm3",
-   "limit": "closed solid, on the 180 mm plate",
+   "limit": "closed solid, volume matches the model",
    "ok": true,
    "note": ""
   },
@@ -847,7 +847,7 @@
    "group": "H files",
    "name": "re-read models/stl/GS05_T_Coupon_Tray.stl",
    "value": "5.06 cm3",
-   "limit": "closed solid, on the 180 mm plate",
+   "limit": "closed solid, volume matches the model",
    "ok": true,
    "note": ""
   },
@@ -855,7 +855,7 @@
    "group": "H files",
    "name": "re-read models/stl/GS05_T_Coupon_Lid_STD.stl",
    "value": "3.37 cm3",
-   "limit": "closed solid, on the 180 mm plate",
+   "limit": "closed solid, volume matches the model",
    "ok": true,
    "note": ""
   },
@@ -863,7 +863,7 @@
    "group": "H files",
    "name": "re-read models/stl/GS05_T_Coupon_Lid_LOOSE.stl",
    "value": "3.33 cm3",
-   "limit": "closed solid, on the 180 mm plate",
+   "limit": "closed solid, volume matches the model",
    "ok": true,
    "note": ""
   },
@@ -871,7 +871,7 @@
    "group": "H files",
    "name": "re-read models/stl/GS05_T_Coupon_Lid_SNUG.stl",
    "value": "3.38 cm3",
-   "limit": "closed solid, on the 180 mm plate",
+   "limit": "closed solid, volume matches the model",
    "ok": true,
    "note": ""
   },
@@ -1320,133 +1320,155 @@
    "file": "models/stl/GS05_A_Tray.stl",
    "tris": 4358,
    "vol": 11678.89021113995,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, volume matches the model"
   },
   {
    "file": "models/stl/GS05_A_Tray_Plain_alt.stl",
    "tris": 3798,
    "vol": 11723.739449988636,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, volume matches the model"
   },
   {
    "file": "models/stl/GS05_B_Lid.stl",
    "tris": 1254,
    "vol": 14559.601980920948,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, volume matches the model"
   },
   {
    "file": "models/stl/GS05_B_Lid_Star_alt.stl",
    "tris": 2114,
    "vol": 14528.848567076378,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, volume matches the model"
   },
   {
    "file": "models/stl/GS05_B_Lid_Loose_alt.stl",
    "tris": 1238,
    "vol": 14509.844328557136,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, volume matches the model"
   },
   {
    "file": "models/stl/GS05_B_Lid_Snug_alt.stl",
    "tris": 1262,
    "vol": 14609.34091942578,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, volume matches the model"
   },
   {
    "file": "models/stl/GS05_C_Star_Inlay_multicolour.stl",
    "tris": 856,
    "vol": 30.75341384456945,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, volume matches the model"
   },
   {
    "file": "models/stl/GS05_T_Coupon_Tray.stl",
    "tris": 1840,
    "vol": 5061.4912047707285,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, volume matches the model"
   },
   {
    "file": "models/stl/GS05_T_Coupon_Lid_STD.stl",
    "tris": 1844,
    "vol": 3365.310817859636,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, volume matches the model"
   },
   {
    "file": "models/stl/GS05_T_Coupon_Lid_LOOSE.stl",
    "tris": 2004,
    "vol": 3334.786819170855,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, volume matches the model"
   },
   {
    "file": "models/stl/GS05_T_Coupon_Lid_SNUG.stl",
    "tris": 1980,
    "vol": 3384.94551804771,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, volume matches the model"
   },
   {
    "file": "models/3mf/GS05_fit_coupon_first.3mf : GS05_T_Coupon_Tray",
    "tris": 1828,
    "vol": 5061.492663602456,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, on the 180 mm plate"
   },
   {
    "file": "models/3mf/GS05_fit_coupon_first.3mf : GS05_T_Coupon_Lid_STD",
    "tris": 1836,
    "vol": 3365.31084147212,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, on the 180 mm plate"
   },
   {
    "file": "models/3mf/GS05_fit_coupon_first.3mf : GS05_T_Coupon_Lid_LOOSE",
    "tris": 2004,
    "vol": 3334.7864312500515,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, on the 180 mm plate"
   },
   {
    "file": "models/3mf/GS05_fit_coupon_first.3mf : GS05_T_Coupon_Lid_SNUG",
    "tris": 1972,
    "vol": 3384.945679602218,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, on the 180 mm plate"
   },
   {
    "file": "models/3mf/GS05_gift_slide_plate.3mf : GS05_A_Tray",
    "tris": 4346,
    "vol": 11678.891186560984,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, on the 180 mm plate"
   },
   {
    "file": "models/3mf/GS05_gift_slide_plate.3mf : GS05_B_Lid",
    "tris": 1246,
    "vol": 14559.603833508743,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, on the 180 mm plate"
   },
   {
    "file": "models/3mf/GS05_lid_fit_variants.3mf : GS05_B_Lid_Loose",
    "tris": 1238,
    "vol": 14509.846683930124,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, on the 180 mm plate"
   },
   {
    "file": "models/3mf/GS05_lid_fit_variants.3mf : GS05_B_Lid_Snug",
    "tris": 1254,
    "vol": 14609.343642149963,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, on the 180 mm plate"
   },
   {
    "file": "models/3mf/GS05_star_lid_two_colour.3mf : GS05_A_Tray",
    "tris": 4346,
    "vol": 11678.891186560984,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, on the 180 mm plate"
   },
   {
    "file": "models/3mf/GS05_star_lid_two_colour.3mf : GS05_B_Lid_Star",
    "tris": 2106,
    "vol": 14528.850464830826,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, on the 180 mm plate"
   },
   {
    "file": "models/3mf/GS05_star_lid_two_colour.3mf : GS05_C_Star_Inlay",
    "tris": 856,
    "vol": 30.75336867791705,
-   "ok": true
+   "ok": true,
+   "limit": "closed solid, on the 180 mm plate"
   }
  ]
 }
