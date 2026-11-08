@@ -1,0 +1,423 @@
+{
+ "checks": [
+  {
+   "name": "Fits the build volume (A1 mini, 5 mm margin each side)",
+   "passed": true,
+   "detail": {
+    "size_mm": [
+     160.1,
+     82.0,
+     62.0
+    ],
+    "printers": {
+     "Bambu Lab A1 mini": {
+      "fits": true,
+      "limit_xy_after_margin": [
+       170.0,
+       170.0
+      ]
+     },
+     "Bambu Lab A1 / P1S / X1C": {
+      "fits": true,
+      "limit_xy_after_margin": [
+       246.0,
+       246.0
+      ]
+     },
+     "Prusa MINI+": {
+      "fits": true,
+      "limit_xy_after_margin": [
+       170.0,
+       170.0
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "One closed, manifold, consistently wound body",
+   "passed": true,
+   "detail": {
+    "status": "NoError",
+    "bodies": 1,
+    "watertight": true,
+    "winding_consistent": true,
+    "degenerate_faces": 0,
+    "genus": 19,
+    "triangles": 3200,
+    "volume_cm3": 72.701
+   }
+  },
+  {
+   "name": "Exported STL / 3MF re-read: watertight, one body, same size and volume",
+   "passed": true,
+   "detail": {
+    "SD01_SinkDock.stl": {
+     "watertight": true,
+     "bodies": 1,
+     "size_mm": [
+      160.1,
+      82.0,
+      62.0
+     ],
+     "volume_cm3": 72.701,
+     "ok": true
+    },
+    "SD01_SinkDock_A1mini_plate.3mf": {
+     "watertight": true,
+     "bodies": 1,
+     "size_mm": [
+      160.1,
+      82.0,
+      62.0
+     ],
+     "volume_cm3": 72.701,
+     "ok": true
+    }
+   }
+  },
+  {
+   "name": "No unsupported overhang > 45 deg (bridges <= 6 mm allowed)",
+   "passed": true,
+   "detail": {
+    "downfacing_area_mm2": 115.7,
+    "bridges": [
+     {
+      "z": 0.49,
+      "span_mm": 1.6,
+      "length_mm": 20.79
+     },
+     {
+      "z": 0.49,
+      "span_mm": 1.6,
+      "length_mm": 20.79
+     },
+     {
+      "z": 0.49,
+      "span_mm": 1.6,
+      "length_mm": 21.59
+     },
+     {
+      "z": 0.49,
+      "span_mm": 1.6,
+      "length_mm": 14.0
+     }
+    ],
+    "unsupported": [],
+    "divider_vent_overhang_deg": 25.4,
+    "cup_vent_overhang_deg": 19.3
+   }
+  },
+  {
+   "name": "No feature thinner than 1.2 mm (3 x 0.4 mm nozzle)",
+   "passed": true,
+   "detail": {
+    "largest_lost_patch_mm2": 0.777,
+    "at": {
+     "area": 0.7773987722344984,
+     "z": 2.900000000000001,
+     "xy": [
+      37.5,
+      -3.3
+     ]
+    },
+    "designed_min_wall_mm": 1.5
+   }
+  },
+  {
+   "name": "Largest researched items (+1.5 mm swell) fit with clearance, no interference",
+   "passed": true,
+   "detail": {
+    "Scrub Mommy": {
+     "bay_mm": 46.0,
+     "narrowest_mm": 46.0,
+     "item_mm": 42.5,
+     "side_clearance_mm": 1.75,
+     "interference_mm3": 0.0,
+     "ok": true
+    },
+    "Scrub Daddy Original": {
+     "bay_mm": 46.0,
+     "narrowest_mm": 45.6,
+     "item_mm": 42.5,
+     "side_clearance_mm": 1.55,
+     "interference_mm3": 0.0,
+     "ok": true
+    },
+    "Dish brush (32 x 26 mm handle envelope)": {
+     "bay_mm": 36.0,
+     "narrowest_mm": 36.0,
+     "item_mm": [
+      32.0,
+      26.0
+     ],
+     "side_clearance_mm": 2.0,
+     "interference_mm3": 0.0,
+     "ok": true
+    },
+    "Rectangular sponge (Scotch-Brite HD class)": {
+     "bay_mm": 24.4,
+     "narrowest_mm": 24.0,
+     "item_mm": 21.5,
+     "side_clearance_mm": 1.25,
+     "interference_mm3": 0.0,
+     "ok": true
+    }
+   }
+  },
+  {
+   "name": "Front openings retain the thinnest sponges (>= 4 mm margin)",
+   "passed": true,
+   "detail": {
+    "Scrub Mommy": {
+     "opening_mm": 28.0,
+     "thinnest_item_mm": 38.0,
+     "margin_mm": 10.0,
+     "ok": true
+    },
+    "Scrub Daddy": {
+     "opening_mm": 28.0,
+     "thinnest_item_mm": 38.0,
+     "margin_mm": 10.0,
+     "ok": true
+    },
+    "Rectangular sponge": {
+     "opening_mm": 11.0,
+     "thinnest_item_mm": 15.0,
+     "margin_mm": 4.0,
+     "ok": true
+    },
+    "Dish brush": {
+     "cup_slot_mm": 12.0,
+     "note": "slot narrower than any plausible handle (>= 18 mm)"
+    }
+   }
+  },
+  {
+   "name": "Open gutter under every sponge (>= 0.6 mm)",
+   "passed": true,
+   "detail": {
+    "Scrub Mommy": {
+     "gutter_depth_under_item_mm": 1.66
+    },
+    "Scrub Daddy": {
+     "gutter_depth_under_item_mm": 1.66
+    },
+    "Rectangular sponge": {
+     "gutter_depth_under_item_mm": 0.66
+    }
+   }
+  },
+  {
+   "name": "Drain openings are clear at floor level",
+   "passed": true,
+   "detail": {
+    "Scrub Mommy": {
+     "clear_mm": 27.95,
+     "designed_mm": 28.0,
+     "ok": true
+    },
+    "Scrub Daddy": {
+     "clear_mm": 27.95,
+     "designed_mm": 28.0,
+     "ok": true
+    },
+    "Dish brush cup front slot": {
+     "clear_mm": 11.95,
+     "ok": true
+    },
+    "Dish brush cup back slot": {
+     "clear_mm": 11.95,
+     "ok": true
+    },
+    "Rectangular sponge": {
+     "clear_mm": 10.95,
+     "designed_mm": 11.0,
+     "ok": true
+    }
+   }
+  },
+  {
+   "name": "Water on every floor surface runs off the spouts into the sink (no puddles, none onto the counter)",
+   "passed": true,
+   "detail": {
+    "grid_mm": 0.5,
+    "wet_cells": 45875,
+    "to_sink": 45875,
+    "to_counter": 0,
+    "puddle": 0,
+    "first_bad_cells": []
+   }
+  },
+  {
+   "name": "Does not tip on a 10 deg incline, empty or loaded, brush at its worst lean",
+   "passed": true,
+   "detail": {
+    "empty dock + brush, brush leaning back": {
+     "total_g": 145,
+     "cg_mm": [
+      103.1,
+      48.1,
+      96.3
+     ],
+     "tip_angle_toward_lean_deg": 12.8
+    },
+    "empty dock + brush, brush leaning forward": {
+     "total_g": 145,
+     "cg_mm": [
+      103.1,
+      22.5,
+      96.3
+     ],
+     "tip_angle_toward_lean_deg": 13.2
+    },
+    "empty dock + brush, brush leaning left": {
+     "total_g": 145,
+     "cg_mm": [
+      82.6,
+      35.3,
+      96.3
+     ],
+     "tip_angle_toward_lean_deg": 40.6
+    },
+    "empty dock + brush, brush leaning right": {
+     "total_g": 145,
+     "cg_mm": [
+      123.6,
+      35.3,
+      96.3
+     ],
+     "tip_angle_toward_lean_deg": 20.7
+    },
+    "fully loaded (wet sponges), brush leaning back": {
+     "total_g": 260,
+     "cg_mm": [
+      88.3,
+      44.1,
+      80.1
+     ],
+     "tip_angle_toward_lean_deg": 17.9
+    },
+    "fully loaded (wet sponges), brush leaning forward": {
+     "total_g": 260,
+     "cg_mm": [
+      88.3,
+      29.8,
+      80.1
+     ],
+     "tip_angle_toward_lean_deg": 20.4
+    },
+    "fully loaded (wet sponges), brush leaning left": {
+     "total_g": 260,
+     "cg_mm": [
+      76.9,
+      37.0,
+      80.1
+     ],
+     "tip_angle_toward_lean_deg": 43.8
+    },
+    "fully loaded (wet sponges), brush leaning right": {
+     "total_g": 260,
+     "cg_mm": [
+      99.8,
+      37.0,
+      80.1
+     ],
+     "tip_angle_toward_lean_deg": 37.0
+    },
+    "brush_assumptions": {
+     "mass_g": 90.0,
+     "cg_above_tip_mm": 150.0,
+     "handle_thickness_min_mm": 18.0,
+     "max_lean_front_back_deg": 9.7,
+     "max_lean_side_deg": 15.3,
+     "cg_offset_front_back_mm": 20.7,
+     "cg_offset_side_mm": 33.0
+    },
+    "worst_tip_angle_deg": 12.8,
+    "criterion": ">= 10.0 deg in every direction (IEC 60335-1 cl. 20.1 incline angle)"
+   }
+  },
+  {
+   "name": "Filament <= 60 g, print time <= 120 min (estimate, PLA; PETG time reported)",
+   "passed": true,
+   "detail": {
+    "PLA": {
+     "grams": 55.2,
+     "minutes": 94.5,
+     "grams_range": [
+      50.8,
+      60.7
+     ],
+     "minutes_range": [
+      76,
+      118
+     ]
+    },
+    "PETG": {
+     "grams": 56.6,
+     "minutes": 126.4,
+     "grams_range": [
+      52.0,
+      62.2
+     ],
+     "minutes_range": [
+      101,
+      158
+     ],
+     "meets_time_target": "False"
+    },
+    "breakdown_cm3": {
+     "walls": 22.26,
+     "solid": 17.3,
+     "sparse": 4.97
+    },
+    "layers": 310
+   }
+  }
+ ],
+ "estimate_pla": {
+  "filament": "PLA (Bambu PLA Basic class)",
+  "process": "0.20 mm Standard (0.4 nozzle)",
+  "layers": 310,
+  "volume_cm3": 44.535966500092684,
+  "grams": 55.224598460114926,
+  "minutes": 94.53675630839547,
+  "grams_range": [
+   50.80663058330573,
+   60.747058306126426
+  ],
+  "minutes_range": [
+   75.62940504671637,
+   118.17094538549433
+  ],
+  "breakdown_cm3": {
+   "walls": 22.261359292395277,
+   "solid": 17.302419939279435,
+   "sparse": 4.972187268417969
+  },
+  "solid_model_cm3": 72.7007598172414
+ },
+ "estimate_petg": {
+  "filament": "PETG (Bambu PETG Basic class)",
+  "process": "0.20 mm Standard (0.4 nozzle)",
+  "layers": 310,
+  "volume_cm3": 44.535966500092684,
+  "grams": 56.56067745511771,
+  "minutes": 126.44378294806876,
+  "grams_range": [
+   52.0358232587083,
+   62.21674520062949
+  ],
+  "minutes_range": [
+   101.15502635845502,
+   158.05472868508593
+  ],
+  "breakdown_cm3": {
+   "walls": 22.261359292395277,
+   "solid": 17.302419939279435,
+   "sparse": 4.972187268417969
+  },
+  "solid_model_cm3": 72.7007598172414
+ }
+}

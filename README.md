@@ -2,6 +2,38 @@
 
 3D-printable models and the procedural Blender scripts that generate them.
 
+## Odd Layer SD-01 SINKDOCK
+
+[![SINKDOCK SD-01](sinkdock/renders/01_hero.png)](sinkdock/)
+
+A **one-piece sink dock** for a Scrub Daddy, a Scrub Mommy, a flat sponge and a dish brush. It
+drains into the sink without a tray. Every bay floor is a shallow V: the sponge rests on its two
+rim edges over an open gutter, and each gutter falls 2.5° to a tapered spout with a drip-break
+groove that overhangs the sink. The brush cup is tight front to back, so a heavy brush can't tip
+the dock. Size 160 × 82 × 62 mm; it fits an A1 mini. One part, no supports, no hardware,
+≈ 55 g and ≈ 1.5 h in PLA (estimate). A parametric manifold3d script runs 12 checks, including a
+water-routing simulation on the real surface (100 % of the floor drains to the spouts) and a 10°
+tilt test. CAD-validated only: not yet printed.
+
+- Generator: [`sinkdock/sinkdock.py`](sinkdock/sinkdock.py) + [`sinkdock/sd/`](sinkdock/sd)
+- Research, dimensions, print settings, placement: [`sinkdock/README.md`](sinkdock/README.md) · [`sinkdock/RESEARCH.md`](sinkdock/RESEARCH.md)
+- Validation report: [`sinkdock/models/SD01_validation_report.md`](sinkdock/models/SD01_validation_report.md) · test plan: [`sinkdock/PHYSICAL_TESTING.md`](sinkdock/PHYSICAL_TESTING.md)
+
+## Odd Layer TP-01 TUBEPRESS
+
+[![TUBEPRESS TP-01](tubepress/renders/01_hero.png)](tubepress/)
+
+A **two-part ratchet toothpaste squeezer** that loads from the side. The tube's end goes up
+through a 1.5 mm wiper slot in the frame, and the key, an open fork, slides in around the crimp.
+Turning the Ø34 toothed knob winds the tube while a pawl, a leaf spring printed flat in the frame,
+stops it unwinding. Takes 32–65 mm tubes. No print-in-place, no hardware, no supports, ≈ 17 g and
+≈ 1 h for both parts (estimate), with Tight / Standard / Loose slot variants. 12 CAD checks,
+including an insertion sweep and a 2D ratchet sweep. CAD-validated only: not yet printed.
+
+- Generator: [`tubepress/tubepress.py`](tubepress/tubepress.py) + [`tubepress/tp/`](tubepress/tp)
+- Research, mechanism, print settings, use: [`tubepress/README.md`](tubepress/README.md) · [`tubepress/RESEARCH.md`](tubepress/RESEARCH.md)
+- Validation report: [`tubepress/models/TP01_validation_report.md`](tubepress/models/TP01_validation_report.md) · test plan: [`tubepress/PHYSICAL_TESTING.md`](tubepress/PHYSICAL_TESTING.md)
+
 ## Odd Layer HF-04 HOLDFAST
 
 [![HOLDFAST HF-04](holdfast/renders/01_hero.png)](holdfast/)

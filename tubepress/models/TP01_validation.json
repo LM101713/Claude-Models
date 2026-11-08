@@ -1,0 +1,270 @@
+{
+ "checks": [
+  {
+   "name": "Both parts fit one A1 mini plate (5 mm margin)",
+   "passed": true,
+   "detail": {
+    "plate_footprint_mm": [
+     129.4,
+     37.9,
+     84.5
+    ],
+    "parts_mm": {
+     "TP-01 Frame": [
+      87.5,
+      37.9,
+      34.11
+     ],
+     "TP-01 Key": [
+      33.9,
+      33.9,
+      84.5
+     ]
+    },
+    "fits": {
+     "Bambu Lab A1 mini": true,
+     "Bambu Lab A1 / P1S / X1C": true
+    }
+   }
+  },
+  {
+   "name": "Every part is one closed, manifold body",
+   "passed": true,
+   "detail": {
+    "TP-01 Frame": {
+     "bodies": 1,
+     "watertight": true,
+     "genus": 4,
+     "volume_cm3": 10.731,
+     "ok": true
+    },
+    "TP-01 Key": {
+     "bodies": 1,
+     "watertight": true,
+     "genus": 0,
+     "volume_cm3": 13.148,
+     "ok": true
+    },
+    "Frame Loose (alt)": {
+     "bodies": 1,
+     "watertight": true,
+     "genus": 4,
+     "volume_cm3": 10.649,
+     "ok": true
+    },
+    "Frame Tight (alt)": {
+     "bodies": 1,
+     "watertight": true,
+     "genus": 4,
+     "volume_cm3": 10.78,
+     "ok": true
+    }
+   }
+  },
+  {
+   "name": "Exported STL / 3MF re-read: watertight, same size and volume",
+   "passed": true,
+   "detail": {
+    "TP01_A_Frame_Standard.stl": {
+     "watertight": true,
+     "size_mm": [
+      87.5,
+      37.9,
+      34.106
+     ],
+     "volume_cm3": 10.731,
+     "ok": true
+    },
+    "TP01_B_Key.stl": {
+     "watertight": true,
+     "size_mm": [
+      33.895,
+      33.895,
+      84.5
+     ],
+     "volume_cm3": 13.148,
+     "ok": true
+    },
+    "TP01_set_A1mini_plate.3mf": {
+     "watertight": true,
+     "volume_cm3": 23.878,
+     "expected_cm3": 23.878,
+     "ok": true
+    }
+   }
+  },
+  {
+   "name": "No unsupported overhang > 45 deg in print orientation (bridges <= 6 mm)",
+   "passed": true,
+   "detail": {
+    "TP-01 Frame": {
+     "bridges": [],
+     "unsupported": []
+    },
+    "TP-01 Key": {
+     "bridges": [
+      {
+       "z": 0.6,
+       "span_mm": 1.2,
+       "length_mm": 24.8
+      },
+      {
+       "z": 0.6,
+       "span_mm": 3.8,
+       "length_mm": 4.09
+      }
+     ],
+     "unsupported": []
+    }
+   }
+  },
+  {
+   "name": "No feature thinner than 1.2 mm (3 x 0.4 mm nozzle) in any layer",
+   "passed": true,
+   "detail": {
+    "TP-01 Frame": {
+     "largest_lost_patch_mm2": 0.348,
+     "at": {
+      "area": 0.348,
+      "z": 33.7,
+      "xy": [
+       70.2,
+       -1.5
+      ]
+     },
+     "ok": true
+    },
+    "TP-01 Key": {
+     "largest_lost_patch_mm2": 0.477,
+     "at": {
+      "area": 0.477,
+      "z": 81.9,
+      "xy": [
+       4.2,
+       -0.0
+      ]
+     },
+     "ok": true
+    }
+   }
+  },
+  {
+   "name": "Assembled: no interference, every running gap >= 0.1 mm",
+   "passed": true,
+   "detail": {
+    "interference_mm3": 0.0,
+    "min_gap_mm": 0.15,
+    "bearing_radial_clearance_mm": 0.35,
+    "knob_to_lug_mm": 0.5,
+    "knob_tips_to_plate_mm": 2.6,
+    "pawl_running_clearance_mm": 0.15
+   }
+  },
+  {
+   "name": "Key slides in from outside to seated without touching the frame",
+   "passed": true,
+   "detail": {
+    "travel_mm": 78.0,
+    "step_mm": 1.0,
+    "max_interference_mm3": 0.0,
+    "contact_at_offsets": []
+   }
+  },
+  {
+   "name": "Ratchet: winding direction clicks over, reverse direction locks within half a tooth",
+   "passed": true,
+   "detail": {
+    "teeth": 24,
+    "step_deg": 15.0,
+    "pawl_drop_free_direction_mm": 1.202,
+    "reverse_backlash_deg": 0.8,
+    "drop_needed_to_slip_in_reverse_mm": 1.202,
+    "locking_face": "radial, undercut 4 deg",
+    "winding_direction": "counter-clockwise looking at the knob face (arrow on the knob)"
+   }
+  },
+  {
+   "name": "Pawl leaf: strain within fatigue-level limits; holds the tube's springback with margin",
+   "passed": true,
+   "detail": {
+    "PLA": {
+     "strain_pct": 0.54,
+     "limit_pct": 0.8,
+     "buckling_load_N": 19.9,
+     "reverse_hold_torque_Nm_conservative": 0.323,
+     "ok": true
+    },
+    "PETG": {
+     "strain_pct": 0.54,
+     "limit_pct": 1.2,
+     "buckling_load_N": 12.4,
+     "reverse_hold_torque_Nm_conservative": 0.202,
+     "ok": true
+    },
+    "tube_springback_torque_Nm_estimate": 0.116,
+    "note": "springback: elastic upper bound for two 0.35 mm walls, 65 mm wide, E 1.5 GPa, wound on the 12 mm fork (no data found: an assumption to check)"
+   }
+  },
+  {
+   "name": "Takes 32-65 mm tubes: slot, fork gap, nip and wound-roll clearance",
+   "passed": true,
+   "detail": {
+    "slot_length_mm": 68.0,
+    "widest_tube_mm": 65.0,
+    "fork_gap_mm": 2.2,
+    "thickest_crimp_mm": 1.2,
+    "roll_radius_full_tube_mm": 9.66,
+    "roll_to_plate_clearance_mm": 9.94,
+    "nip_variants_mm": {
+     "Standard": 1.5,
+     "Loose": 2.0,
+     "Tight": 1.2
+    },
+    "flattened_tube_mm": [
+     0.4,
+     0.7
+    ]
+   }
+  },
+  {
+   "name": "Filament <= 35 g and time <= 90 min for the set (estimate) - PLA",
+   "passed": "True",
+   "detail": {
+    "total_grams": 16.9,
+    "total_minutes": 53.7,
+    "parts": {
+     "TP-01 Frame": {
+      "grams": 9.0,
+      "minutes": 21.8,
+      "layers": 171
+     },
+     "TP-01 Key": {
+      "grams": 7.8,
+      "minutes": 31.9,
+      "layers": 422
+     }
+    }
+   }
+  },
+  {
+   "name": "Filament <= 35 g and time <= 90 min for the set (estimate) - PETG",
+   "passed": "True",
+   "detail": {
+    "total_grams": 17.3,
+    "total_minutes": 63.6,
+    "parts": {
+     "TP-01 Frame": {
+      "grams": 9.3,
+      "minutes": 26.9,
+      "layers": 171
+     },
+     "TP-01 Key": {
+      "grams": 8.0,
+      "minutes": 36.6,
+      "layers": 422
+     }
+    }
+   }
+  }
+ ]
+}
