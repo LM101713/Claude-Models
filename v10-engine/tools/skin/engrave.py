@@ -162,5 +162,6 @@ def label_part(obj, name, mesh):
         return f"{label}: NO SPOT FOUND"
     engrave(obj, label, spot)
     p, n, _, size = spot
-    face = [k for k, (nn, _) in FACES.items() if np.allclose(nn, n)][0]
+    names = [k for k, (nn, _) in FACES.items() if np.allclose(nn, n)]
+    face = names[0] if names else "top end face"
     return f"{label} on {face} at ({p[0]:.0f}, {p[1]:.0f}, {p[2]:.0f}), {size:.1f} mm"
