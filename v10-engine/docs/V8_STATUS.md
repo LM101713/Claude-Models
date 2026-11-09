@@ -98,12 +98,15 @@ intake lid (soluble support vs. a split roof).
 
 ## Open items I know about
 
-* Part numbers: the primaries (33), oil pan (40) and floor panel (41) are
-  exported without an engraved number - the prober finds no accepted flat
-  hidden face; needs a spot chosen by hand (10 min each).
-* Water pump housing is a snout only; front cover is a plain slab.
-* The intake lid/base tongue fit and the throttle body spigot are new
-  press fits (same `trumpet_14` and `CLEARANCE` values as proven fits, but
-  not yet on a coupon).
-* Customer video (crank-rotation MP4) and the kit checklist are still
-  deferred until a physical engine exists.
+* The look is the Blender round-3 state (`docs/VISUAL_REVIEW.md`); the intake lid and the
+  bellhousing need a sculptor to match the references. Not blocking the prototype.
+* 36B intake base and 45 accessory module need supports on their hidden undersides (D58).
+* The intake lid prints on its ridges (ridges on top, D53): upright with soluble support or
+  a split roof - your call before plate F5 is printed.
+* Prices in the BOM are 2026 estimates; nothing has been quoted or bought.
+* Customer video (crank-rotation MP4) and the kit checklist stay deferred until a physical
+  engine exists.
+* Closed this session: part numbers on 33 / 40 / 41 (D60), coupons for the intake tongue and
+  the 14 mm throttle socket (D61, T11 on plate C1), the frozen CAD skin's plates / BOM / print
+  check now read the Blender STLs (D59), motor tension travel is in the mesh check, and the
+  three kit defects of D63.

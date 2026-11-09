@@ -81,7 +81,7 @@ PARTS = [
     ("33_header_primary_A", "primary", 4, "slot3", False, _primary_print, "standing on the collector spigot"),
     ("33B_header_primary_B", "primary", 4, "slot3", True, _primary_print, "standing on the collector spigot (mirror)"),
     ("34_header_plate_A", "plate", 1, "slot3", False, lambda: rx(-90), "outboard face up, flat"),
-    ("34B_header_plate_B", "plate", 1, "slot3", True, lambda: rx(-90), "outboard face up, flat (mirror)"),
+    ("34B_header_plate_B", "plate", 1, "slot3", True, lambda: rx(90), "outboard face up, flat (mirror: the mirrored plate needs the opposite turn)"),
     ("35_collector_A", "collector_A", 1, "slot3", False, lambda: ry(-90), "standing on the open tail"),
     ("35B_collector_B", "collector_B", 1, "slot3", False, lambda: ry(-90), "standing on the open tail"),
     ("36_intake_lid", "intake_lid", 1, "slot1", False, lambda: rx(180), "top face down"),
@@ -100,7 +100,7 @@ PARTS = [
     ("48_controls_plinth", "plinth", 1, "slot2", False, lambda: rx(180), "top face down, open bottom up"),
     ("49_edition_plate", "edition_plate", 1, "purchased", False, lambda: ry(90), "reference model of the engraved plate (bought, not printed)"),
     # fit coupons (plate C1, PLA) - not engine parts
-    ("T11_tongue_lid", "t11_lid", 1, "coupon", False, lambda: Matrix.Identity(4), "wall edge down, lip up"),
+    ("T11_tongue_lid", "t11_lid", 1, "coupon", False, lambda: rx(180), "lip down, wall edge up"),
     ("T11b_tongue_base", "t11b_base", 1, "coupon", False, lambda: Matrix.Identity(4), "foot down, tongue up"),
     ("T11c_tb_socket", "t11c_socket", 1, "coupon", False, lambda: Matrix.Identity(4), "socket opening up"),
     ("T11d_tb_pin", "t11d_pin", 1, "coupon", False, lambda: Matrix.Identity(4), "handle disc down, spigot up"),
@@ -293,11 +293,12 @@ def check_parts(rows):
             thin = int((th < MIN_WALL).sum()) if r["slot"] not in ("purchased", "coupon") else 0
         except Exception as e:                                    # noqa: BLE001
             min_wall, thin = float("nan"), -1
+        pieces = len(m.split(only_watertight=False))                 # a part must be ONE solid (floating rib fragments etc.)
         fits = MS.measure(m, F.FITS.get(r["lib_name"], []), r["M"])
         bad_fits = [f for f in fits if f["n"] == 0 or f.get("dev", 9) > FIT_TOL]
         res = dict(r, faces=len(m.faces), watertight=bool(m.is_watertight), winding=bool(m.is_winding_consistent),
                    volume=float(m.volume), dims=dims, degenerate=degenerate, overhang_area=overhang_area, near_bed_area=near_bed_area, min_wall=min_wall,
-                   thin_samples=thin, plate=_plate_fit(dims), fits=fits, bad_fits=bad_fits, raw_verts=len(raw.vertices))
+                   thin_samples=thin, plate=_plate_fit(dims), fits=fits, bad_fits=bad_fits, raw_verts=len(raw.vertices), pieces=pieces)
         results.append(res)
         flag = "" if res["watertight"] and not bad_fits and res["plate"]["H2C dual nozzle (design limit)"] else "  <-- CHECK"
         print(f"  {r['file']:26s} wt={str(res['watertight']):5s} vol={res['volume']:9.0f} dims={dims[0]:6.1f}x{dims[1]:6.1f}x{dims[2]:6.1f} "
@@ -371,6 +372,8 @@ def write_report(results):
     for r in results:
         if not r["watertight"]:
             fails.append(f"- **{r['file']}**: not watertight after export")
+        if r.get("pieces", 1) > 1:
+            fails.append(f"- **{r['file']}**: {r['pieces']} separate pieces in one STL (a floating fragment)")
         if r["degenerate"] and not r["watertight"]:
             fails.append(f"- **{r['file']}**: {r['degenerate']} sliver faces on a non-watertight mesh")
         if not r["plate"]["H2C dual nozzle (design limit)"]:
@@ -401,7 +404,7 @@ def write_report(results):
         f.write("\n".join(lines) + "\n")
     print("wrote", REPORT, flush=True)
     hard = [r for r in results if not r["watertight"] or r["bad_fits"] or not r["plate"]["H2C dual nozzle (design limit)"]
-            or "NO SPOT" in str(r.get("label", ""))]
+            or "NO SPOT" in str(r.get("label", "")) or r.get("pieces", 1) > 1]
     return hard
 
 

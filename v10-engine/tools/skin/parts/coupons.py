@@ -26,6 +26,8 @@ def t11b_tongue_base():
     W, c = it["wall"], P.CLEARANCE
     piece = U.box("T11b_tongue_base", 0.0, L, 0.0, W, 0.0, 8.0)
     U.boolean(piece, U.box("foot", 0.0, L, 0.0, 10.0, 0.0, 2.0), "UNION")
+    # 2 mm root ledge inside the wall top joins the tongue to the wall (the tongue stands CLEARANCE inboard of it)
+    U.boolean(piece, U.box("tongue_root", 0.0, L, W - 0.1, W + c + it["tongue_w"], 6.0, 8.0), "UNION")
     U.boolean(piece, U.box("tongue", 0.0, L, W + c, W + c + it["tongue_w"], 8.0 - 0.1, 8.0 + it["tongue_h"]), "UNION")
     U.shade(piece)
     return piece

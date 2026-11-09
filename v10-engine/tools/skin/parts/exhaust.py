@@ -109,7 +109,6 @@ def collector(bank):
     lip = U.cylinder("tail_lip", r1 + 1.2, x_rear, x_rear + 4.0, yc, zt - r1, "X")
     U.bevel_edges(lip, 1.0, 2, lambda c, d: abs(d.x) < 0.1)
     U.boolean(col, lip, "UNION")
-    U.boolean(col, U.cylinder("tail_bore", r1 - P.EXH_TAIL_WALL, x_rear - 1, x_rear + 30.0, yc, zt - r1, "X"))
     sad = P.EXH_COLLECTOR_SADDLE
     cone_l = (P.EXH_PRIMARY_D - P.EXH_SPIGOT_D) / 2
     t3 = g["t3"]
@@ -146,6 +145,8 @@ def collector(bank):
         F.note(col, "trumpet_14 bore", "bore", bore["bore"] / 2, mouth, d_ax, depth0 - 0.05, -(cone_l + 0.3) + 0.05, e1, sectors)
         F.note(col, "trumpet_14 rib tip", "tip", bore["rib_centre_r"] - bore["rib_r"], mouth, d_ax, depth0 + 0.2 - 0.05, -(cone_l + 0.3) - 0.2 + 0.05, e1,
                [(a_, 1.0) for a_, _ in sectors])
+    # open tail bore LAST: the rearmost socket's crush ribs reach into it and would be left floating otherwise
+    U.boolean(col, U.cylinder("tail_bore", r1 - P.EXH_TAIL_WALL, x_rear - 1, x_rear + 30.0, yc, zt - r1, "X"))
     U.shade(col)          # no vertex merge here: remove_doubles opened the socket rims
     return col
 
