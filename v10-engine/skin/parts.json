@@ -33,7 +33,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/01_crankcase.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/01_crankcase.stl",
+   "label": "01 on +x at (108, -42, 16), 5.0 mm"
   },
   {
    "file": "03_cylinder_bank",
@@ -68,7 +69,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/03_cylinder_bank.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/03_cylinder_bank.stl",
+   "label": "03 on +z at (47, -24, 48), 5.0 mm"
   },
   {
    "file": "30_cylinder_head_A",
@@ -103,7 +105,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/30_cylinder_head_A.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/30_cylinder_head_A.stl",
+   "label": "30A on +z at (97, 22, 36), 4.0 mm"
   },
   {
    "file": "30B_cylinder_head_B",
@@ -138,7 +141,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/30B_cylinder_head_B.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/30B_cylinder_head_B.stl",
+   "label": "30B on +z at (97, -23, 36), 4.0 mm"
   },
   {
    "file": "31_valve_cover",
@@ -173,7 +177,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/31_valve_cover.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/31_valve_cover.stl",
+   "label": "31 on +z at (-75, -0, 26), 2.2 mm"
   },
   {
    "file": "31B_oil_cap",
@@ -208,7 +213,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/31B_oil_cap.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/31B_oil_cap.stl",
+   "label": "31B on +z at (0, -0, 10), 2.2 mm"
   },
   {
    "file": "32_plug_boot",
@@ -243,7 +249,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/32_plug_boot.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/32_plug_boot.stl",
+   "label": "not labelled (no hidden flat face)"
   },
   {
    "file": "33_header_primary_A",
@@ -278,7 +285,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/33_header_primary_A.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/33_header_primary_A.stl",
+   "label": "33A on top end face at (6, 13, 124), 2.2 mm"
   },
   {
    "file": "33B_header_primary_B",
@@ -313,7 +321,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/33B_header_primary_B.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/33B_header_primary_B.stl",
+   "label": "33B on top end face at (6, -13, 124), 2.2 mm"
   },
   {
    "file": "34_header_plate_A",
@@ -348,7 +357,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/34_header_plate_A.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/34_header_plate_A.stl",
+   "label": "34A on +y at (-49, 16, 2), 1.8 mm"
   },
   {
    "file": "34B_header_plate_B",
@@ -383,7 +393,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/34B_header_plate_B.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/34B_header_plate_B.stl",
+   "label": "34B on +y at (-7, 16, 5), 1.8 mm"
   },
   {
    "file": "35_collector_A",
@@ -418,7 +429,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/35_collector_A.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/35_collector_A.stl",
+   "label": "35A on +z at (-5, 1, 205), 2.5 mm"
   },
   {
    "file": "35B_collector_B",
@@ -453,7 +465,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/35B_collector_B.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/35B_collector_B.stl",
+   "label": "35B on +z at (-5, 1, 211), 2.5 mm"
   },
   {
    "file": "36_intake_lid",
@@ -488,7 +501,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/36_intake_lid.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/36_intake_lid.stl",
+   "label": "36A on +z at (-69, -10, 13), 4.0 mm"
   },
   {
    "file": "36B_intake_base",
@@ -523,7 +537,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/36B_intake_base.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/36B_intake_base.stl",
+   "label": "36B on +z at (-25, 36, 26), 4.0 mm"
   },
   {
    "file": "36C_throttle_body",
@@ -558,7 +573,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/36C_throttle_body.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/36C_throttle_body.stl",
+   "label": "not labelled (no hidden flat face)"
   },
   {
    "file": "40_oil_pan",
@@ -593,7 +609,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/40_oil_pan.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/40_oil_pan.stl",
+   "label": "40 on +z at (114, -66, 28), 3.5 mm"
   },
   {
    "file": "41_pan_floor_panel",
@@ -628,7 +645,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/41_pan_floor_panel.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/41_pan_floor_panel.stl",
+   "label": "41 on +z at (-74, -46, 3), 5.0 mm"
   },
   {
    "file": "42_bellhousing",
@@ -663,7 +681,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/42_bellhousing.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/42_bellhousing.stl",
+   "label": "42 on +z at (-6, -27, 19), 2.2 mm"
   },
   {
    "file": "43_front_cover",
@@ -698,7 +717,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/43_front_cover.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/43_front_cover.stl",
+   "label": "43 on +z at (42, -0, 21), 2.2 mm"
   },
   {
    "file": "44_damper",
@@ -733,7 +753,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/44_damper.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/44_damper.stl",
+   "label": "not labelled (no hidden flat face)"
   },
   {
    "file": "45_accessory_module",
@@ -768,7 +789,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/45_accessory_module.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/45_accessory_module.stl",
+   "label": "not labelled (no hidden flat face)"
   },
   {
    "file": "45B_alternator_body",
@@ -803,7 +825,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/45B_alternator_body.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/45B_alternator_body.stl",
+   "label": "not labelled (no hidden flat face)"
   },
   {
    "file": "46_stand_plate",
@@ -838,7 +861,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/46_stand_plate.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/46_stand_plate.stl",
+   "label": "46 on +y at (48, 120, 6), 5.0 mm"
   },
   {
    "file": "47_bracket",
@@ -873,7 +897,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/47_bracket.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/47_bracket.stl",
+   "label": "47 on +y at (-23, 28, 10), 2.2 mm"
   },
   {
    "file": "47B_bracket_mirror",
@@ -908,7 +933,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/47B_bracket_mirror.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/47B_bracket_mirror.stl",
+   "label": "47m on +y at (20, 28, 20), 3.0 mm"
   },
   {
    "file": "48_controls_plinth",
@@ -943,7 +969,8 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/48_controls_plinth.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/48_controls_plinth.stl",
+   "label": "48 on +z at (-5, -16, 3), 4.0 mm"
   },
   {
    "file": "49_edition_plate",
@@ -978,7 +1005,152 @@
      1.0
     ]
    ],
-   "path": "/home/user/Claude-Models/v10-engine/skin/49_edition_plate.stl"
+   "path": "/home/user/Claude-Models/v10-engine/skin/49_edition_plate.stl",
+   "label": "not labelled (no hidden flat face)"
+  },
+  {
+   "file": "T11_tongue_lid",
+   "key": "t11_lid",
+   "qty": 1,
+   "slot": "coupon",
+   "note": "wall edge down, lip up",
+   "lib_name": "T11_tongue_lid",
+   "M": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     -20.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     -4.5
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "path": "/home/user/Claude-Models/v10-engine/skin/T11_tongue_lid.stl",
+   "label": "not labelled (no hidden flat face)"
+  },
+  {
+   "file": "T11b_tongue_base",
+   "key": "t11b_base",
+   "qty": 1,
+   "slot": "coupon",
+   "note": "foot down, tongue up",
+   "lib_name": "T11b_tongue_base",
+   "M": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     -20.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     -5.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "path": "/home/user/Claude-Models/v10-engine/skin/T11b_tongue_base.stl",
+   "label": "not labelled (no hidden flat face)"
+  },
+  {
+   "file": "T11c_tb_socket",
+   "key": "t11c_socket",
+   "qty": 1,
+   "slot": "coupon",
+   "note": "socket opening up",
+   "lib_name": "T11c_tb_socket",
+   "M": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "path": "/home/user/Claude-Models/v10-engine/skin/T11c_tb_socket.stl",
+   "label": "not labelled (no hidden flat face)"
+  },
+  {
+   "file": "T11d_tb_pin",
+   "key": "t11d_pin",
+   "qty": 1,
+   "slot": "coupon",
+   "note": "handle disc down, spigot up",
+   "lib_name": "T11d_tb_pin",
+   "M": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "path": "/home/user/Claude-Models/v10-engine/skin/T11d_tb_pin.stl",
+   "label": "not labelled (no hidden flat face)"
   }
  ],
  "fits": {
@@ -7347,6 +7519,104 @@
     "e1": null,
     "sectors": null
    }
+  ],
+  "T11c_tb_socket": [
+   {
+    "label": "trumpet_14 bore",
+    "kind": "bore",
+    "r": 7.2,
+    "p": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "d": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "t0": 4.45,
+    "t1": 14.24,
+    "e1": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "sectors": [
+     [
+      0.0,
+      6.603945168729658
+     ],
+     [
+      60.000000071116105,
+      6.603945168729658
+     ],
+     [
+      119.99999992888391,
+      6.603945168729658
+     ],
+     [
+      180.0,
+      6.603945168729658
+     ],
+     [
+      -119.99999992888391,
+      6.603945168729658
+     ],
+     [
+      -60.000000071116105,
+      6.603945168729658
+     ]
+    ]
+   },
+   {
+    "label": "trumpet_14 rib tip",
+    "kind": "tip",
+    "r": 6.875,
+    "p": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "d": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "t0": 4.65,
+    "t1": 14.200000000000001,
+    "e1": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "sectors": [
+     [
+      0.0,
+      1.0
+     ],
+     [
+      60.000000071116105,
+      1.0
+     ],
+     [
+      119.99999992888391,
+      1.0
+     ],
+     [
+      180.0,
+      1.0
+     ],
+     [
+      -119.99999992888391,
+      1.0
+     ],
+     [
+      -60.000000071116105,
+      1.0
+     ]
+    ]
+   }
   ]
  },
  "finalize": {
@@ -7357,23 +7627,27 @@
   "oil_cap": "31B_oil_cap: genus 0 tris 2332 vol 4044",
   "boot": "32_plug_boot: genus 0 tris 2556 vol 1790",
   "plate": "34_header_plate: genus 10 tris 10372 vol 21583",
-  "intake_lid": "36_intake_lid: genus 1 tris 24510 vol 279484",
+  "intake_lid": "36_intake_lid: genus 1 tris 24512 vol 279484",
   "intake_base": "36B_intake_base: genus 7 tris 17236 vol 128182",
-  "throttle": "36C_throttle_body: genus 2 tris 5872 vol 43033",
-  "primary": "33_header_primary: genus 0 tris 10930 vol 39359",
-  "collector_A": "35_collector_A: genus 0 tris 16080 vol 160743",
-  "collector_B": "35_collector_B: genus 0 tris 16092 vol 166184",
+  "throttle": "36C_throttle_body: genus 2 tris 5878 vol 43039",
+  "primary": "33_header_primary: genus 0 tris 10944 vol 39359",
+  "collector_A": "35_collector_A: genus 0 tris 16090 vol 160743",
+  "collector_B": "35_collector_B: genus 0 tris 16102 vol 166184",
   "pan": "40_oil_pan: genus 19 tris 21822 vol 422788",
   "panel": "41_pan_floor_panel: genus 20 tris 10828 vol 71627",
-  "bellhousing": "42_bellhousing: genus 0 tris 15908 vol 69941",
+  "bellhousing": "42_bellhousing: genus 0 tris 15904 vol 69941",
   "front_cover": "43_front_cover: genus 1 tris 16300 vol 72616",
   "damper": "44_damper: genus 1 tris 8506 vol 51932",
-  "accessory": "45_accessory_module: genus 9 tris 17782 vol 55390",
+  "accessory": "45_accessory_module: genus 9 tris 17784 vol 55396",
   "alt_body": "45B_alternator_body: genus 0 tris 1980 vol 62751",
   "stand_plate": "46_stand_plate: genus 10 tris 13058 vol 634699",
-  "bracket": "47_bracket_L: genus 4 tris 3184 vol 16885",
-  "bracket_m": "47B_bracket_R: genus 4 tris 3184 vol 16885",
+  "bracket": "47_bracket_L: genus 4 tris 3200 vol 17085",
+  "bracket_m": "47B_bracket_R: genus 4 tris 3172 vol 16901",
   "plinth": "48_controls_plinth: genus 12 tris 3964 vol 31393",
-  "edition_plate": "49_edition_plate: genus 20 tris 1094 vol 2865"
+  "edition_plate": "49_edition_plate: genus 20 tris 1100 vol 2865",
+  "t11_lid": "T11_tongue_lid: genus 0 tris 20 vol 2520",
+  "t11b_base": "T11b_tongue_base: genus -1 tris 32 vol 1706",
+  "t11c_socket": "T11c_tb_socket: genus 0 tris 1156 vol 11009",
+  "t11d_pin": "T11d_tb_pin: genus 0 tris 1276 vol 2319"
  }
 }
