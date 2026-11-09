@@ -6,6 +6,8 @@ step and a non-zero exit on the first failure:
     python tools/pipeline_v8.py --quick      # skip the slow mesh sweep and the slicer print check
 
 Steps:
+  lint        tools/check_fits.py           no clearance literal outside fits.py (CAD and Blender parts)
+  firmware    tools/check_firmware.py       firmware step table vs CAD TDCs, hall pocket, host unit tests
   params      tools/export_params.py        config.py + fits.py -> skin/params.json
   core        tools/export_core_meshes.py   CAD moving core -> skin/core/*.stl (renders + checks)
   skin        tools/skin_blender.py         Blender library -> skin/*.stl, parts.json, SKIN_PRINT_REPORT.md (strict)
@@ -26,6 +28,8 @@ LOGS = os.path.join(ROOT, "logs", "pipeline")
 PY = sys.executable
 
 STEPS = [
+    ("lint", [PY, "tools/check_fits.py"]),
+    ("firmware", [PY, "tools/check_firmware.py"]),
     ("params", [PY, "tools/export_params.py"]),
     ("core", [PY, "tools/export_core_meshes.py"]),
     ("skin", [PY, "tools/skin_blender.py", "--build", "--export", "--check", "--strict"]),
@@ -54,7 +58,7 @@ def run(name, cmd):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--from", dest="start", default="params", choices=[s for s, _ in STEPS])
+    ap.add_argument("--from", dest="start", default="lint", choices=[s for s, _ in STEPS])
     ap.add_argument("--quick", action="store_true")
     ap.add_argument("--only", help="comma-separated step names to run")
     a = ap.parse_args()

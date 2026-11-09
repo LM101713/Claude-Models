@@ -135,12 +135,27 @@ v10-engine/
 
 ## Regenerating and re-verifying
 
+**V8 (current variant, `config.py` -> `config_v8.py`):** the visible skin is built in
+Blender, the moving core in CadQuery (decision D55). One command runs the whole kit in
+order and stops at the first failure, with a log per step in `logs/pipeline/`:
+
 ```bash
-pip install -r requirements.txt
+pip install -r requirements.txt bpy manifold3d rtree pillow   # CadQuery + Blender-as-a-module
+python tools/pipeline_v8.py          # lint, firmware, params, core meshes, skin build/export/check,
+                                     # mesh interference + rotation, print check, plates, BOMs (~30 min)
+python tools/pipeline_v8.py --quick  # same without the slicer pass and the rotation sweep (~8 min)
+python tools/pipeline_v8.py --from plates   # restart at a step
+```
+
+The individual tools behind it (V8 and V10):
+
+```bash
 python config.py                    # summary + self-checks
-python build_all.py                 # STL/STEP, renders, drawings
+python build_all.py                 # CAD STL/STEP (core parts; the frozen CAD skin for the V8), renders, drawings
+python tools/skin_blender.py --all  # Blender skin: build, export, check, render (see tools/skin/README.md)
+python tools/skin_check.py          # skin meshes vs the CAD core: interference, motor travel, rotation
 python tools/printcheck.py          # slice + printability (needs PrusaSlicer CLI)
-python tools/verify_all.py          # interferences, clearances, assembly paths (~20 min)
+python tools/verify_all.py          # CAD interferences, clearances, assembly paths (~20 min)
 python tools/check_firmware.py      # firmware vs CAD + unit tests (needs g++)
 python tools/electronics.py         # netlist, tables, drawings
 python tools/bom.py                 # BOM, costs, shopping list
