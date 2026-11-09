@@ -66,14 +66,14 @@ def find_spot(mesh, faces, sizes, scan, label):
             if np.linalg.norm(xd_) < 1e-3:
                 xd_ = np.array([1.0, 0.0, 0.0])
             xd_ /= np.linalg.norm(xd_)
-            sel_all = (normals @ n_ > 0.98) & (centers[:, 2] > hi[2] - 3.0)
+            sel_all = (normals @ n_ > 0.9995) & (centers[:, 2] > hi[2] - 3.0)
             groups = [np.nonzero(sel_all)[0]]
         else:
             n, xd = FACES[face]
             n_, xd_ = np.asarray(n, float), np.asarray(xd, float)
             axis = int(np.argmax(np.abs(n_)))
             face_coord = hi[axis] if n_[axis] > 0 else lo[axis]
-            aligned = normals @ n_ > 0.98
+            aligned = normals @ n_ > 0.9995          # exactly flat faces only: a 128-gon's facets must not pass
             if not aligned.any():
                 continue
             depth = (face_coord - centers[aligned, axis]) * n_[axis]      # distance inward from the bbox face

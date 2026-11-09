@@ -10,3 +10,4 @@ bpy>=4.5          # Blender as a Python module (skin build; or use the Blender b
 manifold3d
 rtree
 pillow
+networkx
