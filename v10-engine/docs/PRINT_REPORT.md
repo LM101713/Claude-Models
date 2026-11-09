@@ -5,9 +5,9 @@ Times and grams are PrusaSlicer estimates with an H2S-like motion profile (`tool
 
 | Part | Material | Layer | Walls | Infill | Brim | Time (h) | Filament (g) | Cost ($) | Long bridges | Big overhangs | Ring ceilings | Slicer warnings |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 01_crankcase | ASA | 0.2 | 4 | 25% | - | 10.26 | 245 | 6.12 | - | - | - | - |
+| 01_crankcase | ASA | 0.2 | 4 | 25% | - | 10.73 | 252 | 6.30 | - | 280.2mm2, 280.2mm2 | - | Low bed adhesion |
 | 02_valley_beam | ASA | 0.28 | 4 | 25% | - | 1.77 | 54 | 1.35 | - | - | - | - |
-| 03_cylinder_bank | ASA | 0.2 | 4 | 25% | - | 7.83 | 184 | 4.61 | - | - | - | - |
+| 03_cylinder_bank | ASA | 0.2 | 4 | 25% | - | 7.79 | 184 | 4.60 | - | - | 5 | - |
 | 04_end_plate | ASA | 0.28 | 4 | 25% | - | 1.23 | 35 | 0.89 | - | - | - | - |
 | 05_crank_end_web | ASA | 0.16 | 5 | 40% | - | 0.69 | 11 | 0.28 | - | - | - | - |
 | 06_crank_segment_90 | ASA | 0.16 | 5 | 40% | - | 1.75 | 28 | 0.69 | - | - | - | - |
@@ -15,34 +15,39 @@ Times and grams are PrusaSlicer estimates with an H2S-like motion profile (`tool
 | 08_crank_segment_270 | ASA | 0.16 | 5 | 40% | - | 1.75 | 28 | 0.70 | - | - | - | - |
 | 09_conrod | ASA | 0.12 | 4 | 40% | - | 0.17 | 3 | 0.07 | - | - | - | - |
 | 10_piston | ASA | 0.16 | 4 | 25% | - | 0.50 | 12 | 0.29 | - | - | - | Floating bridge anchors, Long bridging extrusions |
-| 30B_cylinder_head_B | ASA | 0.2 | 4 | 25% | - | 9.61 | 195 | 4.88 | - | - | - | Floating bridge anchors, Long bridging extrusions |
-| 30_cylinder_head_A | ASA | 0.2 | 4 | 25% | - | 9.62 | 195 | 4.88 | - | - | - | Floating bridge anchors, Long bridging extrusions |
-| 31B_oil_cap | ASA | 0.2 | 3 | 15% | - | 0.14 | 2 | 0.06 | - | - | - | - |
-| 31_valve_cover | ASA | 0.2 | 3 | 15% | - | 2.02 | 67 | 1.68 | 38.0mm | - | 1 | Floating bridge anchors, Long bridging extrusions |
+| 30B_cylinder_head_B | ASA | 0.2 | 4 | 25% | - | 9.78 | 197 | 4.92 | - | 71.2mm2, 67.9mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2 | - | Floating bridge anchors, Long bridging extrusions |
+| 30_cylinder_head_A | ASA | 0.2 | 4 | 25% | - | 9.78 | 196 | 4.91 | - | 71.2mm2, 67.9mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2 | - | Floating bridge anchors, Long bridging extrusions |
+| 31B_oil_cap | ASA | 0.2 | 3 | 15% | - | 0.14 | 2 | 0.06 | - | 60.4mm2 | - | - |
+| 31_valve_cover | ASA | 0.2 | 3 | 15% | - | 2.06 | 68 | 1.70 | 38.0mm | 365.0mm2, 63.6mm2, 62.6mm2, 62.5mm2, 61.9mm2 | 2 | Floating object part, Floating bridge anchors, Low bed adhesion, Long bridging extrusions |
 | 32_plug_boot | PETG | 0.16 | 2 | 0% | 3 | 0.23 | 1 | 0.02 | - | - | - | - |
-| 33B_header_primary_B | ASA | 0.16 | 4 | 15% | 5 | 1.24 | 19 | 0.47 | - | - | - | Low bed adhesion |
-| 33_header_primary_A | ASA | 0.16 | 4 | 15% | 5 | 1.24 | 19 | 0.47 | - | - | - | Low bed adhesion |
-| 34B_header_plate_B | ASA | 0.2 | 3 | 20% | - | 0.59 | 14 | 0.36 | - | - | 2 | - |
-| 34_header_plate_A | ASA | 0.2 | 3 | 20% | - | 0.59 | 14 | 0.36 | - | - | - | - |
-| 35B_collector_B | ASA | 0.16 | 3 | 10% | - | 2.74 | 55 | 1.38 | - | 39.5mm2, 39.5mm2, 39.5mm2, 39.5mm2, 39.5mm2, 39.5mm2, 39.3mm2, 39.3mm2, 27.0mm2, 26.6mm2, 26.4mm2, 25.9mm2, 25.2mm2 | - | Floating bridge anchors, Low bed adhesion, Long bridging extrusions |
-| 35_collector_A | ASA | 0.16 | 3 | 10% | - | 2.65 | 53 | 1.33 | - | 39.5mm2, 39.5mm2, 39.5mm2, 39.5mm2, 39.5mm2, 39.5mm2, 36.9mm2, 36.9mm2, 27.1mm2, 26.7mm2, 26.5mm2, 26.0mm2, 25.2mm2 | - | Floating bridge anchors, Low bed adhesion, Long bridging extrusions |
-| 36B_intake_base | ASA | 0.2 | 3 | 15% | - | 3.05 | 92 | 2.30 | - | 1848.0mm2, 1848.0mm2 | - | - |
-| 36C_throttle_body | ASA | 0.2 | 3 | 15% | - | 0.69 | 18 | 0.46 | 32.0mm | 536.9mm2, 483.6mm2, 34.8mm2 | - | Collapsing overhang, Loose extrusions, Long bridging extrusions |
-| 36_intake_lid | ASA | 0.2 | 3 | 15% | - | 4.50 | 141 | 3.52 | 103.8mm | 693.9mm2, 693.9mm2, 274.5mm2, 273.8mm2, 273.7mm2, 273.7mm2, 273.7mm2, 273.7mm2, 273.3mm2, 273.3mm2, 202.7mm2, 202.0mm2, 202.0mm2, 200.7mm2, 192.3mm2, 192.2mm2, 62.6mm2, 62.6mm2, 62.6mm2, 62.6mm2, 62.6mm2, 62.6mm2 | - | Floating object part, Collapsing overhang, Low bed adhesion, Long bridging extrusions |
-| 40_oil_pan | ASA | 0.2 | 4 | 20% | - | 10.01 | 339 | 8.47 | - | - | 1 | Floating bridge anchors, Long bridging extrusions |
+| 33B_header_primary_B | ASA | 0.16 | 4 | 15% | 5 | 1.26 | 19 | 0.47 | - | - | - | Low bed adhesion |
+| 33_header_primary_A | ASA | 0.16 | 4 | 15% | 5 | 1.26 | 19 | 0.47 | - | - | - | Low bed adhesion |
+| 34B_header_plate_B | ASA | 0.2 | 3 | 20% | - | 0.68 | 17 | 0.41 | - | - | - | - |
+| 34_header_plate_A | ASA | 0.2 | 3 | 20% | - | 0.68 | 17 | 0.41 | - | - | - | - |
+| 35B_collector_B | ASA | 0.16 | 3 | 10% | - | 2.49 | 56 | 1.39 | - | 103.6mm2, 42.3mm2, 42.3mm2, 42.3mm2, 42.3mm2, 42.3mm2, 42.3mm2, 42.3mm2, 42.3mm2, 26.7mm2, 26.7mm2, 26.4mm2, 26.4mm2, 26.0mm2, 26.0mm2, 25.4mm2, 25.4mm2 | - | Floating bridge anchors, Low bed adhesion, Long bridging extrusions |
+| 35_collector_A | ASA | 0.16 | 3 | 10% | - | 2.41 | 54 | 1.35 | - | 103.6mm2, 42.3mm2, 42.3mm2, 42.3mm2, 42.3mm2, 42.3mm2, 42.3mm2, 42.3mm2, 42.3mm2, 26.7mm2, 26.7mm2, 26.4mm2, 26.4mm2, 26.0mm2, 26.0mm2, 25.4mm2, 25.4mm2 | - | Floating bridge anchors, Long bridging extrusions |
+| 36B_intake_base | ASA | 0.2 | 3 | 15% | - | 3.11 | 92 | 2.29 | - | 1394.1mm2, 1394.1mm2, 740.1mm2, 740.1mm2 | - | Floating bridge anchors |
+| 36C_throttle_body | ASA | 0.2 | 3 | 15% | - | 0.71 | 21 | 0.52 | - | 97.0mm2, 76.7mm2, 47.8mm2 | 2 | Floating object part, Floating bridge anchors, Low bed adhesion, Loose extrusions, Long bridging extrusions |
+| 36_intake_lid | ASA | 0.2 | 3 | 15% | - | 6.07 | 185 | 4.61 | 37.9mm, 26.0mm | 1030.3mm2, 538.2mm2, 538.2mm2, 419.7mm2, 419.7mm2, 419.7mm2, 419.7mm2, 419.7mm2, 419.7mm2, 419.7mm2, 419.7mm2, 52.7mm2, 52.7mm2, 51.5mm2, 51.5mm2, 50.2mm2, 50.2mm2 | - | Floating object part, Collapsing overhang, Low bed adhesion, Long bridging extrusions |
+| 40_oil_pan | ASA | 0.2 | 4 | 20% | - | 10.39 | 344 | 8.59 | - | - | - | Floating bridge anchors, Long bridging extrusions |
 | 41_pan_floor_panel | ASA | 0.28 | 3 | 15% | - | 1.68 | 54 | 1.36 | - | - | - | - |
-| 42_bellhousing | ASA | 0.2 | 3 | 15% | - | 1.78 | 58 | 1.44 | - | - | - | Long bridging extrusions |
-| 43_front_cover | ASA | 0.2 | 3 | 15% | - | 1.99 | 66 | 1.64 | 71.5mm | - | 1 | Floating object part, Floating bridge anchors, Low bed adhesion, Long bridging extrusions |
-| 44_damper | ASA | 0.2 | 4 | 25% | - | 1.15 | 25 | 0.62 | - | - | - | - |
-| 45_accessory_module | ASA | 0.2 | 3 | 15% | - | 1.81 | 50 | 1.24 | 44.0mm | - | 1 | Floating bridge anchors, Loose extrusions, Long bridging extrusions |
-| 46_stand_plate | ASA | 0.2 | 4 | 15% | - | 8.31 | 229 | 5.72 | - | - | - | - |
-| 47B_bracket_mirror | ASA | 0.2 | 4 | 40% | - | 0.61 | 15 | 0.37 | - | - | - | - |
-| 47_bracket | ASA | 0.2 | 4 | 40% | - | 0.61 | 15 | 0.36 | - | - | - | - |
-| 48_controls_plinth | ASA | 0.2 | 3 | 15% | - | 0.87 | 29 | 0.73 | - | - | - | - |
+| 42_bellhousing | ASA | 0.2 | 3 | 15% | - | 2.00 | 61 | 1.52 | - | 439.0mm2, 52.6mm2, 51.5mm2 | - | Long bridging extrusions |
+| 43_front_cover | ASA | 0.2 | 3 | 15% | - | 2.08 | 64 | 1.61 | - | 50.4mm2, 50.2mm2, 50.1mm2, 50.1mm2, 50.0mm2, 49.5mm2, 49.5mm2, 48.3mm2 | - | Floating bridge anchors, Long bridging extrusions |
+| 44_damper | ASA | 0.2 | 4 | 25% | - | 1.14 | 25 | 0.62 | - | 170.0mm2 | - | - |
+| 45B_alternator_body | ASA | 0.2 | 3 | 15% | - | 0.82 | 20 | 0.50 | - | 218.4mm2 | - | - |
+| 45_accessory_module | ASA | 0.2 | 3 | 15% | - | 1.14 | 33 | 0.83 | - | - | 1 | Floating bridge anchors, Loose extrusions, Long bridging extrusions |
+| 46_stand_plate | ASA | 0.2 | 4 | 15% | - | 8.32 | 229 | 5.72 | - | - | - | - |
+| 47B_bracket_mirror | ASA | 0.2 | 4 | 40% | - | 0.62 | 15 | 0.37 | - | 46.2mm2 | - | - |
+| 47_bracket | ASA | 0.2 | 4 | 40% | - | 0.62 | 15 | 0.37 | - | - | - | - |
+| 48_controls_plinth | ASA | 0.2 | 3 | 15% | - | 0.86 | 29 | 0.73 | - | 322.6mm2 | - | - |
 | P1_proto_crankpin | PETG | 0.12 | 4 | 100% | 3 | 0.34 | 1 | 0.02 | - | - | - | - |
 | P2F_proto_main_shaft_front | PETG | 0.16 | 4 | 100% | - | 0.67 | 7 | 0.15 | - | - | 1 | Floating bridge anchors, Loose extrusions, Long bridging extrusions |
 | P2_proto_main_shaft | PETG | 0.16 | 4 | 100% | - | 0.50 | 6 | 0.12 | - | - | 1 | Floating bridge anchors, Loose extrusions, Long bridging extrusions |
 | T10_header_flex | PLA | 0.2 | 2 | 10% | - | 0.92 | 13 | 0.26 | - | - | - | Low bed adhesion |
+| T11_tongue_lid | PLA | 0.2 | 2 | 10% | - | 0.13 | 3 | 0.05 | - | - | - | - |
+| T11b_tongue_base | PLA | 0.2 | 2 | 10% | - | 0.10 | 2 | 0.04 | - | - | - | Long bridging extrusions |
+| T11c_tb_socket | PLA | 0.2 | 2 | 10% | - | 0.18 | 5 | 0.09 | - | - | - | - |
+| T11d_tb_pin | PLA | 0.2 | 2 | 10% | - | 0.10 | 1 | 0.02 | - | - | - | - |
 | T1_hole_ladder | PLA | 0.2 | 2 | 10% | - | 0.35 | 8 | 0.15 | - | - | - | - |
 | T1b_test_peg | PLA | 0.2 | 2 | 10% | - | 0.07 | 0 | 0.01 | - | - | - | - |
 | T1c_peg_captive | PLA | 0.2 | 2 | 10% | - | 0.26 | 6 | 0.12 | - | - | - | - |

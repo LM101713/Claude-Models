@@ -365,7 +365,7 @@
    "key": "plate",
    "qty": 1,
    "slot": "slot3",
-   "note": "outboard face up, flat (mirror)",
+   "note": "outboard face up, flat (mirror: the mirrored plate needs the opposite turn)",
    "lib_name": "34_header_plate",
    "M": [
     [
@@ -376,15 +376,15 @@
     ],
     [
      0.0,
-     4.371138828673793e-08,
-     1.0,
-     -105.0
+     -7.549790126404332e-08,
+     -1.0,
+     105.0
     ],
     [
      0.0,
-     1.0,
-     -4.371138828673793e-08,
-     40.500003814697266
+     -1.0,
+     7.549790126404332e-08,
+     -34.00000762939453
     ],
     [
      0.0,
@@ -394,7 +394,7 @@
     ]
    ],
    "path": "/home/user/Claude-Models/v10-engine/skin/34B_header_plate_B.stl",
-   "label": "34B on +y at (-7, 16, 5), 1.8 mm"
+   "label": "34B on +y at (32, 16, 2), 1.8 mm"
   },
   {
    "file": "35_collector_A",
@@ -1013,7 +1013,7 @@
    "key": "t11_lid",
    "qty": 1,
    "slot": "coupon",
-   "note": "wall edge down, lip up",
+   "note": "lip down, wall edge up",
    "lib_name": "T11_tongue_lid",
    "M": [
     [
@@ -1024,15 +1024,15 @@
     ],
     [
      0.0,
-     1.0,
-     0.0,
-     -4.5
+     -1.0,
+     -8.742277657347586e-08,
+     4.500000476837158
     ],
     [
      0.0,
-     0.0,
-     1.0,
-     0.0
+     8.742277657347586e-08,
+     -1.0,
+     15.0
     ],
     [
      0.0,
@@ -7631,8 +7631,8 @@
   "intake_base": "36B_intake_base: genus 7 tris 17236 vol 128182",
   "throttle": "36C_throttle_body: genus 2 tris 5878 vol 43039",
   "primary": "33_header_primary: genus 0 tris 10944 vol 39359",
-  "collector_A": "35_collector_A: genus 0 tris 16090 vol 160743",
-  "collector_B": "35_collector_B: genus 0 tris 16102 vol 166184",
+  "collector_A": "35_collector_A: genus 1 tris 15800 vol 160714",
+  "collector_B": "35_collector_B: genus 1 tris 16008 vol 166174",
   "pan": "40_oil_pan: genus 19 tris 21822 vol 422788",
   "panel": "41_pan_floor_panel: genus 20 tris 10828 vol 71627",
   "bellhousing": "42_bellhousing: genus 0 tris 15904 vol 69941",
@@ -7646,7 +7646,7 @@
   "plinth": "48_controls_plinth: genus 12 tris 3964 vol 31393",
   "edition_plate": "49_edition_plate: genus 20 tris 1100 vol 2865",
   "t11_lid": "T11_tongue_lid: genus 0 tris 20 vol 2520",
-  "t11b_base": "T11b_tongue_base: genus -1 tris 32 vol 1706",
+  "t11b_base": "T11b_tongue_base: genus 0 tris 36 vol 1836",
   "t11c_socket": "T11c_tb_socket: genus 0 tris 1156 vol 11009",
   "t11d_pin": "T11d_tb_pin: genus 0 tris 1276 vol 2319"
  }
