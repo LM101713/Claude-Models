@@ -118,6 +118,22 @@ press a boot in, power the strip at the engine's firing brightness.
 | hot spot / dim dome | try the second boot with 2 walls, 0 % infill (slicer setting); still bad -> fall back to a drilled light pipe in the satin-grey boot (D36) |
 | boot loose in the socket | lower `CRUSH["boot_9"]` interference by 0.10 |
 
+## T11 - intake tongue and throttle-body socket (V8, Blender-built)
+
+Two fits the two-piece intake introduced (D48), as straight 40 mm sections with
+the real numbers: a lid wall piece (T11) that drops over a base wall piece with
+the tongue (T11b), and a block with the 14 mm throttle-body crush socket (T11c)
+plus a test spigot (T11d). The T10 primary's spigot is the same 14 mm fit and
+also presses into T11c.
+
+| Pass | Change |
+|---|---|
+| T11 slides onto T11b by hand, no rock, lifts off with a fingernail | nothing (nominal `CLEARANCE`) |
+| lid piece will not go over the tongue | raise `CLEARANCE` for the tongue only: add a `TONGUE_CLEAR` in fits.py (+0.10) and use it in `intake.py` / `intake_v8.py` |
+| lid piece rattles sideways | lower `INTAKE["tongue_w"]` is wrong - leave it; raise the tongue by `tongue_h` +1 instead (the lid wall gives the location, the tongue only keeps the lid from sliding) |
+| T11d presses into T11c by hand with firm thumb pressure and does not fall out | nothing |
+| needs a tool / cracks the block, or falls out | adjust `CRUSH["trumpet_14"]` by 0.10 (this also moves the header sockets - re-check T10 in T11c) |
+
 ## T7 / T8 - tools, not tests
 
 * **T7 crank V-blocks (x2):** both main shafts rest in the Vs on a flat table

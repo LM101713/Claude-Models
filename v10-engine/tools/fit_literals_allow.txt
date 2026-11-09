@@ -39,14 +39,12 @@ drive.py: inner = cq.Workplane("YZ").workplane(offset=x0 - 1).polyline(ring(-0.2
 drive.py: zb = C.BASE_TOP_Z - 1.0
 exterior_v8.py: PLATE_SCREW_Z = DECK + FP["z1"] - 5.0
 exterior_v8.py: ang = math.degrees(math.acos(max(-1.0, min(1.0, a.dot(b)))))
-exterior_v8.py: assert r_tail < k * r1 - 0.3, "tail bore would break through the inboard flat"
 exterior_v8.py: base = cq.Vector(it["sections"][-1][2] / 2 - 6.0, 0, it["tb_z"])
 exterior_v8.py: beta = math.acos(max(-1.0, min(1.0, t1.dot(t2))))
 exterior_v8.py: blade = box(-1.0, 1.0, -it["tb_bore"] / 2, it["tb_bore"] / 2, -1.5, 1.5)
-exterior_v8.py: bolt = cyl_z(vc["bolt_d"] / 2, zb - 0.5, zb + 1.6, x, yb)
-exterior_v8.py: cap = cyl_z(vc["cap_d"] / 2, z1 - pd - 0.5, z1 + vc["cap_h"], cx, cy)
 exterior_v8.py: cb = cyl_z(C.EXH_PRIMARY_D / 2 + C.CLEARANCE, -0.3, r1 + 2.0)
 exterior_v8.py: cover = cover.cut(crush_z(C.MAGNET["d"], z0 - 0.5, z0 + C.MAGNET["h"] + C.MAGNET_DEPTH_CLEAR, xc, C.VC_MAGNET_Y,
+exterior_v8.py: cover = cover.cut(crush_z(vc["cap_spigot_d"], z1 - w - 1.0, z1 + 1.0, cx, cy, "boot_9", entry="hi"))
 exterior_v8.py: cq.Vector(0, 0, -0.3), cq.Vector(0, 0, -1))
 exterior_v8.py: cx, cy = (X1 - 40.0 if vc["cap_x"] < 0 else X0 + 40.0), vc["cap_y"]
 exterior_v8.py: for yb in (y0 - rt / 2 + 0.3, y1 + rt / 2 - 0.3):
@@ -56,6 +54,7 @@ exterior_v8.py: head = head.cut(cq.Solid.makeCylinder(C.EXH_PORT_D / 2, C.EXH_PO
 exterior_v8.py: head = head.cut(cq.Solid.makeCylinder(INS_D / 2, C.INSERT_DEPTH + 1.0, cq.Vector(xs, YO - 1.0, PLATE_SCREW_Z),
 exterior_v8.py: head = head.cut(cyl_z(C.HEAD_VALVE_R, DECK - 1, DECK + 0.4, xc, yv))
 exterior_v8.py: heads += [(x0 - rt / 2 + 0.3, yb), (x1 + rt / 2 - 0.3, yb)]
+exterior_v8.py: hexs = cq.Workplane("XY").workplane(offset=zb - 1.2).center(x, yb).polygon(6, vc["bolt_d"]).extrude(2.0).val()
 exterior_v8.py: n = int((x1 - x0 - 16.0) // vc["bolt_pitch"])
 exterior_v8.py: nose = cq.Solid.makeCone(r0, r0 - 4.0, 5.0, cq.Vector(x_front, yc, zt - r0), cq.Vector(1, 0, 0))
 exterior_v8.py: pe = block.to_bank(cq.Vertex.makeVertex(xl, YV - it["port_depth"] + 0.5, DECK + it["port_z"]), bank)
@@ -75,25 +74,28 @@ exterior_v8.py: tb = tb.cut(cq.Solid.makeCylinder(it["tb_bore"] / 2, 12.0, base 
 exterior_v8.py: vc["y1"] - vc["y0"] + 2 * C.CLEARANCE, vc["r"] + C.CLEARANCE, TOP - 1.0, TOP + 1)
 exterior_v8.py: xb = [x0 + 8.0 + i * (x1 - x0 - 16.0) / n for i in range(n + 1)]
 exterior_v8.py: z0, z1 = TOP - 1.0, TOP - 1.0 + h
+exterior_v8.py: z1 = TOP - 1.0 + vc["h"] - vc["panel_depth"]
 exterior_v8.py: zb = z0 + 1.0 + rh
 front_v8.py: a = math.radians(i * 360.0 / DM["n_holes"] + 30.0)
-front_v8.py: body = body.cut(box(AC["alt_body"]["x0"] - 1, AC["alt_body"]["x0"] + 2.0, -1.2, 1.2, boss_r * 0.45, boss_r * 0.8)
+front_v8.py: body = body.cut(box(AC["alt_body"]["x0"] - 1, AC["alt_body"]["x0"] + 2.0, -1.2, 1.2,
 front_v8.py: cover = cover.cut(crush_x(C.MAGNET["d"], X0 - 0.5, X0 + C.MAGNET["h"] + C.MAGNET_DEPTH_CLEAR, y, z, "magnet_6", entry="lo"))
 front_v8.py: cover = cover.cut(crush_x(C.MAGNET["d"], X1 - C.MAGNET["h"] - C.MAGNET_DEPTH_CLEAR, X1 + 0.5, y, z, "magnet_6", entry="hi"))
+front_v8.py: cover = cover.cut(cyl_x(FC["bolt_r"], X1 - 1.0, X1 + 1, p.y, p.z))
 front_v8.py: d = d.cut(box(x1 - 3.0, x1 + 3, -0.8, 0.8, DM["d"] / 2 - 1.5, DM["d"] / 2 + 1))
 front_v8.py: d = d.cut(cyl_x(DM["hole_r"], x1 - 2.0, x1 + 3, 0.6 * DM["d"] / 2 * math.cos(a), 0.6 * DM["d"] / 2 * math.sin(a)))
+front_v8.py: groove = _outline_solid(4.0, X1 - 1.0, X1 + 1).cut(_outline_solid(5.2, X1 - 2, X1 + 2))
 front_v8.py: groove = cyl_x(r + 1, bx0, bx0 + AC["band_w"], y, z).cut(cyl_x(r - 1.0, bx0 - 1, bx0 + AC["band_w"] + 1, y, z))
-front_v8.py: mod = mod.cut(crush_x(C.MAGNET["d"], px0 - 0.5, px0 + C.MAGNET["h"] + C.MAGNET_DEPTH_CLEAR, y, z, "magnet_6", entry="lo"))
-front_v8.py: mod = mod.fuse(cyl_x(C.COVER_PILLAR_R + 0.5, px0, px1 + 2.0, y, z))
+front_v8.py: mod = mod.cut(crush_x(C.MAGNET["d"], mx0 - 0.5, mx0 + C.MAGNET["h"] + C.MAGNET_DEPTH_CLEAR, y, z, "magnet_6", entry="lo"))
+front_v8.py: mod = mod.cut(cyl_x(DM["d"] / 2 + 3.0, px0 - 1, px1 + 1))
+front_v8.py: mod = mod.fuse(cyl_x(C.COVER_PILLAR_R + 0.5, mx0, px1 + 2.0, y, z))
 front_v8.py: p = wire.positionAt(i / FC["n_bolts"] + 0.03)
-front_v8.py: plate = plate.cut(cyl_x(DM["d"] / 2 + 3.0, px0 - 1, px1 + 1))
 front_v8.py: px0, px1 = X1 + 0.3, X1 + 0.3 + t
 intake_v8.py: L = (SPLIT + 2.0 - pe.z) / up_in.z
 intake_v8.py: base = base.cut(cyl_z(6.0, Z0 - 1, Z0 + W + 1, -40.0, 0.0))
 intake_v8.py: base = base.cut(envelope(Z0 + W, SPLIT + 1.0, W))
 intake_v8.py: blade = box(-1.2, 1.2, -IT["tb_bore"] / 2 + 0.3, IT["tb_bore"] / 2 - 0.3, -IT["tb_bore"] / 2 + 0.3, IT["tb_bore"] / 2 - 0.3)
 intake_v8.py: boss = cq.Solid.makeCylinder(IT["inj_r"], IT["inj_l"], cq.Vector(xc, yr, IT["rail_z"]), cq.Vector(0, -sgn * 0.5, -0.87))
-intake_v8.py: lid = outer.cut(envelope(SPLIT - 1.0, ZTOP - W, W))
+intake_v8.py: lid = lid.cut(envelope(SPLIT - 1.0, ZTOP - W, W))
 intake_v8.py: p = p.cut(crush_z(C.MAGNET["d"], z_to - 0.5, z_to + C.MAGNET["h"] + C.MAGNET_DEPTH_CLEAR, x, y, "magnet_6", entry="lo"))
 intake_v8.py: p = p.cut(crush_z(C.MAGNET["d"], z_to - C.MAGNET["h"] - C.MAGNET_DEPTH_CLEAR, z_to + 0.5, x, y, "magnet_6", entry="hi"))
 intake_v8.py: pe = block.to_bank(cq.Vertex.makeVertex(xl, YV - IT["port_depth"] + 0.5, DECK + IT["port_z"]), bank)
@@ -103,14 +105,16 @@ intake_v8.py: spig = cq.Solid.makeCylinder(IT["tb_spigot_d"] / 2, IT["tb_spigot_
 intake_v8.py: tongue = tongue.cut(envelope(SPLIT - 1.0, SPLIT + IT["tongue_h"] + 1.0, W + C.CLEARANCE + IT["tongue_w"]))
 pan_v8.py: a = math.radians(i * 360.0 / b["n_bolts"] + 22.5)
 pan_v8.py: bell = bell.cut(crush_x(C.MAGNET["d"], x1 - C.MAGNET["h"] - C.MAGNET_DEPTH_CLEAR, x1 + 0.5, y, z, "magnet_6", entry="hi"))
+pan_v8.py: bell = bell.cut(cyl_x(2.2, x0 - 1, x0 + 1.5, y, z))
 pan_v8.py: board = box(cx - b["w"] / 2, cx + b["w"] / 2, cy - b["h"] / 2, cy + b["h"] / 2, z0, z0 + 1.6)
 pan_v8.py: body = body.cut(cyl_z(C.hole(C.M3_CBORE) / 2, ZS - 1, ZT - 2.5, x, y))
 pan_v8.py: body = body.cut(cyl_z(INS / 2, ZB + P["panel_t"] - 0.5, ZF + 8.0 - 2.0, x, y))
-pan_v8.py: body = body.fuse(cyl_z(4.5, ZF - 0.3, ZF + 8.0, x, y).intersect(box(IX0, IX1, IY0, IY1, ZB, ZS)))
 pan_v8.py: for yc in (-20.0, 20.0):
 pan_v8.py: p = p.cut(box(x - 1.2, x + 1.2, yc - 12, yc + 12, ZB - 1, ZB + P["panel_t"] + 1))
 pan_v8.py: parts = box(cx - b["w"] / 2 + 6, cx + b["w"] / 2 - 6, cy - b["h"] / 2 + 4, cy + b["h"] / 2 - 4, z0 + 1.6, z0 + 1.6 + BOARD_STACK)
 pan_v8.py: return (IX0 + P["ledge"] + 8.0 + b["w"] / 2, 0.0)
+pan_v8.py: rib = rib.cut(box(xb - C.STAND["bracket_w"] / 2 - 3.0, xb + C.STAND["bracket_w"] / 2 + 3.0, Y0 - 10, Y1 + 10, ZB - 1, ZT + 1))
+pan_v8.py: ring = cyl_x(b["hub_r"], x0 - 1, x0 + 1.5).cut(cyl_x(b["hub_r"] - 2.5, x0 - 2, x0 + 2))
 pan_v8.py: sump = _rbox(X0, X1, SY0, SY1, ZB, ZSTEP + 6.0, P["r"])
 partnum.py: for u in (-0.5, -0.25, 0.0, 0.25, 0.5):
 partnum.py: for v in (-0.5, 0.0, 0.5):
@@ -133,7 +137,134 @@ rods_pistons.py: lug = lug.cut(cyl_z(ro + 1.0, C.LUG_TOP - 0.6, C.LUG_TOP + 1.0,
 rods_pistons.py: lug = lug.fuse(box(-3.0, 3.0, rp - C.PISTON_WALL_T + 0.5, C.RAIL_OFFSET, C.LUG_BOTTOM, C.LUG_TOP))
 rods_pistons.py: ring = cyl_z(rp + 1, zg - 0.4, zg + 0.4).cut(cyl_z(rp - 0.45, zg - 0.5, zg + 0.5))
 rods_pistons.py: z0, z1 = rb + 2.0, L - rs - 1.5
-stand_v8.py: A, B = (yf - 14.0, ZT + t / 2), (y_wall + t / 2, z_tab - 14.0)
+skin/block.py: U.bevel_edges(lip, 1.0, 2, lambda c, d: abs(d.x) > 0.9 and abs(c.z - (z1 - 4.0)) < 0.3)
+skin/block.py: U.bevel_edges(lip, 1.5, 2, lambda c, d: abs(d.x) > 0.9 and abs(c.z - (z_floor + 5.0)) < 0.3)
+skin/block.py: U.boolean(case, U.box("hall", hx - 2.2, hx - 2.2 + hp["l"], -hp["w"] / 2, hp["w"] / 2, P.CASE_FLOOR_Z - 1, P.CASE_FLOOR_Z + hp["d"]))
+skin/block.py: [(x - 2.2, yw - sgn * 0.3, z_top - 3.0), (x + 2.2, yw - sgn * 0.3, z_top - 3.0), (x + 2.2, yw + sgn * 1.4, z_top - 3.0), (x - 2.2, yw + sgn * 1.4, z_top - 3.0)]])
+skin/block.py: [(x - 2.4, YO + 0.3, z1 - 4.0), (x + 2.4, YO + 0.3, z1 - 4.0), (x + 2.4, YO - 1.2, z1 - 4.0), (x - 2.4, YO - 1.2, z1 - 4.0)]])
+skin/block.py: [(x - 3.0, yw - sgn * 0.3, z_floor + 6.0), (x + 3.0, yw - sgn * 0.3, z_floor + 6.0), (x + 3.0, yw + sgn * 2.2, z_floor + 6.0), (x - 3.0, yw + sgn * 2.2, z_floor + 6.0)],
+skin/block.py: [(x - 3.2, YO + 0.3, z0 + 4.0), (x + 3.2, YO + 0.3, z0 + 4.0), (x + 3.2, YO - 1.8, z0 + 4.0), (x - 3.2, YO - 1.8, z0 + 4.0)],
+skin/block.py: lip = U.box("deck_lip", X0 + 6, X1 - 6, YO - 1.5, YO + 0.3, z1 - 4.0, z1 - 0.05)
+skin/block.py: lip = U.box("rail_lip", -h + 6, h - 6, min(yw - sgn * 0.3, yw + sgn * 2.0), max(yw - sgn * 0.3, yw + sgn * 2.0), z_floor, z_floor + 5.0)
+skin/block.py: rib_x = list(P.bank_between_x) + [P.BANK_A_CYL_X[0] + 22.0, P.BANK_A_CYL_X[-1] - 22.0]
+skin/exhaust.py: F.note(col, "trumpet_14 bore", "bore", bore["bore"] / 2, mouth, d_ax, depth0 - 0.05, -(cone_l + 0.3) + 0.05, e1, sectors)
+skin/exhaust.py: F.note(col, "trumpet_14 rib tip", "tip", bore["rib_centre_r"] - bore["rib_r"], mouth, d_ax, depth0 + 0.2 - 0.05, -(cone_l + 0.3) - 0.2 + 0.05, e1,
+skin/exhaust.py: U.boolean(col, U.cylinder("tail_bore", r1 - P.EXH_TAIL_WALL, x_rear - 1, x_rear + 30.0, yc, zt - r1, "X"))
+skin/exhaust.py: U.boolean(pipe, along("sp_col", g["p3"] - g["t3"] * 0.3, g["t3"], L_sp + cone_l + 0.3, r_sp), "UNION")
+skin/exhaust.py: U.boolean(pipe, along("sp_cone", g["p3"] - g["t3"] * 0.3, g["t3"], cone_l + 0.3, P.EXH_PRIMARY_D / 2 - 0.05, r_sp), "UNION")
+skin/exhaust.py: U.boolean(pipe, along("sp_head", g["p0"] + g["t1"] * 0.3, -g["t1"], L_sp + 0.3, r_sp), "UNION")
+skin/exhaust.py: bead = U.cylinder("weld", P.EXH_PRIMARY_D / 2 + 0.5, -0.8, 0.8, 0, 0, segs=96)
+skin/exhaust.py: beta = math.acos(max(-1.0, min(1.0, t1.dot(t2))))
+skin/exhaust.py: cb = U.cylinder("saddle", P.EXH_PRIMARY_D / 2 + P.CLEARANCE, -0.3, r1 + 2.0, 0, 0, segs=136)
+skin/exhaust.py: depth0, depth1 = -(P.EXH_SPIGOT_L + cone_l + 0.5), -cone_l + 0.5
+skin/exhaust.py: hw = math.degrees(math.asin(bore["rib_r"] / bore["rib_centre_r"])) + 2.0
+skin/exhaust.py: lip = U.cylinder("tail_lip", r1 + 1.2, x_rear, x_rear + 4.0, yc, zt - r1, "X")
+skin/exhaust.py: rib = U.cylinder("sock_rib", bore["rib_r"], depth0 + 0.2, -(cone_l + 0.3) - 0.2, bore["rib_centre_r"] * math.cos(a), bore["rib_centre_r"] * math.sin(a) * ym, segs=24)
+skin/exhaust.py: rings.append([(x, yc + r * math.cos(a), zt - r + r * math.sin(a)) for a in [2 * math.pi * (k + 0.37) / U.SEGS for k in range(U.SEGS)]])
+skin/exhaust.py: seat = U.cylinder("seat", bore["bore"] / 2 + 0.25, -(cone_l + 0.3), -0.29, 0, 0, r2=P.EXH_PRIMARY_D / 2 + P.CLEARANCE, segs=160)
+skin/exhaust.py: t1 = (_bank_pt_A(YO - 10.0, PORT_Z) - p0).normalized()
+skin/exhaust.py: ym = 1.0 if bank == "A" else -1.0
+skin/front.py: F.cut_crush(mod, "boot_9", px0 - 0.5, px0 + ALT_SPIGOT_L + 0.3, y, z, "X", entry="lo")
+skin/front.py: U.boolean(band, U.prism("band_in", _band_polygon(-0.5), bx0 - 1, bx0 + AC["band_w"] + 1))
+skin/front.py: U.boolean(cover, U.cylinder("dimple", FC["bolt_r"], X1 - 1.0, X1 + 1, y, z, "X"))
+skin/front.py: U.boolean(d, U.box("timing_notch", x1 - 3.0, x1 + 3, -0.8, 0.8, DM["d"] / 2 - 1.5, DM["d"] / 2 + 1))
+skin/front.py: U.boolean(d, U.cylinder("drib", c["rib_r"], x0 + lead + 0.05, x1 + DM["hub_h"] - lead - 0.05, ry, rz, "X", segs=24), "UNION")
+skin/front.py: U.boolean(d, U.cylinder("hole", DM["hole_r"], x1 - 2.0, x1 + 3, 0.6 * DM["d"] / 2 * math.cos(a), 0.6 * DM["d"] / 2 * math.sin(a), "X"))
+skin/front.py: U.boolean(groove, U.cylinder("pgroove_in", r - 1.0, bx0 - 1, bx0 + AC["band_w"] + 1, y, z, "X"))
+skin/front.py: U.boolean(mod, U.cylinder("damper_gap", DM["d"] / 2 + 3.0, px0 - 1, px1 + 1, 0, 0, "X"))
+skin/front.py: U.boolean(mod, U.cylinder("mag_boss", P.COVER_PILLAR_R + 0.5, px0, px1 + 2.0, y, z, "X"), "UNION")
+skin/front.py: a = math.radians(i * 360.0 / DM["n_holes"] + 30.0)
+skin/front.py: flat = P.SHAFT_D / 2 - P.SHAFT_FLAT_DEPTH + 0.05 + P.HOLE_COMP / 2
+skin/front.py: flat_hw = math.degrees(math.acos(flat / (c["bore"] / 2))) + 1.0
+skin/front.py: for a in (180.0 - 55.0, 180.0 + 55.0):
+skin/front.py: groove = _outline_solid("groove", 4.0, X1 - 1.0, X1 + 1)
+skin/front.py: hw = math.degrees(math.asin(c["rib_r"] / c["rib_centre_r"])) + 2.0
+skin/front.py: px0 = X1 + 0.3
+skin/front.py: px0, px1 = X1 + 0.3, X1 + 0.3 + t
+skin/front.py: sl = U.box("alt_slot", ab["x0"] - 1, ab["x0"] + 2.0, -1.2, 1.2, ab["r"] * 0.45, ab["r"] * 0.8)
+skin/heads.py: F.cut_crush(cover, "boot_9", z1 - w - 1.0, z1 + 1.0, cx, cy, entry="hi")
+skin/heads.py: F.cut_magnet(head, TOP - 1.0, -1, xc, P.VC_MAGNET_Y)
+skin/heads.py: U.bevel_edges(rib, 0.6, 2, lambda c, dd: abs(dd.x) > 0.9 and c.z > z1 - 0.5)
+skin/heads.py: U.bevel_edges(rim, 0.8, 2, lambda c, dd: abs(c.z - (z0 + 1.0 + rh)) < 0.3)
+skin/heads.py: U.boolean(cover, U.cylinder("vc_hex", vc["bolt_d"] / 2, zb - 1.2, zb + 1, x, yb, segs=6))
+skin/heads.py: U.boolean(head, U.cylinder("end_boss_hex", 2.4, min(xe - sgn * 1.0, xe + sgn * 1.8), max(xe - sgn * 1.0, xe + sgn * 1.8), yb, DECK + 14.0, "X", segs=6))
+skin/heads.py: U.boolean(head, U.cylinder("plate_ins", P.insert_hole / 2, YO - 1.0, YO + P.INSERT_DEPTH, xs, zs, "Y"))
+skin/heads.py: U.boolean(head, U.cylinder("port_cbore", P.EXH_PORT_D / 2 + P.CLEARANCE, YO - 2.0, YO + P.EXH_PORT_DEPTH, xc, d["PORT_Z"], "Y"))
+skin/heads.py: U.boolean(head, U.cylinder("valve", P.HEAD_VALVE_R, DECK - 1, DECK + 0.4, xc, yv))
+skin/heads.py: U.boolean(plate, U.cylinder("fp_cbore", P.hole["M3_CBORE"] / 2, YO - fp["t"] - 1, YO - fp["t"] + (fp["t"] - P.SCREW_FLOOR + 2.0), xs, zs, "Y"))
+skin/heads.py: U.move(pan, xe, 3.0, DECK + 14.0)
+skin/heads.py: boss = U.cylinder("end_boss", 6.0, min(xe - sgn * 0.3, xe + sgn * 1.6), max(xe - sgn * 0.3, xe + sgn * 1.6), yb, DECK + 14.0, "X")
+skin/heads.py: cx, cy = (X1 - 40.0 if vc["cap_x"] < 0 else X0 + 40.0), vc["cap_y"]
+skin/heads.py: for yb in (-18.0, 24.0):
+skin/heads.py: for yr in (ym - 9.0, ym + 9.0):
+skin/heads.py: g = U.box("knurl", -0.6, 0.6, vc["cap_d"] / 2 - 0.7, vc["cap_d"] / 2 + 1, z1 + 1.0, z1 + vc["cap_h"] - 1.6)
+skin/heads.py: heads += [(xe, yb) for yb in (ym - 10.0, ym + 10.0) for xe in (x0 - rt / 2 + 0.3, x1 + rt / 2 - 0.3)]
+skin/heads.py: heads = [(x, yb) for x in xb for yb in (y0 - rt / 2 + 0.3, y1 + rt / 2 - 0.3)]
+skin/heads.py: n = int((x1 - x0 - 16.0) // vc["bolt_pitch"])
+skin/heads.py: pan = U.rrect_prism("end_panel", 0, 0, 58.0, 22.0, 5.0, -1.0, 1.2)
+skin/heads.py: return [(x, d["DECK"] + fp["z1"] - 5.0) for x in xs]
+skin/heads.py: rim = U.rrect_prism("vc_rim", xm, ym, x1 - x0 + 2 * rt, y1 - y0 + 2 * rt, vc["r"] + rt, z0 + 1.0, z0 + 1.0 + rh)
+skin/heads.py: vc["y1"] - vc["y0"] + 2 * P.CLEARANCE, vc["r"] + P.CLEARANCE, TOP - 1.0, TOP + 1)
+skin/heads.py: xb = [x0 + 8.0 + i * (x1 - x0 - 16.0) / n for i in range(n + 1)]
+skin/heads.py: z0, z1 = TOP - 1.0, TOP - 1.0 + h
+skin/heads.py: z1 = TOP - 1.0 + vc["h"] - vc["panel_depth"]
+skin/heads.py: zb = z0 + 1.0 + rh
+skin/intake.py: L = (SPLIT + 2.0 - pe[1]) / up[1]
+skin/intake.py: U.bevel_edges(crown, 2.5, 3, lambda c, d: abs(c.z - (ZTOP + 7.0)) < 0.3)
+skin/intake.py: U.boolean(base, U.cylinder("harness", 6.0, Z0 - 1, Z0 + W + 1, -40.0, 0.0))
+skin/intake.py: U.boolean(base, envelope("base_inner", Z0 + W, SPLIT + 1.0, W))
+skin/intake.py: U.boolean(blade, U.cylinder("blade_clip", it["tb_bore"] / 2 + 0.5, it["tb_l"] - it["tb_bore_depth"] - 0.5, it["tb_l"] + 1, 0, 0), "INTERSECT")
+skin/intake.py: U.boolean(lid, envelope("lid_inner", SPLIT - 1.0, ZTOP - W, W))
+skin/intake.py: U.boolean(ridge, U.box("ridge_clip", -300, 300, -300, 300, SPLIT + 0.05, ZTOP + 50), "INTERSECT")
+skin/intake.py: U.boolean(tb, U.cylinder("tb_ring", it["tb_d"] / 2 + 1.5, it["tb_l"] - 9.0, it["tb_l"] - 6.0, 0, 0), "UNION")
+skin/intake.py: U.boolean(tb, U.cylinder("tb_shaft", 1.6, -it["tb_d"] / 2 - 1, it["tb_d"] / 2 + 3.0, 0, zs, "X"), "UNION")
+skin/intake.py: U.boolean(tb, U.cylinder("tb_shaft_boss", 4.0, it["tb_d"] / 2 - 2.0, it["tb_d"] / 2 + 2.5, 0, zs, "X"), "UNION")
+skin/intake.py: U.boolean(tongue, envelope("tongue_in", SPLIT - 1.0, SPLIT + it["tongue_h"] + 1.0, W + P.CLEARANCE + it["tongue_w"]))
+skin/intake.py: blade = U.box("blade", -it["tb_bore"] / 2 + 0.3, it["tb_bore"] / 2 - 0.3, -1.2, 1.2, -it["tb_bore"] / 2 + 0.3, it["tb_bore"] / 2 - 0.3)
+skin/intake.py: cl = _dim(ZTOP)[1] - 24.0
+skin/intake.py: crown = U.loft("crown", [U.rrect_ring(xc_mid, 0, cl, cw, 10.0, ZTOP - 0.5), U.rrect_ring(xc_mid, 0, cl - 6.0, cw - 5.0, 8.0, ZTOP + 7.0)])
+skin/intake.py: cw = _dim(ZTOP)[0] - 2 * (it["ridge"][-1][0] + it["runner_h"] / 2 + 2.0)
+skin/intake.py: f = 0.5 - 0.5 * math.cos(math.pi * f)
+skin/intake.py: fl = U.rrect_prism("tb_flange", 0, 0, it["tb_d"] + 10.0, it["tb_d"] + 10.0, 5.0, 0.5, 4.0)
+skin/intake.py: hp = (it["tb_d"] + 10.0) / 2 - 4.5
+skin/intake.py: lever = U.box("tb_lever", it["tb_d"] / 2 + 2.5, it["tb_d"] / 2 + 4.0, -2.0, 2.0, zs - 12.0, zs + 2.0)
+skin/intake.py: pts = [(xc, sgn * (it["ridge"][0][0] - 6.0), it["ridge"][0][1] - 4.0)] + pts
+skin/intake.py: rail = U.cylinder("rail", it["rail_r"], min(xs) - 12.0, max(xs) + 12.0, yr, it["rail_z"], "X")
+skin/intake.py: ridge = U.loft_along("ridge", path, lambda f: (it["runner_w"] * (0.8 + 0.3 * f), it["runner_h"] * (0.9 + 0.7 * f), it["runner_r"]), up=(1, 0, 0))
+skin/intake.py: sock_len = it["tb_spigot_l"] + 0.5
+skin/intake.py: tb = U.cylinder("36C_throttle_body", it["tb_d"] / 2, -2.0, it["tb_l"], 0, 0)
+skin/intake.py: yl, zl = P.BLOCK_Y_VALLEY - it["port_depth"] + 0.5, P.DECK_DIST + it["port_z"]
+skin/pan.py: U.boolean(bell, U.cylinder("bell_bolt", 2.2, x0 - 1, x0 + 1.5, y, z, "X"))
+skin/pan.py: U.boolean(bell, U.cylinder("bell_boss_hex", 2.2, x0 - 1, x0 + 2.0, y, z, "X", segs=6))
+skin/pan.py: U.boolean(env, U.box("elec_parts", cx - b["w"] / 2 + 6, cx + b["w"] / 2 - 6, cy - b["h"] / 2 + 4, cy + b["h"] / 2 - 4, z0 + 1.6, z0 + 1.6 + P.board_stack), "UNION")
+skin/pan.py: U.boolean(p, U.box("vent", x - 1.2, x + 1.2, yc - 12, yc + 12, ZB - 1, ZB + PAN["panel_t"] + 1))
+skin/pan.py: U.boolean(pan, U.cylinder("pan_cbore", P.hole["M3_CBORE"] / 2, ZS - 1, ZT - 2.5, x, y))
+skin/pan.py: U.boolean(pan, U.cylinder("pillar_ins", P.insert_hole / 2, ZB + PAN["panel_t"] - 0.5, ZF + 8.0 - 2.0, x, y))
+skin/pan.py: U.boolean(rib, U.box("rib_gap", xb - P.STAND["bracket_w"] / 2 - 3.0, xb + P.STAND["bracket_w"] / 2 + 3.0, Y0 - 10, Y1 + 10, ZB - 1, ZT + 1))
+skin/pan.py: U.boolean(ring, U.cylinder("hub_ring_in", b["hub_r"] - 2.5, x0 - 2, x0 + 2, 0, 0, "X"))
+skin/pan.py: a = math.radians(30.0 + 24.0 * i)
+skin/pan.py: a = math.radians(i * 360.0 / b["n_bolts"] + 22.5)
+skin/pan.py: band = _bell_outline("bell_band", -1.5, x0 + 9.0, x0 + 12.5)
+skin/pan.py: boss = U.cylinder("bell_boss", 4.0, x0 + 0.5, x1 - 3.0, y, z, "X")
+skin/pan.py: env = U.box("elec_board", cx - b["w"] / 2, cx + b["w"] / 2, cy - b["h"] / 2, cy + b["h"] / 2, z0, z0 + 1.6)
+skin/pan.py: for dx in (-8.0, 8.0):
+skin/pan.py: for yc in (-20.0, 20.0):
+skin/pan.py: ring = U.cylinder("hub_ring", b["hub_r"], x0 - 1, x0 + 1.5, 0, 0, "X")
+skin/pan.py: sump = _rbox("sump", X0, X1, SY0, SY1, ZB, ZSTEP + 6.0, PAN["r"])
+skin/pan.py: y, z = (b["r_top"] - 1.0) * math.cos(a), (b["r_top"] - 1.0) * math.sin(a)
+skin/pan.py: ya, yb = sorted((yw + sgn * 1, yw - sgn * (P.INSERT_DEPTH + 0.5)))
+skin/stand.py: A, B = (yf - 14.0, ZT + t / 2), (y_wall + t / 2, z_tab - hh + 2.0)
+skin/stand.py: U.boolean(pl, U.box("tie_slot", dx - 1.5, dx + 1.5, ya, yb, ZB - 1, ZB + ch_d + 2))
+skin/stand.py: U.boolean(ring, U.cylinder("foot_ring_in", ST["feet_d"] / 2 - 0.3, ZB - 2, ZB + 1, x, y))
+skin/stand.py: U.move(tm, face - 0.12 + 0.5, P.edition_y, zc + dz)
+skin/stand.py: U.move(tm, x1 - 0.5 + 0.8, y, zc - 13.0)
+skin/stand.py: for dx in (-30.0, 30.0):
+skin/stand.py: for dx in (-8.0, 8.0):
+skin/stand.py: ring = U.cylinder("foot_ring", ST["feet_d"] / 2 + 0.5, ZB - 1, ZB + 0.4, x, y)
+skin/stand.py: x_floor, x_out = X1 - e["depth"], X1 + 0.5
+skin/stand.py: ya, yb = sorted((yw + sgn * (t - P.SCREW_FLOOR + 1.5), yw + sgn * (t + 6)))
+skin/stand.py: yf, y_wall, z_tab = ST["foot_y"], d["SY1"] + 0.2, ST["bracket_tab_z"]
+stand_v8.py: A, B = (yf - 14.0, ZT + t / 2), (y_wall + t / 2, z_tab - hh + 2.0)
 stand_v8.py: for dx in (-30.0, 30.0):
 stand_v8.py: for dx in (-8.0, 8.0):
 stand_v8.py: for text, size, dz in (("358 ci  V8  -  90 DEG  CROSS-PLANE", 5.0, 5.5), (f"{order}      No. {number:02d} / 50", 3.6, -6.0)):

@@ -1,6 +1,6 @@
 # Hardware needed to run the coupons (and nothing else)
 
-This is the minimum shopping list to print and test coupons T1-T10
+This is the minimum shopping list to print and test coupons T1-T11
 (`docs/COUPON_PRINT_GUIDE.md`). It deliberately contains **nothing for the
 engine itself** - no motor, electronics, pulleys, belts, steel parts or ASA.
 Quantities include spares: pressing bearings and magnets in and out of
@@ -27,7 +27,7 @@ wasted**: the survivors go straight into engine #1.
 
 ## New for the V8 coupons T9 (lit plug boot) and T10 (header flex test)
 
-Nothing below is assumed bought. T10 needs nothing but PLA.
+Nothing below is assumed bought. T10 and T11 need nothing but PLA.
 
 | Item | Exact size / spec | Used by | Needed | Buy | Notes |
 |---|---|---|---|---|---|

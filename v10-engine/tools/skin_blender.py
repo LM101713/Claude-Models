@@ -27,9 +27,9 @@ sys.path.insert(0, HERE)
 import bpy  # noqa: E402
 from mathutils import Matrix, Vector  # noqa: E402
 
-from skin import bpyutil as U, fitcut as F, materials as M, measure as MS, studio as S  # noqa: E402
+from skin import bpyutil as U, engrave as EN, fitcut as F, materials as M, measure as MS, studio as S  # noqa: E402
 from skin.params import P  # noqa: E402
-from skin.parts import block, exhaust, front, heads, intake, pan, stand  # noqa: E402
+from skin.parts import block, coupons, exhaust, front, heads, intake, pan, stand  # noqa: E402
 
 SKIN_DIR = os.path.join(ROOT, "skin")
 ASM_DIR = os.path.join(SKIN_DIR, "assembly")
@@ -99,10 +99,15 @@ PARTS = [
     ("47B_bracket_mirror", "bracket_m", 2, "slot2", False, lambda: ry(90), "lying on its side"),
     ("48_controls_plinth", "plinth", 1, "slot2", False, lambda: rx(180), "top face down, open bottom up"),
     ("49_edition_plate", "edition_plate", 1, "purchased", False, lambda: ry(90), "reference model of the engraved plate (bought, not printed)"),
+    # fit coupons (plate C1, PLA) - not engine parts
+    ("T11_tongue_lid", "t11_lid", 1, "coupon", False, lambda: Matrix.Identity(4), "wall edge down, lip up"),
+    ("T11b_tongue_base", "t11b_base", 1, "coupon", False, lambda: Matrix.Identity(4), "foot down, tongue up"),
+    ("T11c_tb_socket", "t11c_socket", 1, "coupon", False, lambda: Matrix.Identity(4), "socket opening up"),
+    ("T11d_tb_pin", "t11d_pin", 1, "coupon", False, lambda: Matrix.Identity(4), "handle disc down, spigot up"),
 ]
 
 SLOT_MATERIAL = {"slot1": M.satin_alu, "slot2": M.matte_black, "slot3": M.painted_header, "slot4": M.amber_boot,
-                 "purchased": M.brushed_plate, "core": M.dark_steel}
+                 "purchased": M.brushed_plate, "core": M.dark_steel, "coupon": M.matte_black}
 
 LIB = {}
 PLACED = []
@@ -118,7 +123,7 @@ def build_library():
         t0 = time.time()
         LIB[k] = fn()
         TIMES[k] = time.time() - t0
-    for mod in (heads, intake, exhaust, pan, front, stand):
+    for mod in (heads, intake, exhaust, pan, front, stand, coupons):
         t0 = time.time()
         LIB.update(mod.build_all())
         TIMES[mod.__name__.split(".")[-1]] = time.time() - t0
@@ -216,14 +221,27 @@ def export_parts():
         U.transform(obj, Mp)
         T = settle(obj)
         Mtot = T @ Mp @ Mm
+        # part number on a hidden face (print frame), probed on the mesh as it is now
+        U.finalize(obj)
+        label_note = EN.label_part(obj, file, _trimesh_of(obj))
         path = os.path.join(SKIN_DIR, file + ".stl")
         U.export_stl(obj, path, do_finalize=True)          # re-merge after the rotation (float32 rounding moved)
-        rows.append(dict(file=file, key=key, qty=qty, slot=slot, note=note, lib_name=src.name, M=[list(r) for r in Mtot], path=path))
+        rows.append(dict(file=file, key=key, qty=qty, slot=slot, note=note, lib_name=src.name, M=[list(r) for r in Mtot], path=path,
+                         label=label_note))
         U.delete(obj)
     with open(os.path.join(SKIN_DIR, "parts.json"), "w") as f:
         json.dump(dict(parts=rows, fits=F.FITS, finalize={k: v[1] for k, v in FINALIZE.items()}), f, indent=1)
     print(f"exported {len(rows)} STLs -> skin/", flush=True)
     return rows
+
+
+def _trimesh_of(obj):
+    import numpy as np
+    import trimesh
+    me = obj.data
+    v = np.array([vv.co[:] for vv in me.vertices])
+    f = [list(p.vertices) for p in me.polygons]
+    return trimesh.Trimesh(v, f, process=True)
 
 
 def export_assembly(phi=0.0):
@@ -272,7 +290,7 @@ def check_parts(rows):
             th = trimesh.proximity.thickness(m, pts, exterior=False, normals=m.face_normals[fid], method='ray')
             th = th[np.isfinite(th) & (th > 1e-6)]
             min_wall = float(np.percentile(th, 1)) if len(th) else float("nan")      # 1st percentile: single grazing rays ignored
-            thin = int((th < MIN_WALL).sum()) if r["slot"] != "purchased" else 0
+            thin = int((th < MIN_WALL).sum()) if r["slot"] not in ("purchased", "coupon") else 0
         except Exception as e:                                    # noqa: BLE001
             min_wall, thin = float("nan"), -1
         fits = MS.measure(m, F.FITS.get(r["lib_name"], []), r["M"])
@@ -314,15 +332,15 @@ def write_report(results):
       f"(45 deg chamfers and wedges pass); bottom bevel = the same kind of face within {NEAR_BED:.0f} mm of the bed (edge chamfers that print fine). "
       f"Sliver faces = triangles under {SLIVER:g} mm2 left by the mesh merge; harmless while the mesh is watertight.")
     L("")
-    L("| file | qty | slot | print orientation | size (mm) | H2S | H2C single | H2C dual | watertight | faces | volume (cm3) | sliver faces | min wall (mm) | thin samples | overhang (mm2) | bottom bevel (mm2) |")
-    L("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
+    L("| file | qty | slot | print orientation | size (mm) | H2S | H2C single | H2C dual | watertight | faces | volume (cm3) | sliver faces | min wall (mm) | thin samples | overhang (mm2) | bottom bevel (mm2) | part number |")
+    L("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
     for r in results:
         d = r["dims"]
         pl = r["plate"]
         L(f"| {r['file']} | {r['qty']} | {r['slot']} | {r['note']} | {d[0]:.1f} x {d[1]:.1f} x {d[2]:.1f} | "
           f"{'yes' if pl['H2S'] else 'NO'} | {'yes' if pl['H2C single nozzle'] else 'NO'} | {'yes' if pl['H2C dual nozzle (design limit)'] else 'NO'} | "
           f"{'yes' if r['watertight'] else 'NO'} | {r['faces']} | {r['volume']/1000:.1f} | {r['degenerate']} | "
-          f"{r['min_wall']:.2f} | {r['thin_samples']} | {r['overhang_area']:.0f} | {r['near_bed_area']:.0f} |")
+          f"{r['min_wall']:.2f} | {r['thin_samples']} | {r['overhang_area']:.0f} | {r['near_bed_area']:.0f} | {r.get('label', '-')} |")
     L("")
     L("## Fit features measured on the exported STLs")
     L("")
@@ -365,6 +383,8 @@ def write_report(results):
                          f"see renders/skin_print_check/{r['file']}_a.png (red = overhang) and the notes below")
         for f in r["bad_fits"]:
             fails.append(f"- **{r['file']}**: fit `{f['label']}` " + ("not found on the mesh" if f["n"] == 0 else f"deviates {f['dev']:.3f} mm"))
+        if "NO SPOT" in str(r.get("label", "")):
+            fails.append(f"- **{r['file']}**: part number {r['label']} - choose a face by hand in tools/skin/engrave.py")
     for k, (ok, msg) in FINALIZE.items():
         if not ok:
             fails.append(f"- **library part {k}**: {msg}")
@@ -380,6 +400,9 @@ def write_report(results):
     with open(REPORT, "w") as f:
         f.write("\n".join(lines) + "\n")
     print("wrote", REPORT, flush=True)
+    hard = [r for r in results if not r["watertight"] or r["bad_fits"] or not r["plate"]["H2C dual nozzle (design limit)"]
+            or "NO SPOT" in str(r.get("label", ""))]
+    return hard
 
 
 def _view_targets(placed):
@@ -431,6 +454,7 @@ def main(argv):
     ap.add_argument("--size", default="1456x1086")
     ap.add_argument("--phi", type=float, default=0.0, help="crank angle for the damper")
     ap.add_argument("--no-core", action="store_true", help="render without the CAD core meshes from skin/core/")
+    ap.add_argument("--strict", action="store_true", help="exit 1 when a part fails watertight / fit / plate / label checks")
     a = ap.parse_args(argv)
     if a.all:
         a.build = a.export = a.check = a.render = True
@@ -449,7 +473,11 @@ def main(argv):
             rows = d["parts"]
             F.FITS.update(d["fits"])
         results = check_parts(rows)
-        write_report(results)
+        hard = write_report(results)
+        if hard:
+            print(f"CHECK FAILED for {len(hard)} parts: " + ", ".join(r["file"] for r in hard), flush=True)
+            if a.strict:
+                sys.exit(1)
     if a.render:
         w, h = (int(v) for v in a.size.lower().split("x"))
         render_set(a.round, a.views.split(","), a.samples, (w, h), a.phi, with_core=not a.no_core)

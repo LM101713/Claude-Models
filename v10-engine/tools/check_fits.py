@@ -1,6 +1,7 @@
 """Fail if a clearance / tolerance number is written inside a part file.
 
-Every fit must live in fits.py. This scans cad/*.py for fractional offsets
+Every fit must live in fits.py (and reach the Blender skin through skin/params.json).
+This scans cad/*.py and tools/skin/parts/*.py for fractional offsets
 (`+ 0.3`, `- 0.25`, `/ 2 + 0.5` ...) and compares each offending line with
 tools/fit_literals_allow.txt: the reviewed list of lines that are pure
 geometry (chamfer sizes, cosmetic positions, boolean overshoots), not fits.
@@ -22,12 +23,23 @@ PATTERN = re.compile(r"[+-]\s*\d*\.\d+\b")
 IGNORE = re.compile(r"\b0\.0+1\b|\b0\.1\b|chamfer\(|fillet\(|\.text\(|rotate\(|print_|^\s*#|\"\"\"|dpi")
 
 
+SKIN = os.path.join(ROOT, "tools", "skin", "parts")      # the Blender skin builders follow the same rule
+
+
+def _sources():
+    for fn in sorted(os.listdir(CAD)):
+        if fn.endswith(".py") and fn != "coupons.py":          # the coupons ARE the fit ladders
+            yield fn, os.path.join(CAD, fn)
+    if os.path.isdir(SKIN):
+        for fn in sorted(os.listdir(SKIN)):
+            if fn.endswith(".py") and fn != "coupons.py":
+                yield "skin/" + fn, os.path.join(SKIN, fn)
+
+
 def offending():
     out = []
-    for fn in sorted(os.listdir(CAD)):
-        if not fn.endswith(".py") or fn == "coupons.py":      # the coupons ARE the fit ladders
-            continue
-        for i, line in enumerate(open(os.path.join(CAD, fn)), 1):
+    for fn, path in _sources():
+        for i, line in enumerate(open(path), 1):
             code = line.split("#")[0]
             if not PATTERN.search(code) or IGNORE.search(line):
                 continue

@@ -142,6 +142,30 @@ def static_check(skin, cad0):
     return bad, checked
 
 
+def drive_positions_check(skin):
+    """The motor (and belt / pulleys) at the 220 mm belt position and at both slot ends against the pan,
+    floor panel, crankcase skin and the electronics envelope - as cad/pan_v8.drive_check."""
+    import drive
+    nominal = C.MOTOR_Z
+    targets = [p for p in skin if p.name in ("pan", "pan_panel", "crankcase", "front_cover", "bellhousing")]
+    bad, checked = [], 0
+    try:
+        for z, tag in ((C.MOTOR_Z_ALT, f"{C.BELT_ALT_LEN:.0f} mm belt"), (C.MOTOR_SLOT_TOP, "slot top"), (C.MOTOR_SLOT_BOTTOM, "slot bottom")):
+            C.MOTOR_Z = z
+            moved = [Part(n, cad_mesh(s), "cad") for n, s, _ in drive.purchased_parts()]
+            for m in moved:
+                for t in targets:
+                    if not bb_overlap(m, t):
+                        continue
+                    checked += 1
+                    v = overlap_volume(m, t)
+                    if v > EPS:
+                        bad.append((tag, m.name, t.name, round(v, 3)))
+    finally:
+        C.MOTOR_Z = nominal
+    return bad, checked
+
+
 def sweep(skin, step, verbose=True):
     """Moving core (CAD, per angle) against every skin part; CAD vs CAD pairs are the CAD check's job."""
     hits, checked = [], 0
@@ -224,6 +248,10 @@ def main():
     print(f"static: {n_static} pairs, {len(bad)} interferences", flush=True)
     for b in bad:
         print("   ", b)
+    drive_bad, n_drive = drive_positions_check(skin)
+    print(f"drive positions: {n_drive} pairs, {len(drive_bad)} interferences", flush=True)
+    for b in drive_bad:
+        print("   ", b)
     hits, n_sweep = ([], 0) if a.no_sweep else sweep(skin, a.step)
     print(f"sweep: {n_sweep} pair checks, {len(hits)} collisions", flush=True)
     gaps = clearances(skin, cad0)
@@ -233,10 +261,11 @@ def main():
         cad_bad = A.static_check()
         print(f"CAD static check: {len(cad_bad)} interferences ({time.time()-t1:.0f}s)")
     table = compare_parts_table(skin)
-    write_report(skin, cad0, bad, n_static, hits, n_sweep, a.step, gaps, cad_bad, table, time.time() - t)
+    write_report(skin, cad0, bad, n_static, hits, n_sweep, a.step, gaps, cad_bad, table, time.time() - t, drive_bad, n_drive)
+    sys.exit(1 if (bad or hits or drive_bad) else 0)
 
 
-def write_report(skin, cad0, bad, n_static, hits, n_sweep, step, gaps, cad_bad, table, secs):
+def write_report(skin, cad0, bad, n_static, hits, n_sweep, step, gaps, cad_bad, table, secs, drive_bad=(), n_drive=0):
     L = []
     L.append("# Blender skin - mesh interference and rotation check")
     L.append("")
@@ -257,6 +286,19 @@ def write_report(skin, cad0, bad, n_static, hits, n_sweep, step, gaps, cad_bad, 
             L.append(f"| {a} | {b} | {v} | {al if al is not None else EPS} |")
     else:
         L.append("**No interference.**")
+    L.append("")
+    L.append("## Motor tension travel")
+    L.append("")
+    L.append(f"{n_drive} pairs: motor, belt and pulleys at the 220 mm belt position and at both ends of the bulkhead slots "
+             "against the pan, floor panel, crankcase, front cover and bellhousing.")
+    L.append("")
+    if drive_bad:
+        L.append("| position | drive part | skin part | overlap (mm3) |")
+        L.append("|---|---|---|---|")
+        for tag, m, s_, v in drive_bad:
+            L.append(f"| {tag} | {m} | {s_} | {v} |")
+    else:
+        L.append("**Clear at every position.**")
     L.append("")
     L.append(f"## Full rotation sweep ({step:.0f} deg steps)")
     L.append("")

@@ -67,12 +67,13 @@ PLATES = [
 
 if C.VARIANT == "v8":
     PLATES = [
-        ("C1_coupons", "fit coupons T1-T10 - PRINT FIRST (PLA; T9b boots in the translucent filament)", [
+        ("C1_coupons", "fit coupons T1-T11 - PRINT FIRST (PLA; T9b boots in the translucent filament)", [
             ("T1_hole_ladder", 1), ("T1b_test_peg", 2), ("T1c_peg_captive", 1), ("T2_insert_ladder", 1),
             ("T3_608_seats", 1), ("T3b_686_seats", 1), ("T4_piston_guide", 1), ("T4b_test_lug", 1),
             ("T4c_lug_slots", 1), ("T4d_wrist_pins", 1), ("T5_dpin_sockets", 1), ("T5b_magnets", 1),
             ("T6_end_plate_seat", 1), ("T7_crank_vblock", 2), ("T8_belt_feeler", 1), ("T9_boot_glow", 1),
-            ("T9b_boot", 2), ("T10_header_flex", 1)]),
+            ("T9b_boot", 2), ("T10_header_flex", 1),
+            ("T11_tongue_lid", 1), ("T11b_tongue_base", 1), ("T11c_tb_socket", 1), ("T11d_tb_pin", 1)]),
         ("M1_crank", "motion test: crank webs + 3 segments, printed shafts", [
             ("05_crank_end_web", 2), ("06_crank_segment_90", 1), ("07_crank_segment_180", 1), ("08_crank_segment_270", 1),
             ("P2_proto_main_shaft", 1), ("P2F_proto_main_shaft_front", 1)]),
@@ -91,14 +92,18 @@ if C.VARIANT == "v8":
         ("F6_intake_base", "intake base", [("36B_intake_base", 1)]),
         ("F7_pan", "oil pan", [("40_oil_pan", 1)]),
         ("F8_panel_bell_damper", "pan floor panel, bellhousing, damper", [("41_pan_floor_panel", 1), ("42_bellhousing", 1), ("44_damper", 1)]),
-        ("F9_front", "front cover + accessory module", [("43_front_cover", 1), ("45_accessory_module", 1)]),
+        ("F9_front", "front cover + accessory module + alternator body", [("43_front_cover", 1), ("45_accessory_module", 1), ("45B_alternator_body", 1)]),
         ("F10_stand_plate", "stand plate (single-nozzle mode)", [("46_stand_plate", 1)]),
         ("F11_brackets_plinth", "4 brackets + controls plinth", [("47_bracket", 2), ("47B_bracket_mirror", 2), ("48_controls_plinth", 1)]),
     ]
 
 
 def load(name):
-    m = trimesh.load(os.path.join(STL_DIR, name + ".stl"), force="mesh")
+    import part_sources
+    path = part_sources.resolve(name)
+    if path is None:
+        raise SystemExit(f"plates: no STL for {name} in skin/ or stl/ - run tools/skin_blender.py --export / build_all.py")
+    m = trimesh.load(path, force="mesh")
     m.apply_translation(-m.bounds[0])          # min corner at the origin, sitting on z = 0
     return m
 

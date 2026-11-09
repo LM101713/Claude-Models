@@ -39,8 +39,7 @@ def cylinder_head():
     U.bevel_edges(head, 1.2, 2, lambda c, dd: abs(dd.x) > 0.9 and abs(c.z - DECK) < 0.3)  # parting line at the deck
     # end-face cast bosses (2 per end) standing in a shallow recessed panel - the ends are what you see of the head
     for xe, sgn in ((X0, 1), (X1, -1)):
-        U.boolean(head, U.rrect_prism("end_panel", 0, 0, 56.0, 24.0, 4.0, 0.0, 1.2 + 1.0)
-                  if False else _end_panel(xe, sgn, DECK))
+        U.boolean(head, _end_panel(xe, sgn, DECK))
         for yb in (-18.0, 24.0):
             boss = U.cylinder("end_boss", 6.0, min(xe - sgn * 0.3, xe + sgn * 1.6), max(xe - sgn * 0.3, xe + sgn * 1.6), yb, DECK + 14.0, "X")
             U.boolean(head, boss, "UNION")

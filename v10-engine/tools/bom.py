@@ -110,8 +110,12 @@ def hardware_counts():
 
 
 def printed_parts():
-    import build_all
-    names = [(n, q) for n, _, q, _ in build_all.parts() if not n.startswith(("M0", "P1", "P2", "00_"))]
+    if C.VARIANT == "v8":
+        import part_sources
+        names = [(n, q) for n, q, _ in part_sources.kit_parts()]
+    else:
+        import build_all
+        names = [(n, q) for n, _, q, _ in build_all.parts() if not n.startswith(("M0", "P1", "P2", "00_"))]
     res = {}
     path = os.path.join(ROOT, "docs", "print_results.json")
     if os.path.exists(path):

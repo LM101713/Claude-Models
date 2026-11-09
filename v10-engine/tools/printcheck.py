@@ -109,6 +109,7 @@ if C.VARIANT == "v8":
         ("43_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),  # front cover
         ("44_", "ASA", L["cosmetic"], 4, 25, 5, 4, 0),  # damper (turns on the shaft)
         ("45_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),  # accessory module
+        ("45B", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),  # alternator rear body
         ("46_", "ASA", L["base"], 4, 15, 5, 4, 0),      # stand plate
         ("47", "ASA", L["base"], 4, 40, 5, 4, 0),       # brackets: carry the engine
         ("48_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),  # plinth
@@ -304,17 +305,29 @@ def heatmap(m, over, bridge, out_png, title):
     w.Finalize()
 
 
+def part_files():
+    """{name: path} for every printed part: the Blender skin where it owns the part, the CAD STLs otherwise."""
+    import part_sources
+    names = set(f[:-4] for f in os.listdir(STL) if f.endswith(".stl") and not f.startswith("M0"))
+    if os.path.isdir(part_sources.SKIN_DIR):
+        names |= set(f[:-4] for f in os.listdir(part_sources.SKIN_DIR) if f.endswith(".stl"))
+    out = {}
+    for n in sorted(names):
+        p = part_sources.resolve(n)
+        if p:
+            out[n] = p
+    return out
+
+
 def check(names=None, qty=None, write_report=True):
-    files = sorted(f for f in os.listdir(STL) if f.endswith(".stl") and not f.startswith("M0"))
+    files = part_files()
     if names:
-        files = [f for f in files if any(f.startswith(n) for n in names)]
+        files = {n: p for n, p in files.items() if any(n.startswith(x) for x in names)}
     rows = []
-    for f in files:
-        name = f[:-4]
+    for name, path in files.items():
         if not any(name.startswith(pfx) for pfx, *_ in SETTINGS):
             print(f"  skip {name}: no print settings for this engine variant", flush=True)
             continue
-        path = os.path.join(STL, f)
         s = slice_part(path, name)
         mres, m, over, bridge = mesh_check(path)
         long_bridges = [b for b in mres["bridge_regions"] if b["span"] > MAX_BRIDGE]

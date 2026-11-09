@@ -48,9 +48,9 @@ FILAMENT_PETG_KG = 1.0     # printed pins, shafts (and rods if you prefer) for t
 
 def filament_by_slot(engines):
     res = json.load(open(os.path.join(ROOT, "docs", "print_results.json")))
-    import build_all
+    import part_sources
     grams = {}
-    for n, _, q, _ in build_all.parts():
+    for n, q, _ in part_sources.kit_parts():
         if n[:2].isdigit() and n in res:
             slot = next((k for k, v in C.PALETTE.items() if n.startswith(v["parts"])), "hidden")
             grams[slot] = grams.get(slot, 0.0) + res[n]["grams"] * q
