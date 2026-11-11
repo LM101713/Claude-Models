@@ -1,5 +1,7 @@
 # V10 Display Engine: original, motorized, 90 deg V10
 
+> **Start here: [`PRINT_THIS_FIRST/`](PRINT_THIS_FIRST/README.md)**: the fit-test plate, its Bambu Studio settings and the tests. Print it before any engine part.
+
 An original F1-style naturally aspirated V10 display model, about 340 mm long
 on a 400 x 280 mm display base. Working split-pin crankshaft, 10 con-rods on
 ball bearings, 10 floating pistons on stainless guide rails (they never touch
