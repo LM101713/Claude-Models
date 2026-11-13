@@ -126,5 +126,5 @@ E17. Cable ties - 100 mm, small
     https://www.amazon.com/s?k=100+mm
 
 MACHINED PARTS: send drawings/machined_parts.pdf (M01-M06) + stl/M0x_*.step to a CNC service (Xometry, PCBWay,
-JLCCNC, a local shop). Quantities for 50 engines: M01 x250, M02 x100, M03 x400, M04 x50, M06 x400 (+5 % spares).
+JLCCNC, a local shop). Quantities for 50 engines: M01 x200, M02 x100, M03 x400, M04 x50, M06 x400 (+5 % spares).
 Optional: M05 machined aluminium trumpets x500.

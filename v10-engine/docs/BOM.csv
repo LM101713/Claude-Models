@@ -34,8 +34,8 @@ printed,07_crank_segment_180,ASA print,"0.16 mm, 5 walls, 40%",1,0.70,0.70,50
 printed,08_crank_segment_270,ASA print,"0.16 mm, 5 walls, 40%",1,0.70,0.70,50
 printed,09_conrod,ASA print,"0.12 mm, 4 walls, 40%",8,0.07,0.07,400
 printed,10_piston,ASA print,"0.16 mm, 4 walls, 25%",8,0.29,0.29,400
-machined,M01,M01 split crankpin (drawing M01),"416 / 303 stainless, turned + offset journal, ground journals, tapped M3",5,45.0,9.0,250
-machined,M02,M02 main shaft (drawing M02),"303 stainless, turned, 3-hole flange, flat",2,35.0,8.0,100
+machined,M01,M01 split crankpin (drawing M01),"416 / 303 stainless, turned + offset journal, ground journals, tapped M3",4,45.0,9.0,200
+machined,M02,M02 main shaft (drawing M02) - rear M02R + longer front M02F,"303 stainless, turned, 3-hole flange, flat",2,35.0,8.0,100
 machined,M03,M03 guide rail 3 x 57 mm (drawing M03),"cut from 3 mm h6 ground stainless rod, ends chamfered",8,0.8,0.5,400
 machined,M04,M04 pulley spacer (drawing M04),"303 stainless, parted off",1,8.0,1.5,50
 machined,M06,M06 bearing spacer ring 6 x 7.5 x 0.75 (drawing M06),"303 stainless, parted off, deburred",8,3.0,0.4,400

@@ -49,12 +49,12 @@ Filament: 3.01 kg ASA = $75 per engine at $25/kg (151 kg for 50 engines; buy 163
 
 | Part | Qty | Material / process | Each x1 | Each x50 | Per engine x1 | Per engine x50 |
 |---|---|---|---|---|---|---|
-| M01 split crankpin (drawing M01) | 5 | 416 / 303 stainless, turned + offset journal, ground journals, tapped M3 | $45.00 | $9.00 | $225.00 | $45.00 |
-| M02 main shaft (drawing M02) | 2 | 303 stainless, turned, 3-hole flange, flat | $35.00 | $8.00 | $70.00 | $16.00 |
+| M01 split crankpin (drawing M01) | 4 | 416 / 303 stainless, turned + offset journal, ground journals, tapped M3 | $45.00 | $9.00 | $180.00 | $36.00 |
+| M02 main shaft (drawing M02) - rear M02R + longer front M02F | 2 | 303 stainless, turned, 3-hole flange, flat | $35.00 | $8.00 | $70.00 | $16.00 |
 | M03 guide rail 3 x 57 mm (drawing M03) | 8 | cut from 3 mm h6 ground stainless rod, ends chamfered | $0.80 | $0.50 | $6.40 | $4.00 |
 | M04 pulley spacer (drawing M04) | 1 | 303 stainless, parted off | $8.00 | $1.50 | $8.00 | $1.50 |
 | M06 bearing spacer ring 6 x 7.5 x 0.75 (drawing M06) | 8 | 303 stainless, parted off, deburred | $3.00 | $0.40 | $24.00 | $3.20 |
-| **Total** | | | | | **$333.40** | **$69.70** |
+| **Total** | | | | | **$288.40** | **$60.70** |
 
 ## 3. Purchased parts
 
@@ -138,10 +138,10 @@ Filament: 3.01 kg ASA = $75 per engine at $25/kg (151 kg for 50 engines; buy 163
 | | x1 (prototype) | x50 (per engine) |
 |---|---|---|
 | Printed parts (filament $75 + printer time $38) | $113 | $113 |
-| Machined parts | $333 | $70 |
+| Machined parts | $288 | $61 |
 | Purchased parts | $136 | $89 |
-| **Materials total** | **$582** | **$272** |
+| **Materials total** | **$537** | **$263** |
 | Optional machined aluminium trumpets | +$0 | +$0 |
 
-Materials for the whole order: about **$13,594** (+$0 with machined trumpets). Not included: labour (see PRODUCTION_PLAN.md), packaging, shipping, the printers themselves.
+Materials for the whole order: about **$13,144** (+$0 with machined trumpets). Not included: labour (see PRODUCTION_PLAN.md), packaging, shipping, the printers themselves.
 

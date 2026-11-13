@@ -130,9 +130,9 @@ def printed_parts():
 
 # Machined parts: (part, qty per engine, material / process, each x1, each in a 50-unit batch)
 MACHINED = [
-    ("M01 split crankpin (drawing M01)", 5, "416 / 303 stainless, turned + offset journal, ground journals, tapped M3",
+    ("M01 split crankpin (drawing M01)", C.N_THROWS, "416 / 303 stainless, turned + offset journal, ground journals, tapped M3",
      45.0, 9.0),
-    ("M02 main shaft (drawing M02)", 2, "303 stainless, turned, 3-hole flange, flat", 35.0, 8.0),
+    ("M02 main shaft (drawing M02)" + (" - rear M02R + longer front M02F" if C.VARIANT == "v8" else ""), 2, "303 stainless, turned, 3-hole flange, flat", 35.0, 8.0),
     ("M03 guide rail 3 x 57 mm (drawing M03)", C.N_CYL, "cut from 3 mm h6 ground stainless rod, ends chamfered", 0.8, 0.5),
     ("M04 pulley spacer (drawing M04)", 1, "303 stainless, parted off", 8.0, 1.5),
     ("M06 bearing spacer ring 6 x 7.5 x 0.75 (drawing M06)", 2 * C.N_THROWS, "303 stainless, parted off, deburred", 3.0, 0.4),
