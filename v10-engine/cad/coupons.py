@@ -216,7 +216,8 @@ def t4c_lug_slots():
     """Lug-slot clearance ladder (per-side clearance LUG_POCKET_CLEAR +/-0.2)."""
     t, px = 6.0, 17.0
     lug_r = C.LUG_OD / 2
-    rows = [("LUG", 19.0)]
+    web = 10.0                      # T4b's web reaches 10 mm from the lug centre (as the piston's web)
+    rows = [("LUG", 26.0)]
     plate, ys, x0, w, h = _plate(rows, px, t, "T4c", 5)
     yc = ys[0]
     plate = _engrave(plate, "LUG", LABEL_X, yc, t, 2.8)
@@ -224,9 +225,12 @@ def t4c_lug_slots():
         x = x0 + i * px
         clear = C.LUG_POCKET_CLEAR + 2 * off
         r = lug_r + clear
-        slot = cyl_z(r, -1, t + 1, x, yc - 2.0).fuse(box(x - r, x + r, yc - 2.0, yc + 4.0, -1, t + 1))
+        cy = yc - 4.0
+        # round pocket + a straight slot long enough for the web (the first version stopped 6 mm out and
+        # the 10 mm web of T4b could not enter in any orientation)
+        slot = cyl_z(r, -1, t + 1, x, cy).fuse(box(x - r, x + r, cy, cy + web + clear + 1.0, -1, t + 1))
         plate = plate.cut(slot)
-        plate = _engrave(plate, _val(clear), x, yc + 7.4, t, 1.9)
+        plate = _engrave(plate, _val(clear), x, cy - r - 2.6, t, 1.9)
     return safe_clean(plate)
 
 
