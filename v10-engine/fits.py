@@ -56,7 +56,7 @@ CRUSH = {
     "bearing_686": (6, 0.30),   # 686 big-end bearing into con-rod
     "bushing_5":   (4, 0.25),   # 3x5x4 bronze bushing into rod / piston lug
     "pin_3":       (3, 0.20),   # 3 mm wrist pin into piston bosses
-    "dpin_6":      (2, 0.30),   # D-flat crankpin end: 2 ribs push the flat home
+    "dpin_6":      (2, 0.40),   # D-flat crankpin end: 2 ribs push the flat home (T5, 2026-11-14: 0.30 wobbled, 0.40 firm)
     "magnet_6":    (4, 0.25),   # 6x3 magnet pockets
     "trumpet_14":  (6, 0.25),   # intake trumpet spigot into the head port
     "coil_10":     (4, 0.25),   # coil-pack shaft into its socket in the head top
