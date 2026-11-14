@@ -10,6 +10,7 @@
 | 2026-11-13 | T11 on T11b | lid piece sits on the base piece | pass |
 | 2026-11-13 | T11d in T11c | spigot presses in and holds | pass, `CRUSH["trumpet_14"]` confirmed (also the header sockets) |
 | 2026-11-13 | T10 by hand | PLA pipe does not bend by hand, no crack | pass for now (PLA is stiff); vice flex + drop test when there is a vice |
+| 2026-11-14 | T4b in reprinted T4c | slides in every slot, no catching even in the tightest (0.6 mm per side) | pass. `LUG_POCKET_CLEAR` stays 0.8 (middle slot): the lug must never touch the bank in running, and the extra 0.2 covers ASA shrink and a bank that prints slightly warped |
 
 Still to do: T2 inserts (soldering iron), T1 R3 / S8 rows (rods), T1b/T1c PEG, T3b (686), T4 (bushings),
-T4c reprint, T4d (pins), T5 (P1 crankpin), T5b (magnets), T10, T11. ASA re-run of T3/T3b/T4/T4d/T5/T5b/T6 before production.
+T4d (pins), T5 (P1 crankpin), T5b (magnets), T10, T11. ASA re-run of T3/T3b/T4/T4d/T5/T5b/T6 before production.
