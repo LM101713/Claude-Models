@@ -6544,12 +6544,12 @@
     ],
     "sectors": [
      [
-      -35.00000077774913,
-      9.748874192365065
+      -34.9999988857593,
+      9.83747976308429
      ],
      [
-      -144.9999992222509,
-      9.748874192365065
+      -145.00000111424072,
+      9.83747976308429
      ],
      [
       90.0,
@@ -6560,7 +6560,7 @@
    {
     "label": "dpin_shaft rib tip",
     "kind": "tip",
-    "r": 3.85,
+    "r": 3.7999999999999994,
     "p": [
      0.0,
      0.0,
@@ -6580,11 +6580,11 @@
     ],
     "sectors": [
      [
-      -35.00000077774913,
+      -34.9999988857593,
       1.0
      ],
      [
-      -144.9999992222509,
+      -145.00000111424072,
       1.0
      ]
     ]
@@ -7637,7 +7637,7 @@
   "panel": "41_pan_floor_panel: genus 20 tris 10828 vol 71627",
   "bellhousing": "42_bellhousing: genus 0 tris 15904 vol 69941",
   "front_cover": "43_front_cover: genus 1 tris 16300 vol 72616",
-  "damper": "44_damper: genus 1 tris 8506 vol 51932",
+  "damper": "44_damper: genus 1 tris 8522 vol 51933",
   "accessory": "45_accessory_module: genus 9 tris 17784 vol 55396",
   "alt_body": "45B_alternator_body: genus 0 tris 1980 vol 62751",
   "stand_plate": "46_stand_plate: genus 10 tris 13058 vol 634699",

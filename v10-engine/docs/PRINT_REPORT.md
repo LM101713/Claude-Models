@@ -10,7 +10,7 @@ Times and grams are PrusaSlicer estimates with an H2S-like motion profile (`tool
 | 03_cylinder_bank | ASA | 0.2 | 4 | 25% | - | 7.79 | 184 | 4.60 | - | - | 5 | - |
 | 04_end_plate | ASA | 0.28 | 4 | 25% | - | 1.23 | 35 | 0.89 | - | - | - | - |
 | 05_crank_end_web | ASA | 0.16 | 5 | 40% | - | 0.69 | 11 | 0.28 | - | - | - | - |
-| 06_crank_segment_90 | ASA | 0.16 | 5 | 40% | - | 1.75 | 28 | 0.69 | - | - | - | - |
+| 06_crank_segment_90 | ASA | 0.16 | 5 | 40% | - | 1.75 | 28 | 0.70 | - | - | - | - |
 | 07_crank_segment_180 | ASA | 0.16 | 5 | 40% | - | 1.75 | 28 | 0.69 | - | - | - | - |
 | 08_crank_segment_270 | ASA | 0.16 | 5 | 40% | - | 1.75 | 28 | 0.70 | - | - | - | - |
 | 09_conrod | ASA | 0.12 | 4 | 40% | - | 0.17 | 3 | 0.07 | - | - | - | - |
@@ -56,7 +56,7 @@ Times and grams are PrusaSlicer estimates with an H2S-like motion profile (`tool
 | T3b_686_seats | PLA | 0.2 | 3 | 10% | - | 0.34 | 9 | 0.17 | - | - | - | - |
 | T4_piston_guide | PLA | 0.2 | 3 | 10% | - | 0.22 | 5 | 0.10 | - | - | - | - |
 | T4b_test_lug | PLA | 0.2 | 3 | 10% | - | 0.10 | 2 | 0.03 | - | - | - | - |
-| T4c_lug_slots | PLA | 0.2 | 3 | 10% | - | 0.32 | 9 | 0.17 | - | - | - | - |
+| T4c_lug_slots | PLA | 0.2 | 3 | 10% | - | 0.36 | 10 | 0.20 | - | - | - | - |
 | T4d_wrist_pins | PLA | 0.2 | 3 | 10% | 3 | 0.23 | 6 | 0.12 | - | - | - | - |
 | T5_dpin_sockets | PLA | 0.2 | 3 | 10% | - | 0.23 | 6 | 0.12 | - | - | - | - |
 | T5b_magnets | PLA | 0.2 | 3 | 10% | - | 0.39 | 9 | 0.19 | - | - | - | - |
