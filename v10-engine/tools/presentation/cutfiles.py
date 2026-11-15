@@ -19,9 +19,11 @@ OUT = os.path.join(ROOT, "cutfiles", "display_case")
 
 # ---- assumed stock (mm); 1/4" acrylic, 3/4" wood, 1/2" steel, 1.5 mm brass ----
 T_ACR = 6.35
-T_WOOD = 19.05
+T_WOOD = 19.05           # optional cover frame only
+T_SLAB = 50.8            # 2" solid hardwood base
 T_STEEL = 12.7
 T_BRASS = 1.5
+POCKET_DEPTH = T_STEEL + 0.5
 KERF_CLEAR = 0.4          # per side, slip fits between cut parts
 
 # ---- engine envelope (concept.py ENG + GAP) ----
@@ -58,7 +60,7 @@ def note(msp, x, y, text, h=6):
 def new_doc():
     doc = ezdxf.new("R2010", setup=True)
     doc.units = ezdxf.units.MM
-    for n, c in (("CUT", 1), ("ENGRAVE", 5), ("NOTE", 8)):
+    for n, c in (("CUT", 1), ("ENGRAVE", 5), ("NOTE", 8), ("POCKET_UNDERSIDE", 3)):
         doc.layers.add(n, color=c)
     return doc
 
@@ -67,30 +69,14 @@ CORNER_HOLES = [(sx * (B_W / 2 - RIM / 2), sy * (B_D / 2 - RIM / 2)) for sx in (
 STEEL_W, STEEL_D = B_W - 2 * 60, B_D - 2 * 60
 
 
-def base_bottom(msp):
+def base_slab(msp):
     rrect(msp, 0, 0, B_W, B_D, R_CORNER)
-    for x, y in CORNER_HOLES:
-        hole(msp, x, y, 4.5)                     # #8 wood screws up into the layers
-        hole(msp, x, y, 15.0, "ENGRAVE")         # felt foot mark
-    note(msp, -B_W / 2, -B_D / 2 - 14, "BASE 1 bottom - wood %.2f" % T_WOOD)
-
-
-def base_pocket(msp):
-    rrect(msp, 0, 0, B_W, B_D, R_CORNER)
-    rrect(msp, 0, 0, STEEL_W + 2 * KERF_CLEAR, STEEL_D + 2 * KERF_CLEAR, 4.0)   # pocket for the steel weight
-    for x, y in CORNER_HOLES:
-        hole(msp, x, y, 4.5)
-    note(msp, -B_W / 2, -B_D / 2 - 14, "BASE 2 pocket - wood %.2f (steel weight drops in)" % T_WOOD)
-
-
-def base_deck(msp):
-    rrect(msp, 0, 0, B_W, B_D, R_CORNER)
-    # cover groove is made by the frame layer above; engine stand bolts: positions TBD
     for x, y in [(sx * 120, sy * 90) for sx in (-1, 1) for sy in (-1, 1)]:
-        hole(msp, x, y, 5.5, "ENGRAVE")          # mark only until the stand bolt pattern is fixed
-    for x, y in CORNER_HOLES:
-        hole(msp, x, y, 4.5)
-    note(msp, -B_W / 2, -B_D / 2 - 14, "BASE 3 deck - wood %.2f (engine bolt marks = TBD)" % T_WOOD)
+        hole(msp, x, y, 5.5, "ENGRAVE")          # engine bolt marks, pattern TBD
+    # blind pocket on the UNDERSIDE for the steel weight (router, or deep raster)
+    rrect(msp, 0, 0, STEEL_W + 2 * KERF_CLEAR, STEEL_D + 2 * KERF_CLEAR, 4.0, "POCKET_UNDERSIDE")
+    note(msp, -B_W / 2, -B_D / 2 - 14,
+         "BASE - one solid hardwood block %.1f thick. Pocket (green) on underside, %.1f deep. Sand edges, chamfer top edge." % (T_SLAB, POCKET_DEPTH))
 
 
 def base_frame(msp):
@@ -142,9 +128,7 @@ def name_plate(msp, num=None):
 
 
 PARTS = [
-    ("01_base_bottom.dxf", "wood %.2f" % T_WOOD, 1, "CO2", base_bottom, (B_W, B_D)),
-    ("02_base_pocket.dxf", "wood %.2f" % T_WOOD, 1, "CO2", base_pocket, (B_W, B_D)),
-    ("03_base_deck.dxf", "wood %.2f" % T_WOOD, 1, "CO2", base_deck, (B_W, B_D)),
+    ("01_base_slab.dxf", "hardwood %.1f" % T_SLAB, 1, "CO2", base_slab, (B_W, B_D)),
     ("OPTIONAL_04_base_cover_frame.dxf", "wood %.2f" % T_WOOD, 1, "CO2", base_frame, (B_W, B_D)),
     ("05_steel_weight.dxf", "steel %.1f" % T_STEEL, 1, "plasma", steel_weight, (STEEL_W, STEEL_D)),
     ("OPTIONAL_06_cover_top.dxf", "clear acrylic %.2f" % T_ACR, 1, "CO2", cover_top, (CV_W, CV_D)),
@@ -155,11 +139,11 @@ PARTS = [
 
 
 def preview(paths):
-    fig, axes = plt.subplots(3, 3, figsize=(15, 13))
+    fig, axes = plt.subplots(2, 3, figsize=(15, 9))
     for ax, (fn, mat, q, mach, _, _) in zip(axes.flat, PARTS):
         doc = ezdxf.readfile(os.path.join(OUT, fn))
         for e in doc.modelspace():
-            col = {"CUT": "#c00", "ENGRAVE": "#06c"}.get(e.dxf.layer)
+            col = {"CUT": "#c00", "ENGRAVE": "#06c", "POCKET_UNDERSIDE": "#090"}.get(e.dxf.layer)
             if col is None:
                 continue
             if e.dxftype() == "CIRCLE":
@@ -175,7 +159,7 @@ def preview(paths):
         ax.margins(0.08)
         ax.set_title("%s\n%s, qty %d, %s" % (fn, mat, q, mach), fontsize=10)
         ax.tick_params(labelsize=7)
-    fig.suptitle("Display case test cuts (mm)   red = cut   blue = engrave/mark", fontsize=14)
+    fig.suptitle("Display case test cuts (mm)   red = cut   blue = engrave/mark   green = underside pocket", fontsize=14)
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "preview.png"), dpi=110)
 
@@ -200,14 +184,15 @@ def readme():
         "(OPTIONAL_ files) is NOT being made unless Scott asks for it.**",
         "",
         "## How it goes together",
-        "- Wood layers 1-4 stack and screw together through the 4 corner holes (glue too).",
-        "  Layer 2's pocket holds the steel weight; layer 4's opening is where the cover sits.",
+        "- Base is ONE solid 2 in hardwood block (walnut suggested). Green outline = pocket cut",
+        "  into the underside for the steel weight (epoxy it in). Felt pads on the bottom.",
+        "- Thick laser cuts char the edge: sand the sides, then chamfer/round the top edge.",
         "- Cover: front/back are full width, sides fit between them, top sits on all four.",
         "  Acrylic cement (Weld-On 4/16). Leave protective film on until glued.",
         "- Engine bolt marks on layer 3 are placeholders: the stand bolt pattern is set later.",
         "",
-        "Envelope: inside cover %.0f x %.0f x %.0f, base %.0f x %.0f x %.0f." % (
-            IN_W, IN_D, IN_H, B_W, B_D, 4 * T_WOOD),
+        "Base %.0f x %.0f x %.1f mm. Optional cover inside %.0f x %.0f x %.0f." % (
+            B_W, B_D, T_SLAB, IN_W, IN_D, IN_H),
         "",
         "Cheap first test: cut 06 + one 08 + 09 only, check acrylic edge quality and the engrave.",
     ]
