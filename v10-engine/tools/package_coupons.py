@@ -24,7 +24,7 @@ DOCS = ["TEST_CHECKLIST.md", "COUPON_HARDWARE_ORDER.md", "COUPON_PRINT_GUIDE.md"
 def main():
     if os.path.isdir(OUT):
         for f in os.listdir(OUT):
-            if f != "README.md" and not f.startswith("REPRINT_NOW_"):
+            if f not in ("README.md", "WHICH_COUPON_IS_WHICH.png") and not f.startswith("REPRINT_NOW_"):
                 p = os.path.join(OUT, f)
                 shutil.rmtree(p) if os.path.isdir(p) else os.remove(p)
     os.makedirs(os.path.join(OUT, "single_coupon_stls"), exist_ok=True)
