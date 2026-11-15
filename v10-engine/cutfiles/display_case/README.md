@@ -10,12 +10,16 @@ Units mm. DXF layers: **CUT** (through), **ENGRAVE** (score/mark), **NOTE** (don
 | 01_base_bottom.dxf | wood 19.05 | 1 | CO2 | 423 x 363 |
 | 02_base_pocket.dxf | wood 19.05 | 1 | CO2 | 423 x 363 |
 | 03_base_deck.dxf | wood 19.05 | 1 | CO2 | 423 x 363 |
-| 04_base_cover_frame.dxf | wood 19.05 | 1 | CO2 | 423 x 363 |
+| OPTIONAL_04_base_cover_frame.dxf | wood 19.05 | 1 | CO2 | 423 x 363 |
 | 05_steel_weight.dxf | steel 12.7 | 1 | plasma | 303 x 243 |
-| 06_cover_top.dxf | clear acrylic 6.35 | 1 | CO2 | 373 x 313 |
-| 07_cover_front_back.dxf | clear acrylic 6.35 | 2 | CO2 | 373 x 336 |
-| 08_cover_side.dxf | clear acrylic 6.35 | 2 | CO2 | 300 x 336 |
+| OPTIONAL_06_cover_top.dxf | clear acrylic 6.35 | 1 | CO2 | 373 x 313 |
+| OPTIONAL_07_cover_front_back.dxf | clear acrylic 6.35 | 2 | CO2 | 373 x 336 |
+| OPTIONAL_08_cover_side.dxf | clear acrylic 6.35 | 2 | CO2 | 300 x 336 |
 | 09_name_plate.dxf | brass 1.5 | 1 | fiber | 140 x 40 |
+
+**Plan (D65): engine on a custom wood base with a numbered brass plate. The clear cover
+(OPTIONAL_ files) is NOT being made unless Scott asks for it.** `numbered_plates/` has
+plate_01 ... plate_50 (No. 01 / 50 ...).
 
 ## How it goes together
 - Wood layers 1-4 stack and screw together through the 4 corner holes (glue too).

@@ -129,12 +129,18 @@ def cover_side(msp):
 PL_W, PL_H = 140.0, 40.0
 
 
-def name_plate(msp):
+N_ENGINES = 50
+
+
+def name_plate(msp, num=None):
     rrect(msp, 0, 0, PL_W, PL_H, 3.0)
     hole(msp, -PL_W / 2 + 8, 0, 2.5)
     hole(msp, PL_W / 2 - 8, 0, 2.5)
-    msp.add_text("NAME / LOGO TBD", height=9, dxfattribs={"layer": "ENGRAVE"}).set_placement(
-        (0, 0), align=ezdxf.enums.TextEntityAlignment.MIDDLE_CENTER)
+    msp.add_text("NAME / LOGO TBD", height=8, dxfattribs={"layer": "ENGRAVE"}).set_placement(
+        (0, 6), align=ezdxf.enums.TextEntityAlignment.MIDDLE_CENTER)
+    msp.add_text("No. %s / %d" % ("%02d" % num if num else "XX", N_ENGINES), height=6,
+                 dxfattribs={"layer": "ENGRAVE"}).set_placement(
+        (0, -9), align=ezdxf.enums.TextEntityAlignment.MIDDLE_CENTER)
     note(msp, -PL_W / 2, -PL_H / 2 - 12, "NAME PLATE - brass %.1f (fiber laser)" % T_BRASS)
 
 
@@ -142,11 +148,11 @@ PARTS = [
     ("01_base_bottom.dxf", "wood %.2f" % T_WOOD, 1, "CO2", base_bottom, (B_W, B_D)),
     ("02_base_pocket.dxf", "wood %.2f" % T_WOOD, 1, "CO2", base_pocket, (B_W, B_D)),
     ("03_base_deck.dxf", "wood %.2f" % T_WOOD, 1, "CO2", base_deck, (B_W, B_D)),
-    ("04_base_cover_frame.dxf", "wood %.2f" % T_WOOD, 1, "CO2", base_frame, (B_W, B_D)),
+    ("OPTIONAL_04_base_cover_frame.dxf", "wood %.2f" % T_WOOD, 1, "CO2", base_frame, (B_W, B_D)),
     ("05_steel_weight.dxf", "steel %.1f" % T_STEEL, 1, "plasma", steel_weight, (STEEL_W, STEEL_D)),
-    ("06_cover_top.dxf", "clear acrylic %.2f" % T_ACR, 1, "CO2", cover_top, (CV_W, CV_D)),
-    ("07_cover_front_back.dxf", "clear acrylic %.2f" % T_ACR, 2, "CO2", cover_front, (CV_W, H_WALL)),
-    ("08_cover_side.dxf", "clear acrylic %.2f" % T_ACR, 2, "CO2", cover_side, (IN_D, H_WALL)),
+    ("OPTIONAL_06_cover_top.dxf", "clear acrylic %.2f" % T_ACR, 1, "CO2", cover_top, (CV_W, CV_D)),
+    ("OPTIONAL_07_cover_front_back.dxf", "clear acrylic %.2f" % T_ACR, 2, "CO2", cover_front, (CV_W, H_WALL)),
+    ("OPTIONAL_08_cover_side.dxf", "clear acrylic %.2f" % T_ACR, 2, "CO2", cover_side, (IN_D, H_WALL)),
     ("09_name_plate.dxf", "brass %.1f" % T_BRASS, 1, "fiber", name_plate, (PL_W, PL_H)),
 ]
 
@@ -193,6 +199,10 @@ def readme():
         lines.append("| %s | %s | %d | %s | %.0f x %.0f |" % (fn, mat, q, mach, w, h))
     lines += [
         "",
+        "**Plan (D65): engine on a custom wood base with a numbered brass plate. The clear cover",
+        "(OPTIONAL_ files) is NOT being made unless Scott asks for it.** `numbered_plates/` has",
+        "plate_01 ... plate_50 (No. 01 / 50 ...).",
+        "",
         "## How it goes together",
         "- Wood layers 1-4 stack and screw together through the 4 corner holes (glue too).",
         "  Layer 2's pocket holds the steel weight; layer 4's opening is where the cover sits.",
@@ -214,6 +224,12 @@ def main():
         doc = new_doc()
         fnc(doc.modelspace())
         doc.saveas(os.path.join(OUT, fn))
+    pdir = os.path.join(OUT, "numbered_plates")
+    os.makedirs(pdir, exist_ok=True)
+    for n in range(1, N_ENGINES + 1):
+        doc = new_doc()
+        name_plate(doc.modelspace(), n)
+        doc.saveas(os.path.join(pdir, "plate_%02d.dxf" % n))
     preview(PARTS)
     readme()
     print("wrote", len(PARTS), "DXF to", OUT)
