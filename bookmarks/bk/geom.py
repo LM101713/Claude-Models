@@ -112,7 +112,9 @@ def plan_outline():
     ys = np.arange(P.BOARD + 0.9, yf - P.BOARD - 0.6, P.PAGE_PITCH)
     ys += 0.5 * ((yf - P.BOARD - 0.6) - ys[-1] - (P.BOARD + 0.9 - P.BOARD))  # centre the set
     pages = [Point(xe - P.PAGE_GROOVE_DEPTH + rp, y).buffer(rp, RES) for y in ys]
-    return outline.difference(unary_union(grooves + pages)), len(ys)
+    # page grooves are returned separately: they stop PAGE_GROOVE_Z0 above the bed so the
+    # first layers trace a plain straight fore-edge instead of 29 tiny zig-zags
+    return outline.difference(unary_union(grooves)), unary_union(pages), len(ys)
 
 
 def stepped_prism(outline, z0, z1, foot, top, step):
@@ -178,8 +180,9 @@ def page_zone():
 
 
 def shell():
-    outline, n_pages = plan_outline()
+    outline, page_grooves, n_pages = plan_outline()
     s = stepped_prism(outline, 0.0, P.H, P.FOOT_CHAMFER, P.TOP_CHAMFER, P.CHAMFER_STEP)
+    s = s - prism_z(page_grooves, P.PAGE_GROOVE_Z0, P.H + 1)
     s = s - head_recess()
     s = s - cavity()
     return s, outline, n_pages

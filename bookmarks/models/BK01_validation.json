@@ -52,7 +52,7 @@
     {
      "part": "body",
      "status": "NoError",
-     "triangles": 54986,
+     "triangles": 54984,
      "volume": 55286.24,
      "genus": 0,
      "bodies": 1,
@@ -61,8 +61,8 @@
     {
      "part": "pages",
      "status": "NoError",
-     "triangles": 29712,
-     "volume": 2267.96,
+     "triangles": 10440,
+     "volume": 2274.17,
      "genus": -1,
      "bodies": 2,
      "min_body": 45.65
@@ -106,11 +106,11 @@
     {
      "part": "FULL (single colour)",
      "status": "NoError",
-     "triangles": 351944,
-     "volume": 58521.97,
+     "triangles": 332692,
+     "volume": 58528.18,
      "genus": 0,
      "bodies": 1,
-     "min_body": 58521.97
+     "min_body": 58528.18
     }
    ]
   },
@@ -130,8 +130,8 @@
      0.0002
     ]
    ],
-   "sum_of_regions": 58520.29,
-   "full_volume": 58521.97,
+   "sum_of_regions": 58526.51,
+   "full_volume": 58528.18,
    "mismatch_pct": 0.00286
   },
   {
@@ -305,7 +305,7 @@
    "ok": true,
    "worst_unsupported_mm2": 0.097,
    "at_z": 40.1,
-   "total_unsupported_mm2": 0.491,
+   "total_unsupported_mm2": 0.429,
    "tolerance_mm": 0.26
   },
   {
@@ -396,14 +396,14 @@
   {
    "name": "Stable on the bed and on the desk",
    "ok": true,
-   "footprint_mm2": 3179.4,
+   "footprint_mm2": 3187.8,
    "centre_of_mass": [
-    34.52,
+    34.53,
     22.47,
-    37.51
+    37.5
    ],
    "tipping_angle_deg": 28.4,
-   "solid_volume_cm3": 58.52,
+   "solid_volume_cm3": 58.53,
    "solid_mass_g": 74.3
   },
   {
@@ -503,7 +503,7 @@
    },
    "grams": {
     "body": 70.21,
-    "pages": 2.88,
+    "pages": 2.89,
     "lettering": 0.35,
     "petals": 0.33,
     "centres": 0.06,
@@ -516,10 +516,10 @@
    "rows": [
     {
      "file": "models/stl/BK01_Bookmarks_single_colour.stl",
-     "triangles": 346524,
+     "triangles": 327272,
      "watertight": true,
      "winding": true,
-     "volume": 58521.98,
+     "volume": 58528.2,
      "extents": [
       79.0,
       44.5,
@@ -529,7 +529,7 @@
     },
     {
      "file": "models/stl/BK01_region1_body.stl",
-     "triangles": 54980,
+     "triangles": 54978,
      "watertight": true,
      "winding": true,
      "volume": 55286.25,
@@ -542,10 +542,10 @@
     },
     {
      "file": "models/stl/BK01_region2_pages.stl",
-     "triangles": 29712,
+     "triangles": 10440,
      "watertight": true,
      "winding": true,
-     "volume": 2267.96,
+     "volume": 2274.18,
      "extents": [
       74.004,
       38.2,
@@ -607,10 +607,10 @@
     },
     {
      "file": "models/3mf/BK01_Bookmarks_4colour.3mf",
-     "triangles": 257750,
+     "triangles": 238476,
      "watertight": true,
      "winding": true,
-     "volume": 58520.32,
+     "volume": 58526.54,
      "extents": [
       79.0,
       44.5,
@@ -628,10 +628,10 @@
     },
     {
      "file": "models/3mf/BK01_Bookmarks_3colour.3mf",
-     "triangles": 257750,
+     "triangles": 238476,
      "watertight": true,
      "winding": true,
-     "volume": 58520.32,
+     "volume": 58526.54,
      "extents": [
       79.0,
       44.5,
@@ -649,10 +649,10 @@
     },
     {
      "file": "models/3mf/BK01_Bookmarks_2colour.3mf",
-     "triangles": 257750,
+     "triangles": 238476,
      "watertight": true,
      "winding": true,
-     "volume": 58520.32,
+     "volume": 58526.54,
      "extents": [
       79.0,
       44.5,

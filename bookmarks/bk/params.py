@@ -54,6 +54,7 @@ HINGE_DEPTH = 0.5
 PAGE_PITCH = 1.3      # page-line grooves on the fore-edge
 PAGE_GROOVE_W = 0.5
 PAGE_GROOVE_DEPTH = 0.35
+PAGE_GROOVE_Z0 = 1.2  # grooves start this far above the bed: a clean, straight first layer
 PAGE_SKIN = 0.8       # thickness of the separately-colourable page-edge skin
 PAGE_HEAD_CAP = 0.6   # the head (top) of the page block is also page colour
 
