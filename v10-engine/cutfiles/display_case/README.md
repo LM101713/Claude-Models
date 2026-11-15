@@ -17,9 +17,8 @@ Units mm. DXF layers: **CUT** (through), **ENGRAVE** (score/mark), **NOTE** (don
 | OPTIONAL_08_cover_side.dxf | clear acrylic 6.35 | 2 | CO2 | 300 x 336 |
 | 09_name_plate.dxf | brass 1.5 | 1 | fiber | 140 x 40 |
 
-**Plan (D65): engine on a custom wood base with a numbered brass plate. The clear cover
-(OPTIONAL_ files) is NOT being made unless Scott asks for it.** `numbered_plates/` has
-plate_01 ... plate_50 (No. 01 / 50 ...).
+**Plan (D65/D66): engine on a custom wood base with a brass name plate (not numbered). The clear cover
+(OPTIONAL_ files) is NOT being made unless Scott asks for it.**
 
 ## How it goes together
 - Wood layers 1-4 stack and screw together through the 4 corner holes (glue too).

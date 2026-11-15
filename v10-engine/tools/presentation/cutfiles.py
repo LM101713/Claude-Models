@@ -136,11 +136,8 @@ def name_plate(msp, num=None):
     rrect(msp, 0, 0, PL_W, PL_H, 3.0)
     hole(msp, -PL_W / 2 + 8, 0, 2.5)
     hole(msp, PL_W / 2 - 8, 0, 2.5)
-    msp.add_text("NAME / LOGO TBD", height=8, dxfattribs={"layer": "ENGRAVE"}).set_placement(
-        (0, 6), align=ezdxf.enums.TextEntityAlignment.MIDDLE_CENTER)
-    msp.add_text("No. %s / %d" % ("%02d" % num if num else "XX", N_ENGINES), height=6,
-                 dxfattribs={"layer": "ENGRAVE"}).set_placement(
-        (0, -9), align=ezdxf.enums.TextEntityAlignment.MIDDLE_CENTER)
+    msp.add_text("NAME / LOGO TBD", height=9, dxfattribs={"layer": "ENGRAVE"}).set_placement(
+        (0, 0), align=ezdxf.enums.TextEntityAlignment.MIDDLE_CENTER)
     note(msp, -PL_W / 2, -PL_H / 2 - 12, "NAME PLATE - brass %.1f (fiber laser)" % T_BRASS)
 
 
@@ -199,9 +196,8 @@ def readme():
         lines.append("| %s | %s | %d | %s | %.0f x %.0f |" % (fn, mat, q, mach, w, h))
     lines += [
         "",
-        "**Plan (D65): engine on a custom wood base with a numbered brass plate. The clear cover",
-        "(OPTIONAL_ files) is NOT being made unless Scott asks for it.** `numbered_plates/` has",
-        "plate_01 ... plate_50 (No. 01 / 50 ...).",
+        "**Plan (D65/D66): engine on a custom wood base with a brass name plate (not numbered). The clear cover",
+        "(OPTIONAL_ files) is NOT being made unless Scott asks for it.**",
         "",
         "## How it goes together",
         "- Wood layers 1-4 stack and screw together through the 4 corner holes (glue too).",
@@ -224,12 +220,6 @@ def main():
         doc = new_doc()
         fnc(doc.modelspace())
         doc.saveas(os.path.join(OUT, fn))
-    pdir = os.path.join(OUT, "numbered_plates")
-    os.makedirs(pdir, exist_ok=True)
-    for n in range(1, N_ENGINES + 1):
-        doc = new_doc()
-        name_plate(doc.modelspace(), n)
-        doc.saveas(os.path.join(pdir, "plate_%02d.dxf" % n))
     preview(PARTS)
     readme()
     print("wrote", len(PARTS), "DXF to", OUT)
