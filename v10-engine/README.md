@@ -69,7 +69,8 @@ tested one *before* any engine part is printed:
 1. [`docs/DESIGN_NOTES.md`](docs/DESIGN_NOTES.md) - why it is built this way
 2. [`docs/BOM.md`](docs/BOM.md) - everything to buy, print and machine, costs x1 / x50
 3. [`docs/PRODUCTION_PLAN.md`](docs/PRODUCTION_PLAN.md) - print plan, printer-hours, timeline for 50
-4. [`docs/ASSEMBLY.md`](docs/ASSEMBLY.md) - build order with checklists
+4. [`docs/BUILD_GUIDE.md`](docs/BUILD_GUIDE.md) - **V8 motion test, one picture per step** (build this first);
+   [`docs/ASSEMBLY.md`](docs/ASSEMBLY.md) - full build order with checklists (still the V10 text)
 5. [`docs/ELECTRONICS.md`](docs/ELECTRONICS.md) - wiring, controller board, firmware, bring-up
 6. [`docs/BURN_IN.md`](docs/BURN_IN.md), [`docs/QC_CHECKLIST.md`](docs/QC_CHECKLIST.md), [`docs/MAINTENANCE.md`](docs/MAINTENANCE.md)
 

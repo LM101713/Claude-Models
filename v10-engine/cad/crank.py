@@ -224,6 +224,15 @@ def spacer_ring():
     return cyl_x(C.PIN_SHOULDER_D / 2, 0, C.PIN_SHOULDER_L).cut(cyl_x(C.PIN_DIA / 2 + C.RING_ID_CLEAR, -1, 1 + C.PIN_SHOULDER_L))
 
 
+def print_ring():
+    """Printed stand-in for the M06 ring (motion test only, part P1R): same OD and
+    thickness, bore opened to a printed slip fit over the printed P1 crankpin.
+    Lies flat on the bed as built (axis X -> Z)."""
+    ring = cyl_x(C.PIN_SHOULDER_D / 2, 0, C.PIN_SHOULDER_L).cut(
+        cyl_x(C.hole(C.PIN_DIA, "spigot") / 2, -1, 1 + C.PIN_SHOULDER_L))
+    return ring.rotate((0, 0, 0), (0, 1, 0), -90)
+
+
 def pin_rings():
     """The two spacer rings of one crankpin, in the pin's local frame."""
     sl, bw = C.PIN_SHOULDER_L, C.BEARING_686["w"]

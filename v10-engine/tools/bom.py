@@ -35,7 +35,7 @@ def hardware_counts_v8():
     n_panel = len(pan_v8.panel_screws())
     n_br = len(stand_v8.bracket_positions())
     screws = {
-        "banks -> crankcase / beam (block end screws)": 2 * (2 * len(block.block_end_screws_x())),
+        "banks -> crankcase / valley beam (3 valley + 2 end per bank)": 2 * (nb + len(block.block_end_screws_x())),
         "end plates": 2 * len(block.END_PLATE_SCREWS),
         "heads -> banks (head screws)": 2 * nb * len(C.HEAD_SCREW_Y),
         "header flange plates -> heads": 2 * 2,

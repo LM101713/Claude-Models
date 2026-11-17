@@ -113,6 +113,7 @@ if C.VARIANT == "v8":
         ("46_", "ASA", L["base"], 4, 15, 5, 4, 0),      # stand plate
         ("47", "ASA", L["base"], 4, 40, 5, 4, 0),       # brackets: carry the engine
         ("48_", "ASA", L["cosmetic"], 3, 15, 5, 4, 0),  # plinth
+        ("P1R", "PETG", 0.12, 3, 100, 3, 3, 0),          # printed spacer ring: 0.75 mm thick, no brim (it must stay flat and round)
         ("P1_", "PETG", 0.12, 4, 100, 5, 5, 3), ("P2", "PETG", 0.16, 4, 100, 5, 5, 0),
     ]
 

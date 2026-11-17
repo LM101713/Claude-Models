@@ -74,4 +74,4 @@ per reprint**, so you always know what fixed it.
 Plates `stl/plates/M1_crank.3mf` ... `M6_beam_plates.3mf` (`docs/PLATES.md`),
 PLA or PETG, settings from `docs/PRINT_REPORT.md` (these are real parts: 4-5
 walls, 25-40 % gyroid, their own layer heights). Build and check per the
-"motion test" section of `docs/TEST_CHECKLIST.md`.
+step-by-step picture guide `docs/BUILD_GUIDE.md`.

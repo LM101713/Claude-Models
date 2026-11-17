@@ -92,6 +92,7 @@ def parts_v8():
         *[(n, shp, q, "white") for n, (shp, q) in coupons.build_all().items()],
         # printable stand-ins so the mechanism can be tested before the CNC parts arrive
         ("P1_proto_crankpin", crank.print_pin(cr["pin"]), C.N_THROWS, "orange"),
+        ("P1R_proto_spacer_ring", crank.print_ring(), 2 * C.N_THROWS, "orange"),
         ("P2_proto_main_shaft", crank.print_shaft(cr["shaft"]), 1, "orange"),
         ("P2F_proto_main_shaft_front", crank.print_shaft(cr["shaft_front"]), 1, "orange"),
         # machined / cut steel parts (STEP for the machine shop)

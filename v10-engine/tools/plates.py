@@ -77,7 +77,8 @@ if C.VARIANT == "v8":
         ("M1_crank", "motion test: crank webs + 3 segments, printed shafts", [
             ("05_crank_end_web", 2), ("06_crank_segment_90", 1), ("07_crank_segment_180", 1), ("08_crank_segment_270", 1),
             ("P2_proto_main_shaft", 1), ("P2F_proto_main_shaft_front", 1)]),
-        ("M2_rods_pins", "motion test: 8 con-rods, 4 printed crankpins", [("09_conrod", 8), ("P1_proto_crankpin", 4)]),
+        ("M2_rods_pins", "motion test: 8 con-rods, 4 printed crankpins, 12 printed spacer rings (8 + 4 spare)",
+         [("09_conrod", 8), ("P1_proto_crankpin", 4), ("P1R_proto_spacer_ring", 12)]),
         ("M3_pistons", "motion test: 8 pistons", [("10_piston", 8)]),
         ("M4_bank_head", "motion test: one bank + head A", [("03_cylinder_bank", 1), ("30_cylinder_head_A", 1)]),
         ("M5_crankcase", "motion test: crankcase", [("01_crankcase", 1)]),
