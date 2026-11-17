@@ -14,6 +14,7 @@
 | 2026-11-14 | T5 D-flat sockets with the printed P1 pin | 0.40 step firm and right, 0.30 (nominal) a bit wobbly, 0.20 loose | **changed**: `CRUSH["dpin_6"]` 0.30 -> 0.40. Rebuilds the crank segments, end webs and the damper D-bore. Re-check with the steel M01 pin when it exists (a turned pin is rounder than a printed one) |
 | 2026-11-15 | T5b magnets, T3b 686 seats, T1 R3 3 mm rod | user: good fit on all | pass, current values confirmed |
 | 2026-11-18 | Plate M1 (PLA, fast settings): printed shafts P2 / P2F in a 608 bearing | slides on by hand to the shoulder, spins freely, no wobble | pass: printed shaft vs bearing bore OK. 608 stock: 5 loose (2 for the end plates + 3 spare) |
+| 2026-11-18 | T4 bushing ladder, 5 bronze bushings | hole 1 (0.15, loosest) the best; photo shows plastic shaved or cracked at the rim of holes 3-5 (0.25-0.35) | **changed**: `CRUSH["bushing_5"]` 0.25 -> 0.15. Rebuilds the rods (small end) and pistons (lug). Check: the bushing in hole 1 must not push out with a thumb; if it does, 0.20. ASA re-run before production |
 
-Still to do: T2 inserts (soldering iron), T1 S8 row, T1b/T1c PEG, T4 (bushings),
+Still to do: T2 inserts (soldering iron), T1 S8 row, T1b/T1c PEG, 
 T4d (pins), T10, T11. ASA re-run of T3/T3b/T4/T4d/T5/T5b/T6 before production.
