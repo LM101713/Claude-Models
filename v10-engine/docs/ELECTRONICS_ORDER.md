@@ -17,7 +17,7 @@ Quantities are for one engine plus a spare where a part is cheap or easy to kill
 | DC panel jack | 5.5 x 2.1 mm, panel mount, 11 mm thread, with nut | 1 pack | $6 | [search](https://www.amazon.com/s?k=5.5x2.1mm+DC+panel+mount+jack+female) |
 | Power switch | round 20 mm rocker, KCD1, 3 pin, **12 V** lamp | 1 pack | $7 | [search](https://www.amazon.com/s?k=20mm+round+rocker+switch+12V+illuminated+3+pin) |
 | START button | 16 mm stainless momentary, 1NO, **12 V** ring LED | 1 | $5 | [search](https://www.amazon.com/s?k=16mm+momentary+push+button+12V+ring+LED+stainless) |
-| Speed knob | 10 k linear pot, 16 mm, 6 mm shaft + 20 mm aluminium knob | 1 each | $8 | [search](https://www.amazon.com/s?k=10k+linear+potentiometer+16mm+6mm+shaft) |
+| Speed knob | 10 k **linear** pot (B10K), 16 mm body, **M7 threaded bushing**, 6 mm shaft, with an anti-rotation tab; plus a 20 mm aluminium knob made for the **same shaft type** (D-shaft or knurled) | 1 each | $8 | [search](https://www.amazon.com/s?k=B10K+potentiometer+16mm+M7+6mm+D+shaft) |
 | Prototype board | 70 x 90 mm double-sided | 1 pack | $8 | [search](https://www.amazon.com/s?k=70x90mm+double+sided+prototype+pcb) |
 | JST XH kit | connectors + housings + pre-crimped leads | 1 kit | $12 | [search](https://www.amazon.com/s?k=JST+XH+2.54mm+connector+kit+pre-crimped) |
 | Wire | silicone 22 and 26 AWG | 1 set | $10 | [search](https://www.amazon.com/s?k=silicone+wire+22+26+awg+kit) |
