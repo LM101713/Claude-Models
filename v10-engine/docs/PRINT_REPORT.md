@@ -57,7 +57,7 @@ Times and grams are PrusaSlicer estimates with an H2S-like motion profile (`tool
 | T2_insert_ladder | PLA | 0.2 | 2 | 10% | - | 0.38 | 9 | 0.19 | - | - | - | - |
 | T3_608_seats | PLA | 0.2 | 3 | 10% | - | 0.39 | 11 | 0.22 | - | - | - | - |
 | T3b_686_seats | PLA | 0.2 | 3 | 10% | - | 0.34 | 9 | 0.17 | - | - | - | - |
-| T4_piston_guide | PLA | 0.2 | 3 | 10% | - | 0.21 | 5 | 0.10 | - | - | - | - |
+| T4_piston_guide | PLA | 0.2 | 3 | 10% | - | 0.22 | 5 | 0.10 | - | - | - | [2026-11-17 16:13:32.222227] [0x00007f7921ffa6c0] [error]   Reversing even wall line causes it to be printed CCW instead of CW! |
 | T4b_test_lug | PLA | 0.2 | 3 | 10% | - | 0.10 | 2 | 0.03 | - | - | - | - |
 | T4c_lug_slots | PLA | 0.2 | 3 | 10% | - | 0.36 | 10 | 0.20 | - | - | - | - |
 | T4d_wrist_pins | PLA | 0.2 | 3 | 10% | 3 | 0.23 | 6 | 0.12 | - | - | - | - |
