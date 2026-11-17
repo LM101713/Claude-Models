@@ -52,7 +52,7 @@ before, and the crank cannot be built without them. Plate M2 now has them.
 | 686ZZ bearing (6 x 13 x 5) | 8 | rods, big end |
 | Bronze bushing 3 x 5 x 4 | 16 | 8 rods (small end) + 2 in each of 4 pistons |
 | Wrist pin 3 x 20 mm | 4 | pistons 2, 4, 6, 8 |
-| 3 mm steel rod | 4 pieces, each **57 mm** long | guide rails |
+| 3 mm rod, pre-cut **60 mm** (uxcell HSS 3 x 60) | 4 | guide rails, no cutting |
 | M3 heat-set insert | 35 | see step 2 |
 | M3 x 8 socket head screw | 38 | see each step |
 | Light oil | a few drops | rails |
@@ -345,8 +345,13 @@ Screws used: 5.
 
 ## 10. Guide rails
 
-Cut 4 pieces of 3 mm rod, each **57 mm** long. File both ends smooth and round the
-edges a little. A sharp burr will scratch the bushings.
+The rails are pre-cut 3 x 60 mm rods. No cutting. Wipe each one clean and feel
+the ends: if one has a sharp edge, round it off with a file, or it will scratch the
+bushings.
+
+If your valley beam was printed before 2026-11-18, its rail holes are 3 mm too
+shallow for 60 mm rods. Deepen each of the 8 holes (4 per side) with a 3 mm drill
+bit, by hand or at low speed, to **9 mm** deep. Mark 9 mm on the bit with tape.
 
 ![Dropping in the rails](img/build/15_rails.png)
 

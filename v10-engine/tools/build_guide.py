@@ -800,7 +800,7 @@ def s15_rails():
     lift = AXIS_A * 52.0
     for c in EVEN:
         s.add(f"rail_{c}", None, T(*lift))
-    s.label("4 rails (3 mm rod, 57 mm long):\ndrop each one into the small slot,\nthrough the piston's two bushings,\ndown into the valley beam",
+    s.label("4 rails (3 mm rod, 60 mm long):\ndrop each one into the small slot,\nthrough the piston's two bushings,\ndown into the valley beam",
             bank_pt(cyl_x_pos(2), C.RAIL_OFFSET, C.RAIL_TOP) + lift)
     s.label("Each rail ends up 3 mm\nabove the flat top", bank_pt(cyl_x_pos(8), C.RAIL_OFFSET, C.DECK_DIST))
     s.label("One drop of light oil\non each rail", bank_pt(cyl_x_pos(6), C.RAIL_OFFSET, C.RAIL_TOP - 20.0) + lift)

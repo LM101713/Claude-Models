@@ -41,7 +41,7 @@ hall sensors.
 |---|---|---|---|---|
 | Precision rod | **3 mm linear shaft, h6, ground**, stainless, 300 mm or longer | 2 | $8 | [search](https://www.amazon.com/s?k=3mm+linear+shaft+h6+stainless+300mm) |
 
-One 300 mm rod makes 5 rails of 57 mm. Two rods make all 8 plus spares.
+Superseded (D79): the rails are now **pre-cut 3 x 60 mm rods** (uxcell HSS 3 x 60, 20-pack), no cutting.
 
 ## Still missing from the coupon order
 
