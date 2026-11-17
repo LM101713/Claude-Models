@@ -268,6 +268,28 @@ def main_shaft(journal_l=None):
     return safe_clean(part)
 
 
+def proto_shaft(journal_l=None):
+    """Printed stand-in for a main shaft (P2 / P2F). Same as main_shaft() except the
+    spigot: it becomes a blind socket for the loose plug P2P, so the flange's seating
+    face lies flat on the bed and the part prints with no supports (the integral
+    spigot left the whole flange hanging 2 mm above the bed)."""
+    s = main_shaft(journal_l)
+    s = s.cut(cyl_x(C.SHAFT_FLANGE_D, -C.SHAFT_SPIGOT_L * 2, 0.0))                        # spigot off
+    # snug socket (hole compensation only, no slip allowance): the plug stays with the shaft and
+    # works as its spigot, so the centring still goes through ONE slip fit (plug in the web)
+    s = s.cut(cyl_x(C.hole(C.SHAFT_SPIGOT_D) / 2, -C.SHAFT_SPIGOT_L, C.PROTO_PLUG_IN_SHAFT))
+    return safe_clean(s)
+
+
+def proto_shaft_plug():
+    """Loose locating plug P2P: sits half in the end web's spigot hole and half in the
+    printed shaft's socket, in place of the spigot. Stops short of both floors.
+    Lies flat on the bed as built (axis X -> Z)."""
+    length = C.SHAFT_SPIGOT_L + C.PROTO_PLUG_IN_SHAFT - C.CLEARANCE
+    plug = cq.Workplane().add(cyl_x(C.SHAFT_SPIGOT_D / 2, 0, length)).edges().chamfer(0.3).val()
+    return plug.rotate((0, 0, 0), (0, 1, 0), -90)
+
+
 # ---------------------------------------------------------------------------
 # Placement in the engine (crank angle phi, degrees)
 # ---------------------------------------------------------------------------

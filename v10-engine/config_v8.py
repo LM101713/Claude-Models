@@ -129,6 +129,7 @@ HALL_SENSOR_END = "rear"       # ... under the REAR end web: its leads drop next
 # Main shaft (machined, identical front and rear). Built from the web outwards.
 SHAFT_SPIGOT_D = 10.0
 SHAFT_SPIGOT_L = 2.0
+PROTO_PLUG_IN_SHAFT = 1.6      # printed stand-in shafts (P2/P2F): depth of the socket for the loose plug P2P
 SHAFT_FLANGE_D = 28.0
 SHAFT_FLANGE_T = 4.0
 SHAFT_FLANGE_PCD = 20.0        # 3 x M3 bolt circle

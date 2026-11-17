@@ -1,3 +1,21 @@
+# What to print next (updated 2026-11-17)
+
+The coupons are printed. These are the motion-test plates, in the order to print them.
+How to build them: [`docs/BUILD_GUIDE.md`](../docs/BUILD_GUIDE.md), one picture per step.
+
+| File | What | Layer | Notes |
+|---|---|---|---|
+| `NEXT_M1_crank.3mf` | crank parts, 2 shafts, 3 shaft plugs, hand knob | 0.16 | Safe to print now. Shafts and plugs 100 % infill. No supports |
+| `NEXT_M2_rods_pins_rings.3mf` | 8 rods, 4 crankpins, 12 spacer rings | 0.12 | Wait for the T4 result (bushings). Pins and rings 100 % infill, no brim |
+| `NEXT_M3_pistons.3mf` | 8 pistons | 0.16 | Wait for the T4 and T4d results (bushings, wrist pins). No brim |
+
+Plates M4-M7 (bank, head, crankcase, valley beam, end plates, second bank) are in
+`stl/plates/`. They have heat inserts, so wait for the T2 result first.
+
+PLA, any plain colour. X-Y hole compensation 0.
+
+---
+
 # Print this first: the fit coupons (plate C1)
 
 Small test pieces that check every press fit, hole and pin before any engine

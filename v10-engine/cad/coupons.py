@@ -304,6 +304,22 @@ def t7_crank_vblock():
     return safe_clean(blk.cut(lab.val()))
 
 
+def t12_crank_knob():
+    """Hand knob for the motion test (a tool, not a test): slips on a main shaft
+    (8 mm, with the pulley flat). An M3 x 8 screw through a heat-set insert in the
+    hub bears on the flat. Prints disc down, no supports."""
+    disc_d, disc_t, hub_d, hub_l, floor = 46.0, 6.0, 20.0, 12.0, 1.6
+    knob = cyl_z(disc_d / 2, 0, disc_t).fuse(cyl_z(hub_d / 2, 0, disc_t + hub_l))
+    for i in range(10):                                   # finger scallops round the rim
+        a = math.radians(36.0 * i + 18.0)
+        knob = knob.cut(cyl_z(5.0, -1, disc_t + 1, (disc_d / 2 + 2.0) * math.cos(a), (disc_d / 2 + 2.0) * math.sin(a)))
+    knob = cq.Workplane().add(knob).faces("<Z").edges().chamfer(0.6).val()
+    knob = knob.cut(cyl_z(C.hole(C.SHAFT_D, "shaft_8") / 2, floor, disc_t + hub_l + 1))
+    zc = disc_t + hub_l / 2
+    knob = knob.cut(cyl_x(C.hole(C.INSERT_HOLE_DIA - C.HOLE_COMP, "insert_m3") / 2, 0, hub_d / 2 + 1, 0, zc))
+    return _engrave(safe_clean(knob), "T12", 0.0, -16.5, disc_t, 3.0)
+
+
 def t8_belt_feeler():
     bar = box(0, 40.0, 0, 15.0, 0, 3.0)
     bar = cq.Workplane().add(bar).edges("|Z").chamfer(1.5).val()
@@ -365,4 +381,5 @@ def build_all():
         "T6_end_plate_seat": (t6_end_plate_seat(), 1),
         "T7_crank_vblock": (t7_crank_vblock(), 2),
         "T8_belt_feeler": (t8_belt_feeler(), 1),
+        "T12_crank_knob": (t12_crank_knob(), 1),
     }

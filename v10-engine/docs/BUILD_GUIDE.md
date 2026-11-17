@@ -31,12 +31,13 @@ Words used here:
 
 | Plate | Parts | Notes for printing |
 |---|---|---|
-| M1 | 2 end webs (05), segments 06-90, 07-180, 08-270, shafts P2 and P2F | The two shafts need **supports on** and 100 % infill |
+| M1 | 2 end webs (05), segments 06-90, 07-180, 08-270, shafts P2 and P2F, **3 shaft plugs (P2P)**, **hand knob (T12)** | Shafts and plugs 100 % infill. **No supports needed** (the shafts were redesigned on 2026-11-17). You need 2 plugs; 1 is a spare |
 | M2 | 8 rods (09), 4 crankpins (P1), **12 spacer rings (P1R)** | Print this plate at **0.12 mm layers**. Pins and rings 100 % infill. No brim on the rings. You need 8 rings; 4 are spares |
 | M3 | 8 pistons (10) | No brim |
 | M4 | 1 cylinder bank (03), head A (30) | |
 | M5 | crankcase (01) | |
 | M6 | valley beam (02), 2 end plates (04) | |
+| M7 (later) | second cylinder bank (03), head B (30B) | Only for the all-8-cylinder test in step 13 |
 
 The plate files are in `stl/plates/`. PLA is fine for this test.
 
@@ -52,8 +53,8 @@ before, and the crank cannot be built without them. Plate M2 now has them.
 | Bronze bushing 3 x 5 x 4 | 16 | 8 rods (small end) + 2 in each of 4 pistons |
 | Wrist pin 3 x 20 mm | 4 | pistons 2, 4, 6, 8 |
 | 3 mm steel rod | 4 pieces, each **57 mm** long | guide rails |
-| M3 heat-set insert | 34 | see step 2 |
-| M3 x 8 socket head screw | 37 | see each step |
+| M3 heat-set insert | 35 | see step 2 |
+| M3 x 8 socket head screw | 38 | see each step |
 | Light oil | a few drops | rails |
 
 When bank B is built later you need 8 more bushings, 4 more wrist pins and 4 more rails.
@@ -81,7 +82,7 @@ done, you may have to print them again.
 
 ---
 
-## 2. Heat-set inserts (34)
+## 2. Heat-set inserts (35)
 
 Iron at 220 C. Put the insert on the tip, hold it straight over the hole, and push
 gently. Let the heat do the work. Stop when the insert is level with the surface.
@@ -116,8 +117,10 @@ the floor is at the rear.
 
 ![Inserts in an end web](img/build/03_inserts_end_web.png)
 
+**Hand knob (T12): 1 insert** in the hole in the side of its hub.
+
 Check:
-- [ ] 34 inserts in, all level with the surface or just below
+- [ ] 35 inserts in, all level with the surface or just below
 - [ ] None are crooked. A screw goes into each one by hand
 
 ---
@@ -255,9 +258,14 @@ The three segments are different. Each has its number engraved on its **rear** f
 8. **Rear end web.** Press the last end web onto the rear end of pin 4. Screw from
    its insert face.
 9. **Shafts.** The long shaft (P2F) goes on the front end web, the short one (P2)
-   on the rear. The small peg on the shaft goes into the centre hole of the web.
-   Turn the shaft until all 3 holes line up. They only line up one way. 3 screws
-   each. The head of the pin screw sits in the notch in the shaft's flange.
+   on the rear. First push a P2P plug into the hole in the flat end of each shaft.
+   It is a snug fit: press it in until it stops. If it will not go, sand the plug
+   lightly. Half of the plug now sticks out. That half goes into the centre hole of
+   the end web and keeps the shaft centred. Turn the shaft until all 3 holes line up. They only line up
+   one way. 3 screws each. The head of the pin screw sits in the notch in the
+   shaft's flange.
+
+![Shaft, plug and end web](img/build/18_shaft_plug.png)
 
 ![The finished crank](img/build/10_crank_assembled.png)
 
@@ -370,12 +378,15 @@ Screws used: 6.
 
 ![The finished motion test](img/build/17_motion_test_done.png)
 
-Turn the crank by the front shaft, slowly, at least 5 full turns each way.
+Push the T12 hand knob onto the front shaft. Put an M3 x 8 screw into the insert in
+its hub and turn the shaft until the screw sits over the flat on the shaft. Tighten
+it gently.
+
+Turn the crank with the knob, slowly, at least 5 full turns each way.
 
 The 4 bare rods lean on the edge of the empty slot and may make a light tap as
-they flip over. That is expected and does not count. To test all 8 cylinders, print
-part 03 a second time and build bank B the same way (5 screws, 4 pistons, 4 rails).
-On bank B the piston lugs go on the **left** when the rod's groove faces you.
+they flip over. That is expected and does not count. Step 13 adds the second bank
+so all 8 cylinders run.
 
 | Check | Pass | If not, tell me |
 |---|---|---|
@@ -384,6 +395,27 @@ On bank B the piston lugs go on the **left** when the rod's groove faces you.
 | Head on | sits flat, all 4 rails went in | which rail would not go in |
 | Crank wobble (step 6) | under 0.2 mm | which segment wobbles most |
 | Nothing cracked | no cracks at any bearing, bushing, pin or insert | which part, with a photo |
+
+## 13. Later: bank B, all 8 cylinders
+
+Do this after the bank A test passes. It needs plate M7 (a second 03 bank and
+head B), 8 more bushings, 4 more wrist pins, 4 more rails, 6 inserts in the second
+bank's deck, and 11 more screws.
+
+![Bank B](img/build/19_bank_B.png)
+
+1. Leave bank A as it is.
+2. Press 2 bushings into each of the other 4 pistons (step 3).
+3. Fit them to rods 1, 3, 5, 7 with wrist pins (step 4). The rods are already on
+   the crank and stick out of the open slot. On bank B the lug goes on the **left**
+   when the rod's groove faces you.
+4. Lower the second bank over the 4 pistons (step 9). 5 screws.
+5. Drop in 4 rails with a drop of oil each (step 10).
+6. Fit head B (step 11). 6 screws.
+
+![All eight cylinders](img/build/20_all_eight.png)
+
+Run the same test again. Now any click counts, on either side.
 
 ## What to send me
 
@@ -400,6 +432,8 @@ Crank in case (8):       turns freely yes / no
 Bank on (9):             ok / problem:
 Rails (10):              slide yes / no, stand ____ mm above the deck
 Head on (11):            ok / problem:
+Shaft plugs (6):         shafts sit flat and centred yes / no
+Hand knob (12):          holds on the shaft yes / no
 Turning (12):            smooth / tight spot at cylinder ____ / click at ____
 Anything cracked:        no / yes:
 ```

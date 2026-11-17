@@ -472,9 +472,10 @@ def s00_parts():
         [("01_crankcase", "01 crankcase x1"), ("02_valley_beam", "02 valley beam x1")],
         [("03_cylinder_bank", "03 cylinder bank x1"), ("30_cylinder_head_A", "30 head A x1")],
         [("04_end_plate", "04 end plate x2"), ("05_crank_end_web", "05 end web x2"), ("06_crank_segment_90", "06-90 x1"),
-         ("07_crank_segment_180", "07-180 x1"), ("08_crank_segment_270", "08-270 x1")],
+         ("07_crank_segment_180", "07-180 x1"), ("08_crank_segment_270", "08-270 x1"),
+         ("T12_crank_knob", "T12 hand knob x1")],
         [("09_conrod", "09 rod x8"), ("10_piston", "10 piston x8"), ("P1_proto_crankpin", "P1 crankpin\nx4"),
-         ("P1R_proto_spacer_ring", "P1R ring\nx8"), ("P2_proto_main_shaft", "P2 rear shaft\n(short) x1"),
+         ("P1R_proto_spacer_ring", "P1R ring\nx8"), ("P2P_proto_shaft_plug", "P2P plug\nx2"), ("P2_proto_main_shaft", "P2 rear shaft\n(short) x1"),
          ("P2F_proto_main_shaft_front", "P2F front shaft\n(long) x1")],
     ]
     y = 0.0
@@ -830,7 +831,8 @@ def s17_done():
     s.add(["bank_A", "head_A"], "old")
     for c in EVEN:
         s.add(f"rail_{c}")
-    s.label("Turn the crank here\nby hand", Vector((C.SHAFT_END_X_FRONT + DX, 0, 0)))
+    s.add("print:T12_crank_knob", "new", knob_matrix())
+    s.label("Turn the crank with\nthe T12 hand knob", Vector((C.SHAFT_END_X_FRONT + DX, 0, 23.0)))
     s.label("Watch the pistons\nthrough the windows", bank_pt(C.BANK_A_CYL_X[1], C.BLOCK_Y_OUT, 66.0))
     s.label("Bare rods 1, 3, 5, 7 lean on\nthe edge of this slot until\nbank B is printed", wrist(1))
     s.cam = (0.6, -1.0, 0.3)
@@ -838,9 +840,85 @@ def s17_done():
     return s
 
 
+def knob_matrix():
+    """T12 knob (print orientation: disc down, bore up) on the front shaft, disc outwards."""
+    o = lib("print:T12_crank_knob")
+    xs = [c[0] for c in o.bound_box]
+    ys = [c[1] for c in o.bound_box]
+    centre_xy = T(-(min(xs) + max(xs)) / 2, -(min(ys) + max(ys)) / 2, 0)
+    return T(C.SHAFT_END_X_FRONT + DX + 1.6, 0, 0) @ RY(-90) @ centre_xy
+
+
+def s18_shaft_plug():
+    s = Step("18_shaft_plug")
+    s.add("end_web_front", "old")
+    # the printed shaft has a socket instead of the spigot: draw the production shaft mesh
+    # pulled forward, and the loose plug between it and the web
+    s.add("main_shaft_front", "new", T(30.0, 0, 0))
+    plug = lib("print:P2P_proto_shaft_plug")
+    zs = [c[2] for c in plug.bound_box]
+    pm = T(C.END_WEB_OUTER_X + DX + 13.0, 0, 0) @ RY(90) @ T(0, 0, -(min(zs) + max(zs)) / 2)
+    s.add("print:P2P_proto_shaft_plug", "new", pm)
+    for p, d in flange_screw_pts(True):
+        s.screw(p + Vector((C.SHAFT_FLANGE_T + 30.0, 0, 0)), d, 20.0)
+    s.label("P2P plug: half goes in the\ncentre hole of the end web,\nhalf in the hole in the shaft", Vector((C.END_WEB_OUTER_X + DX + 13.0, 0, 0)))
+    s.label("P2F front shaft", Vector((C.SHAFT_END_X_FRONT + DX + 30.0 - 12.0, 0, 4.0)))
+    s.label("3 screws through the flange\ninto the 3 inserts", flange_screw_pts(True)[0][0] + Vector((C.SHAFT_FLANGE_T + 30.0 + 26.0, 0, 0)))
+    py, pz = polar(C.CRANK_R, C.THROW_PIN_A[0])
+    s.label("The notch in the flange goes\nover the crankpin screw", Vector((C.END_WEB_OUTER_X + DX + 30.0 + C.SHAFT_FLANGE_T, py, pz)))
+    s.label("05 end web\n(insert face)", Vector((C.END_WEB_OUTER_X + DX, *polar(C.WEB_CW_R - 3.0, C.THROW_PIN_A[0] + 180.0))))
+    s.cam = (0.8, -1.0, 0.5)
+    s.zoom = 0.95
+    return s
+
+
+def _all_in_case(s, bank_b_role="old", lift_b=Vector((0, 0, 0))):
+    """Both banks' pistons on their rods; bank A complete."""
+    _core_in_case(s)
+    s.add(["bank_A", "head_A"], "old")
+    for c in EVEN:
+        s.add(f"rail_{c}")
+    for c in ODD:
+        s.add(f"piston_{c}", bank_b_role)
+        s.add([f"bush_lug_{c}_0", f"bush_lug_{c}_1", f"wristpin_{c}"])
+    return s
+
+
+def s19_bank_b():
+    s = Step("19_bank_B")
+    _all_in_case(s, "new")
+    axis_b = Vector((0.0, *polar(1.0, C.BANK_B_ANGLE)))
+    lift = axis_b * 62.0
+    s.add("bank_B", "new", T(*lift))
+    pts = [(x, C.BLOCK_SCREW_VALLEY_Y) for x in between_x()] + [(x, C.BLOCK_SCREW_END_Y) for x in end_screws_x()]
+    for x, y in pts:
+        s.screw(bank_pt(x, y, C.FACE_DIST + C.SCREW_FLOOR, "B") + lift, -axis_b, 62.0)
+    s.label("Second 03 bank: lower it over\npistons 1, 3, 5, 7", bank_pt(C.BANK_A_CYL_X[-1], C.BLOCK_Y_OUT, 70.0, "B") + lift)
+    s.label("5 screws, same as bank A", bank_pt(between_x()[1], C.BLOCK_SCREW_VALLEY_Y, C.FACE_DIST + C.SCREW_FLOOR + 11.0, "B") + lift + axis_b * 62.0)
+    s.label("Pistons go on rods\n1, 3, 5, 7 first", wrist(3) + axis_b * C.PISTON_PIN_TO_CROWN)
+    s.label("Bank A is already done", bank_pt(C.BANK_A_CYL_X[1], C.HEAD_SCREW_Y[0], C.DECK_DIST + C.HEAD_H))
+    s.cam = (0.8, 1.0, 0.7)
+    return s
+
+
+def s20_all_eight():
+    s = Step("20_all_eight")
+    _all_in_case(s)
+    s.add(["bank_B", "head_B"], "old")
+    for c in ODD:
+        s.add(f"rail_{c}")
+    s.add("print:T12_crank_knob", "new", knob_matrix())
+    s.label("T12 hand knob on the front shaft:\nturn the crank with it", Vector((C.SHAFT_END_X_FRONT + DX, 0, 23.0)))
+    s.label("Bank A: cylinders 2, 4, 6, 8", bank_pt(C.BANK_A_CYL_X[1], C.BLOCK_Y_OUT, 66.0))
+    s.label("Bank B: cylinders 1, 3, 5, 7", bank_pt(C.BANK_A_CYL_X[1], C.HEAD_SCREW_Y[0], C.DECK_DIST + C.HEAD_H, "B"))
+    s.cam = (1.0, -0.75, 0.45)
+    s.zoom = 1.1
+    return s
+
+
 STEPS = [s00_parts, s01_inserts_case, s02_inserts_bank, s03_inserts_web, s04_rod, s05_piston, s06_piston_on_rod,
          s07_pin_loading, s08_crank_exploded, s09_joint, s10_crank_done, s11_into_case, s12_beam, s13_end_plates,
-         s14_bank, s15_rails, s16_head, s17_done]
+         s14_bank, s15_rails, s16_head, s17_done, s18_shaft_plug, s19_bank_b, s20_all_eight]
 
 
 def main():

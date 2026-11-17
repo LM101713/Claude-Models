@@ -74,16 +74,17 @@ if C.VARIANT == "v8":
             ("T6_end_plate_seat", 1), ("T7_crank_vblock", 2), ("T8_belt_feeler", 1), ("T9_boot_glow", 1),
             ("T9b_boot", 2), ("T10_header_flex", 1),
             ("T11_tongue_lid", 1), ("T11b_tongue_base", 1), ("T11c_tb_socket", 1), ("T11d_tb_pin", 1)]),
-        ("M1_crank", "motion test: crank webs + 3 segments, printed shafts", [
+        ("M1_crank", "motion test: crank webs + 3 segments, printed shafts + 3 plugs (2 + 1 spare), hand knob", [
             ("05_crank_end_web", 2), ("06_crank_segment_90", 1), ("07_crank_segment_180", 1), ("08_crank_segment_270", 1),
-            ("P2_proto_main_shaft", 1), ("P2F_proto_main_shaft_front", 1)]),
+            ("P2_proto_main_shaft", 1), ("P2F_proto_main_shaft_front", 1), ("P2P_proto_shaft_plug", 3),
+            ("T12_crank_knob", 1)]),
         ("M2_rods_pins", "motion test: 8 con-rods, 4 printed crankpins, 12 printed spacer rings (8 + 4 spare)",
          [("09_conrod", 8), ("P1_proto_crankpin", 4), ("P1R_proto_spacer_ring", 12)]),
         ("M3_pistons", "motion test: 8 pistons", [("10_piston", 8)]),
         ("M4_bank_head", "motion test: one bank + head A", [("03_cylinder_bank", 1), ("30_cylinder_head_A", 1)]),
         ("M5_crankcase", "motion test: crankcase", [("01_crankcase", 1)]),
         ("M6_beam_plates", "motion test: valley beam + 2 end plates", [("02_valley_beam", 1), ("04_end_plate", 2)]),
-        ("F1_bank_head_B", "second bank + head B (mirror)", [("03_cylinder_bank", 1), ("30B_cylinder_head_B", 1)]),
+        ("M7_bank_head_B", "motion test, all 8 cylinders: second bank + head B (mirror)", [("03_cylinder_bank", 1), ("30B_cylinder_head_B", 1)]),
         ("F2_covers_boots_tb", "2 valve covers, 2 oil caps, throttle body", [("31_valve_cover", 2), ("31B_oil_cap", 2), ("36C_throttle_body", 1)]),
         ("F2b_boots", "8 translucent boots (5th filament)", [("32_plug_boot", 8)]),
         ("F3_primaries_plates", "8 header primaries (4 + 4 mirror), 2 flange plates", [
@@ -207,7 +208,7 @@ def main():
          "One 3MF per plate in `stl/plates/`, parts placed and ready to slice with your own printer, filament and "
          "process profiles; layout drawings in `renders/plates/`. Times/grams are PrusaSlicer estimates with the "
          "production settings (`docs/PRINT_REPORT.md`).", "",
-         "**Print order:** C1 first (fits), then M1-M6 (motion test), then F1-F9. Material: coupons and motion test "
+         "**Print order:** C1 first (fits), then M1-M6 (motion test, bank A), M7 (bank B: all 8 cylinders), then the F plates. Material: coupons and motion test "
          "in PLA (or PETG for the printed pins/shafts); production parts in ASA. "
          "The A1 Mini (180 mm) can print C1's parts individually and plates M1-M3 and F9; everything else needs the H2C/H2S.", "",
          "| Plate | Contents | Material (production) | Layer | Parts | Hours | Grams |", "|---|---|---|---|---|---|---|"]
