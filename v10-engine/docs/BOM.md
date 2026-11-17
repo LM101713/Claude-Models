@@ -65,7 +65,7 @@ Filament: 3.01 kg ASA = $75 per engine at $25/kg (151 kg for 50 engines; buy 163
 | H3 | Sintered bronze bushing | 3x5x4 mm (ID 3, OD 5, length 4), oil-impregnated | 24 | $0.20 | $0.08 | $4.80 | $1.92 | 1320 |
 | H4 | Wrist pin | 3x20 mm dowel pin, stainless, ISO 8734 m6 | 8 | $0.15 | $0.06 | $1.20 | $0.48 | 440 |
 | H5 | Heat-set insert | M3 x 5.7 mm brass, 4.6 mm OD (for a 4.0 mm hole) | 74 | $0.08 | $0.03 | $5.92 | $2.22 | 4070 |
-| H6 | Socket head cap screw | M3 x 8 mm, ISO 4762, A2 stainless - the ONLY screw size in the engine | 84 | $0.06 | $0.03 | $5.04 | $2.10 | 4620 |
+| H6 | Socket head cap screw | M3 x 8 mm, ISO 4762, A2 stainless - the ONLY screw size in the engine | 86 | $0.06 | $0.03 | $5.16 | $2.15 | 4730 |
 | H7 | Neodymium disc magnet | 6 x 3 mm N52, nickel plated | 44 | $0.10 | $0.05 | $4.40 | $2.20 | 2420 |
 | H8 | GT2 pulley 60T | 60 teeth, 8 mm bore, 6 mm belt, 2 grub screws, ~16 mm wide | 1 | $6.00 | $4.00 | $6.00 | $4.00 | 51 |
 | H9 | GT2 pulley 20T | 20 teeth, 5 mm bore, 6 mm belt, 2 grub screws | 1 | $2.00 | $1.20 | $2.00 | $1.20 | 51 |
@@ -91,13 +91,13 @@ Filament: 3.01 kg ASA = $75 per engine at $25/kg (151 kg for 50 engines; buy 163
 | E15 | Small parts set | RXEF200, 1N5822, P6KE18A, 1N5817, 220uF 35V, 470uF 16V, 3x100nF/10nF, 1k x2, 10k x2, 330R x2, 100k, 2N3904, female headers | 1 | $3.50 | $2.00 | $3.50 | $2.00 | 52 |
 | E16 | Wire + sleeving set | silicone 20/22/24/26 AWG, 6 mm braided sleeve, heat-shrink, 4.8 mm spades | 1 | $3.00 | $2.00 | $3.00 | $2.00 | 52 |
 | E17 | Cable ties | 100 mm, small | 12 | $0.02 | $0.01 | $0.24 | $0.12 | 660 |
-| | **Total purchased** | | | | | **$135.68** | **$89.20** | |
+| | **Total purchased** | | | | | **$135.80** | **$89.25** | |
 
 ### Where the screws, inserts and magnets go (counted from the CAD)
 
 | M3 x 8 screws | Qty |
 |---|---|
-| banks -> crankcase / beam (block end screws) | 8 |
+| banks -> crankcase / valley beam (3 valley + 2 end per bank) | 10 |
 | end plates | 12 |
 | heads -> banks (head screws) | 12 |
 | header flange plates -> heads | 4 |
@@ -109,7 +109,7 @@ Filament: 3.01 kg ASA = $75 per engine at $25/kg (151 kg for 50 engines; buy 163
 | brackets -> pan | 8 |
 | brackets -> stand plate | 8 |
 | motor -> bulkhead | 4 |
-| **total** | **84** |
+| **total** | **86** |
 
 | Heat-set inserts | Qty |
 |---|---|
@@ -143,5 +143,5 @@ Filament: 3.01 kg ASA = $75 per engine at $25/kg (151 kg for 50 engines; buy 163
 | **Materials total** | **$537** | **$263** |
 | Optional machined aluminium trumpets | +$0 | +$0 |
 
-Materials for the whole order: about **$13,144** (+$0 with machined trumpets). Not included: labour (see PRODUCTION_PLAN.md), packaging, shipping, the printers themselves.
+Materials for the whole order: about **$13,147** (+$0 with machined trumpets). Not included: labour (see PRODUCTION_PLAN.md), packaging, shipping, the printers themselves.
 

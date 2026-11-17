@@ -832,7 +832,7 @@ def s17_done():
         s.add(f"rail_{c}")
     s.label("Turn the crank here\nby hand", Vector((C.SHAFT_END_X_FRONT + DX, 0, 0)))
     s.label("Watch the pistons\nthrough the windows", bank_pt(C.BANK_A_CYL_X[1], C.BLOCK_Y_OUT, 66.0))
-    s.label("Bare rods 1, 3, 5, 7 lean on\nthe edge of this slot until\nbank B is printed", wrist(3))
+    s.label("Bare rods 1, 3, 5, 7 lean on\nthe edge of this slot until\nbank B is printed", wrist(1))
     s.cam = (0.6, -1.0, 0.3)
     s.zoom = 1.15
     return s

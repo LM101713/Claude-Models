@@ -22,7 +22,7 @@ H5. Heat-set insert - M3 x 5.7 mm brass, 4.6 mm OD (for a 4.0 mm hole)
     https://www.amazon.com/s?k=M3+x+5.7+mm+brass
 
 H6. Socket head cap screw - M3 x 8 mm, ISO 4762, A2 stainless - the ONLY screw size in the engine
-    qty: 84 per engine / 4620 for 50
+    qty: 86 per engine / 4730 for 50
     https://www.amazon.com/s?k=M3+x+8+mm
 
 H7. Neodymium disc magnet - 6 x 3 mm N52, nickel plated

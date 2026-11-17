@@ -146,9 +146,10 @@ also presses into T11c.
 
 ## After the coupons: the motion test (printed PETG pins and shafts)
 
-Print plates M1-M6 (`docs/PLATES.md`): crank parts, P1 pins, P2 shafts, 10
-rods, 10 pistons, crankcase, valley beam, 2 end plates, 1 bank, 1 head, with
-rails cut from 3 mm rod. Build per `ASSEMBLY.md` stages A-D for one bank.
+Print plates M1-M6 (`docs/PLATES.md`): crank parts, P1 pins, P1R spacer rings,
+P2 shafts, 8 rods, 8 pistons, crankcase, valley beam, 2 end plates, 1 bank, head A,
+with rails cut from 3 mm rod. **Build per `docs/BUILD_GUIDE.md`** (V8, one picture
+per step; `ASSEMBLY.md` is still the V10 text).
 
 | Check | Pass | If not |
 |---|---|---|
