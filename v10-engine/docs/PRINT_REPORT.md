@@ -42,13 +42,15 @@ Times and grams are PrusaSlicer estimates with an H2S-like motion profile (`tool
 | 48_controls_plinth | ASA | 0.2 | 3 | 15% | - | 0.86 | 29 | 0.73 | - | 322.6mm2 | - | - |
 | P1R_proto_spacer_ring | PETG | 0.12 | 3 | 100% | - | 0.01 | 0 | 0.00 | - | - | - | - |
 | P1_proto_crankpin | PETG | 0.12 | 4 | 100% | 3 | 0.34 | 1 | 0.02 | - | - | - | - |
-| P2F_proto_main_shaft_front | PETG | 0.16 | 4 | 100% | - | 0.67 | 7 | 0.15 | - | - | 1 | Floating bridge anchors, Loose extrusions, Long bridging extrusions |
-| P2_proto_main_shaft | PETG | 0.16 | 4 | 100% | - | 0.50 | 6 | 0.12 | - | - | 1 | Floating bridge anchors, Loose extrusions, Long bridging extrusions |
+| P2F_proto_main_shaft_front | PETG | 0.16 | 4 | 100% | - | 0.66 | 7 | 0.14 | - | - | - | - |
+| P2P_proto_shaft_plug | PETG | 0.16 | 4 | 100% | - | 0.03 | 0 | 0.01 | - | - | - | - |
+| P2_proto_main_shaft | PETG | 0.16 | 4 | 100% | - | 0.49 | 6 | 0.11 | - | - | - | - |
 | T10_header_flex | PLA | 0.2 | 2 | 10% | - | 0.92 | 13 | 0.26 | - | - | - | Low bed adhesion |
 | T11_tongue_lid | PLA | 0.2 | 2 | 10% | - | 0.13 | 3 | 0.05 | - | - | - | - |
 | T11b_tongue_base | PLA | 0.2 | 2 | 10% | - | 0.10 | 2 | 0.04 | - | - | - | Long bridging extrusions |
 | T11c_tb_socket | PLA | 0.2 | 2 | 10% | - | 0.18 | 5 | 0.09 | - | - | - | - |
 | T11d_tb_pin | PLA | 0.2 | 2 | 10% | - | 0.10 | 1 | 0.02 | - | - | - | - |
+| T12_crank_knob | PLA | 0.2 | 4 | 30% | - | 0.41 | 9 | 0.19 | - | - | - | - |
 | T1_hole_ladder | PLA | 0.2 | 2 | 10% | - | 0.35 | 8 | 0.15 | - | - | - | - |
 | T1b_test_peg | PLA | 0.2 | 2 | 10% | - | 0.07 | 0 | 0.01 | - | - | - | - |
 | T1c_peg_captive | PLA | 0.2 | 2 | 10% | - | 0.26 | 6 | 0.12 | - | - | - | - |
