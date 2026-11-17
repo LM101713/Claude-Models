@@ -490,7 +490,7 @@
   "walls": 4,
   "infill": 20,
   "brim": 0,
-  "hours": 10.389,
+  "hours": 10.39,
   "grams": 343.7,
   "cost": 8.59,
   "long_bridges": 0,
@@ -680,6 +680,22 @@
   "overhang_areas": [
    322.6
   ]
+ },
+ "P1R_proto_spacer_ring": {
+  "material": "PETG",
+  "layer": 0.12,
+  "walls": 3,
+  "infill": 100,
+  "brim": 0,
+  "hours": 0.005,
+  "grams": 0.0,
+  "cost": 0,
+  "long_bridges": 0,
+  "big_overhangs": 0,
+  "ring_ceilings": 0,
+  "slicer_warning": "",
+  "bridge_spans": [],
+  "overhang_areas": []
  },
  "P1_proto_crankpin": {
   "material": "PETG",

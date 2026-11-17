@@ -40,6 +40,7 @@ Times and grams are PrusaSlicer estimates with an H2S-like motion profile (`tool
 | 47B_bracket_mirror | ASA | 0.2 | 4 | 40% | - | 0.62 | 15 | 0.37 | - | 46.2mm2 | - | - |
 | 47_bracket | ASA | 0.2 | 4 | 40% | - | 0.62 | 15 | 0.37 | - | - | - | - |
 | 48_controls_plinth | ASA | 0.2 | 3 | 15% | - | 0.86 | 29 | 0.73 | - | 322.6mm2 | - | - |
+| P1R_proto_spacer_ring | PETG | 0.12 | 3 | 100% | - | 0.01 | 0 | 0.00 | - | - | - | - |
 | P1_proto_crankpin | PETG | 0.12 | 4 | 100% | 3 | 0.34 | 1 | 0.02 | - | - | - | - |
 | P2F_proto_main_shaft_front | PETG | 0.16 | 4 | 100% | - | 0.67 | 7 | 0.15 | - | - | 1 | Floating bridge anchors, Loose extrusions, Long bridging extrusions |
 | P2_proto_main_shaft | PETG | 0.16 | 4 | 100% | - | 0.50 | 6 | 0.12 | - | - | 1 | Floating bridge anchors, Loose extrusions, Long bridging extrusions |
