@@ -52,3 +52,13 @@ One 300 mm rod makes 5 rails of 57 mm. Two rods make all 8 plus spares.
 Only if the first pins never show up. Pieces of the 3 mm rod work for the motion test.
 
 **Rough total: $150-180**, plus about $10 at Digi-Key.
+
+## What was actually picked (2026-11-18) - differences that change the wiring
+
+| Item | Picked | Difference from the design |
+|---|---|---|
+| 5 V regulator | Pololu **D24V25F5** | older version of the D24V22F5, same 5 V 2.5 A; pin order may differ: wire by the labels on the board |
+| Stepper motor | generic 17HS4401, 42 x 38 mm, 1.5 A | 2 mm shorter, a little less torque; firmware runs it at 0.6 A, fits the motor bay |
+| Power switch | DaierTek 20 mm round rocker, **2 pin, no lamp** | no lamp wire: the lamp lead in the harness is left out |
+| Speed pot | B10K linear, 15 mm shaft (WH148 type) | usually a knurled 6 mm shaft: buy a knob with a **set screw** for a 6 mm shaft |
+| START button | APIELE 16 mm, 12 V ring LED, red | as designed |
