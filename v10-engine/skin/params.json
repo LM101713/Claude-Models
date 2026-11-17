@@ -285,7 +285,7 @@
    ],
    "bushing_5": [
     4,
-    0.25
+    0.15
    ],
    "coil_10": [
     4,
@@ -875,6 +875,7 @@
    "name": "Bambu Lab H2C",
    "z": 325.0
   },
+  "PROTO_PLUG_IN_SHAFT": 1.6,
   "PULLEY_BIG": {
    "bore": 8.0,
    "hub_d": 25.0,
@@ -1412,7 +1413,7 @@
    ],
    "bushing_5": [
     4,
-    0.25
+    0.15
    ],
    "coil_10": [
     4,

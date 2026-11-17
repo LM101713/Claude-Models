@@ -14,7 +14,7 @@ Times and grams are PrusaSlicer estimates with an H2S-like motion profile (`tool
 | 07_crank_segment_180 | ASA | 0.16 | 5 | 40% | - | 1.75 | 28 | 0.69 | - | - | - | - |
 | 08_crank_segment_270 | ASA | 0.16 | 5 | 40% | - | 1.75 | 28 | 0.70 | - | - | - | - |
 | 09_conrod | ASA | 0.12 | 4 | 40% | - | 0.17 | 3 | 0.07 | - | - | - | - |
-| 10_piston | ASA | 0.16 | 4 | 25% | - | 0.50 | 12 | 0.29 | - | - | - | Floating bridge anchors, Long bridging extrusions |
+| 10_piston | ASA | 0.16 | 4 | 25% | - | 0.51 | 12 | 0.29 | - | - | - | Floating bridge anchors, Long bridging extrusions |
 | 30B_cylinder_head_B | ASA | 0.2 | 4 | 25% | - | 9.78 | 197 | 4.92 | - | 71.2mm2, 67.9mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2 | - | Floating bridge anchors, Long bridging extrusions |
 | 30_cylinder_head_A | ASA | 0.2 | 4 | 25% | - | 9.78 | 196 | 4.91 | - | 71.2mm2, 67.9mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2, 29.1mm2 | - | Floating bridge anchors, Long bridging extrusions |
 | 31B_oil_cap | ASA | 0.2 | 3 | 15% | - | 0.14 | 2 | 0.06 | - | 60.4mm2 | - | - |
@@ -57,7 +57,7 @@ Times and grams are PrusaSlicer estimates with an H2S-like motion profile (`tool
 | T2_insert_ladder | PLA | 0.2 | 2 | 10% | - | 0.38 | 9 | 0.19 | - | - | - | - |
 | T3_608_seats | PLA | 0.2 | 3 | 10% | - | 0.39 | 11 | 0.22 | - | - | - | - |
 | T3b_686_seats | PLA | 0.2 | 3 | 10% | - | 0.34 | 9 | 0.17 | - | - | - | - |
-| T4_piston_guide | PLA | 0.2 | 3 | 10% | - | 0.22 | 5 | 0.10 | - | - | - | - |
+| T4_piston_guide | PLA | 0.2 | 3 | 10% | - | 0.21 | 5 | 0.10 | - | - | - | - |
 | T4b_test_lug | PLA | 0.2 | 3 | 10% | - | 0.10 | 2 | 0.03 | - | - | - | - |
 | T4c_lug_slots | PLA | 0.2 | 3 | 10% | - | 0.36 | 10 | 0.20 | - | - | - | - |
 | T4d_wrist_pins | PLA | 0.2 | 3 | 10% | 3 | 0.23 | 6 | 0.12 | - | - | - | - |
