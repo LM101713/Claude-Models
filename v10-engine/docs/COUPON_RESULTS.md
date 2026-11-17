@@ -13,6 +13,7 @@
 | 2026-11-14 | T4b in reprinted T4c | slides in every slot, no catching even in the tightest (0.6 mm per side) | pass. `LUG_POCKET_CLEAR` stays 0.8 (middle slot): the lug must never touch the bank in running, and the extra 0.2 covers ASA shrink and a bank that prints slightly warped |
 | 2026-11-14 | T5 D-flat sockets with the printed P1 pin | 0.40 step firm and right, 0.30 (nominal) a bit wobbly, 0.20 loose | **changed**: `CRUSH["dpin_6"]` 0.30 -> 0.40. Rebuilds the crank segments, end webs and the damper D-bore. Re-check with the steel M01 pin when it exists (a turned pin is rounder than a printed one) |
 | 2026-11-15 | T5b magnets, T3b 686 seats, T1 R3 3 mm rod | user: good fit on all | pass, current values confirmed |
+| 2026-11-18 | Plate M1 (PLA, fast settings): printed shafts P2 / P2F in a 608 bearing | slides on by hand to the shoulder, spins freely, no wobble | pass: printed shaft vs bearing bore OK. 608 stock: 3 left (2 for the end plates + 1 spare) |
 
 Still to do: T2 inserts (soldering iron), T1 S8 row, T1b/T1c PEG, T4 (bushings),
 T4d (pins), T10, T11. ASA re-run of T3/T3b/T4/T4d/T5/T5b/T6 before production.
