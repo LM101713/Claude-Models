@@ -15,6 +15,7 @@
 | 2026-11-15 | T5b magnets, T3b 686 seats, T1 R3 3 mm rod | user: good fit on all | pass, current values confirmed |
 | 2026-11-18 | Plate M1 (PLA, fast settings): printed shafts P2 / P2F in a 608 bearing | slides on by hand to the shoulder, spins freely, no wobble | pass: printed shaft vs bearing bore OK. 608 stock: 5 loose (2 for the end plates + 3 spare) |
 | 2026-11-18 | T4 bushing ladder, 5 bronze bushings | hole 1 (0.15, loosest) the best; photo shows plastic shaved or cracked at the rim of holes 3-5 (0.25-0.35) | **changed**: `CRUSH["bushing_5"]` 0.25 -> 0.15. Rebuilds the rods (small end) and pistons (lug). Check: the bushing in hole 1 must not push out with a thumb; if it does, 0.20. ASA re-run before production |
+| 2026-11-18 | T4 hole 1 (0.15, 4 ribs): thumb test + 3 mm 304 rod | bushing holds; a LOOSE bushing slides on the rod fine, the PRESSED one binds in spots and needs twisting | **changed**: the 4 ribs squeeze the 1 mm bronze wall square. `CRUSH["bushing_5"]` -> (8 ribs, 0.10). T4 reprinted with the new ladder (0.00-0.20). M2 / M3 held until it passes |
 
 Still to do: T2 inserts (soldering iron), T1 S8 row, T1b/T1c PEG, 
 T4d (pins), T10, T11. ASA re-run of T3/T3b/T4/T4d/T5/T5b/T6 before production.

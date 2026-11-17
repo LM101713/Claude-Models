@@ -54,7 +54,7 @@ CRUSH = {
     # name: (number of ribs, diametral interference at the rib tips)
     "bearing_608": (8, 0.30),   # 608 main bearing into end plate
     "bearing_686": (6, 0.30),   # 686 big-end bearing into con-rod
-    "bushing_5":   (4, 0.15),   # 3x5x4 bronze bushing into rod / piston lug (T4, 2026-11-18: 0.15 best; 0.25-0.35 shaved / cracked the PLA)
+    "bushing_5":   (8, 0.10),   # 3x5x4 bronze bushing into rod / piston lug (T4, 2026-11-18: 4 ribs at 0.15 held but squeezed the 1 mm wall out of round, rod bound; 8 ribs spread the load - T4 re-run)
     "pin_3":       (3, 0.20),   # 3 mm wrist pin into piston bosses
     "dpin_6":      (2, 0.40),   # D-flat crankpin end: 2 ribs push the flat home (T5, 2026-11-14: 0.30 wobbled, 0.40 firm)
     "magnet_6":    (4, 0.25),   # 6x3 magnet pockets
