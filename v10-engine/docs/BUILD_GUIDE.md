@@ -65,7 +65,8 @@ When bank B is built later you need 8 more bushings, 4 more wrist pins and 4 mor
 - 2.5 mm hex key with a long arm (some screws sit 26 mm down a hole)
 - A clamp or a small vise, and two flat pieces of wood to protect the parts
 - Calipers
-- Hacksaw and a file or sandpaper (to cut the rails)
+- A small file or 400 grit sandpaper (only to smooth a rail end or a tight shaft; nothing needs cutting: rails are pre-cut 60 mm, wrist pins are pre-cut 3 x 20 mm dowel pins)
+- Flush cutters or a hobby knife (brims, stray plastic)
 - A marker
 
 ### Before you start
