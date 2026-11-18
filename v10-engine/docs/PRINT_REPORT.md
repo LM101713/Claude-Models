@@ -6,7 +6,7 @@ Times and grams are PrusaSlicer estimates with an H2S-like motion profile (`tool
 | Part | Material | Layer | Walls | Infill | Brim | Time (h) | Filament (g) | Cost ($) | Long bridges | Big overhangs | Ring ceilings | Slicer warnings |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 01_crankcase | ASA | 0.2 | 4 | 25% | - | 10.73 | 252 | 6.30 | - | 280.2mm2, 280.2mm2 | - | Low bed adhesion |
-| 02_valley_beam | ASA | 0.28 | 4 | 25% | - | 1.77 | 54 | 1.35 | - | - | - | - |
+| 02_valley_beam | ASA | 0.28 | 4 | 25% | - | 1.79 | 54 | 1.36 | - | - | - | - |
 | 03_cylinder_bank | ASA | 0.2 | 4 | 25% | - | 7.79 | 184 | 4.60 | - | - | 5 | - |
 | 04_end_plate | ASA | 0.28 | 4 | 25% | - | 1.23 | 35 | 0.89 | - | - | - | - |
 | 05_crank_end_web | ASA | 0.16 | 5 | 40% | - | 0.69 | 11 | 0.28 | - | - | - | - |
@@ -57,7 +57,7 @@ Times and grams are PrusaSlicer estimates with an H2S-like motion profile (`tool
 | T2_insert_ladder | PLA | 0.2 | 2 | 10% | - | 0.38 | 9 | 0.19 | - | - | - | - |
 | T3_608_seats | PLA | 0.2 | 3 | 10% | - | 0.39 | 11 | 0.22 | - | - | - | - |
 | T3b_686_seats | PLA | 0.2 | 3 | 10% | - | 0.34 | 9 | 0.17 | - | - | - | - |
-| T4_piston_guide | PLA | 0.2 | 3 | 10% | - | 0.22 | 5 | 0.10 | - | - | - | [2026-11-17 16:13:32.222227] [0x00007f7921ffa6c0] [error]   Reversing even wall line causes it to be printed CCW instead of CW! |
+| T4_piston_guide | PLA | 0.2 | 3 | 10% | - | 0.22 | 5 | 0.10 | - | - | - | [2026-11-18 00:28:10.344881] [0x00007f0817cfc6c0] [error]   Reversing even wall line causes it to be printed CCW instead of CW! |
 | T4b_test_lug | PLA | 0.2 | 3 | 10% | - | 0.10 | 2 | 0.03 | - | - | - | - |
 | T4c_lug_slots | PLA | 0.2 | 3 | 10% | - | 0.36 | 10 | 0.20 | - | - | - | - |
 | T4d_wrist_pins | PLA | 0.2 | 3 | 10% | 3 | 0.23 | 6 | 0.12 | - | - | - | - |
