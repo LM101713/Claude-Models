@@ -37,7 +37,7 @@ GAP = 8.0             # between parts
 from common import STL_DIR  # noqa: E402
 OUT_3MF = os.path.join(STL_DIR, "plates")
 OUT_PNG = os.path.join(ROOT, "renders", "plates")
-EXPORT_GROUPS = ("C", "M")     # only coupons + motion test until a real engine has been built
+EXPORT_GROUPS = ("C", "M", "F")     # F released 2026-11-19 (D81) to keep both printers busy during the motion test
 
 # (plate name, description, [(part file name, qty), ...])
 PLATES = [
@@ -87,13 +87,14 @@ if C.VARIANT == "v8":
         ("M7_bank_head_B", "motion test, all 8 cylinders: second bank + head B (mirror)", [("03_cylinder_bank", 1), ("30B_cylinder_head_B", 1)]),
         ("F2_covers_boots_tb", "2 valve covers, 2 oil caps, throttle body", [("31_valve_cover", 2), ("31B_oil_cap", 2), ("36C_throttle_body", 1)]),
         ("F2b_boots", "8 translucent boots (5th filament)", [("32_plug_boot", 8)]),
-        ("F3_primaries_plates", "8 header primaries (4 + 4 mirror), 2 flange plates", [
-            ("33_header_primary_A", 4), ("33B_header_primary_B", 4), ("34_header_plate_A", 1), ("34B_header_plate_B", 1)]),
+        ("F3_primaries", "8 header primaries (4 + 4 mirror)", [("33_header_primary_A", 4), ("33B_header_primary_B", 4)]),
+        ("F3b_header_plates", "2 header flange plates", [("34_header_plate_A", 1), ("34B_header_plate_B", 1)]),
         ("F4_collectors", "2 collectors (mirror pair)", [("35_collector_A", 1), ("35B_collector_B", 1)]),
         ("F5_intake_lid", "intake lid", [("36_intake_lid", 1)]),
         ("F6_intake_base", "intake base", [("36B_intake_base", 1)]),
         ("F7_pan", "oil pan", [("40_oil_pan", 1)]),
-        ("F8_panel_bell_damper", "pan floor panel, bellhousing, damper", [("41_pan_floor_panel", 1), ("42_bellhousing", 1), ("44_damper", 1)]),
+        ("F8_bell_damper", "bellhousing, damper", [("42_bellhousing", 1), ("44_damper", 1)]),
+        ("F8b_pan_panel", "pan floor panel", [("41_pan_floor_panel", 1)]),
         ("F9_front", "front cover + accessory module + alternator body", [("43_front_cover", 1), ("45_accessory_module", 1), ("45B_alternator_body", 1)]),
         ("F10_stand_plate", "stand plate (single-nozzle mode)", [("46_stand_plate", 1)]),
         ("F11_brackets_plinth", "4 brackets + controls plinth", [("47_bracket", 2), ("47B_bracket_mirror", 2), ("48_controls_plinth", 1)]),
