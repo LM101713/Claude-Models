@@ -18,6 +18,7 @@
 | 2026-11-18 | T4 hole 1 (0.15, 4 ribs): thumb test + 3 mm 304 rod | bushing holds; a LOOSE bushing slides on the rod fine, the PRESSED one binds in spots and needs twisting | **changed**: the 4 ribs squeeze the 1 mm bronze wall square. `CRUSH["bushing_5"]` -> (8 ribs, 0.10). T4 reprinted with the new ladder (0.00-0.20). M2 / M3 held until it passes |
 | 2026-11-18 | T4 reprint, 8 ribs, ladder 0.00-0.20 | hole 1 (0.00) too loose; hole 2 (0.05) firm, rod slides much better with slight drag | **changed**: `CRUSH["bushing_5"]` -> (8 ribs, 0.05). Oil + break-in for the drag; production rails must be ground h6 rod (the test rod is 304 craft rod) |
 | 2026-11-18 | Plates M5 + M6 (PLA, fast settings): end plates on the crankcase, 608 into each end plate | both end plates locate on the crankcase ends; bearings press in and fit well | pass. Valley beam reprinted for the 60 mm rails (D79) |
+| 2026-11-18 | T4d wrist-pin bar with the 3 mm 304 craft rod (dowel pins not arrived) | only hole 1 (0.10, loosest) takes the rod | **changed**: `CRUSH["pin_3"]` 0.20 -> 0.10. The motion test uses pieces of this rod as wrist pins; re-check with real 3 x 20 dowel pins (m6, a few microns over 3.00) when they come |
 
 Still to do: T2 inserts (soldering iron), T1 S8 row, T1b/T1c PEG, 
-T4d (pins), T10, T11. ASA re-run of T3/T3b/T4/T4d/T5/T5b/T6 before production.
+T10, T11. ASA re-run of T3/T3b/T4/T4d/T5/T5b/T6 before production.
