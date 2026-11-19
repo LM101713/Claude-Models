@@ -576,8 +576,8 @@ def s04_rod():
     s.add(f"rod_{c}", "old", m)
     s.add(f"bearing686_{c}", None, T(0, 0, 16) @ m)
     s.add(f"bush_small_{c}", None, T(0, 0, 14) @ m)
-    s.label("686 bearing:\npress in flush\nwith both faces", top_of(f"bearing686_{c}", T(0, 0, 16) @ m))
-    s.label("Bronze bushing:\npress in until it is centred\n(0.5 mm in from each face)", top_of(f"bush_small_{c}", T(0, 0, 14) @ m))
+    s.label("686 bearing:\nclamp it in, flush\nwith both faces", top_of(f"bearing686_{c}", T(0, 0, 16) @ m))
+    s.label("Bronze bushing: thin ring of\nsuper glue round its MIDDLE,\npush in from the grooved side,\ncentre it, wipe off extra glue", top_of(f"bush_small_{c}", T(0, 0, 14) @ m))
     s.label("09 con-rod, groove side up", centre(f"rod_{c}", m))
     s.cam = (0.9, -1.0, 0.85)
     s.zoom = 1.15
@@ -597,8 +597,8 @@ def s05_piston():
     s.add(f"piston_{c}", "old", m)
     s.add(f"bush_lug_{c}_0", None, T(0, 0, 14) @ m)
     s.add(f"bush_lug_{c}_1", None, T(0, 0, -14) @ m)
-    s.label("Bushing 1: press in from\nthe top until flush", centre(f"bush_lug_{c}_0", T(0, 0, 14) @ m))
-    s.label("Bushing 2: press in from\nthe bottom until flush", centre(f"bush_lug_{c}_1", T(0, 0, -14) @ m))
+    s.label("Bushing 1: glue on its middle,\npush in from the top, flush", centre(f"bush_lug_{c}_0", T(0, 0, 14) @ m))
+    s.label("Bushing 2: same, from\nthe bottom, flush", centre(f"bush_lug_{c}_1", T(0, 0, -14) @ m))
     s.label("10 piston", m @ (wrist(c) + Vector((C.PISTON_DIA / 2, 0, 0))))
     s.label("Guide lug (the small\ntube on the side)", m @ (wrist(c) + BANK_A @ Vector((0, C.RAIL_OFFSET, 5.0))))
     s.cam = (1.0, 0.75, 0.55)
@@ -616,7 +616,7 @@ def s06_piston_on_rod():
     s.add(f"rod_{c}", "old", m)
     s.add([f"bearing686_{c}", f"bush_small_{c}"], None, m)
     s.add(f"wristpin_{c}", None, T(34, 0, 0) @ m)
-    s.label("3 x 20 mm wrist pin:\npush through piston,\nrod and piston", centre(f"wristpin_{c}", T(34, 0, 0) @ m))
+    s.label("3 x 20 mm dowel pin (wrist pin):\nthrough the piston, the rod's\nbushing, and the piston again", centre(f"wristpin_{c}", T(34, 0, 0) @ m))
     s.label("Pin ends up 12 mm deep\non both sides (centred)", m @ (wrist(c) + Vector((C.PISTON_DIA / 2, 0, 0))))
     s.label("Rod small end sits\nbetween the two bosses", m @ (wrist(c) + Vector((0, 0, 0)) - AXIS_A * 9.0))
     s.label("Guide lug: this side will face\nthe MIDDLE of the engine", m @ (wrist(c) + BANK_A @ Vector((0, C.RAIL_OFFSET, C.LUG_TOP))))
@@ -916,9 +916,172 @@ def s20_all_eight():
     return s
 
 
+# ---------------------------------------------------------------------------
+# part tour: what each part is and which face is which
+# ---------------------------------------------------------------------------
+FLIP = RX(180.0)
+
+
+def s30_crankcase_under():
+    s = Step("p1_crankcase_underside")
+    s.add("crankcase", "new", FLIP)
+    hx = C.HALL_X + 1.3
+    s.label("REAR: this small pocket is\nunder the REAR end only", FLIP @ Vector((hx, 0.0, C.CASE_FLOOR_Z)))
+    s.label("4 holes underneath: screws\nfrom the oil pan go in here\n(later, not for the motion test)", FLIP @ Vector((94.0, 40.0, C.CASE_FLOOR_Z)))
+    s.label("FRONT end", FLIP @ Vector((H, 0.0, C.CASE_FLOOR_Z + 12.0)))
+    s.label("Crankcase turned upside down:\nthis flat face is its BOTTOM", FLIP @ Vector((0.0, -30.0, C.CASE_FLOOR_Z)))
+    s.cam = (-0.55, -0.8, 1.0)
+    s.zoom = 1.05
+    return s
+
+
+def s31_beam_faces():
+    s = Step("p2_valley_beam_holes")
+    s.add("valley_beam", "new")
+    xs = C.BANK_A_CYL_X
+    s.label("4 SMALLEST holes (3 mm):\nthe rails go in here", bank_pt(xs[1], C.RAIL_OFFSET, C.FACE_DIST))
+    s.label("3 medium holes:\nheat inserts", bank_pt(between_x()[1], C.BLOCK_SCREW_VALLEY_Y, C.FACE_DIST))
+    s.label("2 big holes, one near each end:\nthe bank's pegs drop in here", bank_pt(xs[0] + 18.0, C.LOCATOR_Y, C.FACE_DIST))
+    s.label("The other sloped side has\nthe same holes", bank_pt(xs[3], C.RAIL_OFFSET, C.FACE_DIST, "B"))
+    s.cam = tuple(AXIS_A * 1.0 + Vector((0.75, 0.0, 0.3)))
+    s.zoom = 1.0
+    return s
+
+
+def s32_bank_under():
+    s = Step("p3_bank_underside")
+    m = FLIP @ RX(-C.BANK_A_ANGLE)
+    s.add("bank_A", "new", m)
+    xs = C.BANK_A_CYL_X
+    s.label("2 PEGS: this is the BOTTOM.\nIt sits on the crankcase", m @ bank_pt(xs[0] + 18.0, C.LOCATOR_Y, C.FACE_DIST - C.LOCATOR_H))
+    s.label("Bores: the pistons come up\nthrough here (chamfered edge\nhelps them find the way in)", m @ bank_pt(xs[2], -12.0, C.FACE_DIST))
+    s.label("Screw holes come out here\n(the screws go in from the TOP)", m @ bank_pt(between_x()[0], C.BLOCK_SCREW_VALLEY_Y, C.FACE_DIST))
+    s.label("Windows: this side faces OUT", m @ bank_pt(xs[1], C.BLOCK_Y_OUT, 66.0))
+    s.label("Lug slots: the rails\nrun up through these", m @ bank_pt(xs[3], C.RAIL_OFFSET, C.FACE_DIST))
+    s.cam = (0.55, -1.0, 0.95)
+    return s
+
+
+def s33_head_under():
+    s = Step("p4_head_underside")
+    m = FLIP @ RX(-C.BANK_A_ANGLE)
+    s.add("head_A", "new", m)
+    xs = C.BANK_A_CYL_X
+    s.label("4 small holes: the rail tops\nfit in here (fits one way only)", m @ bank_pt(xs[1], C.RAIL_OFFSET, C.DECK_DIST))
+    s.label("6 screw holes go right\nthrough the head", m @ bank_pt(between_x()[1], C.HEAD_SCREW_Y[0], C.DECK_DIST))
+    s.label("Long groove: for LED strips\n(not used, leave it empty)", m @ bank_pt(xs[2], 0.0, C.DECK_DIST))
+    s.label("Head turned upside down: this\nflat face sits on the bank's top", m @ bank_pt(xs[3], -25.0, C.DECK_DIST))
+    s.cam = (0.55, -1.0, 0.95)
+    return s
+
+
+def _turn_z(c, dy):
+    return T(0, dy, 0) @ T(*c) @ RZ(180) @ T(*(-c))
+
+
+def s34_segment_faces():
+    s = Step("p5_segment_faces")
+    xf = C.THROW_X[0] - C.THROW_INNER / 2 + DX
+    xr = xf - C.SEGMENT_LEN
+    c = Vector(((xf + xr) / 2, 0, 0))
+    mf = T(0, -34.0, 0)
+    mr = _turn_z(c, 34.0)
+    s.add("segment_12", "new", mf).add("segment_12", "new", mr)
+    s.label("FRONT face (no number)", mf @ Vector((xf, *polar(C.WEB_HUB_R - 3.0, C.THROW_PIN_A[0] + 180.0))))
+    s.label("D-shaped hole with ribs inside:\na crankpin is pressed in here", mf @ Vector((xf, *polar(C.CRANK_R, C.THROW_PIN_A[0]))))
+    s.label("Round hole: a screw goes down it\ninto the pin held by the OTHER face", mf @ Vector((xf, *polar(C.CRANK_R, C.THROW_PIN_A[1]))))
+    s.label("REAR face: has the\nengraved number (06-90)", mr @ Vector((xr, 0.0, 0.0)))
+    s.label("Every segment has one D-hole\nand one round hole on EACH face", mr @ Vector((xr, *polar(C.CRANK_R, C.THROW_PIN_A[1]))))
+    s.cam = (1.0, 0.0, 0.42)
+    s.zoom = 1.0
+    return s
+
+
+def s35_end_web_faces():
+    s = Step("p6_end_web_faces")
+    xt = C.WEB_FACE_X + DX
+    xo = C.END_WEB_OUTER_X + DX
+    c = Vector(((xt + xo) / 2, 0, 0))
+    mo = T(0, -30.0, 0)
+    mt = _turn_z(c, 30.0)
+    s.add("end_web_front", "new", mo).add("end_web_front", "new", mt)
+    a0 = C.THROW_PIN_A[0]
+    s.label("INSERT face: the 3 small holes\nget heat inserts (shaft screws)", mo @ Vector((xo, *polar(C.SHAFT_FLANGE_PCD / 2, C.SHAFT_FLANGE_BOLT_ANGLES[1] + a0))))
+    s.label("Bigger hole: the crankpin\nscrew goes through it", mo @ Vector((xo, *polar(C.CRANK_R, a0))))
+    s.label("Centre hole: the shaft's\nplug (P2P) fits in here", mo @ Vector((xo, 0.0, 0.0)))
+    s.label("Other face: D-shaped hole\nfor the crankpin", mt @ Vector((xt, *polar(C.CRANK_R, a0))))
+    s.cam = (1.0, 0.0, 0.42)
+    s.zoom = 0.95
+    return s
+
+
+def s36_small_parts():
+    s = Step("p7_small_parts")
+    lay = RY(90.0)
+    rail_flat = RY(90.0) @ RX(-C.BANK_A_ANGLE)
+    rows = [
+        [("print:09_conrod", I4, "09 con-rod x8\ngrooved side up"), ("print:10_piston", FLIP, "10 piston x8\nlug = small tube"),
+         ("print:T12_crank_knob", I4, "T12 hand knob")],
+        [("print:P2F_proto_main_shaft_front", lay, "P2F front shaft\n(the LONG one)"), ("print:P2_proto_main_shaft", lay, "P2 rear shaft\n(the short one)"),
+         ("print:P2P_proto_shaft_plug", I4, "P2P plug x2"), ("rail_2", rail_flat, "rail 3 x 60\nx4 (8 later)")],
+        [("print:P1_proto_crankpin", lay, "P1 crankpin x4\nflat on each end"), ("print:P1R_proto_spacer_ring", I4, "P1R ring x8\n0.75 mm thin")],
+    ]
+    roles = {"rail_2": "steel", "wristpin_2": "steel", "bush_small_2": "bronze", "bearing686_1": "steel", "bearing608_front": "steel"}
+    y = 0.0
+    for row in rows:
+        objs = []
+        for name, rot, text in row:
+            o = lib(name) if isinstance(name, str) else name
+            pts = [rot @ Vector(c) for c in o.bound_box]
+            b = (min(p.x for p in pts), max(p.x for p in pts), min(p.y for p in pts), max(p.y for p in pts), min(p.z for p in pts))
+            role = "brass" if not isinstance(name, str) and o is LIB.get("insert") else ("steel" if not isinstance(name, str) else roles.get(name, "new"))
+            objs.append((o, rot, text, b, role))
+        depth = max(b[3] - b[2] for *_, b, _ in objs)
+        gap = 38.0
+        width = sum(b[1] - b[0] for *_, b, _ in objs) + gap * (len(objs) - 1)
+        x = -width / 2
+        for o, rot, text, b, role in objs:
+            m = T(x - b[0], y - depth / 2 - (b[2] + b[3]) / 2, -b[4]) @ rot
+            s.items.append((o, role, m))
+            s.under(text, Vector((x + (b[1] - b[0]) / 2, y - depth - 3.0, 0.0)))
+            x += b[1] - b[0] + gap
+        y -= depth + 58.0
+    s.cam = (0.0, -0.42, 1.0)
+    s.floor = 0.0
+    s.margin = 0
+    s.size = (1900, 1400)
+    return s
+
+
+def s37_hardware():
+    s = Step("p8_hardware")
+    flat = RY(90.0)                       # bearing / pin axis X -> Z: lying flat
+    items = [("wristpin_2", RZ(90.0), "steel", "dowel pin 3 x 20\n= wrist pin (x4)"),
+             ("bush_small_2", flat, "bronze", "bronze bushing\n3 x 5 x 4 (x16)"),
+             ("bearing686_1", flat, "steel", "686 bearing\nsmall (x8)"),
+             ("bearing608_front", flat, "steel", "608 bearing\nbig (x2)"),
+             (insert_mesh(), I4, "brass", "M3 heat\ninsert (x35)"),
+             (screw_mesh(), I4, "steel", "M3 x 8\nscrew (x38)")]
+    x = 0.0
+    for name, rot, role, text in items:
+        o = lib(name) if isinstance(name, str) else name
+        pts = [rot @ Vector(c) for c in o.bound_box]
+        b = (min(p.x for p in pts), max(p.x for p in pts), min(p.y for p in pts), max(p.y for p in pts), min(p.z for p in pts))
+        m = T(x - b[0], -(b[2] + b[3]) / 2, -b[4]) @ rot
+        s.items.append((o, role, m))
+        s.under(text, Vector((x + (b[1] - b[0]) / 2, -13.0, 0.0)))
+        x += b[1] - b[0] + 14.0
+    s.cam = (0.0, -0.75, 1.0)
+    s.floor = 0.0
+    s.margin = 0
+    s.size = (1900, 900)
+    return s
+
+
 STEPS = [s00_parts, s01_inserts_case, s02_inserts_bank, s03_inserts_web, s04_rod, s05_piston, s06_piston_on_rod,
          s07_pin_loading, s08_crank_exploded, s09_joint, s10_crank_done, s11_into_case, s12_beam, s13_end_plates,
-         s14_bank, s15_rails, s16_head, s17_done, s18_shaft_plug, s19_bank_b, s20_all_eight]
+         s14_bank, s15_rails, s16_head, s17_done, s18_shaft_plug, s19_bank_b, s20_all_eight,
+         s30_crankcase_under, s31_beam_faces, s32_bank_under, s33_head_under, s34_segment_faces, s35_end_web_faces, s36_small_parts, s37_hardware]
 
 
 def main():
