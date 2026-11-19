@@ -26,6 +26,7 @@
 | 2026-11-19 | Dry fits: piston in bank bore; head A on bank deck; printed shafts in the end-plate 608s; knob on the front shaft | piston drops through with no rubbing; head sits flat, screw holes line up; shafts turn with slight resistance; knob fits | pass |
 | 2026-11-19 | T4e run 1 (rod small ends, 0.00 / -0.05 / -0.10) | all three too loose | between 0.00 (loose) and 0.05 (hammer): T4e run 2 at 0.04 / 0.03 / 0.02 / 0.01 |
 | 2026-11-19 | T4e run 2 (rod small ends, 0.04 / 0.03 / 0.02 / 0.01) | 0.01 too loose, **0.02 right**, 0.03 and 0.04 too tight | **changed**: `CRUSH["bushing_5"]` 0.05 -> 0.02 (8 ribs). Rods (M2b) and pistons (M3) reprint |
+| 2026-11-19 | Plate M2b rods (bushing seat 0.02, H2C) | bushing too loose in the real rod although T4e ring 0.02 (same printer) was right: 0.01 mm steps are below what the printer resolves | **fixed with a drop of CA glue** on the bushing OD (bore kept clear). One rod lost to glue in the bore: reprint 1. Production plan: slip-fit seat + glue as a standard step, re-tested in ASA |
 
 Still to do: T2 inserts (soldering iron), T1 S8 row, T1b/T1c PEG, 
 T10, T11. ASA re-run of T3/T3b/T4/T4d/T5/T5b/T6 before production.
