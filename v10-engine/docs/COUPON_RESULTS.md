@@ -27,6 +27,7 @@
 | 2026-11-19 | T4e run 1 (rod small ends, 0.00 / -0.05 / -0.10) | all three too loose | between 0.00 (loose) and 0.05 (hammer): T4e run 2 at 0.04 / 0.03 / 0.02 / 0.01 |
 | 2026-11-19 | T4e run 2 (rod small ends, 0.04 / 0.03 / 0.02 / 0.01) | 0.01 too loose, **0.02 right**, 0.03 and 0.04 too tight | **changed**: `CRUSH["bushing_5"]` 0.05 -> 0.02 (8 ribs). Rods (M2b) and pistons (M3) reprint |
 | 2026-11-19 | Plate M2b rods (bushing seat 0.02, H2C) | bushing too loose in the real rod although T4e ring 0.02 (same printer) was right: 0.01 mm steps are below what the printer resolves | **fixed with a drop of CA glue** on the bushing OD (bore kept clear). One rod lost to glue in the bore: reprint 1. Production plan: slip-fit seat + glue as a standard step, re-tested in ASA |
+| 2026-11-19 | Plate M3 pistons (0.16 layer): 3 x 20 dowel pin through boss, rod bushing, boss | pin too tight in the bosses: pushed by hand it stops just past the middle, does not reach the far boss | **open**: T4d (0.20 layer coupon) passed at 0.10, the real 0.16-layer boss is tighter (same lesson as D83). Fix for engine #1: twist a 3 mm drill bit by hand through both bosses, then clamp the pin in centred. For the 50: loosen `CRUSH["pin_3"]` and test on a real-boss ladder like T4e. Lug bushings glued in 5 pistons OK |
 
 Still to do: T2 inserts (soldering iron), T1 S8 row, T1b/T1c PEG, 
 T10, T11. ASA re-run of T3/T3b/T4/T4d/T5/T5b/T6 before production.
