@@ -305,25 +305,24 @@ def t7_crank_vblock():
 
 
 def t4e_rod_small_ends():
-    """Three copies of the con-rod small end (9 mm ring, rod thickness, printed flat
-    like plate M2) joined by a strip, bushing seats 0.05, 0.10 and 0.15 looser than
-    the current fits.py value. Marked by 1 / 2 / 3 notches in the strip (no text: too
-    small to read at this size)."""
+    """Four copies of the con-rod small end (9 mm ring, rod thickness, printed flat
+    like plate M2) joined by a strip. Bushing-seat interference 0.04 / 0.03 / 0.02 /
+    0.01 mm (first run 2026-11-19: 0.05 needed a hammer in the rods, 0.00 and below
+    too loose). Marked by 1 / 2 / 3 / 4 notches in the strip: 1 = tightest."""
     t = C.ROD_BODY_W
     ro = C.ROD_SMALL_END_OD / 2
     pitch = 16.0
-    base = C.CRUSH["bushing_5"][1]
+    steps = (0.04, 0.03, 0.02, 0.01)
     part = None
-    for i in range(3):
-        x = i * pitch
-        ring = cyl_z(ro, 0, t, x, 0)
+    for i in range(len(steps)):
+        ring = cyl_z(ro, 0, t, i * pitch, 0)
         part = ring if part is None else part.fuse(ring)
-    part = part.fuse(box(0, 2 * pitch, -2.5, 2.5, 0, t))
-    for i in range(3):
+    part = part.fuse(box(0, (len(steps) - 1) * pitch, -2.5, 2.5, 0, t))
+    for i, interf in enumerate(steps):
         x = i * pitch
-        part = part.cut(_crush_custom_z(C.BUSHING["od"], -1, t + 1, x, 0, "bushing_5", base - 0.05 * (i + 1), t))
+        part = part.cut(_crush_custom_z(C.BUSHING["od"], -1, t + 1, x, 0, "bushing_5", interf, t))
         for k in range(i + 1):                      # i+1 notches beside ring i
-            nx = x + 6.5 + 1.6 * k
+            nx = x + 6.0 + 1.5 * k
             part = part.cut(box(nx - 0.4, nx + 0.4, -3.0, 3.0, t - 0.8, t + 1))
     return safe_clean(part)
 
