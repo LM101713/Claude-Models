@@ -7446,7 +7446,7 @@
    {
     "label": "ctl_hole",
     "kind": "bore",
-    "r": 5.55,
+    "r": 6.05,
     "p": [
      0.0,
      -100.0,
@@ -7643,7 +7643,7 @@
   "stand_plate": "46_stand_plate: genus 10 tris 13058 vol 634699",
   "bracket": "47_bracket_L: genus 4 tris 3200 vol 17085",
   "bracket_m": "47B_bracket_R: genus 4 tris 3172 vol 16901",
-  "plinth": "48_controls_plinth: genus 12 tris 3964 vol 31393",
+  "plinth": "48_controls_plinth: genus 12 tris 3964 vol 31348",
   "edition_plate": "49_edition_plate: genus 20 tris 1100 vol 2865",
   "t11_lid": "T11_tongue_lid: genus 0 tris 20 vol 2520",
   "t11b_base": "T11b_tongue_base: genus 0 tris 36 vol 1836",
