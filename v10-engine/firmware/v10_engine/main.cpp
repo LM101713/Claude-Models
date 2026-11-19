@@ -753,7 +753,7 @@ void setup() {
   stripB.begin();
   ledsOff();
   loadSettings();
-  Serial.printf("\nV10 display engine, firmware %s\n", FW_VERSION);
+  Serial.printf("\nV%d display engine, firmware %s\n", geo::N_CYL, FW_VERSION);
 
   // stepper: hardware step generation + a hardware counter on the STEP pin
   stepEngine.init();

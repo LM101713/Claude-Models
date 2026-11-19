@@ -20,6 +20,7 @@
 | 2026-11-18 | Plates M5 + M6 (PLA, fast settings): end plates on the crankcase, 608 into each end plate | both end plates locate on the crankcase ends; bearings press in and fit well | pass. Valley beam reprinted for the 60 mm rails (D79) |
 | 2026-11-18 | T4d wrist-pin bar with the 3 mm 304 craft rod (dowel pins not arrived) | only hole 1 (0.10, loosest) takes the rod | **changed**: `CRUSH["pin_3"]` 0.20 -> 0.10. The motion test uses pieces of this rod as wrist pins; re-check with real 3 x 20 dowel pins (m6, a few microns over 3.00) when they come |
 | 2026-11-18 | T4d with the real 3 x 20 dowel pins (found) | same as the rod: only hole 1 (0.10) | confirms `CRUSH["pin_3"]` = 0.10 |
+| 2026-11-19 | Firmware on the real ESP32-DevKitC-32E (Windows, PlatformIO) | builds (30 s), uploads, boots; banner + `FAULT 4: driver does not answer on UART` with nothing connected (expected); `nvs_open NOT_FOUND` on first boot = no saved settings yet (harmless) | pass. Banner now prints the cylinder count (said V10) |
 
 Still to do: T2 inserts (soldering iron), T1 S8 row, T1b/T1c PEG, 
 T10, T11. ASA re-run of T3/T3b/T4/T4d/T5/T5b/T6 before production.
