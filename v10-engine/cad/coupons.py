@@ -304,6 +304,30 @@ def t7_crank_vblock():
     return safe_clean(blk.cut(lab.val()))
 
 
+def t4e_rod_small_ends():
+    """Three copies of the con-rod small end (9 mm ring, rod thickness, printed flat
+    like plate M2) joined by a strip, bushing seats 0.05, 0.10 and 0.15 looser than
+    the current fits.py value. Marked by 1 / 2 / 3 notches in the strip (no text: too
+    small to read at this size)."""
+    t = C.ROD_BODY_W
+    ro = C.ROD_SMALL_END_OD / 2
+    pitch = 16.0
+    base = C.CRUSH["bushing_5"][1]
+    part = None
+    for i in range(3):
+        x = i * pitch
+        ring = cyl_z(ro, 0, t, x, 0)
+        part = ring if part is None else part.fuse(ring)
+    part = part.fuse(box(0, 2 * pitch, -2.5, 2.5, 0, t))
+    for i in range(3):
+        x = i * pitch
+        part = part.cut(_crush_custom_z(C.BUSHING["od"], -1, t + 1, x, 0, "bushing_5", base - 0.05 * (i + 1), t))
+        for k in range(i + 1):                      # i+1 notches beside ring i
+            nx = x + 6.5 + 1.6 * k
+            part = part.cut(box(nx - 0.4, nx + 0.4, -3.0, 3.0, t - 0.8, t + 1))
+    return safe_clean(part)
+
+
 def t12_crank_knob():
     """Hand knob for the motion test (a tool, not a test): slips on a main shaft
     (8 mm, with the pulley flat). An M3 x 8 screw through a heat-set insert in the
@@ -382,4 +406,5 @@ def build_all():
         "T7_crank_vblock": (t7_crank_vblock(), 2),
         "T8_belt_feeler": (t8_belt_feeler(), 1),
         "T12_crank_knob": (t12_crank_knob(), 1),
+        "T4e_rod_small_ends": (t4e_rod_small_ends(), 1),
     }

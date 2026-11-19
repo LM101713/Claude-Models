@@ -85,7 +85,8 @@ SETTINGS = [
 ]
 if C.VARIANT == "v8":
     SETTINGS = [
-        ("T12", "PLA", L["crank"], 4, 30, 4, 3, 0),     # hand knob: carries an insert + set screw; shares plate M1's layer height
+        ("T12", "PLA", L["crank"], 4, 30, 4, 3, 0),
+        ("T4e", "PLA", L["rod"], 3, 100, 4, 3, 0),      # rod small-end ladder: printed like plate M2     # hand knob: carries an insert + set screw; shares plate M1's layer height
         ("T1", "PLA", 0.20, 2, 10, 3, 2, 0), ("T2", "PLA", 0.20, 2, 10, 3, 2, 0),
         ("T4d", "PLA", 0.20, 3, 10, 3, 2, 3),
         ("T9b", "PLA", 0.20, 2, 0, 3, 2, 3),            # translucent boot: 2 walls, no infill (glow), brim
