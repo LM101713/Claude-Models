@@ -303,7 +303,7 @@ PANEL_SCREW_INSET = 12.0       # panel screws, from the inner corners
 CONTROLS_Z = -70.0
 CONTROLS = [
     # (name, y, hole shape, size) - panel cut-outs for the purchased parts
-    ("dc_jack",   75.0, "round", 11.0),     # 5.5x2.1 panel jack, 11 mm thread
+    ("dc_jack",   75.0, "round", 12.0),     # 5.5x2.1 panel jack: bought MEETOOT jack measured 11.5 mm thread (2026-11-19)
     ("power",     30.0, "round", 20.2),     # 20 mm round illuminated rocker (KCD1 round: 20.2 hole)
     ("speed",    -20.0, "round", 7.2),      # 10k linear pot, M7 bushing
     ("start",    -75.0, "round", 16.2),     # 16 mm stainless momentary, ring LED
