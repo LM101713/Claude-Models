@@ -80,6 +80,7 @@ if C.VARIANT == "v8":
             ("T12_crank_knob", 1)]),
         ("M2_rods_pins", "motion test: 8 con-rods, 4 printed crankpins, 12 printed spacer rings (8 + 4 spare)",
          [("09_conrod", 8), ("P1_proto_crankpin", 4), ("P1R_proto_spacer_ring", 12)]),
+        ("M2b_rods", "motion test: 8 con-rods only (reprint after a fit change)", [("09_conrod", 8)]),
         ("M3_pistons", "motion test: 8 pistons", [("10_piston", 8)]),
         ("M4_bank_head", "motion test: one bank + head A", [("03_cylinder_bank", 1), ("30_cylinder_head_A", 1)]),
         ("M5_crankcase", "motion test: crankcase", [("01_crankcase", 1)]),
