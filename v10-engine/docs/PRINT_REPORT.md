@@ -39,7 +39,7 @@ Times and grams are PrusaSlicer estimates with an H2S-like motion profile (`tool
 | 46_stand_plate | ASA | 0.2 | 4 | 15% | - | 8.32 | 229 | 5.72 | - | - | - | - |
 | 47B_bracket_mirror | ASA | 0.2 | 4 | 40% | - | 0.62 | 15 | 0.37 | - | 46.2mm2 | - | - |
 | 47_bracket | ASA | 0.2 | 4 | 40% | - | 0.62 | 15 | 0.37 | - | - | - | - |
-| 48_controls_plinth | ASA | 0.2 | 3 | 15% | - | 0.86 | 29 | 0.73 | - | 322.6mm2 | - | - |
+| 48_controls_plinth | ASA | 0.2 | 3 | 15% | - | 0.86 | 29 | 0.72 | - | 322.6mm2 | - | - |
 | P1R_proto_spacer_ring | PETG | 0.12 | 3 | 100% | - | 0.01 | 0 | 0.00 | - | - | - | - |
 | P1_proto_crankpin | PETG | 0.12 | 4 | 100% | 3 | 0.34 | 1 | 0.02 | - | - | - | - |
 | P2F_proto_main_shaft_front | PETG | 0.16 | 4 | 100% | - | 0.66 | 7 | 0.14 | - | - | - | - |
@@ -57,7 +57,7 @@ Times and grams are PrusaSlicer estimates with an H2S-like motion profile (`tool
 | T2_insert_ladder | PLA | 0.2 | 2 | 10% | - | 0.38 | 9 | 0.19 | - | - | - | - |
 | T3_608_seats | PLA | 0.2 | 3 | 10% | - | 0.39 | 11 | 0.22 | - | - | - | - |
 | T3b_686_seats | PLA | 0.2 | 3 | 10% | - | 0.34 | 9 | 0.17 | - | - | - | - |
-| T4_piston_guide | PLA | 0.2 | 3 | 10% | - | 0.22 | 5 | 0.10 | - | - | - | [2026-11-18 01:22:51.327154] [0x00007f3d49df96c0] [error]   Reversing even wall line causes it to be printed CCW instead of CW! |
+| T4_piston_guide | PLA | 0.2 | 3 | 10% | - | 0.22 | 5 | 0.10 | - | - | - | [2026-11-19 01:36:42.093658] [0x00007f1597a10180] [error]   Reversing even wall line causes it to be printed CCW instead of CW! |
 | T4b_test_lug | PLA | 0.2 | 3 | 10% | - | 0.10 | 2 | 0.03 | - | - | - | - |
 | T4c_lug_slots | PLA | 0.2 | 3 | 10% | - | 0.36 | 10 | 0.20 | - | - | - | - |
 | T4d_wrist_pins | PLA | 0.2 | 3 | 10% | 3 | 0.23 | 6 | 0.12 | - | - | - | - |
