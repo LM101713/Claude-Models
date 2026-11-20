@@ -2,6 +2,18 @@
 
 3D-printable models and the procedural Blender scripts that generate them.
 
+## Odd Layer utility cutter (concept study)
+
+[![Utility cutter concepts](utility-cutter/renders/lineup_side_profiles.png)](utility-cutter/CONCEPT_STUDY.md)
+
+Three architectures for an **18 mm snap-off cutter**: KEEL (raked monocoque slab, steel pin in
+a notch ladder), ORBIT (stationary geared thumb wheel, one click per blade segment) and LOOP
+(guard frame with a 40° skid, wheel clamp). Concept stage only: form and visible mechanism,
+rendered from solids at true scale. Not print-ready and not printed.
+
+- Study and recommendation: [`utility-cutter/CONCEPT_STUDY.md`](utility-cutter/CONCEPT_STUDY.md)
+- Generator: [`utility-cutter/cutter_concepts.py`](utility-cutter/cutter_concepts.py) + [`utility-cutter/uc/`](utility-cutter/uc)
+
 ## Odd Layer HF-04 HOLDFAST
 
 [![HOLDFAST HF-04](holdfast/renders/01_hero.png)](holdfast/)
