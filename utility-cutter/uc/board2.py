@@ -13,10 +13,10 @@ PART_OR = (240, 74, 0)
 
 LEGEND = [
     ("body", "Body", "One piece. Prints on its back face; the blade channel is a bridge."),
-    ("wheel", "Wheel", "Thumb wheel, pinion and flange in one part. Drops in from the side."),
+    ("wheel", "Wheel", "Thumb wheel, pinion and flange in one part; the dark face is a colour inlay. Drops in from the side."),
     ("shuttle", "Shuttle", "The rack. Slides in from the tail and keys the wheel into the body."),
     ("carriage", "Carriage", "Blade seat with the lock pawl. The wear part: reprint it, keep the rest."),
-    ("blade", "Blade", "Standard 18 mm snap-off. The only part that is not printed."),
+    ("blade", "Blade", "Standard 18 mm snap-off. The only part that is not printed. Seven of its eight tips are used."),
     ("tail_cap", "Tail cap", "Closes the channel. Slides on sideways, so no load can pull it off."),
 ]
 
@@ -29,9 +29,21 @@ def _dot(d, xy, n, r=24):
     d.text((x - w / 2, y - 17), str(n), font=f, fill=INK)
 
 
+def _header(d, W, M, sub, line, right):
+    d.text((M, 62), "02", font=font("SemiBold", 72), fill=ORANGE)
+    d.text((M + 120, 62), "ORBIT", font=font("SemiBold", 72), fill=INK)
+    d.text((M + 372, 92), sub, font=font("Regular", 40), fill=MUTE)
+    d.text((M + 2, 152), line, font=font("Regular", 28), fill=MUTE)
+    f = font("Medium", 24)
+    d.text((W - M - d.textlength(right, font=f), 96), right, font=f, fill=MUTE)
+
+
 def exterior(out):
+    """Three-quarter, side, rear and top."""
     W, M, G = 2400, 70, 22
     img = lambda t: Image.open(os.path.join(out, f"orbit2_{t}.png")).convert("RGB")
+    meta = json.load(open(os.path.join(out, "orbit2_meta.json")))
+    L, Tk, Hh = meta["envelope"]
     cw = W - 2 * M
     half = (cw - G) // 2
     hero_h = int(cw * 1100 / 1800)
@@ -41,14 +53,8 @@ def exterior(out):
     H = head + hero_h + G + row1 + G + row2 + M + 40
     s = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(s)
-    d.text((M, 62), "02", font=font("SemiBold", 72), fill=ORANGE)
-    d.text((M + 120, 62), "ORBIT", font=font("SemiBold", 72), fill=INK)
-    d.text((M + 372, 92), "all-printed revision", font=font("Regular", 40), fill=MUTE)
-    d.text((M + 2, 152), "Five printed parts and a blade  ·  no screws, springs or pins  ·  roll to unlock, let go to lock",
-           font=font("Regular", 28), fill=MUTE)
-    t = "ODD LAYER  ·  exterior direction for approval"
-    f = font("Medium", 24)
-    d.text((W - M - d.textlength(t, font=f), 96), t, font=f, fill=MUTE)
+    _header(d, W, M, "exterior review", f"{L:.0f} x {Hh:.0f} x {Tk:.0f} mm  ·  five printed parts and a blade  ·  no hardware",
+            "ODD LAYER  ·  final exterior review")
     y = head
     s.paste(fit(img("hero"), cw, hero_h), (M, y))
     y1 = y + hero_h + G
@@ -57,12 +63,65 @@ def exterior(out):
     y2 = y1 + row1 + G
     s.paste(fit(img("top"), cw, row2), (M, y2))
     lab = font("Medium", 22)
-    for (x, yy, text) in [(M + 22, head + 18, "Three-quarter"), (M + 22, y1 + 16, "Side profile, wheel face"),
-                          (M + half + G + 22, y1 + 16, "Back face, lock windows"), (M + 22, y2 + 16, "Top view")]:
+    for (x, yy, text) in [(M + 22, head + 18, "Three-quarter"), (M + 22, y1 + 16, "Side profile"),
+                          (M + half + G + 22, y1 + 16, "Rear face"), (M + 22, y2 + 16, "Top view")]:
         d.text((x, yy), text.upper(), font=lab, fill=(70, 70, 70))
-    d.text((M, H - M + 2), "Concept-stage geometry at true scale. No fasteners or parting line: the body is a single print. "
-           "Surface finish is design intent, not an FDM print.", font=font("Regular", 22), fill=MUTE)
+    d.text((M, H - M + 2), "Concept-stage geometry at true scale; not CAD, not printed. Surface finish is design intent, "
+           "not an FDM print.", font=font("Regular", 22), fill=MUTE)
     p = os.path.join(out, "board_orbit2_exterior.png")
+    s.save(p, optimize=True)
+    return p
+
+
+def review(out):
+    """Rear three-quarter, wheel close-up and a same-scale comparison with the previous revision."""
+    W, M, G = 2400, 70, 22
+    img = lambda t: Image.open(os.path.join(out, f"orbit2_{t}.png")).convert("RGB")
+    meta = json.load(open(os.path.join(out, "orbit2_meta.json")))
+    cw = W - 2 * M
+    half = (cw - G) // 2
+    r1 = int(half * 1100 / 1800)
+    head = 210
+    # comparison strip: both at the same mm-per-pixel
+    PREV_SPAN, PREV_LEN = 170.0, 170.0
+    mm_px_new = (meta["span"] + 46) / 1800.0
+    mm_px_old = (PREV_SPAN + 46) / 1800.0
+    target = (PREV_SPAN + 46) / half                         # mm per px in the strip
+    def scaled(name, mmpx):
+        im = Image.open(os.path.join(out, name)).convert("RGB")
+        k = mmpx / target
+        return im.resize((int(im.width * k), int(im.height * k)), Image.LANCZOS)
+    olds, news = scaled("orbit2_prev_side.png", mm_px_old), scaled("orbit2_side.png", mm_px_new)
+    oldb, newb = scaled("orbit2_prev_back.png", mm_px_old), scaled("orbit2_back.png", mm_px_new)
+    ch = max(olds.height, news.height)
+    H = head + r1 + G + 60 + ch + G + ch + M + 40
+    s = Image.new("RGB", (W, H), BG)
+    d = ImageDraw.Draw(s)
+    _header(d, W, M, "what changed", "Rear three-quarter and wheel close-up, then the previous revision against this one "
+            "at the same scale", "ODD LAYER  ·  final exterior review")
+    y = head
+    s.paste(fit(img("rear34"), half, r1), (M, y))
+    s.paste(fit(img("detail"), half, r1), (M + half + G, y))
+    lab = font("Medium", 22)
+    d.text((M + 22, y + 18), "REAR THREE-QUARTER", font=lab, fill=(70, 70, 70))
+    d.text((M + half + G + 22, y + 18), "WHEEL", font=lab, fill=(70, 70, 70))
+    y1 = y + r1 + G
+    f = font("SemiBold", 30)
+    d.text((M, y1 + 8), f"Previous revision  ·  {PREV_LEN:.0f} mm as drawn", font=f, fill=MUTE)
+    d.text((M + half + G, y1 + 8), f"This revision  ·  {meta['envelope'][0]:.0f} mm", font=f, fill=INK)
+    y2 = y1 + 60
+
+    def cell(im, x, yy):
+        tile = Image.new("RGB", (half, ch), (176, 175, 171))
+        tile.paste(im.crop((0, 0, min(im.width, half), min(im.height, ch))), ((half - min(im.width, half)) // 2, (ch - min(im.height, ch)) // 2))
+        s.paste(tile, (x, yy))
+    cell(olds, M, y2)
+    cell(news, M + half + G, y2)
+    cell(oldb, M, y2 + ch + G)
+    cell(newb, M + half + G, y2 + ch + G)
+    d.text((M, H - M + 2), "The previous revision is shown as it was drawn. Its rack would have left the nose at the last "
+           "positions and its parked blade tip was not fully covered; both are corrected here.", font=font("Regular", 22), fill=MUTE)
+    p = os.path.join(out, "board_orbit2_review.png")
     s.save(p, optimize=True)
     return p
 
@@ -79,7 +138,7 @@ def _lock_panel(d, ox, oy, sc, state, title, lines):
     X1 = 50.0
     # back wall with notches (the lock windows)
     R(0, 0, X1, 3.0, fill=GRAPH)
-    for n in (4.0, 14.0, 24.0, 34.0, 44.0):
+    for n in (4.0, 14.0, 24.0, 34.0, 44.0):   # schematic: evenly spaced working windows
         R(n - 1.75, -0.2, n + 1.75, 3.2, fill=BG)
     # blade, flat against the wall, butting the carriage
     R(0, 3.3, cx, 3.85, fill=STEEL)
@@ -151,11 +210,8 @@ def mechanism(out):
     H = head + ex_h + G + cut_h + G + lock_h + M + 40
     s = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(s)
-    d.text((M, 62), "02", font=font("SemiBold", 72), fill=ORANGE)
-    d.text((M + 120, 62), "ORBIT", font=font("SemiBold", 72), fill=INK)
-    d.text((M + 372, 92), "printed mechanism", font=font("Regular", 40), fill=MUTE)
-    d.text((M + 2, 152), "The gears only move the blade. The cutting load goes through a pawl in the body wall, "
-           "not through a gear tooth.", font=font("Regular", 28), fill=MUTE)
+    _header(d, W, M, "printed mechanism", "The gears only move the blade. The cutting load goes through a pawl in the "
+            "body wall, not through a gear tooth.", "ODD LAYER  ·  layout, not CAD")
     # exploded view + legend
     y = head
     s.paste(ex.resize((ex_w, ex_h), Image.LANCZOS), (M, y))
@@ -186,10 +242,12 @@ def mechanism(out):
     def cp(x, z):
         return (M + cw / 2 + (x - cmap["cx"]) / cmap["ortho"] * cw * -1, y2 + cut_h / 2 - (z - cmap["cz"]) / cmap["ortho"] * cw)
     f = font("Medium", 24)
-    for (x, z, tx, tz, text) in [(88, 30.5, 60, 44, "12-tooth pinion, part of the wheel"),
-                                 (140, 9.0, 150, -22, "rack (shuttle)"),
-                                 (111, 16.0, 122, 44, "carriage and pawl"),
-                                 (40, 9.0, 30, -22, "blade, flat against the back wall")]:
+    lb = cmap["labels"]
+    for (key, tx, tz, text) in [("pinion", lb["pinion"][0] - 30, 46, "12-tooth pinion, part of the wheel"),
+                                ("rack", lb["rack"][0] + 6, -24, "rack (shuttle)"),
+                                ("carriage", lb["carriage"][0] + 26, 46, "carriage and pawl"),
+                                ("blade", 30, -24, "blade, flat against the back wall")]:
+        x, z = lb[key]
         a, b = cp(x, z), cp(tx, tz)
         d.line([a, b], fill=INK, width=3)
         d.ellipse((a[0] - 6, a[1] - 6, a[0] + 6, a[1] + 6), fill=INK)
@@ -212,8 +270,8 @@ def mechanism(out):
                 ["The rack moves 2.5 mm before the carriage does.",
                  "Its V slot lifts the pawl clear, then picks the carriage up."])
     _lock_panel(d, M + 40 + 2 * pw, oy, sc, 2, "3  Let go",
-                ["The arm springs back and re-centres the rack.",
-                 "The tooth drops into the next window: one segment."])
+                ["The arm is meant to spring back and re-centre the rack,",
+                 "dropping the tooth into the next window. Untested."])
     d.text((M, H - M + 2), "Layout and proportions only. Tooth form, fits and the spring arm are placeholders until the "
            "test coupons are printed.", font=font("Regular", 22), fill=MUTE)
     p = os.path.join(out, "board_orbit2_mechanism.png")
@@ -222,4 +280,4 @@ def mechanism(out):
 
 
 def make_all(out):
-    return [exterior(out), mechanism(out)]
+    return [exterior(out), review(out), mechanism(out)]

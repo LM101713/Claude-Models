@@ -60,13 +60,15 @@ def raked_dx(h):
 
 
 # ----------------------------------------------------------------------------- lofting
-def _ring(poly, n):
+def _ring(poly, n, anchor=None):
     ext = poly.exterior
     if not ext.is_ccw:
         ext = LinearRing(list(ext.coords)[::-1])
     L = ext.length
-    c = poly.centroid
-    s0 = ext.project(Point(c.x + 1e4, c.y + 3e3))
+    if anchor is None:
+        c = poly.centroid
+        anchor = (c.x + 1e4, c.y + 3e3)
+    s0 = ext.project(Point(anchor))
     t = (s0 + np.linspace(0, L, n, endpoint=False)) % L
     return shapely.get_coordinates(shapely.line_interpolate_point(ext, t))
 
@@ -93,18 +95,25 @@ def _loft(rings, heights):
 
 
 def _levels(h0, h1, e0, e1, steps, sign):
-    """Edge-rounding schedule. e = (in-plane radius, depth) or a single radius; sign -1 rounds
-    a solid's edges, +1 flares a cutter so the hole it cuts gets rounded rims."""
-    def pair(e):
-        return (e, e) if np.isscalar(e) else e
-    (r0, d0), (r1, d1) = pair(e0), pair(e1)
+    """Edge schedule. e = radius, (in-plane, depth) for an elliptical round, or
+    (in-plane, depth, "c") for a straight chamfer (the printable choice on the bed side).
+    sign -1 shapes a solid's edges, +1 flares a cutter so the hole it cuts gets eased rims."""
+    def spec(e):
+        if np.isscalar(e):
+            return e, e, "r"
+        return (e[0], e[1], e[2] if len(e) > 2 else "r")
+    (r0, d0, k0), (r1, d1, k1) = spec(e0), spec(e1)
     lv = []
-    if d0 > 0:
+    if d0 > 0 and k0 == "c":
+        lv += [(h0, sign * r0), (h0 + d0, 0.0)]
+    elif d0 > 0:
         for a in np.linspace(0, math.pi / 2, steps + 1):
             lv.append((h0 + d0 * (1 - math.cos(a)), sign * r0 * (1 - math.sin(a))))
     else:
         lv.append((h0, 0.0))
-    if d1 > 0:
+    if d1 > 0 and k1 == "c":
+        lv += [(h1 - d1, 0.0), (h1, sign * r1)]
+    elif d1 > 0:
         for a in np.linspace(math.pi / 2, 0, steps + 1):
             lv.append((h1 - d1 * (1 - math.cos(a)), sign * r1 * (1 - math.sin(a))))
     else:
@@ -119,11 +128,12 @@ def _levels(h0, h1, e0, e1, steps, sign):
 def _stack(poly, levels, step):
     n = max(48, int(poly.exterior.length / step))
     rings, hs = [], []
+    seam = tuple(_ring(Polygon(poly.exterior), n)[0])      # every layer starts next to the same point
     for h, off in levels:
         p = poly if abs(off) < 1e-9 else poly.buffer(off, quad_segs=10)
         if p.geom_type == "MultiPolygon":
             p = max(p.geoms, key=lambda g: g.area)
-        rings.append(_ring(Polygon(p.exterior), n))
+        rings.append(_ring(Polygon(p.exterior), n, seam))
         hs.append(h)
     return _loft(rings, hs)
 

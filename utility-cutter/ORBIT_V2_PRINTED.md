@@ -2,6 +2,11 @@
 
 Revised direction for approval. No CAD has been started.
 
+> **Updated by the exterior review.** See [ORBIT_EXTERIOR_REVIEW.md](ORBIT_EXTERIOR_REVIEW.md).
+> The size quoted below (180 mm) was wrong, and the layout it came from let the rack leave
+> the nose. The current body is 167 × 53 × 23 mm with eight lock windows (one parked, seven
+> working), a dial-style wheel and chamfered edges. The images below show the current design.
+
 **Status: concept stage.** The geometry behind the renders is a layout study at true scale:
 it shows that the parts fit and how they go together. Tooth form, fits and the spring arm
 are placeholders. Nothing has been printed, and no printed lock should be trusted until the
