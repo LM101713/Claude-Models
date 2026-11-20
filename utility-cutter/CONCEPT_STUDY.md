@@ -170,6 +170,10 @@ Two things worth carrying over from the others:
 KEEL is the fallback if ORBIT's gear train does not survive testing. LOOP is better treated
 as a separate product for warehouse use than as a rival.
 
+> **Superseded for ORBIT.** The hardware in this section (steel bolts, pins, springs) was
+> ruled out afterwards. See [ORBIT_V2_PRINTED.md](ORBIT_V2_PRINTED.md) for the all-printed
+> architecture.
+
 ## Before CAD
 
 1. Measure three blade brands: segment pitch, tail-hole size and position, thickness.
