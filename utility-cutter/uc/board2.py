@@ -36,7 +36,7 @@ def exterior(out):
     half = (cw - G) // 2
     hero_h = int(cw * 1100 / 1800)
     row1 = int(half * 720 / 1800)
-    row2 = 520
+    row2 = int(cw * 420 / 1800)
     head = 210
     H = head + hero_h + G + row1 + G + row2 + M + 40
     s = Image.new("RGB", (W, H), BG)
@@ -55,12 +55,10 @@ def exterior(out):
     s.paste(fit(img("side"), half, row1), (M, y1))
     s.paste(fit(img("back"), half, row1), (M + half + G, y1))
     y2 = y1 + row1 + G
-    s.paste(fit(img("top"), half, row2), (M, y2))
-    s.paste(fit(img("detail"), half, row2), (M + half + G, y2))
+    s.paste(fit(img("top"), cw, row2), (M, y2))
     lab = font("Medium", 22)
     for (x, yy, text) in [(M + 22, head + 18, "Three-quarter"), (M + 22, y1 + 16, "Side profile, wheel face"),
-                          (M + half + G + 22, y1 + 16, "Back face, lock windows"), (M + 22, y2 + 16, "Top view"),
-                          (M + half + G + 22, y2 + 16, "Wheel in its bay")]:
+                          (M + half + G + 22, y1 + 16, "Back face, lock windows"), (M + 22, y2 + 16, "Top view")]:
         d.text((x, yy), text.upper(), font=lab, fill=(70, 70, 70))
     d.text((M, H - M + 2), "Concept-stage geometry at true scale. No fasteners or parting line: the body is a single print. "
            "Surface finish is design intent, not an FDM print.", font=font("Regular", 22), fill=MUTE)

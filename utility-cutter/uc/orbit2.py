@@ -75,7 +75,7 @@ def outline():
     bot = G.spline([(xb, -11.0), (140, -11.9), (112, -11.5), (84, -9.6), (56, -7.7), (30, -7.0), (0, H0n)])
     base = Polygon(top + bot)
     fender = G.circle(WX, WZ, 15.6)                         # covers the pinion on the back half
-    return G.round_corners(unary_union([base, fender]), 5.4, 7.0), xb
+    return G.round_corners(unary_union([base, fender]), 6.4, 7.0), xb
 
 
 def build(explode=False, cut_y=None):

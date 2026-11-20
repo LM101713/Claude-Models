@@ -299,7 +299,7 @@ def render_orbit2(out, samples=96, scale=1.0, shots=None):
     from bpy_extras.object_utils import world_to_camera_view
     from . import orbit2 as O
 
-    want = shots or ["hero", "side", "top", "back", "detail", "exploded", "cutaway"]
+    want = shots or ["hero", "side", "top", "back", "exploded", "cutaway"]
     paths = {}
 
     def go(sc, tag, res):
