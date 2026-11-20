@@ -281,3 +281,105 @@ def render_concept(concept, out, samples=96, scale=1.0, shots=None):
         camera(sc, sph(0.34, -14, 30, t), t, 100, fstop=20)
         go("detail", (1800, 1100))
     return paths
+
+
+# =====================================================================================
+# ORBIT v2 (all-printed) - exterior views, exploded view with callout anchors, cutaway
+# =====================================================================================
+def _mark_section(ob, cut_y, mat):
+    me = ob.data
+    me.materials.append(mat)
+    for p in me.polygons:
+        if all(abs(me.vertices[i].co.y - cut_y) < 1e-3 for i in p.vertices):
+            p.material_index = 1
+
+
+def render_orbit2(out, samples=96, scale=1.0, shots=None):
+    import json
+    from bpy_extras.object_utils import world_to_camera_view
+    from . import orbit2 as O
+
+    want = shots or ["hero", "side", "top", "back", "detail", "exploded", "cutaway"]
+    paths = {}
+
+    def go(sc, tag, res):
+        res = (int(res[0] * scale), int(res[1] * scale))
+        setup_render(sc, samples, res)
+        p = os.path.join(out, f"orbit2_{tag}.png")
+        sc.render.filepath = p
+        bpy.ops.render.render(write_still=True)
+        paths[tag] = p
+
+    ext = [s for s in want if s in ("hero", "side", "top", "back", "detail")]
+    if ext:
+        c = O.build()
+        sc, root, studio, floor, bounds = build(c)
+        lo, hi = bounds
+        span = hi[0] - lo[0]
+        if "hero" in ext:
+            pose(root, floor, bounds, "flat", 20)
+            lights(studio, "hero", 1.0)
+            camera(sc, sph(0.64, -12, 31), (0, 0.006, -0.004), 105, fstop=16)
+            go(sc, "hero", (1800, 1100))
+        if "detail" in ext:
+            pose(root, floor, bounds, "flat", 20)
+            lights(studio, "hero", 1.0)
+            t = to_world(root, c["detail"])
+            camera(sc, sph(0.34, -14, 30, t), t, 100, fstop=20)
+            go(sc, "detail", (1800, 1100))
+        if "side" in ext:
+            pose(root, floor, bounds, "flat", 180)
+            lights(studio, "flat", 0.85)
+            camera(sc, (0, 0, 1.5), (0, 0, 0), 100, ortho=(span + 46) * MM)
+            go(sc, "side", (1800, 720))
+        if "back" in ext:                                   # lying on its wheel face, back wall up
+            cc = (lo + hi) / 2
+            root.matrix_world = Matrix.Scale(MM, 4) @ Matrix.Rotation(math.radians(-90), 4, "X") @ Matrix.Translation(Vector(-cc))
+            floor.location = (0, 0, -(hi[1] - cc[1]) * MM)
+            lights(studio, "flat", 0.85)
+            camera(sc, (0, 0, 1.5), (0, 0, 0), 100, ortho=(span + 46) * MM)
+            go(sc, "back", (1800, 720))
+        if "top" in ext:
+            pose(root, floor, bounds, "up", 180)
+            lights(studio, "flat", 0.85)
+            camera(sc, (0, 0, 1.5), (0, 0, 0), 100, ortho=(span + 46) * MM)
+            go(sc, "top", (1800, 420))
+
+    if "exploded" in want:
+        c = O.build(explode=True)
+        sc, root, studio, floor, bounds = build(c)
+        lo, hi = bounds
+        cc = (lo + hi) / 2
+        # upright, seen from the back (-Y) side so the lock windows and pawl face the camera
+        root.matrix_world = Matrix.Scale(MM, 4) @ Matrix.Rotation(math.radians(-14), 4, "Z") @ Matrix.Translation(Vector(-cc))
+        floor.location = (0, 0, (lo[2] - cc[2] - 30) * MM)
+        lights(studio, "hero", 1.25)
+        cam = camera(sc, sph(0.92, 8, 20), (0.004, 0, 0.0), 105, fstop=22)
+        go(sc, "exploded", (1800, 1300))
+        bpy.context.view_layer.update()
+        pts = {}
+        for k, a in c["anchors"].items():
+            v = world_to_camera_view(sc, cam, root.matrix_world @ Vector(a))
+            pts[k] = (float(v.x), float(1 - v.y))
+        with open(os.path.join(out, "orbit2_exploded_anchors.json"), "w") as f:
+            json.dump(pts, f, indent=1)
+
+    if "cutaway" in want:
+        cut = 2.85
+        c = O.build(cut_y=cut)
+        sc, root, studio, floor, bounds = build(c)
+        sec = plastic("UC_Section", "6E7178", 0.6, 0.0)
+        for ob in root.children:
+            if any(k in ob.name for k in ("_body_", "_tail_cap_")):
+                _mark_section(ob, cut, sec)
+            if "_wheel_" in ob.name:
+                _mark_section(ob, cut, plastic("UC_Section_Orange", "B93A00", 0.6, 0.0))
+        lo, hi = bounds
+        pose(root, floor, bounds, "flat", 180)
+        lights(studio, "flat", 0.95)
+        camera(sc, (0, 0, 1.5), (0, 0, 0), 100, ortho=(hi[0] - lo[0] + 40) * MM)
+        go(sc, "cutaway", (1800, 720))
+        cc = (lo + hi) / 2
+        with open(os.path.join(out, "orbit2_cutaway_map.json"), "w") as f:
+            json.dump(dict(cx=float(cc[0]), cz=float(cc[2]), ortho=float(hi[0] - lo[0] + 40)), f)
+    return paths

@@ -34,6 +34,9 @@ def main():
             continue
         S.render_concept(c, a.out, samples=24 if a.preview else 96, scale=0.5 if a.preview else 1.0,
                          shots=a.shots.split(",") if a.shots else None)
+    if not a.only or "orbit2" in a.only.split(","):
+        S.render_orbit2(a.out, samples=24 if a.preview else 96, scale=0.5 if a.preview else 1.0,
+                        shots=a.shots.split(",") if a.shots else None)
     if not a.no_boards and not a.preview:
         from uc import board
         board.make_all(a.out)
