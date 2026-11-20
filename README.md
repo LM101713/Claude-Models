@@ -13,6 +13,7 @@ rendered from solids at true scale. Not print-ready and not printed.
 
 - Study and recommendation: [`utility-cutter/CONCEPT_STUDY.md`](utility-cutter/CONCEPT_STUDY.md)
 - ORBIT all-printed revision (no hardware, five printed parts): [`utility-cutter/ORBIT_V2_PRINTED.md`](utility-cutter/ORBIT_V2_PRINTED.md)
+- ORBIT mechanical architecture, clearances, test plan and remaining risks: [`utility-cutter/ARCHITECTURE.md`](utility-cutter/ARCHITECTURE.md)
 - ORBIT final exterior review and safety-critical assumptions: [`utility-cutter/ORBIT_EXTERIOR_REVIEW.md`](utility-cutter/ORBIT_EXTERIOR_REVIEW.md)
 - Generator: [`utility-cutter/cutter_concepts.py`](utility-cutter/cutter_concepts.py) + [`utility-cutter/uc/`](utility-cutter/uc)
 

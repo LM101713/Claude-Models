@@ -17,7 +17,8 @@ LEGEND = [
     ("shuttle", "Shuttle", "The rack. Slides in from the tail and keys the wheel into the body."),
     ("carriage", "Carriage", "Blade seat with the lock pawl. The wear part: reprint it, keep the rest."),
     ("blade", "Blade", "Standard 18 mm snap-off. The only part that is not printed. Seven of its eight tips are used."),
-    ("tail_cap", "Tail cap", "Closes the channel. Slides on sideways, so no load can pull it off."),
+    ("tail_cap", "Tail cap", "Closes the channel. Slides on sideways on two rails, so no load along the tool can pull it off."),
+    ("carry_bolt", "Carry bolt", "Push-through bolt in the tail cap. Holds the rack when the blade is parked, so the wheel cannot turn."),
 ]
 
 
@@ -53,7 +54,7 @@ def exterior(out):
     H = head + hero_h + G + row1 + G + row2 + M + 40
     s = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(s)
-    _header(d, W, M, "exterior review", f"{L:.0f} x {Hh:.0f} x {Tk:.0f} mm  ·  five printed parts and a blade  ·  no hardware",
+    _header(d, W, M, "approved exterior + carry bolt", f"{L:.0f} x {Hh:.0f} x {Tk:.0f} mm  ·  six printed parts and a blade  ·  no hardware",
             "ODD LAYER  ·  final exterior review")
     y = head
     s.paste(fit(img("hero"), cw, hero_h), (M, y))
@@ -210,8 +211,8 @@ def mechanism(out):
     H = head + ex_h + G + cut_h + G + lock_h + M + 40
     s = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(s)
-    _header(d, W, M, "printed mechanism", "The gears only move the blade. The cutting load goes through a pawl in the "
-            "body wall, not through a gear tooth.", "ODD LAYER  ·  layout, not CAD")
+    _header(d, W, M, "printed mechanism", "Six printed parts. The gears only move the blade; the cutting load goes through a pawl "
+            "in the body wall.", "ODD LAYER  ·  layout, not CAD")
     # exploded view + legend
     y = head
     s.paste(ex.resize((ex_w, ex_h), Image.LANCZOS), (M, y))
