@@ -66,7 +66,7 @@ def materials():
     return dict(
         graphite=plastic("UC_Graphite", "2A2C30", 0.46),
         graphite2=plastic("UC_Graphite_Dark", "1C1D20", 0.38, 0.02),
-        orange=plastic("UC_Orange", "FF5F0F", 0.40, 0.025),
+        orange=plastic("UC_Orange", "F04A00", 0.40, 0.025),
         blade=metal("UC_Blade_Steel", "C9CCD0", 0.24, 0.5, 0.00002),
         steel=metal("UC_Steel", "D4D6D8", 0.22),
         oxide=metal("UC_Black_Oxide", "2B2B2D", 0.36),
@@ -260,7 +260,7 @@ def render_concept(concept, out, samples=96, scale=1.0, shots=None):
     want = shots or ["hero", "side", "top", "detail"]
     if "hero" in want:
         pose(root, floor, bounds, "flat", 20)
-        lights(studio, "hero", 1.15)
+        lights(studio, "hero", 1.0)
         d = 0.62 if tall < 60 else 0.74
         camera(sc, sph(d, -12, 31), (0, 0.006, -0.004), 105, fstop=16)
         go("hero", (1800, 1100))

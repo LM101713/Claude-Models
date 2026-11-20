@@ -32,7 +32,7 @@ def main():
         c = f()
         if a.only and c["key"] not in a.only.split(","):
             continue
-        S.render_concept(c, a.out, samples=24 if a.preview else 128, scale=0.5 if a.preview else 1.0,
+        S.render_concept(c, a.out, samples=24 if a.preview else 96, scale=0.5 if a.preview else 1.0,
                          shots=a.shots.split(",") if a.shots else None)
     if not a.no_boards and not a.preview:
         from uc import board

@@ -82,8 +82,8 @@ def orbit():
     top = G.spline([(dx, H1n), (45, 24.6), (70, 25.4), (WX, 25.8), (112, 25.0), (140, 20.5), (162, 12.5),
                     (171.5, 3.0), (168, -6.5), (152, -11.5), (124, -12.6), (92, -10.6), (60, -7.6), (34, -6.6),
                     (14, -7.3), (0, H0n)])
-    outline = G.round_corners(Polygon(top), 2.4)
-    edge = (6.5, 3.4)
+    outline = G.round_corners(Polygon(top), 4.6)
+    edge = (4.2, 3.4)
     solid = G.xz_solid(outline, -T / 2, T / 2, edge, edge)
 
     BY = -6.3                                               # blade plane: the gear train sits beside it
@@ -150,7 +150,7 @@ def loop():
 
     frame = G.xz_solid(outer, -TF / 2, TF / 2, 2.6, 2.6) - \
         G.xz_solid(opening, -TF / 2, TF / 2, 2.6, 2.6, flare=True)
-    spine = G.xz_solid(spine2d, -TS / 2, TS / 2, (4.5, 3.0), (4.5, 3.0))
+    spine = G.xz_solid(spine2d, -TS / 2, TS / 2, 2.8, 2.8)
     solid = G.union([frame, spine])
 
     body = solid - G.cube(-5, 126, -0.5, 0.5, -0.35, 18.35)

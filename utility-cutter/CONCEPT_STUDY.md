@@ -80,7 +80,7 @@ segment.
 | | |
 |---|---|
 | Size | 172 × 54 × 20 mm |
-| Body | Long tapered nose, a waist under the wheel, a palm swell at the rear. Two shells, each printed inner-face down. Soft 6.5 × 3.4 mm elliptical edge. |
+| Body | Long tapered nose, a waist under the wheel, a palm swell at the rear. Two shells, each printed inner-face down. Soft 4.2 × 3.4 mm elliptical edge. |
 | Grip | Full-hand grip with the palm on the swell and the thumb resting on the wheel. The 20 mm thickness is set by the gear train and happens to be a good handle thickness. |
 | Blade housing | The blade plane is offset 6.3 mm to one side. The rack and pinion sit beside it and the wheel beside that. Two nose bolts, two more along the shells. |
 | Deployment | A ø39 mm fluted wheel carries a 12-tooth, module 1.6 pinion that drives a rack on the blade carriage. One turn moves the blade 60 mm. The thumb moves about twice as far as the blade, so it has 2:1 leverage. |

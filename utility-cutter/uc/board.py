@@ -45,7 +45,7 @@ def make(out, b):
     side = img("side")
     side_h = int(half * side.height / side.width)
     top_h = int(half * 420 / 1800)
-    row_h = max(side_h, 560)
+    row_h = side_h + G + top_h
     head = 210
     H = head + hero_h + G + row_h + M + 40
     sheet = Image.new("RGB", (W, H), BG)
