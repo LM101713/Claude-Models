@@ -15,7 +15,7 @@ LEGEND = [
     ("body", "Body", "One piece. Prints on its back face; the blade channel is a bridge."),
     ("wheel", "Wheel", "Thumb wheel, pinion and flange in one part; the dark face is a colour inlay. Drops in from the side."),
     ("shuttle", "Shuttle", "The rack. Slides in from the tail and keys the wheel into the body."),
-    ("carriage", "Carriage", "Blade seat with the lock pawl. The wear part: reprint it, keep the rest."),
+    ("carriage", "Carriage", "Blade seat with the two lock pawls. The wear part: reprint it, keep the rest."),
     ("blade", "Blade", "Standard 18 mm snap-off. The only part that is not printed. Seven of its eight tips are used."),
     ("tail_cap", "Tail cap", "Closes the channel. Slides on sideways on two rails, so no load along the tool can pull it off."),
     ("carry_bolt", "Carry bolt", "Push-through bolt in the tail cap. Holds the rack when the blade is parked, so the wheel cannot turn."),
@@ -206,12 +206,12 @@ def mechanism(out):
     ex_w = 1500
     ex_h = int(ex_w * ex.height / ex.width)
     cut_h = int(cw * cut.height / cut.width)
-    lock_h = 560
+    lock_h = -22            # the lock sequence now has its own board (arch_lock.png)
     head = 210
     H = head + ex_h + G + cut_h + G + lock_h + M + 40
     s = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(s)
-    _header(d, W, M, "printed mechanism", "Six printed parts. The gears only move the blade; the cutting load goes through a pawl "
+    _header(d, W, M, "printed mechanism", "Six printed parts. The gears only move the blade; the cutting load goes through the pawls "
             "in the body wall.", "ODD LAYER  ·  layout, not CAD")
     # exploded view + legend
     y = head
@@ -246,7 +246,7 @@ def mechanism(out):
     lb = cmap["labels"]
     for (key, tx, tz, text) in [("pinion", lb["pinion"][0] - 30, 46, "12-tooth pinion, part of the wheel"),
                                 ("rack", lb["rack"][0] + 6, -24, "rack (shuttle)"),
-                                ("carriage", lb["carriage"][0] + 26, 46, "carriage and pawl"),
+                                ("carriage", lb["carriage"][0] + 26, 46, "carriage and pawls"),
                                 ("blade", 30, -24, "blade, flat against the back wall")]:
         x, z = lb[key]
         a, b = cp(x, z), cp(tx, tz)
@@ -256,23 +256,6 @@ def mechanism(out):
         bx = b[0] - w_ / 2
         d.rectangle((bx - 12, b[1] - 20, bx + w_ + 12, b[1] + 20), fill=WHITE)
         d.text((bx, b[1] - 15), text, font=f, fill=INK)
-    # lock sequence
-    y3 = y2 + cut_h + G
-    d.rectangle((M, y3, W - M, y3 + lock_h), fill=WHITE)
-    d.text((M + 22, y3 + 18), "LOCK SEQUENCE, SECTION SEEN FROM ABOVE (BACK WALL AT THE BOTTOM, NOSE TO THE LEFT)",
-           font=font("Medium", 22), fill=(70, 70, 70))
-    pw = (cw - 80) / 3
-    sc = (pw - 60) / 50.0
-    oy = y3 + 395
-    _lock_panel(d, M + 40, oy, sc, 0, "1  Locked",
-                ["Pawl tooth sits in a wall window; its spring arm is relaxed.",
-                 "Load path: blade, carriage, tooth, wall. No gear involved."])
-    _lock_panel(d, M + 40 + pw, oy, sc, 1, "2  Roll the wheel",
-                ["The rack moves 2.5 mm before the carriage does.",
-                 "Its V slot lifts the pawl clear, then picks the carriage up."])
-    _lock_panel(d, M + 40 + 2 * pw, oy, sc, 2, "3  Let go",
-                ["The arm is meant to spring back and re-centre the rack,",
-                 "dropping the tooth into the next window. Untested."])
     d.text((M, H - M + 2), "Layout and proportions only. Tooth form, fits and the spring arm are placeholders until the "
            "test coupons are printed.", font=font("Regular", 22), fill=MUTE)
     p = os.path.join(out, "board_orbit2_mechanism.png")

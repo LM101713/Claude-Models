@@ -24,7 +24,7 @@ chamfers).
 | Blade support | Nose slit only | Nose slit **plus lips along the channel** | The slit alone supports only 5 mm of the blade's back edge. |
 | Carry lock | None | **Cross-bolt in the tail cap** | Holds the rack when parked, so the wheel cannot turn. |
 | Tail cap | "Slides on sideways" | **Two T-rails, a latch, and two positive blocks** | Resolved; see below. |
-| Exterior | Approved | Unchanged except a 5 mm bolt end on each face of the tail cap | |
+| Exterior | Approved | Unchanged except a 5 mm bolt end on each face of the tail cap, and the cap seam 3 mm further forward | The body is still 23 mm thick; the bolt end stands 2 mm proud on one side. |
 
 Three corrections to earlier material:
 
@@ -224,6 +224,8 @@ of slit at the other. This is the least supported working position and should be
 separately.
 
 ## 6. Layout and critical clearances
+
+![Mechanism layout](renders/board_orbit2_mechanism.png)
 
 ![Section](renders/arch_section.png)
 
