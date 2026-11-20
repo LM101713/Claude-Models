@@ -327,6 +327,30 @@ def t4e_rod_small_ends():
     return safe_clean(part)
 
 
+def t4f_piston_bosses():
+    """Wrist-pin ladder in the real piston boss shape, printed like the piston
+    (0.16 layers, pin axis horizontal). Four stations, each two 8 mm bosses with
+    the rod gap between them, pin-hole interference 0.05 / 0.00 / -0.05 / -0.10.
+    First run of the real pistons (pin_3 = 0.10, 2026-11-19): the pin would not go
+    through. Marked by 1 / 2 / 3 / 4 notches on top: 1 = tightest."""
+    boss_l, gap = 8.0, C.ROD_BODY_W + 2 * C.PISTON_BOSS_GAP
+    L = 2 * boss_l + gap
+    h, wall, pitch = 12.0, 1.5, 12.0
+    steps = (0.05, 0.00, -0.05, -0.10)
+    w = pitch * len(steps)
+    blk = box(0, h, 0, w, 0, L)                                   # hole axis = z (rotated to horizontal below)
+    blk = blk.cut(box(wall, h + 1, -1, w + 1, boss_l, boss_l + gap))  # rod gap, back wall left as the floor
+    for i, interf in enumerate(steps):
+        y = pitch * (i + 0.5)
+        blk = blk.cut(_crush_custom_z(C.WRIST_PIN["d"], -1, L + 1, h / 2, y, "pin_3", interf, L))
+        for k in range(i + 1):
+            nz = 1.5 + 1.5 * k
+            blk = blk.cut(box(h - 0.8, h + 1, y - 3.0, y + 3.0, nz - 0.4, nz + 0.4))
+    part = blk.rotate((0, 0, 0), (0, 1, 0), -90)
+    bb = part.BoundingBox()
+    return safe_clean(part.translate(cq.Vector(-bb.xmin, -bb.ymin, -bb.zmin)))
+
+
 def t12_crank_knob():
     """Hand knob for the motion test (a tool, not a test): slips on a main shaft
     (8 mm, with the pulley flat). An M3 x 8 screw through a heat-set insert in the
@@ -406,4 +430,5 @@ def build_all():
         "T8_belt_feeler": (t8_belt_feeler(), 1),
         "T12_crank_knob": (t12_crank_knob(), 1),
         "T4e_rod_small_ends": (t4e_rod_small_ends(), 1),
+        "T4f_piston_bosses": (t4f_piston_bosses(), 1),
     }
