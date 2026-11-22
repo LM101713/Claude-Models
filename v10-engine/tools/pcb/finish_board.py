@@ -1,5 +1,5 @@
-"""Import the Freerouting result into the board, add ground pours on both layers,
-fill them and save pcb/v8_controller.kicad_pcb. Run by tools/pcb/build_pcb.sh."""
+"""Add ground pours on both layers to the routed board, fill them and save
+pcb/v8_controller.kicad_pcb. Run by tools/pcb/build_pcb.sh."""
 import os
 import pcbnew
 
@@ -8,9 +8,7 @@ PCB = os.path.join(ROOT, "pcb")
 MM = pcbnew.FromMM
 OX, OY, W, H = 100.0, 100.0, 90.0, 70.0
 
-board = pcbnew.LoadBoard(os.path.join(PCB, "v8_controller_unrouted.kicad_pcb"))
-if not pcbnew.ImportSpecctraSES(board, os.path.join(PCB, "v8_controller.ses")):
-    raise SystemExit("could not import the routed session (.ses)")
+board = pcbnew.LoadBoard(os.path.join(PCB, "v8_controller_routed.kicad_pcb"))
 
 gnd = board.FindNet("GND")
 for layer in (pcbnew.F_Cu, pcbnew.B_Cu):
@@ -28,6 +26,12 @@ for layer in (pcbnew.F_Cu, pcbnew.B_Cu):
         ol.Append(MM(OX + x), MM(OY + y))
     board.Add(z)
 
+# GND pads join the pour solidly: several sit between tracks where a 2-spoke thermal
+# relief can't form. Every GND pad is also track-routed. (A 60 W iron solders these fine.)
+for f in board.GetFootprints():
+    for pad in f.Pads():
+        if pad.GetNetname() == "GND":
+            pad.SetZoneConnection(pcbnew.ZONE_CONNECTION_FULL)
 pcbnew.ZONE_FILLER(board).Fill(board.Zones())
 out = os.path.join(PCB, "v8_controller.kicad_pcb")
 board.Save(out)

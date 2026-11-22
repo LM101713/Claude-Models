@@ -1,8 +1,8 @@
 """V8 controller board: places every part, assigns the nets, adds the outline,
 mounting holes and ground pours, and writes pcb/v8_controller_unrouted.kicad_pcb.
-Routing is done by tools/pcb/build_pcb.sh (Freerouting), then GND pours are filled.
+Routing is done by tools/pcb/route.py, then GND pours by finish_board.py (build_pcb.sh).
 
-    python3 tools/pcb/make_board.py        (system python 3.12: needs the pcbnew module)
+    /usr/bin/python3 tools/pcb/make_board.py        (system python: needs the pcbnew module)
 
 The circuit is docs/ELECTRONICS_NETLIST.csv minus the LED outputs (decision D77):
 U4 (74AHCT125), R4, R5, J4, J5 and their nets are gone. Board size and the 4
@@ -19,11 +19,6 @@ MM = pcbnew.FromMM
 W, H = 90.0, 70.0
 OX, OY = 100.0, 100.0          # board origin on the KiCad sheet
 
-# Pololu step-down regulator pin order along its header, left to right with the
-# components facing you. VERIFY against the labels on the board you have before
-# ordering PCBs (D24V22F5 and the older D24V25F5 may differ). Only VIN, GND and
-# VOUT are connected.
-REG_PINS = ["EN", "VIN", "GND", "VOUT", "PG"]
 
 board = pcbnew.BOARD()
 nets = {}
@@ -43,6 +38,7 @@ def P(x, y):
 
 def lib_fp(lib, name, ref, value, x, y, rot=0.0, pads=None):
     f = pcbnew.FootprintLoad(os.path.join(FP, lib + ".pretty"), name)
+    f.SetFPID(pcbnew.LIB_ID(lib, name))
     f.SetReference(ref)
     f.SetValue(value)
     board.Add(f)
@@ -130,8 +126,8 @@ header_fp("U1", "ESP32-DevKitC-32E", [(i + 1, n) for i, n in enumerate(LEFT)], E
 header_fp("U1B", "ESP32-DevKitC-32E", [(i + 20, n) for i, n in enumerate(RIGHT)], ESP_X1, ESP_Y + 25.4, -2.54, 0.0)
 for i in range(19):
     x = ESP_X1 - 2.54 * i
-    silk_text(LNAME[i], x, ESP_Y + 2.2, 0.75, rot=90)
-    silk_text(RNAME[i], x, ESP_Y + 25.4 - 2.2, 0.75, rot=90)
+    silk_text(LNAME[i], x, ESP_Y + 2.2, 0.8, rot=90)
+    silk_text(RNAME[i], x, ESP_Y + 25.4 - 2.2, 0.8, rot=90)
 silk_rect(ESP_X1 - 2.54 * 18 - 3.5, ESP_Y - 1.25, ESP_X1 + 5.2, ESP_Y + 26.65)
 silk_text("ESP32-DevKitC-32E  (USB this end <)", 30.0, ESP_Y + 12.7, 1.1)
 silk_text("antenna", ESP_X1 + 4.5, ESP_Y + 12.7, 0.9, rot=90)
@@ -143,38 +139,44 @@ J2 = ["V12", "GND", "MOT_A2", "MOT_A1", "MOT_B1", "MOT_B2", "V3", "GND"]   # VM 
 header_fp("U3", "BTT TMC2209 V1.3", [(i + 1, n) for i, n in enumerate(J1)], TX0, TY, 2.54, 0.0)
 header_fp("U3B", "BTT TMC2209 V1.3", [(i + 9, n) for i, n in enumerate(J2)], TX0, TY + 12.7, 2.54, 0.0)
 for i, (a, b) in enumerate(zip(["EN", "M1", "M2", "PDN", "PD2", "CLK", "STP", "DIR"], ["VM", "GND", "2B", "2A", "1A", "1B", "VIO", "GND"])):
-    silk_text(a, TX0 + 2.54 * i, TY + 2.4, 0.7, rot=90)
-    silk_text(b, TX0 + 2.54 * i, TY + 12.7 - 2.4, 0.7, rot=90)
+    silk_text(a, TX0 + 2.54 * i, TY + 2.4, 0.8, rot=90)
+    silk_text(b, TX0 + 2.54 * i, TY + 12.7 - 2.4, 0.8, rot=90)
 silk_rect(TX0 - 1.8, TY - 1.8, TX0 + 2.54 * 7 + 1.8, TY + 12.7 + 1.8)
 silk_text("TMC2209  EN pin here ^", TX0 + 8.9, TY + 6.35, 0.9)
 
 # ---------------------------------------------------------------- Pololu regulator (U2)
-RX0, RY = 62.0, 34.0
-reg_nets = {"VIN": "V12", "GND": "GND", "VOUT": "V5"}
-header_fp("U2", "Pololu D24V2xF5 5V", [(i + 1, reg_nets.get(nm)) for i, nm in enumerate(REG_PINS)], RX0, RY, 2.54, 0.0)
-for i, nm in enumerate(REG_PINS):
-    silk_text(nm, RX0 + 2.54 * i, RY - 2.4, 0.75, rot=90)
-silk_rect(RX0 - 1.8, RY - 4.0, RX0 + 2.54 * 4 + 1.8, RY + 9.0)
-silk_text("5V reg (check pin labels)", RX0 + 5.1, RY + 5.0, 0.8)
+# D24V25F5 pin order is not confirmed, so the board does not assume it: three labelled
+# pads (12V / GND / 5V) take short wire links from the regulator's own labelled pins
+# VIN / GND / VOUT. Its EN / SHDN / PG pins stay unconnected. The regulator sits on the
+# outlined area, held by double-sided foam tape.
+RX0, RY = 63.27, 30.5
+header_fp("U2", "Pololu D24V25F5 5V", [(1, "V12"), (2, "GND"), (3, "V5")], RX0, RY, 2.54, 0.0, drill=1.1, size=2.0)
+for i, nm in enumerate(["12V", "GND", "5V"]):
+    silk_text(nm, RX0 + 2.54 * i, RY - 2.6, 0.8, rot=90)
+silk_text("to VIN GND VOUT", RX0 + 2.54, RY + 2.2, 0.8)
+silk_rect(59.5, 34.0, 77.5, 52.0)                       # 17.8 mm square module, taped here
+silk_text("Pololu D24V25F5", 68.5, 41.5, 1.0)
+silk_text("(foam tape)", 68.5, 43.5, 0.8)
 
 # ---------------------------------------------------------------- connectors (JST XH, vertical)
 JST = "Connector_JST"
-lib_fp(JST, "JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical", "J1", "12V IN", 76.0, 63.0, 0, {"1": "12V_IN", "2": "GND"})
+lib_fp(JST, "JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical", "J1", "12V IN", 74.0, 63.0, 0, {"1": "12V_IN", "2": "GND"})
 lib_fp(JST, "JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical", "J2", "MOTOR", 84.5, 28.0, 90, {"1": "MOT_A1", "2": "MOT_A2", "3": "MOT_B1", "4": "MOT_B2"})
 lib_fp(JST, "JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical", "J3", "HALL", 9.0, 63.0, 0, {"1": "V3", "2": "GND", "3": "HALL"})
 lib_fp(JST, "JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical", "J6", "KNOB", 22.0, 63.0, 0, {"1": "V3", "2": "KNOB", "3": "GND"})
 lib_fp(JST, "JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical", "J7", "START", 35.0, 63.0, 0, {"1": "START", "2": "GND", "3": "V12", "4": "RING_K"})
-for ref, x, txt in (("J1", 77.25, "12V IN  + -"), ("J3", 11.5, "HALL 3V G S"), ("J6", 24.5, "KNOB 3V W G"), ("J7", 38.75, "START S G 12V LED")):
-    silk_text(txt, x, 58.5, 0.9)
+for ref, x, y, txt in (("J1", 75.25, 68.3, "12V IN + -"), ("J3", 11.5, 58.5, "HALL 3V G S"), ("J6", 24.5, 58.5, "KNOB 3V W G"),
+                       ("J7", 38.75, 58.5, "START S G 12V LED")):
+    silk_text(txt, x, y, 0.9)
 silk_text("MOTOR A1 A2 B1 B2", 80.5, 28.0 + 3.75, 0.9, rot=90)
 
 # ---------------------------------------------------------------- power input chain
-lib_fp("Capacitor_THT", "C_Disc_D7.5mm_W5.0mm_P5.00mm", "F1", "PPTC 2A", 66.0, 63.0, 0, {"1": "12V_IN", "2": "12V_F"})
-lib_fp("Diode_THT", "D_DO-201AD_P15.24mm_Horizontal", "D1", "1N5822", 70.0, 55.0, 180, {"2": "12V_F", "1": "V12"})
+lib_fp("Capacitor_THT", "C_Disc_D7.5mm_W5.0mm_P5.00mm", "F1", "PPTC 2A", 63.0, 63.0, 0, {"1": "12V_IN", "2": "12V_F"})
+lib_fp("Diode_THT", "D_DO-201AD_P15.24mm_Horizontal", "D1", "1N5822", 70.0, 57.0, 180, {"2": "12V_F", "1": "V12"})
 lib_fp("Diode_THT", "D_DO-15_P10.16mm_Horizontal", "D2", "P6KE18A", 48.0, 48.0, 0, {"1": "V12", "2": "GND"})
-lib_fp("Capacitor_THT", "CP_Radial_D10.0mm_P5.00mm", "C1", "220uF 35V+", 84.0, 51.0, 90, {"1": "V12", "2": "GND"})
-lib_fp("Capacitor_THT", "CP_Radial_D8.0mm_P3.50mm", "C2", "470uF 16V+", 71.0, 47.5, 0, {"1": "V5", "2": "GND"})
-lib_fp("Capacitor_THT", "C_Disc_D5.0mm_W2.5mm_P5.00mm", "C3", "100nF", 61.0, 50.5, 0, {"1": "V5", "2": "GND"})
+lib_fp("Capacitor_THT", "CP_Radial_D10.0mm_P5.00mm", "C1", "220uF 50V+", 81.0, 53.5, 0, {"1": "V12", "2": "GND"})
+lib_fp("Capacitor_THT", "CP_Radial_D8.0mm_P3.50mm", "C2", "470uF 25V+", 81.25, 43.0, 0, {"1": "V5", "2": "GND"})
+lib_fp("Capacitor_THT", "C_Disc_D5.0mm_W2.5mm_P5.00mm", "C3", "100nF", 3.5, 41.5, 0, {"1": "V5", "2": "GND"})
 lib_fp("Diode_THT", "D_DO-41_SOD81_P10.16mm_Horizontal", "D3", "1N5817", 16.0, 41.5, 0, {"2": "V5", "1": "V5_MCU"})
 
 # ---------------------------------------------------------------- small signal parts
@@ -186,9 +188,18 @@ lib_fp(*RES, "R7", "1k", 32.0, 50.5, 0, {"1": "RING_PWM", "2": "Q1_BASE"})
 lib_fp(*RES, "R8", "100k", 32.0, 55.0, 0, {"1": "Q1_BASE", "2": "GND"})
 lib_fp("Capacitor_THT", "C_Disc_D5.0mm_W2.5mm_P5.00mm", "C4", "10nF", 4.0, 52.0, 0, {"1": "HALL", "2": "GND"})
 lib_fp("Capacitor_THT", "C_Disc_D5.0mm_W2.5mm_P5.00mm", "C5", "100nF", 17.0, 52.0, 0, {"1": "KNOB", "2": "GND"})
-lib_fp("Package_TO_SOT_THT", "TO-92_Inline", "Q1", "2N3904", 47.0, 56.0, 0, {"1": "GND", "2": "Q1_BASE", "3": "RING_K"})
+lib_fp("Package_TO_SOT_THT", "TO-92_Inline_Wide", "Q1", "2N3904", 45.5, 56.0, 0, {"1": "GND", "2": "Q1_BASE", "3": "RING_K"})
 
 silk_text("V8 display engine controller  rev A  2026-11", 45.0, 68.3, 1.0)
+for f in board.GetFootprints():                 # the connector labels above replace their references
+    if f.GetReference() in ("J1", "J3", "J6", "J7"):
+        f.Reference().SetVisible(False)
+    if f.GetReference() == "F1":
+        f.Reference().SetPosition(P(65.5, 67.3))
+    if f.GetReference() == "C1":
+        f.Reference().SetPosition(P(83.5, 59.6))
+    if f.GetReference() == "D1":
+        f.Reference().SetPosition(P(62.4, 57.0))
 
 # ---------------------------------------------------------------- design rules
 ds = board.GetDesignSettings()
@@ -204,5 +215,4 @@ ds.m_TrackMinWidth = MM(0.25)
 os.makedirs(OUT, exist_ok=True)
 path = os.path.join(OUT, "v8_controller_unrouted.kicad_pcb")
 board.Save(path)
-pcbnew.ExportSpecctraDSN(board, os.path.join(OUT, "v8_controller.dsn"))
 print("wrote", path, "nets:", len(nets), "footprints:", len(board.GetFootprints()))

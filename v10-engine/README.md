@@ -71,6 +71,7 @@ tested one *before* any engine part is printed:
 3. [`docs/PRODUCTION_PLAN.md`](docs/PRODUCTION_PLAN.md) - print plan, printer-hours, timeline for 50
 4. [`docs/BUILD_GUIDE.md`](docs/BUILD_GUIDE.md) - **V8 motion test, one picture per step** (build this first);
    [`docs/ASSEMBLY.md`](docs/ASSEMBLY.md) - full build order with checklists (still the V10 text)
+   [`docs/PCB_GUIDE.md`](docs/PCB_GUIDE.md) - controller PCB rev A (draft, not ordered)
 5. [`docs/ELECTRONICS.md`](docs/ELECTRONICS.md) - wiring, controller board, firmware, bring-up
 6. [`docs/BURN_IN.md`](docs/BURN_IN.md), [`docs/QC_CHECKLIST.md`](docs/QC_CHECKLIST.md), [`docs/MAINTENANCE.md`](docs/MAINTENANCE.md)
 

@@ -10,3 +10,6 @@ skin/assembly/
 skin/core/
 logs/
 renders/video/frames/
+pcb/layers/
+pcb/*.kicad_prl
+pcb/*-backups/
