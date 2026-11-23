@@ -31,5 +31,7 @@
 | 2026-11-23 | T4f piston-boss wrist-pin ladder (0.05 / 0.00 / -0.05 / -0.10, printed like the piston) | station 3 (-0.05) best: pin goes through, rod swings | **changed**: `CRUSH["pin_3"]` 0.10 -> -0.05. Pistons (M3) reprint. Horizontal holes print slightly oval (sagging top), which is why the flat T4d bar read tighter |
 | 2026-11-23 | Pololu D24V25F5 arrived: pin labels read | header order **EN, VIN, GND, GND, OUT** (5 pins, 2.54 mm) | recorded; the PCB rev A wire links still apply, a rev B can take it as a plug-in |
 
-Still to do: T2 inserts (soldering iron), T1 S8 row, T1b/T1c PEG, 
+| 2026-11-23 | T2 heat-set insert ladder (3.90 / 3.95 / 4.00 / 4.05 / 4.10), PLA, iron 450 F | top row: 3.90-4.00 too tight to seat (insert won't stand, slow); **4.05 cleanest** (least bulge, insert solid), 4.10 easiest. Fin: 4.00 first to seat, 3.90 and 4.10 went in clean; tilt on 2-4 was technique | **changed**: `INSERT_HOLE_DIA` 4.00 -> 4.05 (row and fin, no split needed). Already-printed parts keep 4.00: carry the insert on the tip, 450 F |
+
+Still to do: T1 S8 row, T1b/T1c PEG, 
 T10, T11. ASA re-run of T3/T3b/T4/T4d/T5/T5b/T6 before production.
