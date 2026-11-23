@@ -55,7 +55,7 @@ CRUSH = {
     "bearing_608": (8, 0.30),   # 608 main bearing into end plate
     "bearing_686": (6, 0.30),   # 686 big-end bearing into con-rod
     "bushing_5":   (8, 0.02),   # 3x5x4 bronze bushing into rod small end / piston lug (T4e rod-ring ladder, 2026-11-19: 0.01 loose, 0.02 right, 0.03+ too tight; 0.05 needed a hammer in the real rods)
-    "pin_3":       (3, 0.10),   # 3 mm wrist pin into piston bosses (T4d, 2026-11-18, 3 mm 304 rod: only the 0.10 hole took it)
+    "pin_3":       (3, -0.05),  # 3 mm wrist pin into piston bosses (T4f real-boss ladder at 0.16 layers, 2026-11-23: station 3 = -0.05 best; 0.10 from the flat T4d bar was too tight in the real pistons)
     "dpin_6":      (2, 0.40),   # D-flat crankpin end: 2 ribs push the flat home (T5, 2026-11-14: 0.30 wobbled, 0.40 firm)
     "magnet_6":    (4, 0.25),   # 6x3 magnet pockets
     "trumpet_14":  (6, 0.25),   # intake trumpet spigot into the head port
