@@ -1,7 +1,9 @@
 # Controller PCB (rev A): what it is, how to order it, how to build it
 
-**Status: draft. Do not order yet.** Order only after the hand-wired proto board has run
-engine #1 and any circuit fixes have been carried over here (decision D85).
+**Status: rev A ORDERED 2026-11-24** (JLCPCB, 5 boards, green, 1.6 mm, LeadFree HASL, 24 h build,
+UPS Express Saver DDP; $41.53 total with a coupon). Engine #1 is built on it instead of a
+hand-wired proto board (D90). Not proven until it has run the engine; any fix goes into rev B
+before an order of 50.
 
 ![3D preview](../pcb/img/pcb_3d.png)
 
