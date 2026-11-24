@@ -1,0 +1,593 @@
+{
+ "size_mm": [
+  70.8,
+  77.39999999999999,
+  7.0
+ ],
+ "clearance_mm": 0.35355339059327373,
+ "gap_mm": 0.7,
+ "checks": {
+  "classic": [
+   {
+    "check": "outer: one closed solid",
+    "pass": true,
+    "detail": "7.31 cm3"
+   },
+   {
+    "check": "outer: sits on the bed",
+    "pass": true,
+    "detail": "z 0.00..7.00"
+   },
+   {
+    "check": "outer: no overhang steeper than 45 deg",
+    "pass": true,
+    "detail": "worst 45.0 deg from horizontal"
+   },
+   {
+    "check": "middle: one closed solid",
+    "pass": true,
+    "detail": "5.87 cm3"
+   },
+   {
+    "check": "middle: sits on the bed",
+    "pass": true,
+    "detail": "z 0.00..7.00"
+   },
+   {
+    "check": "middle: no overhang steeper than 45 deg",
+    "pass": true,
+    "detail": "worst 45.0 deg from horizontal"
+   },
+   {
+    "check": "core: one closed solid",
+    "pass": true,
+    "detail": "6.20 cm3"
+   },
+   {
+    "check": "core: sits on the bed",
+    "pass": true,
+    "detail": "z 0.00..7.00"
+   },
+   {
+    "check": "core: no overhang steeper than 45 deg",
+    "pass": true,
+    "detail": "worst 45.0 deg from horizontal"
+   },
+   {
+    "check": "core/middle: no fusion as printed",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "middle/outer: no fusion as printed",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "core/outer: no fusion as printed",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "core/middle: printed clearance >= 0.30 mm",
+    "pass": true,
+    "detail": "0.353 mm"
+   },
+   {
+    "check": "middle/outer: printed clearance >= 0.30 mm",
+    "pass": true,
+    "detail": "0.353 mm"
+   },
+   {
+    "check": "core spins 360 deg inside middle ring",
+    "pass": true,
+    "detail": "max overlap 0.0000 mm3"
+   },
+   {
+    "check": "middle ring spins 360 deg inside outer ring",
+    "pass": true,
+    "detail": "max overlap 0.0000 mm3"
+   },
+   {
+    "check": "core never touches outer ring (144 poses)",
+    "pass": true,
+    "detail": "max overlap 0.0000 mm3"
+   },
+   {
+    "check": "core is captive in middle",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "middle is captive in outer",
+    "pass": true,
+    "detail": ""
+   }
+  ],
+  "fern": [
+   {
+    "check": "outer: one closed solid",
+    "pass": true,
+    "detail": "7.31 cm3"
+   },
+   {
+    "check": "outer: sits on the bed",
+    "pass": true,
+    "detail": "z 0.00..7.00"
+   },
+   {
+    "check": "outer: no overhang steeper than 45 deg",
+    "pass": true,
+    "detail": "worst 45.0 deg from horizontal"
+   },
+   {
+    "check": "middle: one closed solid",
+    "pass": true,
+    "detail": "5.87 cm3"
+   },
+   {
+    "check": "middle: sits on the bed",
+    "pass": true,
+    "detail": "z 0.00..7.00"
+   },
+   {
+    "check": "middle: no overhang steeper than 45 deg",
+    "pass": true,
+    "detail": "worst 45.0 deg from horizontal"
+   },
+   {
+    "check": "core: one closed solid",
+    "pass": true,
+    "detail": "6.42 cm3"
+   },
+   {
+    "check": "core: sits on the bed",
+    "pass": true,
+    "detail": "z 0.00..7.00"
+   },
+   {
+    "check": "core: no overhang steeper than 45 deg",
+    "pass": true,
+    "detail": "worst 45.0 deg from horizontal"
+   },
+   {
+    "check": "core/middle: no fusion as printed",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "middle/outer: no fusion as printed",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "core/outer: no fusion as printed",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "core/middle: printed clearance >= 0.30 mm",
+    "pass": true,
+    "detail": "0.353 mm"
+   },
+   {
+    "check": "middle/outer: printed clearance >= 0.30 mm",
+    "pass": true,
+    "detail": "0.353 mm"
+   },
+   {
+    "check": "core spins 360 deg inside middle ring",
+    "pass": true,
+    "detail": "max overlap 0.0000 mm3"
+   },
+   {
+    "check": "middle ring spins 360 deg inside outer ring",
+    "pass": true,
+    "detail": "max overlap 0.0000 mm3"
+   },
+   {
+    "check": "core never touches outer ring (144 poses)",
+    "pass": true,
+    "detail": "max overlap 0.0000 mm3"
+   },
+   {
+    "check": "core is captive in middle",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "middle is captive in outer",
+    "pass": true,
+    "detail": ""
+   }
+  ],
+  "stellar": [
+   {
+    "check": "outer: one closed solid",
+    "pass": true,
+    "detail": "7.31 cm3"
+   },
+   {
+    "check": "outer: sits on the bed",
+    "pass": true,
+    "detail": "z 0.00..7.00"
+   },
+   {
+    "check": "outer: no overhang steeper than 45 deg",
+    "pass": true,
+    "detail": "worst 45.0 deg from horizontal"
+   },
+   {
+    "check": "middle: one closed solid",
+    "pass": true,
+    "detail": "5.87 cm3"
+   },
+   {
+    "check": "middle: sits on the bed",
+    "pass": true,
+    "detail": "z 0.00..7.00"
+   },
+   {
+    "check": "middle: no overhang steeper than 45 deg",
+    "pass": true,
+    "detail": "worst 45.0 deg from horizontal"
+   },
+   {
+    "check": "core: one closed solid",
+    "pass": true,
+    "detail": "5.90 cm3"
+   },
+   {
+    "check": "core: sits on the bed",
+    "pass": true,
+    "detail": "z 0.00..7.00"
+   },
+   {
+    "check": "core: no overhang steeper than 45 deg",
+    "pass": true,
+    "detail": "worst 45.0 deg from horizontal"
+   },
+   {
+    "check": "core/middle: no fusion as printed",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "middle/outer: no fusion as printed",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "core/outer: no fusion as printed",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "core/middle: printed clearance >= 0.30 mm",
+    "pass": true,
+    "detail": "0.353 mm"
+   },
+   {
+    "check": "middle/outer: printed clearance >= 0.30 mm",
+    "pass": true,
+    "detail": "0.353 mm"
+   },
+   {
+    "check": "core spins 360 deg inside middle ring",
+    "pass": true,
+    "detail": "max overlap 0.0000 mm3"
+   },
+   {
+    "check": "middle ring spins 360 deg inside outer ring",
+    "pass": true,
+    "detail": "max overlap 0.0000 mm3"
+   },
+   {
+    "check": "core never touches outer ring (144 poses)",
+    "pass": true,
+    "detail": "max overlap 0.0000 mm3"
+   },
+   {
+    "check": "core is captive in middle",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "middle is captive in outer",
+    "pass": true,
+    "detail": ""
+   }
+  ],
+  "plate": [
+   {
+    "check": "outer: one closed solid",
+    "pass": true,
+    "detail": "7.31 cm3"
+   },
+   {
+    "check": "outer: sits on the bed",
+    "pass": true,
+    "detail": "z 0.00..7.00"
+   },
+   {
+    "check": "outer: no overhang steeper than 45 deg",
+    "pass": true,
+    "detail": "worst 45.0 deg from horizontal"
+   },
+   {
+    "check": "middle: one closed solid",
+    "pass": true,
+    "detail": "5.87 cm3"
+   },
+   {
+    "check": "middle: sits on the bed",
+    "pass": true,
+    "detail": "z 0.00..7.00"
+   },
+   {
+    "check": "middle: no overhang steeper than 45 deg",
+    "pass": true,
+    "detail": "worst 45.0 deg from horizontal"
+   },
+   {
+    "check": "core: one closed solid",
+    "pass": true,
+    "detail": "6.40 cm3"
+   },
+   {
+    "check": "core: sits on the bed",
+    "pass": true,
+    "detail": "z 0.00..7.00"
+   },
+   {
+    "check": "core: no overhang steeper than 45 deg",
+    "pass": true,
+    "detail": "worst 45.0 deg from horizontal"
+   },
+   {
+    "check": "core/middle: no fusion as printed",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "middle/outer: no fusion as printed",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "core/outer: no fusion as printed",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "core/middle: printed clearance >= 0.30 mm",
+    "pass": true,
+    "detail": "0.353 mm"
+   },
+   {
+    "check": "middle/outer: printed clearance >= 0.30 mm",
+    "pass": true,
+    "detail": "0.353 mm"
+   },
+   {
+    "check": "core spins 360 deg inside middle ring",
+    "pass": true,
+    "detail": "max overlap 0.0000 mm3"
+   },
+   {
+    "check": "middle ring spins 360 deg inside outer ring",
+    "pass": true,
+    "detail": "max overlap 0.0000 mm3"
+   },
+   {
+    "check": "core never touches outer ring (144 poses)",
+    "pass": true,
+    "detail": "max overlap 0.0000 mm3"
+   },
+   {
+    "check": "core is captive in middle",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "middle is captive in outer",
+    "pass": true,
+    "detail": ""
+   }
+  ],
+  "star": [
+   {
+    "check": "outer: one closed solid",
+    "pass": true,
+    "detail": "7.31 cm3"
+   },
+   {
+    "check": "outer: sits on the bed",
+    "pass": true,
+    "detail": "z 0.00..7.00"
+   },
+   {
+    "check": "outer: no overhang steeper than 45 deg",
+    "pass": true,
+    "detail": "worst 45.0 deg from horizontal"
+   },
+   {
+    "check": "middle: one closed solid",
+    "pass": true,
+    "detail": "5.87 cm3"
+   },
+   {
+    "check": "middle: sits on the bed",
+    "pass": true,
+    "detail": "z 0.00..7.00"
+   },
+   {
+    "check": "middle: no overhang steeper than 45 deg",
+    "pass": true,
+    "detail": "worst 45.0 deg from horizontal"
+   },
+   {
+    "check": "core: one closed solid",
+    "pass": true,
+    "detail": "7.04 cm3"
+   },
+   {
+    "check": "core: sits on the bed",
+    "pass": true,
+    "detail": "z 0.00..7.00"
+   },
+   {
+    "check": "core: no overhang steeper than 45 deg",
+    "pass": true,
+    "detail": "worst 45.0 deg from horizontal"
+   },
+   {
+    "check": "core/middle: no fusion as printed",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "middle/outer: no fusion as printed",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "core/outer: no fusion as printed",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "core/middle: printed clearance >= 0.30 mm",
+    "pass": true,
+    "detail": "0.353 mm"
+   },
+   {
+    "check": "middle/outer: printed clearance >= 0.30 mm",
+    "pass": true,
+    "detail": "0.353 mm"
+   },
+   {
+    "check": "core spins 360 deg inside middle ring",
+    "pass": true,
+    "detail": "max overlap 0.0000 mm3"
+   },
+   {
+    "check": "middle ring spins 360 deg inside outer ring",
+    "pass": true,
+    "detail": "max overlap 0.0000 mm3"
+   },
+   {
+    "check": "core never touches outer ring (144 poses)",
+    "pass": true,
+    "detail": "max overlap 0.0000 mm3"
+   },
+   {
+    "check": "core is captive in middle",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "middle is captive in outer",
+    "pass": true,
+    "detail": ""
+   }
+  ],
+  "crystal": [
+   {
+    "check": "outer: one closed solid",
+    "pass": true,
+    "detail": "7.31 cm3"
+   },
+   {
+    "check": "outer: sits on the bed",
+    "pass": true,
+    "detail": "z 0.00..7.00"
+   },
+   {
+    "check": "outer: no overhang steeper than 45 deg",
+    "pass": true,
+    "detail": "worst 45.0 deg from horizontal"
+   },
+   {
+    "check": "middle: one closed solid",
+    "pass": true,
+    "detail": "5.87 cm3"
+   },
+   {
+    "check": "middle: sits on the bed",
+    "pass": true,
+    "detail": "z 0.00..7.00"
+   },
+   {
+    "check": "middle: no overhang steeper than 45 deg",
+    "pass": true,
+    "detail": "worst 45.0 deg from horizontal"
+   },
+   {
+    "check": "core: one closed solid",
+    "pass": true,
+    "detail": "6.13 cm3"
+   },
+   {
+    "check": "core: sits on the bed",
+    "pass": true,
+    "detail": "z 0.00..7.00"
+   },
+   {
+    "check": "core: no overhang steeper than 45 deg",
+    "pass": true,
+    "detail": "worst 45.0 deg from horizontal"
+   },
+   {
+    "check": "core/middle: no fusion as printed",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "middle/outer: no fusion as printed",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "core/outer: no fusion as printed",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "core/middle: printed clearance >= 0.30 mm",
+    "pass": true,
+    "detail": "0.353 mm"
+   },
+   {
+    "check": "middle/outer: printed clearance >= 0.30 mm",
+    "pass": true,
+    "detail": "0.353 mm"
+   },
+   {
+    "check": "core spins 360 deg inside middle ring",
+    "pass": true,
+    "detail": "max overlap 0.0000 mm3"
+   },
+   {
+    "check": "middle ring spins 360 deg inside outer ring",
+    "pass": true,
+    "detail": "max overlap 0.0000 mm3"
+   },
+   {
+    "check": "core never touches outer ring (144 poses)",
+    "pass": true,
+    "detail": "max overlap 0.0000 mm3"
+   },
+   {
+    "check": "core is captive in middle",
+    "pass": true,
+    "detail": ""
+   },
+   {
+    "check": "middle is captive in outer",
+    "pass": true,
+    "detail": ""
+   }
+  ]
+ }
+}

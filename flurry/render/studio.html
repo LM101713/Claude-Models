@@ -1,0 +1,55 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#12161d;overflow:hidden}</style>
+<script type="importmap">{"imports":{"three":"/three/build/three.module.js","three/addons/":"/three/examples/jsm/"}}</script></head><body>
+<script type="module">
+import * as THREE from "three";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { toCreasedNormals } from "three/addons/utils/BufferGeometryUtils.js";
+const q = new URLSearchParams(location.search);
+const W = innerWidth, H = innerHeight;
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(W, H); renderer.setPixelRatio(1);
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+const bg = q.get("bg") || "#141a24";
+scene.background = new THREE.Color(bg);
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.03).texture;
+scene.environmentIntensity = 0.55;
+const parts = await (await fetch("/scenes/" + q.get("scene") + ".json")).json();
+const group = new THREE.Group();
+const box = new THREE.Box3();
+for (const p of parts) {
+  let g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.Float32BufferAttribute(p.v, 3));
+  g.setIndex(p.t);
+  g = toCreasedNormals(g, Math.PI / 5);
+  const m = new THREE.Mesh(g, new THREE.MeshPhysicalMaterial({ color: p.color, roughness: 0.42, metalness: 0.0, clearcoat: 0.25, clearcoatRoughness: 0.5 }));
+  m.castShadow = m.receiveShadow = true; group.add(m);
+}
+// model is Z-up; stand it up (hang=1) or lay it on the floor
+const hang = q.get("hang") === "1";
+if (!hang) group.rotation.x = -Math.PI / 2;
+scene.add(group); box.setFromObject(group);
+const c = box.getCenter(new THREE.Vector3()), s = box.getSize(new THREE.Vector3());
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(4000, 4000), new THREE.ShadowMaterial({ opacity: 0.38 }));
+if (hang) { floor.position.set(0, 0, box.min.z - 30); } else { floor.rotation.x = -Math.PI / 2; floor.position.y = box.min.y - 0.01; }
+floor.receiveShadow = true; scene.add(floor);
+const key = new THREE.DirectionalLight(0xffffff, 2.6);
+const R = Math.max(s.x, s.y, s.z);
+key.position.copy(c).add(new THREE.Vector3(-0.7 * R, 1.6 * R, 1.1 * R));
+key.target.position.copy(c); scene.add(key.target);
+key.castShadow = true; key.shadow.mapSize.set(4096, 4096);
+Object.assign(key.shadow.camera, { left: -R, right: R, top: R, bottom: -R, near: 1, far: 6 * R });
+key.shadow.bias = -0.0004; key.shadow.radius = 6; scene.add(key);
+const rim = new THREE.DirectionalLight(0x9fc4ff, 1.1); rim.position.copy(c).add(new THREE.Vector3(R, 0.6 * R, -R)); scene.add(rim);
+const cam = new THREE.PerspectiveCamera(+(q.get("fov") || 28), W / H, 1, 5000);
+const az = +(q.get("az") || 0) * Math.PI / 180, el = +(q.get("el") || 60) * Math.PI / 180;
+const fit = Math.max(s.x / (W / H), hang ? s.y : s.z * Math.sin(el) + s.y * Math.cos(el), s.x / (W / H)) ;
+const span = Math.max(s.x / (W / H), hang ? s.y : (s.z * Math.sin(el) + s.y * Math.cos(el)));
+const dist = +(q.get("zoom") || 1) * 0.62 * span / Math.tan(cam.fov * Math.PI / 360);
+cam.position.copy(c).add(new THREE.Vector3(Math.sin(az) * Math.cos(el), Math.sin(el), Math.cos(az) * Math.cos(el)).multiplyScalar(dist));
+cam.lookAt(c);
+renderer.render(scene, cam);
+window.__done = true;
+</script></body></html>

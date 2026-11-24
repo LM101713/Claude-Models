@@ -2,6 +2,22 @@
 
 3D-printable models and the procedural Blender scripts that generate them.
 
+## Odd Layer FL-05 FLURRY
+
+[![FLURRY FL-05](flurry/renders/01_hero.png)](flurry/)
+
+**Print-in-place gyro snowflake ornaments.** An outer ring, a middle gimbal ring and a
+snowflake core print flat as one piece and spin on 45° cone pivots that form inside their
+sockets. Six flake designs share one 71 mm frame, each part can take its own colour, and
+nothing needs supports or hardware. A parametric script (manifold3d + shapely) builds all
+six, runs 19 checks per flake (clearance, full 360° sweep of both stages, captivity,
+overhangs) and exports STL, 3MF and renders. CAD-validated only: not yet printed.
+
+- Generator: [`flurry/flurry.py`](flurry/flurry.py)
+- Print settings and checks: [`flurry/README.md`](flurry/README.md)
+- MakerWorld listing text: [`flurry/MAKERWORLD_LISTING.md`](flurry/MAKERWORLD_LISTING.md)
+- Print files: [`flurry/models/`](flurry/models/)
+
 ## Odd Layer HF-04 HOLDFAST
 
 [![HOLDFAST HF-04](holdfast/renders/01_hero.png)](holdfast/)
