@@ -3,6 +3,8 @@
 The coupons are printed. These are the motion-test plates, in the order to print them.
 How to build them: [`docs/BUILD_GUIDE.md`](../docs/BUILD_GUIDE.md), one picture per step.
 
+**The layer height is in each file name (`_LAYER_0.16mm`). Set it in Bambu Studio before you slice: the fits were tuned at that layer height, and a different one changes them** (M3 pistons printed at 0.20 came out with tight wrist-pin holes).
+
 | File | What | Layer | Notes |
 |---|---|---|---|
 | `NEXT_M1_crank_LAYER_0.16mm.3mf` | crank parts, 2 shafts, 3 shaft plugs, hand knob | 0.16 | Safe to print now. Shafts and plugs 100 % infill. No supports |
