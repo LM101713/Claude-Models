@@ -42,9 +42,9 @@ It gives the same result every run.
 
 ## Before ordering: three checks on the real parts
 
-1. **ESP32 row spacing.** Measure the distance between the two rows of pins on your
-   ESP32-DevKitC-32E, centre to centre. The board assumes **25.4 mm**. If yours is different,
-   tell me before ordering.
+1. **ESP32 row spacing: done.** Measured on the real board 2026-11-24: 24.1 mm outside
+   edges, 21.4 mm inside edges = **22.86 mm** (0.9 in) centre to centre. The board was
+   redrawn to 22.86 (it had assumed 25.4). Its pin labels also match the board.
 2. **TMC2209 row spacing.** The board assumes **12.7 mm** between its two rows (standard
    StepStick). Measure yours.
 3. **The proto board has run engine #1**, and every fix made on it is in this design.

@@ -1,94 +1,94 @@
 ** Drc report for /home/user/Claude-Models/v10-engine/pcb/v8_controller.kicad_pcb **
-** Created on 2026-11-22 01:22:05 **
+** Created on 2026-11-24 04:13:58 **
 
 ** Found 29 DRC violations **
-[lib_footprint_issues]: Footprint 'D_DO-15_P10.16mm_Horizontal' not found in library 'Diode_THT'.
-    Local override; Severity: warning
-    @(148.0000 mm, 148.0000 mm): Footprint D2
-[lib_footprint_issues]: Footprint 'C_Disc_D5.0mm_W2.5mm_P5.00mm' not found in library 'Capacitor_THT'.
-    Local override; Severity: warning
-    @(103.5000 mm, 141.5000 mm): Footprint C3
-[lib_footprint_issues]: The current configuration does not include the library ''.
-    Local override; Severity: warning
-    @(162.0000 mm, 118.7000 mm): Footprint U3B
 [lib_footprint_issues]: Footprint 'MountingHole_3.2mm_M3' not found in library 'MountingHole'.
     Local override; Severity: warning
     @(187.5000 mm, 102.5000 mm): Footprint H2
-[lib_footprint_issues]: Footprint 'D_DO-41_SOD81_P10.16mm_Horizontal' not found in library 'Diode_THT'.
-    Local override; Severity: warning
-    @(116.0000 mm, 141.5000 mm): Footprint D3
-[lib_footprint_issues]: Footprint 'C_Disc_D5.0mm_W2.5mm_P5.00mm' not found in library 'Capacitor_THT'.
-    Local override; Severity: warning
-    @(117.0000 mm, 152.0000 mm): Footprint C5
-[lib_footprint_issues]: Footprint 'R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal' not found in library 'Resistor_THT'.
-    Local override; Severity: warning
-    @(132.0000 mm, 155.0000 mm): Footprint R8
-[lib_footprint_issues]: Footprint 'R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal' not found in library 'Resistor_THT'.
-    Local override; Severity: warning
-    @(132.0000 mm, 146.0000 mm): Footprint R3
-[lib_footprint_issues]: Footprint 'MountingHole_3.2mm_M3' not found in library 'MountingHole'.
-    Local override; Severity: warning
-    @(187.5000 mm, 167.5000 mm): Footprint H4
-[lib_footprint_issues]: The current configuration does not include the library ''.
-    Local override; Severity: warning
-    @(162.0000 mm, 106.0000 mm): Footprint U3
-[lib_footprint_issues]: Footprint 'CP_Radial_D10.0mm_P5.00mm' not found in library 'Capacitor_THT'.
-    Local override; Severity: warning
-    @(181.0000 mm, 153.5000 mm): Footprint C1
-[lib_footprint_issues]: Footprint 'MountingHole_3.2mm_M3' not found in library 'MountingHole'.
-    Local override; Severity: warning
-    @(102.5000 mm, 167.5000 mm): Footprint H3
-[lib_footprint_issues]: Footprint 'R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal' not found in library 'Resistor_THT'.
-    Local override; Severity: warning
-    @(132.0000 mm, 150.5000 mm): Footprint R7
-[lib_footprint_issues]: Footprint 'JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical' not found in library 'Connector_JST'.
-    Local override; Severity: warning
-    @(135.0000 mm, 163.0000 mm): Footprint J7
-[lib_footprint_issues]: Footprint 'CP_Radial_D8.0mm_P3.50mm' not found in library 'Capacitor_THT'.
-    Local override; Severity: warning
-    @(181.2500 mm, 143.0000 mm): Footprint C2
 [lib_footprint_issues]: Footprint 'C_Disc_D7.5mm_W5.0mm_P5.00mm' not found in library 'Capacitor_THT'.
     Local override; Severity: warning
     @(163.0000 mm, 163.0000 mm): Footprint F1
-[lib_footprint_issues]: Footprint 'D_DO-201AD_P15.24mm_Horizontal' not found in library 'Diode_THT'.
-    Local override; Severity: warning
-    @(170.0000 mm, 157.0000 mm): Footprint D1
-[lib_footprint_issues]: Footprint 'JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical' not found in library 'Connector_JST'.
-    Local override; Severity: warning
-    @(184.5000 mm, 128.0000 mm): Footprint J2
 [lib_footprint_issues]: Footprint 'R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal' not found in library 'Resistor_THT'.
     Local override; Severity: warning
     @(132.0000 mm, 141.5000 mm): Footprint R1
-[lib_footprint_issues]: The current configuration does not include the library ''.
-    Local override; Severity: warning
-    @(152.7200 mm, 109.0000 mm): Footprint U1
-[lib_footprint_issues]: The current configuration does not include the library ''.
-    Local override; Severity: warning
-    @(163.2700 mm, 130.5000 mm): Footprint U2
-[lib_footprint_issues]: Footprint 'C_Disc_D5.0mm_W2.5mm_P5.00mm' not found in library 'Capacitor_THT'.
-    Local override; Severity: warning
-    @(104.0000 mm, 152.0000 mm): Footprint C4
 [lib_footprint_issues]: Footprint 'JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical' not found in library 'Connector_JST'.
     Local override; Severity: warning
     @(109.0000 mm, 163.0000 mm): Footprint J3
 [lib_footprint_issues]: Footprint 'JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical' not found in library 'Connector_JST'.
     Local override; Severity: warning
     @(174.0000 mm, 163.0000 mm): Footprint J1
-[lib_footprint_issues]: Footprint 'MountingHole_3.2mm_M3' not found in library 'MountingHole'.
+[lib_footprint_issues]: The current configuration does not include the library ''.
     Local override; Severity: warning
-    @(102.5000 mm, 102.5000 mm): Footprint H1
+    @(152.7200 mm, 131.8600 mm): Footprint U1B
+[lib_footprint_issues]: The current configuration does not include the library ''.
+    Local override; Severity: warning
+    @(163.2700 mm, 130.5000 mm): Footprint U2
 [lib_footprint_issues]: Footprint 'JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical' not found in library 'Connector_JST'.
     Local override; Severity: warning
     @(122.0000 mm, 163.0000 mm): Footprint J6
-[lib_footprint_issues]: Footprint 'R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal' not found in library 'Resistor_THT'.
-    Local override; Severity: warning
-    @(104.0000 mm, 147.0000 mm): Footprint R6
-[lib_footprint_issues]: The current configuration does not include the library ''.
-    Local override; Severity: warning
-    @(152.7200 mm, 134.4000 mm): Footprint U1B
 [lib_footprint_issues]: Footprint 'TO-92_Inline_Wide' not found in library 'Package_TO_SOT_THT'.
     Local override; Severity: warning
     @(145.5000 mm, 156.0000 mm): Footprint Q1
+[lib_footprint_issues]: Footprint 'JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical' not found in library 'Connector_JST'.
+    Local override; Severity: warning
+    @(184.5000 mm, 128.0000 mm): Footprint J2
+[lib_footprint_issues]: Footprint 'R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal' not found in library 'Resistor_THT'.
+    Local override; Severity: warning
+    @(132.0000 mm, 155.0000 mm): Footprint R8
+[lib_footprint_issues]: Footprint 'C_Disc_D5.0mm_W2.5mm_P5.00mm' not found in library 'Capacitor_THT'.
+    Local override; Severity: warning
+    @(103.5000 mm, 141.5000 mm): Footprint C3
+[lib_footprint_issues]: Footprint 'CP_Radial_D8.0mm_P3.50mm' not found in library 'Capacitor_THT'.
+    Local override; Severity: warning
+    @(181.2500 mm, 143.0000 mm): Footprint C2
+[lib_footprint_issues]: Footprint 'C_Disc_D5.0mm_W2.5mm_P5.00mm' not found in library 'Capacitor_THT'.
+    Local override; Severity: warning
+    @(104.0000 mm, 152.0000 mm): Footprint C4
+[lib_footprint_issues]: Footprint 'MountingHole_3.2mm_M3' not found in library 'MountingHole'.
+    Local override; Severity: warning
+    @(102.5000 mm, 102.5000 mm): Footprint H1
+[lib_footprint_issues]: Footprint 'JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical' not found in library 'Connector_JST'.
+    Local override; Severity: warning
+    @(135.0000 mm, 163.0000 mm): Footprint J7
+[lib_footprint_issues]: The current configuration does not include the library ''.
+    Local override; Severity: warning
+    @(162.0000 mm, 106.0000 mm): Footprint U3
+[lib_footprint_issues]: Footprint 'R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal' not found in library 'Resistor_THT'.
+    Local override; Severity: warning
+    @(132.0000 mm, 146.0000 mm): Footprint R3
+[lib_footprint_issues]: Footprint 'D_DO-41_SOD81_P10.16mm_Horizontal' not found in library 'Diode_THT'.
+    Local override; Severity: warning
+    @(116.0000 mm, 141.5000 mm): Footprint D3
+[lib_footprint_issues]: Footprint 'MountingHole_3.2mm_M3' not found in library 'MountingHole'.
+    Local override; Severity: warning
+    @(102.5000 mm, 167.5000 mm): Footprint H3
+[lib_footprint_issues]: Footprint 'D_DO-201AD_P15.24mm_Horizontal' not found in library 'Diode_THT'.
+    Local override; Severity: warning
+    @(170.0000 mm, 157.0000 mm): Footprint D1
+[lib_footprint_issues]: Footprint 'R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal' not found in library 'Resistor_THT'.
+    Local override; Severity: warning
+    @(104.0000 mm, 147.0000 mm): Footprint R6
+[lib_footprint_issues]: Footprint 'D_DO-15_P10.16mm_Horizontal' not found in library 'Diode_THT'.
+    Local override; Severity: warning
+    @(148.0000 mm, 148.0000 mm): Footprint D2
+[lib_footprint_issues]: Footprint 'C_Disc_D5.0mm_W2.5mm_P5.00mm' not found in library 'Capacitor_THT'.
+    Local override; Severity: warning
+    @(117.0000 mm, 152.0000 mm): Footprint C5
+[lib_footprint_issues]: Footprint 'CP_Radial_D10.0mm_P5.00mm' not found in library 'Capacitor_THT'.
+    Local override; Severity: warning
+    @(181.0000 mm, 153.5000 mm): Footprint C1
+[lib_footprint_issues]: The current configuration does not include the library ''.
+    Local override; Severity: warning
+    @(152.7200 mm, 109.0000 mm): Footprint U1
+[lib_footprint_issues]: Footprint 'MountingHole_3.2mm_M3' not found in library 'MountingHole'.
+    Local override; Severity: warning
+    @(187.5000 mm, 167.5000 mm): Footprint H4
+[lib_footprint_issues]: The current configuration does not include the library ''.
+    Local override; Severity: warning
+    @(162.0000 mm, 118.7000 mm): Footprint U3B
+[lib_footprint_issues]: Footprint 'R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal' not found in library 'Resistor_THT'.
+    Local override; Severity: warning
+    @(132.0000 mm, 150.5000 mm): Footprint R7
 
 ** Found 0 unconnected pads **
 

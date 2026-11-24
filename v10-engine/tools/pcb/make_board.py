@@ -114,23 +114,24 @@ for i, (x, y) in enumerate(((2.5, 2.5), (87.5, 2.5), (2.5, 67.5), (87.5, 67.5)))
     lib_fp("MountingHole", "MountingHole_3.2mm_M3", f"H{i + 1}", "M3", x, y)
 
 # ---------------------------------------------------------------- ESP32-DevKitC-32E (U1)
-# two rows of 19, 25.4 mm apart; pin 1 (3V3) at the antenna end. USB end at the left edge.
+# two rows of 19, 22.86 mm apart (measured); pin 1 (3V3) at the antenna end. USB end at the left edge.
 LEFT = ["V3", None, None, None, None, None, "KNOB", "HALL", "DRV_EN", "STEP", "DIR", "START", None, "GND",
         "RING_PWM", None, None, None, "V5_MCU"]                  # 3V3 EN VP VN 34 35 32 33 25 26 27 14 12 GND 13 SD2 SD3 CMD 5V
 RIGHT = ["GND", None, "UART_TX", None, None, "TMC_UART", "GND", None, None, None, None, None, None, None, None,
          None, None, None, None]                                  # GND 23 22 TX RX 21 GND 19 18 5 17 16 4 0 2 15 SD1 SD0 CLK
 LNAME = ["3V3", "EN", "VP", "VN", "34", "35", "32", "33", "25", "26", "27", "14", "12", "GND", "13", "D2", "D3", "CMD", "5V"]
 RNAME = ["GND", "23", "22", "TX", "RX", "21", "GND", "19", "18", "5", "17", "16", "4", "0", "2", "15", "D1", "D0", "CLK"]
+ESP_ROW = 22.86                       # measured on the real board 2026-11-24 (0.9 in, not 25.4)
 ESP_X1, ESP_Y = 52.72, 9.0            # pin 1 position; rows step -2.54 in x towards the USB end
 header_fp("U1", "ESP32-DevKitC-32E", [(i + 1, n) for i, n in enumerate(LEFT)], ESP_X1, ESP_Y, -2.54, 0.0)
-header_fp("U1B", "ESP32-DevKitC-32E", [(i + 20, n) for i, n in enumerate(RIGHT)], ESP_X1, ESP_Y + 25.4, -2.54, 0.0)
+header_fp("U1B", "ESP32-DevKitC-32E", [(i + 20, n) for i, n in enumerate(RIGHT)], ESP_X1, ESP_Y + ESP_ROW, -2.54, 0.0)
 for i in range(19):
     x = ESP_X1 - 2.54 * i
     silk_text(LNAME[i], x, ESP_Y + 2.2, 0.8, rot=90)
-    silk_text(RNAME[i], x, ESP_Y + 25.4 - 2.2, 0.8, rot=90)
-silk_rect(ESP_X1 - 2.54 * 18 - 3.5, ESP_Y - 1.25, ESP_X1 + 5.2, ESP_Y + 26.65)
-silk_text("ESP32-DevKitC-32E  (USB this end <)", 30.0, ESP_Y + 12.7, 1.1)
-silk_text("antenna", ESP_X1 + 4.5, ESP_Y + 12.7, 0.9, rot=90)
+    silk_text(RNAME[i], x, ESP_Y + ESP_ROW - 2.2, 0.8, rot=90)
+silk_rect(ESP_X1 - 2.54 * 18 - 3.5, ESP_Y - 1.25, ESP_X1 + 5.2, ESP_Y + ESP_ROW + 1.25)
+silk_text("ESP32-DevKitC-32E  (USB this end <)", 30.0, ESP_Y + ESP_ROW / 2, 1.1)
+silk_text("antenna", ESP_X1 + 4.5, ESP_Y + ESP_ROW / 2, 0.9, rot=90)
 
 # ---------------------------------------------------------------- TMC2209 stepstick (U3)
 TX0, TY = 62.0, 6.0
