@@ -45,8 +45,10 @@ It gives the same result every run.
 1. **ESP32 row spacing: done.** Measured on the real board 2026-11-24: 24.1 mm outside
    edges, 21.4 mm inside edges = **22.86 mm** (0.9 in) centre to centre. The board was
    redrawn to 22.86 (it had assumed 25.4). Its pin labels also match the board.
-2. **TMC2209 row spacing.** The board assumes **12.7 mm** between its two rows (standard
-   StepStick). Measure yours.
+2. **TMC2209 row spacing: done.** The user's BTT TMC2209 V1.3 has the standard StepStick layout
+   (rows 12.7 mm apart; pin labels VM, GND, A2, A1, B1, B2, VIO, GND / EN, MS1, MS2, RX, TX, CLK,
+   STEP, DIR match the footprint). A caliper read over its big solder joints (13.5 / 9.4) is not
+   precise enough to say more, and nothing needed changing.
 3. **The proto board has run engine #1**, and every fix made on it is in this design.
 
 ## Ordering at JLCPCB (when the checks pass)
