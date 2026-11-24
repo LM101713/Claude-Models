@@ -5,9 +5,9 @@ How to build them: [`docs/BUILD_GUIDE.md`](../docs/BUILD_GUIDE.md), one picture 
 
 | File | What | Layer | Notes |
 |---|---|---|---|
-| `NEXT_M1_crank.3mf` | crank parts, 2 shafts, 3 shaft plugs, hand knob | 0.16 | Safe to print now. Shafts and plugs 100 % infill. No supports |
-| `NEXT_M2_rods_pins_rings.3mf` | 8 rods, 4 crankpins, 12 spacer rings | 0.12 | Wait for the T4 result (bushings). Pins and rings 100 % infill, no brim |
-| `NEXT_M3_pistons.3mf` | 8 pistons | 0.16 | Wait for the T4 and T4d results (bushings, wrist pins). No brim |
+| `NEXT_M1_crank_LAYER_0.16mm.3mf` | crank parts, 2 shafts, 3 shaft plugs, hand knob | 0.16 | Safe to print now. Shafts and plugs 100 % infill. No supports |
+| `NEXT_M2_rods_pins_rings_LAYER_0.12mm.3mf` | 8 rods, 4 crankpins, 12 spacer rings | 0.12 | Wait for the T4 result (bushings). Pins and rings 100 % infill, no brim |
+| `NEXT_M3_pistons_LAYER_0.16mm.3mf` | 8 pistons | 0.16 | Wait for the T4 and T4d results (bushings, wrist pins). No brim |
 
 Plates M4-M7 (bank, head, crankcase, valley beam, end plates, second bank) are in
 `stl/plates/`. They have heat inserts, so wait for the T2 result first.
