@@ -1078,10 +1078,115 @@ def s37_hardware():
     return s
 
 
+# ---------------------------------------------------------------------------
+# 40-46: one picture per part for the heat inserts. Part dark (like the black
+# prints), inserts shown sitting flush in their holes (gold rings), and the
+# holes that look similar but get NO insert labelled.
+# ---------------------------------------------------------------------------
+FLUSH = -4.7     # insert pushed in, 1 mm still showing so the gold ring reads
+
+
+def _ins_step(name):
+    s = Step(name)
+    s.lens = 50.0
+    return s
+
+
+def s40_ins_case_end():
+    s = _ins_step("40_inserts_crankcase_end")
+    s.add("crankcase", "dark")
+    for y, z in CASE_END_SCREWS:
+        s.insert((H, y, z), (-1, 0, 0), FLUSH)
+    s.label("CRANKCASE, end face:\n4 inserts (gold)", Vector((H, *CASE_END_SCREWS[0])))
+    s.label("Same 4 on the\nother end too\n= 8 in total", Vector((H, *CASE_END_SCREWS[3])))
+    s.cam = (1.0, -0.35, 0.35)
+    return s
+
+
+def s41_ins_case_top():
+    s = _ins_step("41_inserts_crankcase_top")
+    s.add("crankcase", "dark")
+    for bank in ("A", "B"):
+        for x in end_screws_x():
+            ax = AXIS_A if bank == "A" else Vector((0.0, *polar(1.0, C.BANK_B_ANGLE)))
+            s.insert(bank_pt(x, C.BLOCK_SCREW_END_Y, C.FACE_DIST, bank), -ax, FLUSH)
+    s.label("CRANKCASE, sloped top:\n2 inserts on this side,\none near each end", bank_pt(end_screws_x()[0], C.BLOCK_SCREW_END_Y, C.FACE_DIST))
+    s.label("2 more on the\nother sloped side\n= 4 in total", bank_pt(end_screws_x()[1], C.BLOCK_SCREW_END_Y, C.FACE_DIST, "B"))
+    s.cam = (0.2, -0.45, 1.0)
+    return s
+
+
+def s42_ins_beam_side():
+    s = _ins_step("42_inserts_valley_beam_side")
+    m = RX(-C.BANK_A_ANGLE)                       # bank A face of the beam turned up
+    s.add("valley_beam", "dark", m)
+    for x in between_x():
+        s.insert(m @ bank_pt(x, C.BLOCK_SCREW_VALLEY_Y, C.FACE_DIST), (0, 0, -1), FLUSH)
+    s.label("VALLEY BEAM, sloped side:\n3 inserts, in the 3 medium\nholes (gold), in a row", m @ bank_pt(between_x()[0], C.BLOCK_SCREW_VALLEY_Y, C.FACE_DIST))
+    s.label("NO insert:\n4 smallest holes\n(rails)", m @ bank_pt(C.BANK_A_CYL_X[1], C.RAIL_OFFSET, C.FACE_DIST))
+    lx = C.BANK_A_CYL_X[0] + 18.0
+    s.label("NO insert:\n2 biggest holes\n(pegs)", m @ bank_pt(lx, C.LOCATOR_Y, C.FACE_DIST))
+    s.label("Flip the beam: same 3\non the other sloped side\n= 6 in total", m @ bank_pt(between_x()[2], C.BLOCK_SCREW_VALLEY_Y, C.FACE_DIST))
+    s.cam = (0.12, -0.3, 1.0)
+    return s
+
+
+def s43_ins_beam_end():
+    s = _ins_step("43_inserts_valley_beam_end")
+    s.add("valley_beam", "dark")
+    for y, z in BEAM_END_SCREWS:
+        s.insert((H, y, z), (-1, 0, 0), FLUSH)
+    s.label("VALLEY BEAM, end face:\n2 inserts", Vector((H, *BEAM_END_SCREWS[0])))
+    s.label("Same 2 on the\nother end\n= 4 in total", Vector((H, *BEAM_END_SCREWS[1])))
+    s.cam = (1.0, -0.12, 0.22)
+    s.zoom = 1.25
+    return s
+
+
+def s44_ins_bank():
+    s = _ins_step("44_inserts_cylinder_bank")
+    m = RX(-C.BANK_A_ANGLE)
+    s.add("bank_A", "dark", m)
+    for x in between_x():
+        for y in C.HEAD_SCREW_Y:
+            s.insert(m @ bank_pt(x, y, C.DECK_DIST), (0, 0, -1), FLUSH)
+    s.label("CYLINDER BANK, top face\n(the side WITHOUT pegs):\n6 inserts, 2 between\neach pair of bores", m @ bank_pt(between_x()[0], C.HEAD_SCREW_Y[0], C.DECK_DIST))
+    s.label("NO insert:\nthe slots by the bores\n(rails)", m @ bank_pt(C.BANK_A_CYL_X[3], C.RAIL_OFFSET, C.DECK_DIST))
+    s.cam = (0.12, -0.35, 1.0)
+    return s
+
+
+def s45_ins_web():
+    s = _ins_step("45_inserts_end_web")
+    m = RY(-90) @ T(-(C.END_WEB_OUTER_X + DX), 0, 0)
+    s.add("end_web_front", "dark", m)
+    for p, d in flange_screw_pts(True):
+        s.insert(m @ p, (0, 0, -1), FLUSH)
+    s.label("END WEB, flat face:\n3 inserts in the\n3 small holes", m @ flange_screw_pts(True)[0][0])
+    py, pz = polar(C.CRANK_R, C.THROW_PIN_A[0])
+    s.label("NO insert:\nbig hole (crankpin)", m @ Vector((C.END_WEB_OUTER_X + DX, py, pz)))
+    s.label("NO insert:\ncentre hole (shaft)", m @ Vector((C.END_WEB_OUTER_X + DX, 0.0, 0.0)))
+    s.label("Both end webs\n= 6 in total", m @ flange_screw_pts(True)[2][0])
+    s.cam = (0.15, -0.3, 1.0)
+    return s
+
+
+def s46_ins_knob():
+    s = _ins_step("46_inserts_hand_knob")
+    s.add("print:T12_crank_knob", "dark")
+    zc = 6.0 + 12.0 / 2
+    s.insert((10.0, 0.0, zc), (-1, 0, 0), FLUSH)
+    s.label("HAND KNOB:\n1 insert, in the side\nhole of the round hub", Vector((10.0, 0.0, zc)))
+    s.label("NO insert:\nthe middle hole\n(the shaft goes in)", Vector((0.0, 0.0, 18.0)))
+    s.cam = (1.0, -0.6, 0.7)
+    return s
+
+
 STEPS = [s00_parts, s01_inserts_case, s02_inserts_bank, s03_inserts_web, s04_rod, s05_piston, s06_piston_on_rod,
          s07_pin_loading, s08_crank_exploded, s09_joint, s10_crank_done, s11_into_case, s12_beam, s13_end_plates,
          s14_bank, s15_rails, s16_head, s17_done, s18_shaft_plug, s19_bank_b, s20_all_eight,
-         s30_crankcase_under, s31_beam_faces, s32_bank_under, s33_head_under, s34_segment_faces, s35_end_web_faces, s36_small_parts, s37_hardware]
+         s30_crankcase_under, s31_beam_faces, s32_bank_under, s33_head_under, s34_segment_faces, s35_end_web_faces, s36_small_parts, s37_hardware,
+         s40_ins_case_end, s41_ins_case_top, s42_ins_beam_side, s43_ins_beam_end, s44_ins_bank, s45_ins_web, s46_ins_knob]
 
 
 def main():
