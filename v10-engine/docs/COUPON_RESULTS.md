@@ -33,6 +33,7 @@
 
 | 2026-11-23 | T2 heat-set insert ladder (3.90 / 3.95 / 4.00 / 4.05 / 4.10), PLA, iron 450 F | top row: 3.90-4.00 too tight to seat (insert won't stand, slow); **4.05 cleanest** (least bulge, insert solid), 4.10 easiest. Fin: 4.00 first to seat, 3.90 and 4.10 went in clean; tilt on 2-4 was technique | **changed**: `INSERT_HOLE_DIA` 4.00 -> 4.05 (row and fin, no split needed). Already-printed parts keep 4.00: carry the insert on the tip, 450 F |
 | 2026-11-24 | M3 pistons (printed at 0.20 by mistake, fits tuned at 0.16) | wrist pin tight, does not go fully through | no design change; ream the pin holes by hand with a 3.0 mm bit. Plate files now carry the layer height in the name (D88) |
+| 2026-11-24 | M3 pistons reprinted at 0.16 (crush pin_3 -0.05) | wrist pin still not smooth through both bosses | real piston tighter than the T4f boss coupon. Plan: hand-ream pin holes with a 3.0 mm bit as a standard build step (production too); loosen `pin_3` before the next piston print, value to be set after the reamed fit is judged |
 
 Still to do: T1 S8 row, T1b/T1c PEG, 
 T10, T11. ASA re-run of T3/T3b/T4/T4d/T5/T5b/T6 before production.
