@@ -35,6 +35,7 @@
 | 2026-11-24 | M3 pistons (printed at 0.20 by mistake, fits tuned at 0.16) | wrist pin tight, does not go fully through | no design change; ream the pin holes by hand with a 3.0 mm bit. Plate files now carry the layer height in the name (D88) |
 | 2026-11-24 | M3 pistons reprinted at 0.16 (crush pin_3 -0.05) | wrist pin still not smooth through both bosses | real piston tighter than the T4f boss coupon. Plan: hand-ream pin holes with a 3.0 mm bit as a standard build step (production too); loosen `pin_3` before the next piston print, value to be set after the reamed fit is judged |
 | 2026-11-24 | Speed-knob pot (unmarked, from the box), Klein MM320 | ends 9.35 k; wiper at mid-travel 4.56 k / 4.9 k | linear (B10K) confirmed, OK to use |
+| 2026-11-24 | Stepper motor coils, Klein MM320 continuity | black+green beep (~2.6 ohm incl. leads), red+blue beep | coil A = black/green, coil B = red/blue. J2 pins 1-4 = black, green, red, blue (direction flip in firmware if needed) |
 
 Still to do: T1 S8 row, T1b/T1c PEG, 
 T10, T11. ASA re-run of T3/T3b/T4/T4d/T5/T5b/T6 before production.
