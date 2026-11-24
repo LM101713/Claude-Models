@@ -1158,7 +1158,7 @@
    {
     "label": "end_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      0.0,
      -40.0,
@@ -1177,7 +1177,7 @@
    {
     "label": "end_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      0.0,
      40.0,
@@ -1196,7 +1196,7 @@
    {
     "label": "end_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      0.0,
      -42.0,
@@ -1215,7 +1215,7 @@
    {
     "label": "end_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      0.0,
      42.0,
@@ -1234,7 +1234,7 @@
    {
     "label": "end_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      0.0,
      -40.0,
@@ -1253,7 +1253,7 @@
    {
     "label": "end_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      0.0,
      40.0,
@@ -1272,7 +1272,7 @@
    {
     "label": "end_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      0.0,
      -42.0,
@@ -1291,7 +1291,7 @@
    {
     "label": "end_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      0.0,
      42.0,
@@ -1310,7 +1310,7 @@
    {
     "label": "pan_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -94.0,
      -40.0,
@@ -1329,7 +1329,7 @@
    {
     "label": "pan_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -94.0,
      40.0,
@@ -1348,7 +1348,7 @@
    {
     "label": "pan_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      94.0,
      -40.0,
@@ -1367,7 +1367,7 @@
    {
     "label": "pan_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      94.0,
      40.0,
@@ -1559,7 +1559,7 @@
    {
     "label": "head_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      46.75,
      -17.0,
@@ -1578,7 +1578,7 @@
    {
     "label": "head_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      46.75,
      10.0,
@@ -1597,7 +1597,7 @@
    {
     "label": "head_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -3.25,
      -17.0,
@@ -1616,7 +1616,7 @@
    {
     "label": "head_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -3.25,
      10.0,
@@ -1635,7 +1635,7 @@
    {
     "label": "head_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -53.25,
      -17.0,
@@ -1654,7 +1654,7 @@
    {
     "label": "head_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -53.25,
      10.0,
@@ -3145,7 +3145,7 @@
    {
     "label": "plate_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -94.25,
      0.0,
@@ -3164,7 +3164,7 @@
    {
     "label": "plate_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      87.75,
      0.0,
@@ -5169,7 +5169,7 @@
    {
     "label": "pillar_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -106.75,
      -52.5,
@@ -5188,7 +5188,7 @@
    {
     "label": "pillar_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -106.75,
      52.5,
@@ -5207,7 +5207,7 @@
    {
     "label": "pillar_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -0.25,
      -52.5,
@@ -5226,7 +5226,7 @@
    {
     "label": "pillar_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -0.25,
      52.5,
@@ -5245,7 +5245,7 @@
    {
     "label": "pillar_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      106.25,
      -52.5,
@@ -5264,7 +5264,7 @@
    {
     "label": "pillar_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      106.25,
      52.5,
@@ -5435,7 +5435,7 @@
    {
     "label": "br_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -78.0,
      0.0,
@@ -5454,7 +5454,7 @@
    {
     "label": "br_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -62.0,
      0.0,
@@ -5473,7 +5473,7 @@
    {
     "label": "br_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -78.0,
      0.0,
@@ -5492,7 +5492,7 @@
    {
     "label": "br_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -62.0,
      0.0,
@@ -5511,7 +5511,7 @@
    {
     "label": "br_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      62.0,
      0.0,
@@ -5530,7 +5530,7 @@
    {
     "label": "br_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      78.0,
      0.0,
@@ -5549,7 +5549,7 @@
    {
     "label": "br_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      62.0,
      0.0,
@@ -5568,7 +5568,7 @@
    {
     "label": "br_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      78.0,
      0.0,
@@ -5703,7 +5703,7 @@
    {
     "label": "standoff_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -93.25,
      -32.5,
@@ -5722,7 +5722,7 @@
    {
     "label": "standoff_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -93.25,
      32.5,
@@ -5741,7 +5741,7 @@
    {
     "label": "standoff_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -8.25,
      -32.5,
@@ -5760,7 +5760,7 @@
    {
     "label": "standoff_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -8.25,
      32.5,
@@ -7252,7 +7252,7 @@
    {
     "label": "foot_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -8.0,
      100.0,
@@ -7309,7 +7309,7 @@
    {
     "label": "foot_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      8.0,
      100.0,
@@ -7368,7 +7368,7 @@
    {
     "label": "foot_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      -8.0,
      -100.0,
@@ -7425,7 +7425,7 @@
    {
     "label": "foot_ins",
     "kind": "bore",
-    "r": 2.0,
+    "r": 2.025,
     "p": [
      8.0,
      -100.0,
@@ -7620,9 +7620,9 @@
   ]
  },
  "finalize": {
-  "case": "01_crankcase: genus 0 tris 8798 vol 585308",
-  "bank": "03_cylinder_bank: genus 15 tris 15240 vol 335521",
-  "head": "30_cylinder_head: genus 6 tris 33046 vol 497538",
+  "case": "01_crankcase: genus 0 tris 8798 vol 585275",
+  "bank": "03_cylinder_bank: genus 15 tris 15240 vol 335508",
+  "head": "30_cylinder_head: genus 6 tris 33046 vol 497534",
   "valve_cover": "31_valve_cover: genus 1 tris 11094 vol 70857",
   "oil_cap": "31B_oil_cap: genus 0 tris 2332 vol 4044",
   "boot": "32_plug_boot: genus 0 tris 2556 vol 1790",
@@ -7633,16 +7633,16 @@
   "primary": "33_header_primary: genus 0 tris 10944 vol 39359",
   "collector_A": "35_collector_A: genus 1 tris 15800 vol 160714",
   "collector_B": "35_collector_B: genus 1 tris 16008 vol 166174",
-  "pan": "40_oil_pan: genus 19 tris 21822 vol 422788",
-  "panel": "41_pan_floor_panel: genus 20 tris 10828 vol 71627",
+  "pan": "40_oil_pan: genus 19 tris 21822 vol 422753",
+  "panel": "41_pan_floor_panel: genus 20 tris 10828 vol 71612",
   "bellhousing": "42_bellhousing: genus 0 tris 15904 vol 69941",
   "front_cover": "43_front_cover: genus 1 tris 16300 vol 72616",
   "damper": "44_damper: genus 1 tris 8522 vol 51933",
   "accessory": "45_accessory_module: genus 9 tris 17784 vol 55396",
   "alt_body": "45B_alternator_body: genus 0 tris 1980 vol 62751",
   "stand_plate": "46_stand_plate: genus 10 tris 13058 vol 634699",
-  "bracket": "47_bracket_L: genus 4 tris 3200 vol 17085",
-  "bracket_m": "47B_bracket_R: genus 4 tris 3172 vol 16901",
+  "bracket": "47_bracket_L: genus 4 tris 3200 vol 17081",
+  "bracket_m": "47B_bracket_R: genus 4 tris 3172 vol 16897",
   "plinth": "48_controls_plinth: genus 12 tris 3964 vol 31348",
   "edition_plate": "49_edition_plate: genus 20 tris 1100 vol 2865",
   "t11_lid": "T11_tongue_lid: genus 0 tris 20 vol 2520",

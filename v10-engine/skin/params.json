@@ -508,7 +508,7 @@
   "HOMING_RPM": 15.0,
   "IDLE_RPM": 20.0,
   "INSERT_DEPTH": 6.5,
-  "INSERT_HOLE_DIA": 4.0,
+  "INSERT_HOLE_DIA": 4.05,
   "INTAKE": {
    "inj_l": 7.0,
    "inj_r": 4.5,
@@ -1306,7 +1306,7 @@
    "M3_CBORE": 6.3,
    "M3_CLEAR": 3.5
   },
-  "insert_hole": 4.0,
+  "insert_hole": 4.05,
   "locator_xy": [
    [
     89.75,
@@ -1451,7 +1451,7 @@
   },
   "HOLE_COMP": 0.1,
   "INSERT_DEPTH": 6.5,
-  "INSERT_HOLE_DIA": 4.0,
+  "INSERT_HOLE_DIA": 4.05,
   "LOCATOR_DEPTH_CLEAR": 0.5,
   "LUG_POCKET_CLEAR": 0.8,
   "M3_CBORE": 6.2,

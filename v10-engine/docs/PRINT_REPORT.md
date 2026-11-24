@@ -5,7 +5,7 @@ Times and grams are PrusaSlicer estimates with an H2S-like motion profile (`tool
 
 | Part | Material | Layer | Walls | Infill | Brim | Time (h) | Filament (g) | Cost ($) | Long bridges | Big overhangs | Ring ceilings | Slicer warnings |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 01_crankcase | ASA | 0.2 | 4 | 25% | - | 10.73 | 252 | 6.30 | - | 280.2mm2, 280.2mm2 | - | Low bed adhesion |
+| 01_crankcase | ASA | 0.2 | 4 | 25% | - | 10.74 | 252 | 6.30 | - | 280.2mm2, 280.2mm2 | - | Low bed adhesion |
 | 02_valley_beam | ASA | 0.28 | 4 | 25% | - | 1.79 | 54 | 1.36 | - | - | - | - |
 | 03_cylinder_bank | ASA | 0.2 | 4 | 25% | - | 7.79 | 184 | 4.60 | - | - | 5 | - |
 | 04_end_plate | ASA | 0.28 | 4 | 25% | - | 1.23 | 35 | 0.89 | - | - | - | - |
@@ -29,7 +29,7 @@ Times and grams are PrusaSlicer estimates with an H2S-like motion profile (`tool
 | 36B_intake_base | ASA | 0.2 | 3 | 15% | - | 3.11 | 92 | 2.29 | - | 1394.1mm2, 1394.1mm2, 740.1mm2, 740.1mm2 | - | Floating bridge anchors |
 | 36C_throttle_body | ASA | 0.2 | 3 | 15% | - | 0.71 | 21 | 0.52 | - | 97.0mm2, 76.7mm2, 47.8mm2 | 2 | Floating object part, Floating bridge anchors, Low bed adhesion, Loose extrusions, Long bridging extrusions |
 | 36_intake_lid | ASA | 0.2 | 3 | 15% | - | 6.07 | 185 | 4.61 | 37.9mm, 26.0mm | 1030.3mm2, 538.2mm2, 538.2mm2, 419.7mm2, 419.7mm2, 419.7mm2, 419.7mm2, 419.7mm2, 419.7mm2, 419.7mm2, 419.7mm2, 52.7mm2, 52.7mm2, 51.5mm2, 51.5mm2, 50.2mm2, 50.2mm2 | - | Floating object part, Collapsing overhang, Low bed adhesion, Long bridging extrusions |
-| 40_oil_pan | ASA | 0.2 | 4 | 20% | - | 10.39 | 344 | 8.59 | - | - | - | Floating bridge anchors, Long bridging extrusions |
+| 40_oil_pan | ASA | 0.2 | 4 | 20% | - | 10.38 | 344 | 8.59 | - | - | - | Floating bridge anchors, Long bridging extrusions |
 | 41_pan_floor_panel | ASA | 0.28 | 3 | 15% | - | 1.68 | 54 | 1.36 | - | - | - | - |
 | 42_bellhousing | ASA | 0.2 | 3 | 15% | - | 2.00 | 61 | 1.52 | - | 439.0mm2, 52.6mm2, 51.5mm2 | - | Long bridging extrusions |
 | 43_front_cover | ASA | 0.2 | 3 | 15% | - | 2.08 | 64 | 1.61 | - | 50.4mm2, 50.2mm2, 50.1mm2, 50.1mm2, 50.0mm2, 49.5mm2, 49.5mm2, 48.3mm2 | - | Floating bridge anchors, Long bridging extrusions |
