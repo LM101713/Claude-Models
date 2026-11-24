@@ -1182,11 +1182,21 @@ def s46_ins_knob():
     return s
 
 
+def s47_beam_in_case():
+    s = _ins_step("47_valley_beam_in_crankcase")
+    s.add("crankcase", "dark").add("valley_beam", "new")
+    s.label("VALLEY BEAM (blue):\nlies in the middle of the V,\nfront end flush with\nthe crankcase front", Vector((H, *BEAM_END_SCREWS[1])))
+    s.label("CRANKCASE (grey)", Vector((H, *CASE_END_SCREWS[0])))
+    s.label("Its sloped sides line up\nwith the crankcase's sloped\ntops: together they make\nthe flat seat for the bank", bank_pt(between_x()[1], C.BLOCK_SCREW_VALLEY_Y, C.FACE_DIST))
+    s.cam = (1.0, -0.55, 0.75)
+    return s
+
+
 STEPS = [s00_parts, s01_inserts_case, s02_inserts_bank, s03_inserts_web, s04_rod, s05_piston, s06_piston_on_rod,
          s07_pin_loading, s08_crank_exploded, s09_joint, s10_crank_done, s11_into_case, s12_beam, s13_end_plates,
          s14_bank, s15_rails, s16_head, s17_done, s18_shaft_plug, s19_bank_b, s20_all_eight,
          s30_crankcase_under, s31_beam_faces, s32_bank_under, s33_head_under, s34_segment_faces, s35_end_web_faces, s36_small_parts, s37_hardware,
-         s40_ins_case_end, s41_ins_case_top, s42_ins_beam_side, s43_ins_beam_end, s44_ins_bank, s45_ins_web, s46_ins_knob]
+         s40_ins_case_end, s41_ins_case_top, s42_ins_beam_side, s43_ins_beam_end, s44_ins_bank, s45_ins_web, s46_ins_knob, s47_beam_in_case]
 
 
 def main():
