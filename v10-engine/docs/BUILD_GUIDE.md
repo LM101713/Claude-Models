@@ -434,6 +434,8 @@ touches the wall of its bore (look through the windows).
 
 # PART F: The test
 
+> **Before the motor drives it:** see `docs/ENGINE1_TODO.md` (crankpin screws were left out for the hand test).
+
 ![The finished motion test](img/build/17_motion_test_done.png)
 
 1. Push the hand knob onto the front shaft. Screw an M3 x 8 into its insert until
