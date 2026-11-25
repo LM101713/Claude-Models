@@ -198,7 +198,13 @@ If glue got into a bushing and the pin sticks: soak the small end in acetone for
 2. Put a piston over the small end, with the **lug on the right**.
 3. Push a dowel pin through: the piston, the rod's bushing, the other side of the
    piston. Push it with the end of a rail if it is stiff.
+0. Before this step: ream both pin holes of the piston with a **3.0 mm drill bit twisted by
+   hand** (not 1/8" = 3.17, too loose), holes empty, backing the bit out every few turns.
+   The pin then slides through with no force.
 4. Centre it: about 12 mm in from each side of the piston.
+4b. Lock the pin in the piston: one tiny drop of super glue (toothpick) where the pin meets
+    the **outer end of each piston boss**. No glue near the rod. Swing the rod while it sets;
+    it must swing freely and the pin must not slide.
 5. Write the cylinder number **inside the piston skirt** with the marker: **2, 4, 6, 8**.
 
 Do this 4 times. Mark the 4 bare rods **1, 3, 5, 7** on their small ends.
