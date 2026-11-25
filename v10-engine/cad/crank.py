@@ -345,7 +345,13 @@ def print_end_web(s):
 
 
 def print_pin(s):
-    return s.rotate((0, 0, 0), (0, 1, 0), -90)
+    """Stands on one end. That end gets a 0.4 mm x 45 deg chamfer so first-layer squish
+    (elephant's foot) cannot leave a lip that jams the 686 bearing (2026-11-25)."""
+    s = s.rotate((0, 0, 0), (0, 1, 0), -90)
+    try:
+        return cq.Workplane().add(s).faces("<Z").edges().chamfer(0.4).val()
+    except Exception:        # odd edge set: print without the chamfer rather than fail
+        return s
 
 
 def print_shaft(s):
