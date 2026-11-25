@@ -72,7 +72,7 @@ MAGNET_DEPTH_CLEAR = 0.3       # magnet pocket deeper than the magnet (pocket bo
 #   lower INSERT_HOLE_DIA by 0.1; plastic bulges / insert sits proud -> raise.
 M3_CLEAR = 3.4          # through hole for an M3 screw shank (+ HOLE_COMP)
 M3_CBORE = 6.2          # counterbore for the 5.5 mm head (+ HOLE_COMP)
-M3_TAP = 2.5            # self-tap hole in printed prototypes only
+M3_TAP = 2.65           # self-tap hole in printed prototypes only (2.5 printed too small to self-tap a solid printed pin, engine #1 2026-11-25)
 INSERT_HOLE_DIA = 4.05  # pilot hole for M3 x 5.7 heat-set inserts (4.6 OD type); T2 2026-11-23
 INSERT_DEPTH = 6.5      # pilot hole depth (insert length 5.7 + melt room)
 CAPTIVE_LIP_D = 2.75    # bottom-panel screw holes: 1 mm lip between thread major (3.0)
