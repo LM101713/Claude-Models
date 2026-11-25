@@ -2,7 +2,7 @@
 
 3D-printable models and the procedural Blender scripts that generate them.
 
-## Odd Layer Product 001: FILAMENT PATH (research and specification, awaiting approval)
+## Odd Layer Product 001: FILAMENT PATH (direction approved; collecting measurements)
 
 A research and engineering specification for a **fixed-radius, external-only AMS-to-printer PTFE
 tube routing system** for Bambu Lab P1S / X1 and H2S / H2C / H2D printers. It has shared
@@ -12,7 +12,9 @@ ranked comparison of seven opportunities, a printer compatibility matrix, design
 tolerances, risks, a physical test protocol and a MakerWorld launch plan. **No CAD exists yet.**
 Building starts only after owner approval.
 
-- Report: [`filament-path/README.md`](filament-path/README.md)
+- Research report: [`filament-path/README.md`](filament-path/README.md)
+- Owner refinements, radius validation plan, pull-force protocol, MakerWorld plan: [`filament-path/REVISION_01.md`](filament-path/REVISION_01.md)
+- Measurement guide (current step) and template: [`filament-path/MEASUREMENT_GUIDE.md`](filament-path/MEASUREMENT_GUIDE.md), [`filament-path/measurements_template.csv`](filament-path/measurements_template.csv)
 
 ## Odd Layer HF-04 HOLDFAST
 

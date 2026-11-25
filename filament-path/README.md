@@ -5,6 +5,18 @@
 **Research date:** 2026-11-24
 **Status of every design number in this document:** a specification target. Nothing here has been printed, fitted or measured on a printer.
 
+> **Update 2026-11-25.** The owner approved the narrowed direction (external-only routing; Service Dock rejected). Their refinements are in [`REVISION_01.md`](REVISION_01.md), which supersedes the matching sections below:
+>
+> - R80 is provisional, with its validation experiments.
+> - The shared arcs are identical on every printer.
+> - Installation is tool-less.
+> - The gauge and jig are gated.
+> - Pull-force protocol PF-1.
+> - Launch scope is P1S, H2S and H2C.
+> - The final MakerWorld presentation.
+>
+> The measurement list in §13 is replaced by [`MEASUREMENT_GUIDE.md`](MEASUREMENT_GUIDE.md). This report is otherwise unchanged, and stays as the research record, including the limits in §2.2.
+
 ---
 
 ## Contents
