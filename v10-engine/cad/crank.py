@@ -174,7 +174,7 @@ def end_web():
 # ---------------------------------------------------------------------------
 # Machined parts (also exported as printable prototypes)
 # ---------------------------------------------------------------------------
-def split_crankpin():
+def split_crankpin(journal_shrink=0.0):
     """Split crankpin, local frame: centred on x=0, journal A (front, +X) axis
     at crank angle 0 radius R, journal B (rear) at angle SPLIT_ANGLE.
 
@@ -200,7 +200,9 @@ def split_crankpin():
             lo, hi = sorted((sign * a, sign * b))
             return cyl_x(r, lo, hi, y, z)
         p = seg(rs, half_web - 0.01, x_j0)
-        p = p.fuse(seg(rp, x_j0 - 0.01, x_e0 + 0.01))      # journal + spacer-ring seat, one diameter
+        # journal + spacer-ring seat, one diameter (printed pins: a little under, so the 686
+        # slides on by hand; the ring clamps its inner ring against the shoulder)
+        p = p.fuse(seg(rp - journal_shrink / 2, x_j0 - 0.01, x_e0 + 0.01))
         end = seg(rp, x_e0 - 0.01, x_e1)
         # D-flat, facing radially away from the crank axis
         lo, hi = sorted((sign * x_e0, sign * (x_e1 + 1)))
