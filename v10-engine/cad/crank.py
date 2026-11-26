@@ -174,7 +174,7 @@ def end_web():
 # ---------------------------------------------------------------------------
 # Machined parts (also exported as printable prototypes)
 # ---------------------------------------------------------------------------
-def split_crankpin(journal_shrink=0.0):
+def split_crankpin(journal_shrink=0.0, flat_ramp=False):
     """Split crankpin, local frame: centred on x=0, journal A (front, +X) axis
     at crank angle 0 radius R, journal B (rear) at angle SPLIT_ANGLE.
 
@@ -207,6 +207,15 @@ def split_crankpin(journal_shrink=0.0):
         # D-flat, facing radially away from the crank axis
         lo, hi = sorted((sign * x_e0, sign * (x_e1 + 1)))
         flat = box(lo, hi, -5, 5, rp - C.PIN_DFLAT, rp + 5)
+        if flat_ramp:
+            # printed pins stand on end: the flat starts with a 45 deg ramp instead of a step,
+            # so the round journal above it is never printed over air (2026-11-26)
+            d = C.PIN_DFLAT
+            x0, x1 = sign * x_e0, sign * (x_e0 + d)
+            wedge = (cq.Workplane("XZ").polyline([(x0, rp + 5), (x0, rp), (x1, rp - d), (x1, rp + 5)])
+                     .close().extrude(5, both=True).val())
+            lo2, hi2 = sorted((sign * (x_e0 + d), sign * (x_e1 + 1)))
+            flat = box(lo2, hi2, -5, 5, rp - d, rp + 5).fuse(wedge)
         flat = move(rot_x(flat, flat_deg), 0, y, z)
         end = end.cut(flat)
         tap_lo, tap_hi = sorted((sign * (x_e1 - C.PIN_TAP_DEPTH), sign * (x_e1 + 1)))
