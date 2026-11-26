@@ -82,7 +82,7 @@ if C.VARIANT == "v8":
          [("09_conrod", 8), ("P1_proto_crankpin", 4), ("P1R_proto_spacer_ring", 12)]),
         ("M2b_rods", "motion test: 8 con-rods only (reprint after a fit change)", [("09_conrod", 8)]),
         ("M2c_crankpins", "motion test: 5 printed crankpins (4 + 1 spare), reprint after a fit change", [("P1_proto_crankpin", 5)]),
-        ("M1b_segment90", "motion test repair: crank segment 06-90", [("06_crank_segment_90", 1)]),
+        ("M1b_segment90", "motion test repair: front end web + crank segment 06-90", [("05_crank_end_web", 1), ("06_crank_segment_90", 1)]),
         ("M3_pistons", "motion test: 8 pistons", [("10_piston", 8)]),
         ("M4_bank_head", "motion test: one bank + head A", [("03_cylinder_bank", 1), ("30_cylinder_head_A", 1)]),
         ("M5_crankcase", "motion test: crankcase", [("01_crankcase", 1)]),
