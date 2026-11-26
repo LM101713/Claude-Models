@@ -84,6 +84,8 @@ if C.VARIANT == "v8":
         ("M2c_crankpins", "motion test: 5 printed crankpins (4 + 1 spare), reprint after a fit change", [("P1_proto_crankpin", 5)]),
         ("M1b_segment90", "motion test repair: front end web + crank segments 06-90 and 07-180", [("05_crank_end_web", 1), ("06_crank_segment_90", 1), ("07_crank_segment_180", 1)]),
         ("M2d_crankpins4", "motion test repair: 4 printed crankpins (print in PETG)", [("P1_proto_crankpin", 4)]),
+        ("M1c_crank_repair_all", "motion test repair, one plate, all PETG at 0.16: front end web, 06-90, 07-180, 4 crankpins",
+         [("05_crank_end_web", 1), ("06_crank_segment_90", 1), ("07_crank_segment_180", 1), ("P1_proto_crankpin", 4)], 0.16),
         ("M3_pistons", "motion test: 8 pistons", [("10_piston", 8)]),
         ("M4_bank_head", "motion test: one bank + head A", [("03_cylinder_bank", 1), ("30_cylinder_head_A", 1)]),
         ("M5_crankcase", "motion test: crankcase", [("01_crankcase", 1)]),
@@ -156,7 +158,9 @@ def main():
     os.makedirs(OUT_PNG, exist_ok=True)
     res = json.load(open(os.path.join(ROOT, "docs", "print_results.json")))
     rows = []
-    for pname, desc, parts in PLATES:
+    for entry in PLATES:
+        pname, desc, parts = entry[:3]
+        layer_override = entry[3] if len(entry) > 3 else None
         if not pname.startswith(EXPORT_GROUPS):
             rows.append((pname, desc + " (planned, NOT exported: design unproven)", "ASA", "-",
                          ", ".join(f"{q} x {n}" for n, q in parts), 0.0, 0.0, True))
@@ -164,12 +168,16 @@ def main():
         meshes = {n: load(n) for n, _ in parts}
         layers = {printcheck.settings_for(n)[1] for n, _ in parts}
         mats = {printcheck.settings_for(n)[0] for n, _ in parts}
+        if layer_override is not None:          # repair plate: everything at one chosen layer height
+            layers = {layer_override}
         assert len(layers) == 1, f"{pname}: mixed layer heights {layers}"
         items = []
         for n, q in parts:
             e = meshes[n].bounds[1] - meshes[n].bounds[0]
             for k in range(q):
                 items.append((f"{n}#{k + 1}", float(e[0]), float(e[1])))
+        global GAP
+        GAP = 22.0 if pname.startswith("M1c") else 8.0      # tall thin pins: room for an 8 mm brim each
         placed = pack(items)
         scene = trimesh.Scene()
         hours = grams = 0.0
