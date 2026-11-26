@@ -13,7 +13,7 @@ Checked off by hand as they get done. Claude keeps this list up to date.
 
 ## Still to do on the build
 
-- [ ] Cylinder bank: 6 heat inserts in the top face (the side without pegs)
+- [x] Cylinder bank: 6 heat inserts in the top face (done)
 - [ ] Rod marked "T": bushing too tight for the pin (maybe glue inside). Clean out or reprint
       before bank B.
 - [ ] P1S repair (part arrived; Bambu support not answered yet)
