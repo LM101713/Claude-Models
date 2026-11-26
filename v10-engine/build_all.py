@@ -91,7 +91,7 @@ def parts_v8():
         # test coupons (print FIRST, in PLA; see docs/TEST_CHECKLIST.md)
         *[(n, shp, q, "white") for n, (shp, q) in coupons.build_all().items()],
         # printable stand-ins so the mechanism can be tested before the CNC parts arrive
-        ("P1_proto_crankpin", crank.print_pin(crank.split_crankpin(C.PRINT_PIN_JOURNAL_SHRINK, flat_ramp=True)), C.N_THROWS, "orange"),
+        ("P1_proto_crankpin", crank.print_pin_lying(crank.split_crankpin(C.PRINT_PIN_JOURNAL_SHRINK)), C.N_THROWS, "orange"),
         ("P1R_proto_spacer_ring", crank.print_ring(), 2 * C.N_THROWS, "orange"),
         ("P2_proto_main_shaft", crank.print_shaft(crank.proto_shaft()), 1, "orange"),
         ("P2F_proto_main_shaft_front", crank.print_shaft(crank.proto_shaft(C.SHAFT_JOURNAL_L_FRONT)), 1, "orange"),

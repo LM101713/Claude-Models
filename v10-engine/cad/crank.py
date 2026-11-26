@@ -365,5 +365,19 @@ def print_pin(s):
         return s
 
 
+def print_pin_lying(s):
+    """Printed crankpin lying on its side (2026-11-26). Standing on end it spaghettied
+    (tall, thin) and snapped across its layers (3 pins broke). Here the two D-flats, which
+    face the same way, are joined by one flat along the whole pin (journals and collar too),
+    and the pin prints lying on that flat: layers run along the pin = strong in bending,
+    and a 29 mm-long flat footprint cannot tip over. The flat still keys the D-holes; the
+    686s ride on the rest of the journal (slide fit, clamped by the rings)."""
+    bb = s.BoundingBox()
+    axis_z = bb.zmin + C.PIN_SHOULDER_D / 2            # the collar is the widest part
+    cut_z = axis_z + C.PIN_DIA / 2 - C.PIN_DFLAT         # the D-flat plane
+    s = s.cut(box(bb.xmin - 1, bb.xmax + 1, bb.ymin - 1, bb.ymax + 1, cut_z, bb.zmax + 1))
+    return s.rotate((0, 0, 0), (1, 0, 0), 180)          # flat face down
+
+
 def print_shaft(s):
     return s.rotate((0, 0, 0), (0, 1, 0), -90)     # flange down
