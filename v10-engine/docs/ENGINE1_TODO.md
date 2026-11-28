@@ -16,7 +16,9 @@ Checked off by hand as they get done. Claude keeps this list up to date.
 - [x] Cylinder bank: 6 heat inserts in the top face (done)
 - [ ] Rod marked "T": bushing too tight for the pin (maybe glue inside). Clean out or reprint
       before bank B.
-- [ ] P1S repair (part arrived; Bambu support not answered yet)
+- [ ] P1S repair (Z tensioner arrived; Bambu support not answered yet)
+- [ ] H2C: every print clumps on the nozzle in layer 1-2 (right nozzle, SUNLU PETG HF and earlier PLA); the same file prints fine on the H2S. Check: nozzle type/size in the slicer vs the installed hotend, clean the nozzle fully, the error / HMS code; then Bambu support.
+- [ ] Hall sensors arrived (DRV5033), keep bagged until the PCB (arrives 2026-11-30).
 
 ## Paperwork (Claude)
 
